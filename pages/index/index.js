@@ -6,7 +6,7 @@ var vCode = '';
 function getNewVcode(that)
 {
   vCode = Math.random().toString();
-  that.setData({ vCodeLoading: true, verifyCodeURL:"http://adnmb1.com/Member/User/Index/verify.html?code=" + vCode});
+  that.setData({ vCodeLoading: true, verifyCodeURL: app.globalData.ApiUrls.VerifyCodeURL + vCode});
   console.log(vCode);
 }
 
