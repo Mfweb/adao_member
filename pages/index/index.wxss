@@ -1,0 +1,92 @@
+.mainTitle{
+  width:100%;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.title{
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+.TitleIcons{
+  width: 100%;
+  height: 50px;
+  padding-top: 5px;
+  margin: 0 auto;
+}
+.loginTitle2{
+  color: #53d192;
+  font-weight: bold;
+  font-size: 40px;
+  text-align: center;
+}
+.navigate{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.minMenu{
+  font-size: 15px;
+  text-align: center;
+  padding-top: 30px;
+  min-width: 33%;
+}
+.menuSelected{
+  color: #53d192;
+}
+
+.lf{
+  width: 100%;
+  opacity: 0;
+}
+.loginForm{
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 80%;
+  border-radius:8px;
+  border: 1px #000;
+  overflow: hidden;
+  color: #000;
+  font-size: 15px;
+  background-color: #fff;
+}
+.emailInput{
+  height: 30px;
+  width: 95%;
+  margin-top: 2px;
+  border-bottom: 1px solid #334054;
+  margin: 0 auto;
+}
+.pswInput{
+  height: 30px;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 2px;
+  border-bottom: 1px solid #334054;
+}
+.codeInput{
+  height: 30px;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 2px;
+}
+
+.LoginBut{
+ width: 80%;
+ margin-top: 10px;
+}
+.verifyCode{
+  width: 100%;
+  max-height: 50px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.verifyCodeHid{
+  height: 0px;
+  width: 0px;
+}

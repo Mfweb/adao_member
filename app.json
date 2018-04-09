@@ -1,0 +1,12 @@
+{
+  "pages":[
+    "pages/index/index"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#334054",
+    "navigationBarTitleText": "A岛注册实名系统",
+    "navigationBarTextStyle":"#fff",
+    "backgroundColor": "#334054"
+  }
+}
