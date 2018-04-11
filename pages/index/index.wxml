@@ -19,7 +19,7 @@
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
-  <button class='LoginBut' type='primary'submit='submit'>登陆</button>
+  <button loading='{{BLoading}}' class='LoginBut' type='primary'submit='submit'>登陆</button>
   </form>
   <!--注册-->
   <form wx:if='{{Mode==1}}' animation='{{animations[1]}}' class='lf'>
@@ -29,7 +29,7 @@
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
-  <button class='LoginBut' type='primary'submit='submit'>发送注册邮件</button>
+  <button loading='{{BLoading}}' class='LoginBut' type='primary'submit='submit'>发送注册邮件</button>
   </form>
   <!--忘记密码-->
   <form wx:if='{{Mode==2}}' animation='{{animations[2]}}' class='lf'>
@@ -39,6 +39,6 @@
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
-  <button class='LoginBut' type='primary'submit='submit'>发送邮件</button>
+  <button loading='{{BLoading}}' class='LoginBut' type='primary'submit='submit'>发送邮件</button>
   </form>
 </view>

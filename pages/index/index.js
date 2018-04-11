@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
-const app = getApp()
+const app = getApp();
+const http = require('../../utils/http.js');;
 var vCode = '';
 
 function getNewVcode(that)
@@ -49,18 +50,34 @@ Page({
     Mode:0,
     animations:[],
     TitleText:"登陆",
-    vCodeLoading: true
+    vCodeLoading: true,
+    BLoading:false
   },
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
-    })
+    });
   },
   onLoad: function () {
     var that = this;
     getNewVcode(that);
     switchPate(that,0);
+    this.setData({ BLoading:true});
+    http.api_request(
+      'http://adnmb1.com/Member/',
+      null,
+      function(res){
+        console.log(res);
+        that.setData({ BLoading: false});
+      },
+      function(){
+        wx.showToast({
+          title: '连接服务器失败',
+          image: '../../imgs/alert.png'
+        });
+      }
+    );
   },
   onTapVerifyCode: function(e) {
     var that = this;
