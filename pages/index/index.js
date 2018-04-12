@@ -137,6 +137,7 @@ Page({
       });
       return;
     }
+    this.setData({ BLoading: true });
     http.api_request(app.globalData.ApiUrls.LoginURL,
     {
       email:u_email,
@@ -160,13 +161,117 @@ Page({
         });
         getNewVcode(that);
       }
+      that.setData({ BLoading: false });
     },
     function(){
       wx.showToast({
         title: '连接服务器失败',
         image: '../../imgs/alert.png'
       });
+      that.setData({ BLoading: false });
     });
-    console.log(e);
+  },
+  onSignupSubmit: function(e)
+  {
+    var that = this;
+    var u_email = e.detail.value.email;
+    var u_vcode = e.detail.value.verifycode;
+
+    if (u_email.indexOf('@') < 1) {
+      wx.showToast({
+        title: '邮箱格式错误',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+
+    if (u_vcode.length != 5) {
+      wx.showToast({
+        title: '验证码错误',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+    this.setData({ BLoading: true });
+    http.api_request(app.globalData.ApiUrls.SignupURL,
+      {
+        email: u_email,
+        verify: u_vcode
+      },
+      function (res) {
+        console.log(res);
+        if (res.status == 1) {
+          wx.showToast({
+            icon: 'success',
+            title: res.info
+          });
+        }
+        else {
+          wx.showToast({
+            title: res.info,
+            image: '../../imgs/alert.png'
+          });
+          getNewVcode(that);
+        }
+        that.setData({ BLoading: false });
+      },
+      function () {
+        wx.showToast({
+          title: '连接服务器失败',
+          image: '../../imgs/alert.png'
+        });
+        that.setData({ BLoading: false });
+      });
+  },
+  onForgotPassSubmit: function (e) {
+    var that = this;
+    var u_email = e.detail.value.email;
+    var u_vcode = e.detail.value.verifycode;
+
+    if (u_email.indexOf('@') < 1) {
+      wx.showToast({
+        title: '邮箱格式错误',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+
+    if (u_vcode.length != 5) {
+      wx.showToast({
+        title: '验证码错误',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+    this.setData({ BLoading: true });
+    http.api_request(app.globalData.ApiUrls.SignupURL,
+      {
+        email: u_email,
+        verify: u_vcode
+      },
+      function (res) {
+        console.log(res);
+        if (res.status == 1) {
+          wx.showToast({
+            icon: 'success',
+            title: res.info
+          });
+        }
+        else {
+          wx.showToast({
+            title: res.info,
+            image: '../../imgs/alert.png'
+          });
+          getNewVcode(that);
+        }
+        that.setData({ BLoading: false });
+      },
+      function () {
+        wx.showToast({
+          title: '连接服务器失败',
+          image: '../../imgs/alert.png'
+        });
+        that.setData({ BLoading: false });
+      });
   }
 })

@@ -22,7 +22,7 @@
   <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='login'>登陆</button>
   </form>
   <!--注册-->
-  <form wx:if='{{Mode==1}}' animation='{{animations[1]}}' class='lf'>
+  <form wx:if='{{Mode==1}}' animation='{{animations[1]}}' class='lf' bindsubmit='onSignupSubmit'>
   <view class='loginForm'>
     <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
     <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
@@ -32,13 +32,13 @@
   <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='reg'>发送注册邮件</button>
   </form>
   <!--忘记密码-->
-  <form wx:if='{{Mode==2}}' animation='{{animations[2]}}' class='lf'>
+  <form wx:if='{{Mode==2}}' animation='{{animations[2]}}' class='lf' bindsubmit='onForgotPassSubmit'>
   <view class='loginForm'>
     <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
     <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
-  <button loading='{{BLoading}}' class='LoginBut' type='primary' sform-type='submit' ubmit='forget'>发送邮件</button>
+  <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='forget'>发送邮件</button>
   </form>
 </view>
