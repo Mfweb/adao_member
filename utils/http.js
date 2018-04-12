@@ -1,3 +1,8 @@
+/**
+ * @brief 保存所有Cookie
+ * @param data:本次请求的setcookie内容
+ * @retval None
+ */
 function save_cookie(data)
 {
   data = data.replace(" ","");
@@ -13,7 +18,10 @@ function save_cookie(data)
   }
   wx.setStorageSync('user_cookie', JSON.stringify(saved_data))
 }
-
+/**
+ * @brief 获取所有Cookie
+ * @retval cookie内容
+ */
 function get_cookie()
 {
   var cookies = wx.getStorageSync('user_cookie');
@@ -30,9 +38,28 @@ function get_cookie()
   console.log(out_str);
   return out_str;
 }
-
-function api_request(url, data, success, fail)
+/**
+ * @brief 获取指定key的Cookie内容
+ * @param key:指定key
+ * @retval 指定Key的内容
+ */
+function get_cookie_key(key)
 {
+  var cookies = wx.getStorageSync('user_cookie');
+  cookies = JSON.parse(cookies == '' ? '{}' : cookies);
+  return cookies[key];
+}
+/**
+ * @brief 带Cookie请求一个地址，并更新Cookie
+ * @param url:要请求的地址
+ * @param pdata:POST数据
+ * @param success:请求成功回调
+ * @param fail:请求失败回调
+ * @retval None
+ */
+function api_request(url, pdata, success, fail)
+{
+  console.log(pdata);
   wx.request({
     url: url,
     header: {
@@ -41,7 +68,7 @@ function api_request(url, data, success, fail)
       'X-Requested-With': 'XMLHttpRequest',
       'cookie': get_cookie()
     },
-    data: data == null ? {} : data,
+    data: pdata == null ? {} : pdata,
     method: 'POST',
     success: function(res){
       if (res.header['Set-Cookie'])
@@ -58,4 +85,5 @@ function api_request(url, data, success, fail)
 
 module.exports = {
   api_request: api_request,
+  get_cookie_key: get_cookie_key
 }

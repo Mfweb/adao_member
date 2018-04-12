@@ -2,14 +2,15 @@
 //获取应用实例
 const app = getApp();
 const http = require('../../utils/http.js');;
-var vCode = '';
 
+/**
+ * @brief 获得新的验证码
+ */
 function getNewVcode(that)
 {
-  vCode = Math.random().toString();
-  that.setData({ vCodeLoading: true, verifyCodeURL: app.globalData.ApiUrls.VerifyCodeURL + vCode});
-  console.log(vCode);
+  that.setData({ vCodeLoading: true, verifyCodeURL: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + http.get_cookie_key('PHPSESSID') + "&c=" + Math.random().toString()});
 }
+
 
 function switchPate(that,new_page)
 {
@@ -61,14 +62,22 @@ Page({
   },
   onLoad: function () {
     var that = this;
-    getNewVcode(that);
     switchPate(that,0);
     this.setData({ BLoading:true});
     http.api_request(
-      'http://adnmb1.com/Member/',
+      'http://adnmb1.com/Member/User/Index/index.html',
       null,
       function(res){
         console.log(res);
+        if (res.info == '并没有权限访问_(:з」∠)_')//登陆已经失效
+        {
+          getNewVcode(that);//请求验证码
+          console.log('未登陆');
+        }
+        else
+        {
+          console.log("登陆有效");
+        }
         that.setData({ BLoading: false});
       },
       function(){
@@ -98,5 +107,66 @@ Page({
   onCodeLoad: function(e){
     this.setData({ vCodeLoading:false});
     console.log('load success');
+  },
+  onLoginSubmit:function(e)//登陆
+  {
+    var that = this;
+    var u_email = e.detail.value.email;
+    var u_pass  = e.detail.value.passwd;
+    var u_vcode = e.detail.value.verifycode;
+    if(u_email.indexOf('@') < 1)
+    {
+      wx.showToast({
+        title: '邮箱格式错误',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+    if (u_pass.length < 5)
+    {
+      wx.showToast({
+        title: '密码长度太短',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+    if (u_vcode.length != 5) {
+      wx.showToast({
+        title: '验证码错误',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+    http.api_request(app.globalData.ApiUrls.LoginURL,
+    {
+      email:u_email,
+      password:u_pass,
+      verify:u_vcode
+    },
+    function(res){
+      console.log(res);
+      if (res.status == 1)
+      {
+        wx.showToast({
+          icon:'success',
+          title:res.info
+        });  
+      }
+      else
+      {
+        wx.showToast({
+          title: res.info,
+          image: '../../imgs/alert.png'
+        });
+        getNewVcode(that);
+      }
+    },
+    function(){
+      wx.showToast({
+        title: '连接服务器失败',
+        image: '../../imgs/alert.png'
+      });
+    });
+    console.log(e);
   }
 })

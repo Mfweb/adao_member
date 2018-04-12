@@ -11,34 +11,34 @@
     <view class="minMenu {{Mode==2?'menuSelected':''}}" bindtap='onTapIforgot'>忘记密码</view>
   </view>
   <!--登陆-->
-  <form wx:if='{{Mode==0}}' animation='{{animations[0]}}' class='lf'>
+  <form wx:if='{{Mode==0}}' animation='{{animations[0]}}' class='lf' bindsubmit='onLoginSubmit'>
   <view class='loginForm'>
-    <input class='emailInput' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
-    <input class='pswInput' type='text' placeholder='输入密码' password='true' confirm-type='next'></input>
-    <input class='codeInput' type='text' placeholder='输入验证码' confirm-type='go'></input>
+    <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
+    <input class='pswInput' name='passwd' type='text' placeholder='输入密码' password='true' confirm-type='next'></input>
+    <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
-  <button loading='{{BLoading}}' class='LoginBut' type='primary'submit='submit'>登陆</button>
+  <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='login'>登陆</button>
   </form>
   <!--注册-->
   <form wx:if='{{Mode==1}}' animation='{{animations[1]}}' class='lf'>
   <view class='loginForm'>
-    <input class='emailInput' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
-    <input class='codeInput' type='text' placeholder='输入验证码' confirm-type='go'></input>
+    <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
+    <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
-  <button loading='{{BLoading}}' class='LoginBut' type='primary'submit='submit'>发送注册邮件</button>
+  <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='reg'>发送注册邮件</button>
   </form>
   <!--忘记密码-->
   <form wx:if='{{Mode==2}}' animation='{{animations[2]}}' class='lf'>
   <view class='loginForm'>
-    <input class='emailInput' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
-    <input class='codeInput' type='text' placeholder='输入验证码' confirm-type='go'></input>
+    <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
+    <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
-  <button loading='{{BLoading}}' class='LoginBut' type='primary'submit='submit'>发送邮件</button>
+  <button loading='{{BLoading}}' class='LoginBut' type='primary' sform-type='submit' ubmit='forget'>发送邮件</button>
   </form>
 </view>
