@@ -26,7 +26,7 @@ function get_cookie()
 {
   var cookies = wx.getStorageSync('user_cookie');
   cookies = JSON.parse(cookies == '' ? '{}' : cookies);
-  console.log(cookies);
+  //console.log(cookies);
   var out_str = '';
   for(let o in cookies)
   {
@@ -35,7 +35,7 @@ function get_cookie()
     out_str += cookies[o];
     out_str += ';';
   }
-  console.log(out_str);
+  //console.log(out_str);
   return out_str;
 }
 /**
@@ -59,7 +59,6 @@ function get_cookie_key(key)
  */
 function api_request(url, pdata, success, fail)
 {
-  console.log(pdata);
   wx.request({
     url: url,
     header: {

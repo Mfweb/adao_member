@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp();
-const http = require('../../utils/http.js');;
+const http = require('../../utils/http.js');
 
 /**
  * @brief 获得新的验证码
@@ -54,29 +54,32 @@ Page({
     vCodeLoading: true,
     BLoading:false
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    });
-  },
   onLoad: function () {
     var that = this;
     switchPate(that,0);
     this.setData({ BLoading:true});
     http.api_request(
-      'http://adnmb1.com/Member/User/Index/index.html',
+      app.globalData.ApiUrls.CheckSessionURL,
       null,
       function(res){
-        console.log(res);
-        if (res.info == '并没有权限访问_(:з」∠)_')//登陆已经失效
+        if (res.status == 0)//登陆已经失效
         {
           getNewVcode(that);//请求验证码
           console.log('未登陆');
         }
-        else
+        else if (res.toString().indexOf('饼干管理') > 0)
         {
           console.log("登陆有效");
+          wx.navigateTo({
+            url: '../member/member'
+          });
+        }
+        else
+        {
+          wx.showToast({
+            title: '未知错误',
+            image: '../../imgs/alert.png'
+          });      
         }
         that.setData({ BLoading: false});
       },
@@ -151,7 +154,10 @@ Page({
         wx.showToast({
           icon:'success',
           title:res.info
-        });  
+        });
+        wx.navigateTo({
+          url: '../member/member'
+        });
       }
       else
       {
@@ -171,7 +177,7 @@ Page({
       that.setData({ BLoading: false });
     });
   },
-  onSignupSubmit: function(e)
+  onSignupSubmit: function(e)//注册
   {
     var that = this;
     var u_email = e.detail.value.email;
@@ -223,7 +229,8 @@ Page({
         that.setData({ BLoading: false });
       });
   },
-  onForgotPassSubmit: function (e) {
+  onForgotPassSubmit: function (e)//忘记密码
+  {
     var that = this;
     var u_email = e.detail.value.email;
     var u_vcode = e.detail.value.verifycode;

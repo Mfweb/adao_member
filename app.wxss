@@ -11,3 +11,13 @@
 page{
   background-color: #334054;
 }
+.verifyCode{
+  width: 100%;
+  max-height: 50px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.verifyCodeHid{
+  height: 0px;
+  width: 0px;
+}

@@ -1,0 +1,33 @@
+<view class='mcontainer'>
+  <view class='CookieList'>
+    <view class='CookieListTr'>
+      <view class='CookieListTd1 lTitle'>ID</view>
+      <view class='CookieListTd2 lTitle'>饼干</view>
+      <view class='CookieListTd3 lTitle'>操作</view>
+    </view>
+    <view wx:for="{{CookieList}}" class='CookieListTr'>
+      <view class='CookieListTd1'>{{item.id}}</view>
+      <view class='CookieListTd2'>{{item.value}}</view>
+      <view class='CookieListTd3'>
+        <button id='{{index}}' bindtap='onDeleteCookie' class='cButton' loading='{{item.delLoading}}' type='warn' size='mini'>删除</button>
+        <button id='{{index}}' bindtap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>获取</button>
+      </view>
+    </view>
+    <form wx:if='{{vCodeShow}}' class='vcodeMode' id='{{FormID}}' bindsubmit='onEnter'>
+      <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='done'></input>
+      <input name='needDeleteID' value='{{needDeleteID}}' style='display:none;'></input>
+      <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
+      <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
+      <button class='Uenter' form-type='submit' type='primary'>确认操作</button>
+      <button class='Uclose' type='warn' bindtap='onUClose'>取消操作</button>
+    </form>
+    <button bindtap='onGetNewCookie' class='nButton' type='primary'>获取新Cookie</button>
+  </view>
+</view>
+
+<view class="footer">
+  <!--<image bindtap="tap_ch" mode="aspectFit" class="icons" src="../../icons/menu.png"></image>
+  <image bindtap="tap_sl" mode="aspectFit" class="icons" src="../../icons/goto.png"></image>
+  <image bindtap="tap_nw" mode="aspectFit" class="icons" src="../../icons/new.png"></image>
+  <image bindtap="tap_ma" mode="aspectFit" class="icons" src="../../icons/manager.png"></image>-->
+</view>
