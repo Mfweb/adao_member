@@ -13,7 +13,10 @@ App({
       CookiesListURL:"http://adnmb1.com/Member/User/Cookie/index.html",
       CookieDeleteURL:"http://adnmb1.com/Member/User/Cookie/delete/id/",
       CookieGetQRURL: "http://adnmb1.com/Member/User/Cookie/export/id/",
-      CookieGetNewURL:"http://adnmb1.com/Member/User/Cookie/apply.html"
+      CookieGetNewURL:"http://adnmb1.com/Member/User/Cookie/apply.html",
+      CertifiedStatusURL:"http://adnmb1.com/Member/User/Authentication/mobile.html",
+      MobileCertURL:"http://adnmb1.com/Member/User/Authentication/mobileReverseAuthCode",
+      MobileCheckURL:"http://adnmb1.com/Member/User/Authentication/isBindMobile"
     }
   }
 })
