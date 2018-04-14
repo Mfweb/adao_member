@@ -120,14 +120,9 @@ function delCookie(that, index)
 {
   if (de_run) return;
   de_run = true;
-  var temp_data = that.data.CookieList;
-  temp_data[index].getLoading = true;
-  that.setData({ CookieList: temp_data });
-  temp_data[index].getLoading = false;
-  //console.log(temp_data[index]);
   getNewVcode(that);
   de_run = false;
-  that.setData({ CookieList: temp_data, vCodeLoading: true, vCodeShow: true, needDeleteID: index, FormID:"delete"});
+  that.setData({vCodeLoading: true, vCodeShow: true, needDeleteID: index, FormID:"delete"});
 }
 /**
  * 获取指定Cookie的二维码
@@ -235,6 +230,10 @@ function getCertifiedStatus(that)
         else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
         {
           that.setData({ PhoneStatus: "未认证", CanCert:true});
+        }
+        else
+        {
+          that.setData({ PhoneStatus: "未认证", CanCert: false });
         }
       }
       else
@@ -468,8 +467,9 @@ Page({
         },
         function (res) {
           if (res.status == 1) {
-            wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             that.setData({ vCodeShow: false });
+            that.setData({ CookieList: temp_data, EnterButLoading: false });
+            wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             wx.showToast({
               icon: 'success',
               title: '获取成功'
@@ -482,7 +482,9 @@ Page({
             });
           }
           nw_run = false;
+          that.setData({ vCodeShow: false });
           that.setData({ CookieList: temp_data, EnterButLoading: false});
+          wx.startPullDownRefresh({});
         },
         function () {
           wx.showToast({
