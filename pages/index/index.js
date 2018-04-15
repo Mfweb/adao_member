@@ -251,7 +251,7 @@ Page({
       return;
     }
     this.setData({ BLoading: true });
-    http.api_request(app.globalData.ApiUrls.SignupURL,
+    http.api_request(app.globalData.ApiUrls.ForgotURL,
       {
         email: u_email,
         verify: u_vcode
