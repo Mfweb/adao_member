@@ -6,6 +6,15 @@ var gt_run = false;
 var de_run = false;
 var nw_run = false;
 var timer = null;
+
+
+function logOut()
+{
+  http.set_cookie_key('memberUserspapapa','');
+  wx.reLaunch({
+    url: '../index/index',
+  });
+}
 /**
  * 切换当前页面
  */
@@ -226,14 +235,11 @@ function getCertifiedStatus(that)
               that.setData({ PhoneStatus: phone_status });
             }
           }
+          that.setData({ CanCert:false});
         }
         else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
         {
           that.setData({ PhoneStatus: "未认证", CanCert:true});
-        }
-        else
-        {
-          that.setData({ PhoneStatus: "未认证", CanCert: false });
         }
       }
       else
@@ -258,6 +264,9 @@ function getCertifiedStatus(that)
     });
 }
 
+/**
+ * 等到完成手机认证
+ */
 function waitCert()
 {
   timer = setInterval(function () {
@@ -311,42 +320,32 @@ Page({
       '捷克 - +420', '秘鲁 - +51', '墨西哥 - +52', '古巴 - +53', '阿根廷 - +54', '巴西 - +55', '智利 - +56', '哥伦比亚 - +57','委内瑞拉 - +58',
       '澳大利亚 - +61', '新西兰 - +64', '关岛 - +671', '斐济 - +679', '圣诞岛 - +619164', '夏威夷 - +1808', '阿拉斯加 - +1907','格陵兰岛 - +299',
       '牙买加 - +1876','南极洲 - +64672'],
-    CertMsg: null,
-    ShowCertMsg:false
+    CertMsg: null,//手机实名认证显示的消息
+    ShowCertMsg:false//是否显示实名认证消息
   },
   onLoad: function (options) {
     var that = this;
     wx.showNavigationBarLoading();
-    http.api_request(
+    http.api_request(//检查登录是否有效
       app.globalData.ApiUrls.CheckSessionURL,
       null,
       function (res) {
         wx.hideNavigationBarLoading();
         if (res.status == 0)//登陆已经失效
         {
-          wx.navigateTo({
-            url: '../index/index'
-          });
+          logOut();
         }
         else if (res.toString().indexOf('饼干管理') > 0) {
           console.log("登陆有效");
           wx.startPullDownRefresh({});
         }
         else {
-          wx.showToast({
-            title: '未知错误',
-            image: '../../imgs/alert.png'
-          });
-          wx.navigateTo({
-            url: '../index/index'
-          });
+          logOut();
         }
       },
       function () {
         wx.hideNavigationBarLoading();
-        wx.navigateTo({
-          url: '../index/index'
-        });
+        logOut();
       }
     );
     switchPate(that,0);
@@ -377,7 +376,6 @@ Page({
       wx.stopPullDownRefresh();
     }
   },
-
   onDeleteCookie: function(e)
   {
     var that = this;
@@ -556,6 +554,9 @@ Page({
           that.setData({ CookieList: temp_data, EnterButLoading: false });
         });
     }
+  },
+  onUnload:function(){
+    logOut();
   },
   onGetNewCookie:function()
   {

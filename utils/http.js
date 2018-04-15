@@ -50,6 +50,22 @@ function get_cookie_key(key)
   return cookies[key];
 }
 /**
+ * @brief 设置指定key的cookie内容
+ * @param key:指定key
+ * @param value:内容
+ * @retval None
+ */
+function set_cookie_key(key,value)
+{
+  var cookies = wx.getStorageSync('user_cookie');
+  cookies = JSON.parse(cookies == '' ? '{}' : cookies);
+  if (cookies.hasOwnProperty(key))
+    cookies[key] = value;
+  else
+    cookies.push({key:value});
+  wx.setStorageSync('user_cookie', JSON.stringify(cookies))
+}
+/**
  * @brief 带Cookie请求一个地址，并更新Cookie
  * @param url:要请求的地址
  * @param pdata:POST数据
@@ -84,5 +100,6 @@ function api_request(url, pdata, success, fail)
 
 module.exports = {
   api_request: api_request,
-  get_cookie_key: get_cookie_key
+  get_cookie_key: get_cookie_key,
+  set_cookie_key: set_cookie_key
 }
