@@ -16,7 +16,8 @@ App({
       CookieGetNewURL:"http://adnmb1.com/Member/User/Cookie/apply.html",//获取新饼干
       CertifiedStatusURL:"http://adnmb1.com/Member/User/Authentication/mobile.html",//认证状态
       MobileCertURL:"http://adnmb1.com/Member/User/Authentication/mobileReverseAuthCode",//手机认证
-      MobileCheckURL:"http://adnmb1.com/Member/User/Authentication/isBindMobile"//手机认证校验
+      MobileCheckURL:"http://adnmb1.com/Member/User/Authentication/isBindMobile",//手机认证校验
+      ChangePasswordURL:"http://adnmb1.com/Member/User/Index/changePassword.html"//修改密码
     }
   }
 })

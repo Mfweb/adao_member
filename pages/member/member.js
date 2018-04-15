@@ -5,6 +5,7 @@ var pw_run = false;
 var gt_run = false;
 var de_run = false;
 var nw_run = false;
+var np_run = false;
 var timer = null;
 
 
@@ -321,7 +322,9 @@ Page({
       '澳大利亚 - +61', '新西兰 - +64', '关岛 - +671', '斐济 - +679', '圣诞岛 - +619164', '夏威夷 - +1808', '阿拉斯加 - +1907','格陵兰岛 - +299',
       '牙买加 - +1876','南极洲 - +64672'],
     CertMsg: null,//手机实名认证显示的消息
-    ShowCertMsg:false//是否显示实名认证消息
+    ShowCertMsg:false,//是否显示实名认证消息
+    //修改密码相关
+    CPLoading:false
   },
   onLoad: function (options) {
     var that = this;
@@ -554,6 +557,65 @@ Page({
           that.setData({ CookieList: temp_data, EnterButLoading: false });
         });
     }
+  },
+  onChangePasswdSubmit(e)
+  {
+    var that = this;
+    var old_passwd = e.detail.value.opass;
+    var new_passwd = e.detail.value.npass;
+    var new_passwd2 = e.detail.value.npass2;
+    if (old_passwd < 5 || new_passwd < 5 || new_passwd2 < 5)
+    {
+      wx.showToast({
+        title: '密码至少5位',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+    if (new_passwd != new_passwd2)
+    {
+      wx.showToast({
+        title: '两次输入不一致',
+        image: '../../imgs/alert.png'
+      });
+      return;
+    }
+    if (np_run) return;
+    np_run = true;
+    that.setData({ CPLoading:true});
+    http.api_request(
+      app.globalData.ApiUrls.ChangePasswordURL,
+      {
+        oldpwd: old_passwd,
+        pwd: new_passwd,
+        repwd: new_passwd2
+      },
+      function(res){
+        if (res.status == 1)
+        {
+          logOut();
+        }
+        else
+        {
+          wx.showToast({
+            title: res.info,
+            image: '../../imgs/alert.png'
+          });
+        }
+        np_run = false;
+        that.setData({ CPLoading: false });
+      },
+      function()
+      {
+        wx.showToast({
+          title: '发生了错误',
+          image: '../../imgs/alert.png'
+        });
+        np_run = false;
+        that.setData({ CPLoading: false });
+      }
+    );
+    console.log(e);
   },
   onUnload:function(){
     logOut();

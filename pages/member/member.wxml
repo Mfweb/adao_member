@@ -15,7 +15,7 @@
       </view>
     </view>
     <form wx:if='{{vCodeShow}}' class='vcodeMode' id='{{FormID}}' bindsubmit='onEnter'>
-      <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='done'></input>
+      <input class='McodeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='done'></input>
       <input name='needDeleteID' value='{{needDeleteID}}' style='display:none;'></input>
       <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
       <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
@@ -46,8 +46,8 @@
           </view>
         </picker>
       </view>
-      <input class='codeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'></input>
-      <input class='codeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'></input>
+      <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'></input>
+      <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'></input>
       <input name='needDeleteID' value='{{needDeleteID}}' style='display:none;'></input>
       <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
       <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
@@ -60,7 +60,14 @@
 </view>
 
 <view wx:if='{{Mode==2}}' class='mcontainer' animation='{{animations[2]}}'>
-修改密码，未实现
+  <form class='nPasswd' bindsubmit='onChangePasswdSubmit'>
+  <view class='loginForm'>
+    <input class='emailInput' name='opass' type='text' placeholder='输入旧密码' password='true' confirm-type='next'></input>
+    <input class='pswInput' name='npass' type='text' placeholder='新密码' password='true' confirm-type='next'></input>
+    <input class='codeInput' name='npass2' type='text' placeholder='再来一遍' password='true' confirm-type='go'></input>
+  </view>
+  <button loading='{{CPLoading}}' class='nButton' type='primary' form-type='submit' submit='changepasswd'>确认修改</button>
+  </form>
 </view>
 
 <view class="footer">

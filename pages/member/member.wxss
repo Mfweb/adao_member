@@ -85,7 +85,7 @@
   width: 80%;
   margin-top: 10px;
 }
-.codeInput{
+.McodeInput{
   height: 30px;
   width: 60%;
   margin: 0 auto;
@@ -138,4 +138,7 @@
   width: 95%;
   margin: 0 auto;
   font-size: 12px;
+}
+.nPasswd{
+  width: 80%;
 }
