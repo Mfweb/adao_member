@@ -53,7 +53,24 @@ function switchPate(that, new_page) {
  * @brief 获得新的验证码
  */
 function getNewVcode(that) {
-  that.setData({ vCodeLoading: true, verifyCodeURL: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + http.get_cookie_key('PHPSESSID') + "&c=" + Math.random().toString() });
+  that.setData({ vCodeLoading: true });
+  http.get_verifycode(function (res) {
+    if (res.statusCode == 200) {
+      that.setData({ verifyCodeURL: res.tempFilePath });
+    }
+    else {
+      wx.showToast({
+        title: 'http错误' + res.statusCode.toString(),
+        image: '../../imgs/alert.png'
+      });
+    }
+  },
+    function () {
+      wx.showToast({
+        title: '获取验证码错误' + res.statusCode.toString(),
+        image: '../../imgs/alert.png'
+      });
+    });
 }
 
 /**

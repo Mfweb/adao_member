@@ -98,8 +98,39 @@ function api_request(url, pdata, success, fail)
   })
 }
 
+/**
+ * @brief 下载验证码
+ * @param success:请求成功回调
+ * @param fail:请求失败回调
+ * @retval None
+ */
+function get_verifycode(success,fail)
+{
+  const app = getApp();
+  wx.downloadFile({
+    url: app.globalData.ApiUrls.VerifyCodeURL,
+    header: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'User-Agent': 'HavfunClient-WeChatAPP',
+      'X-Requested-With': 'XMLHttpRequest',
+      'cookie': get_cookie()
+    },
+    success: function(res)
+    {
+      if (success != null)
+        success(res);
+    },
+    fail:function()
+    {
+      if (fail != null)
+        fail();
+    }
+  })
+}
+
 module.exports = {
   api_request: api_request,
   get_cookie_key: get_cookie_key,
-  set_cookie_key: set_cookie_key
+  set_cookie_key: set_cookie_key,
+  get_verifycode: get_verifycode
 }
