@@ -59,17 +59,11 @@ function getNewVcode(that) {
       that.setData({ verifyCodeURL: res.tempFilePath });
     }
     else {
-      wx.showToast({
-        title: 'http错误' + res.statusCode.toString(),
-        image: '../../imgs/alert.png'
-      });
+      app.showError('http错误' + res.statusCode.toString());
     }
   },
     function () {
-      wx.showToast({
-        title: '获取验证码错误' + res.statusCode.toString(),
-        image: '../../imgs/alert.png'
-      });
+      app.showError('获取验证码错误' + res.statusCode.toString());
     });
 }
 
@@ -111,19 +105,13 @@ function getCookies(that)
           }
           else
           {
-            wx.showToast({
-              title: '没有找到饼干',
-              image: '../../imgs/alert.png'
-            });
+            app.showError('没有找到饼干');
           }
         }
       }
       else
       {
-        wx.showToast({
-          title: '获取饼干错误',
-          image: '../../imgs/alert.png'
-        });
+        app.showError('获取饼干错误');
       }
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
@@ -184,27 +172,18 @@ function getCookieQR(that, index)
         }
         else
         {
-          wx.showToast({
-            title: '发生了错误',
-            image: '../../imgs/alert.png'
-          });          
+          app.showError('发生了错误');        
         }
       }
       else
       {
-        wx.showToast({
-          title: '发生了错误',
-          image: '../../imgs/alert.png'
-        });       
+        app.showError('发生了错误');  
       }
       gt_run = false;
       that.setData({ CookieList: temp_data });
     },
     function () {
-      wx.showToast({
-        title: '发生了错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('发生了错误');
       gt_run = false;
       that.setData({ CookieList: temp_data });
     });
@@ -236,10 +215,7 @@ function getCertifiedStatus(that)
         }
         else
         {
-          wx.showToast({
-            title: '实名状态错误',
-            image: '../../imgs/alert.png'
-          });      
+          app.showError('实名状态错误');    
         }
         if (res.indexOf('已绑定手机') > 0)//手机认证已经成功的
         {
@@ -262,20 +238,14 @@ function getCertifiedStatus(that)
       }
       else
       {
-        wx.showToast({
-          title: '发生了错误',
-          image: '../../imgs/alert.png'
-        });
+        app.showError('发生了错误');
       }
       pw_run = false;
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
     },
     function () {
-      wx.showToast({
-        title: '发生了错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('发生了错误');
       pw_run = false;
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
@@ -423,10 +393,7 @@ Page({
     var u_vcode = e.detail.value.verifycode;
     var u_index = e.detail.value.needDeleteID;
     if (u_vcode.length != 5) {
-      wx.showToast({
-        title: '验证码错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('验证码错误');
       return;
     }
     that.setData({ EnterButLoading:true});
@@ -451,25 +418,16 @@ Page({
           if (res.status == 1) {
             wx.startPullDownRefresh({});//删除请求成功，刷新页面
             that.setData({ vCodeShow: false});
-            wx.showToast({
-              icon: 'success',
-              title: '删除完成'
-            });
+            app.showError('删除完成');
           }
           else {
-            wx.showToast({
-              title: res.info,
-              image: '../../imgs/alert.png'
-            });
+            app.showError(res.info);
           }
           de_run = false;
           that.setData({ CookieList: temp_data, EnterButLoading: false});
         },
         function () {
-          wx.showToast({
-            title: '发生了错误',
-            image: '../../imgs/alert.png'
-          });
+          app.showError('发生了错误');
           de_run = false;
           that.setData({ CookieList: temp_data, EnterButLoading: false});
         });
@@ -484,20 +442,15 @@ Page({
           verify: u_vcode
         },
         function (res) {
+          console.log(res);
           if (res.status == 1) {
             that.setData({ vCodeShow: false });
             that.setData({ CookieList: temp_data, EnterButLoading: false });
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
-            wx.showToast({
-              icon: 'success',
-              title: '获取成功'
-            });
+            app.showError('大成功');
           }
           else {
-            wx.showToast({
-              title: res.info,
-              image: '../../imgs/alert.png'
-            });
+            app.showError(res.info);
           }
           nw_run = false;
           that.setData({ vCodeShow: false });
@@ -505,10 +458,7 @@ Page({
           wx.startPullDownRefresh({});
         },
         function () {
-          wx.showToast({
-            title: '发生了错误',
-            image: '../../imgs/alert.png'
-          });
+          app.showError('发生了错误');
           nw_run = false;
           that.setData({ CookieList: temp_data, EnterButLoading: false});
         });
@@ -518,10 +468,7 @@ Page({
       var u_country = that.data.Cindex + 1;
       var u_phone = e.detail.value.phonenumber;
       if (!(/^\d{5,}$/.test(u_phone))) {
-        wx.showToast({
-          title: '手机号错误',
-          image: '../../imgs/alert.png'
-        });
+        app.showError('手机号错误');
         return false;
       }
 
@@ -538,10 +485,7 @@ Page({
           //console.log(res);
           if(res.status == 0)
           {
-            wx.showToast({
-              title: res.info,
-              image: '../../imgs/alert.png'
-            });
+            app.showError(res.info);
           }
           else
           {
@@ -556,20 +500,14 @@ Page({
             }
             else
             {
-              wx.showToast({
-                title: '发生了错误',
-                image: '../../imgs/alert.png'
-              });  
+              app.showError('发生了错误'); 
             }
           }
           nw_run = false;
           that.setData({ CookieList: temp_data, EnterButLoading: false });
         },
         function () {
-          wx.showToast({
-            title: '发生了错误',
-            image: '../../imgs/alert.png'
-          });
+          app.showError('发生了错误');
           nw_run = false;
           that.setData({ CookieList: temp_data, EnterButLoading: false });
         });
@@ -583,18 +521,12 @@ Page({
     var new_passwd2 = e.detail.value.npass2;
     if (old_passwd < 5 || new_passwd < 5 || new_passwd2 < 5)
     {
-      wx.showToast({
-        title: '密码至少5位',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('密码至少5位');
       return;
     }
     if (new_passwd != new_passwd2)
     {
-      wx.showToast({
-        title: '两次输入不一致',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('两次输入不一致');
       return;
     }
     if (np_run) return;
@@ -609,25 +541,15 @@ Page({
       },
       function(res){
         if (res.status == 1)
-        {
           logOut();
-        }
         else
-        {
-          wx.showToast({
-            title: res.info,
-            image: '../../imgs/alert.png'
-          });
-        }
+          app.showError(res.info);
         np_run = false;
         that.setData({ CPLoading: false });
       },
       function()
       {
-        wx.showToast({
-          title: '发生了错误',
-          image: '../../imgs/alert.png'
-        });
+        app.showError('发生了错误');
         np_run = false;
         that.setData({ CPLoading: false });
       }

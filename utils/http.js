@@ -5,6 +5,8 @@
  */
 function save_cookie(data)
 {
+  //console.log('save cookie');
+  //console.log(data);
   data = data.replace(" ","");
   data = data.split(";");
   var saved_data = wx.getStorageSync('user_cookie');
@@ -24,17 +26,20 @@ function save_cookie(data)
  */
 function get_cookie()
 {
+  //console.log('load cookie');
   var cookies = wx.getStorageSync('user_cookie');
   cookies = JSON.parse(cookies == '' ? '{}' : cookies);
   //console.log(cookies);
   var out_str = '';
   for(let o in cookies)
   {
+    if(o=='path')continue;
     out_str += o;
     out_str += '=';
     out_str += cookies[o];
     out_str += ';';
   }
+  out_str = out_str.substring(0, out_str.length - 1);
   //console.log(out_str);
   return out_str;
 }
@@ -78,14 +83,15 @@ function api_request(url, pdata, success, fail)
   wx.request({
     url: url,
     header: {
-      'content-type': 'application/x-www-form-urlencoded',
-      'User-Agent': 'HavfunClient-WeChatAPP',
+      'Content-Type': 'application/x-www-form-urlencoded',
+//      'User-Agent': 'HavfunClient-WeChatAPP',
       'X-Requested-With': 'XMLHttpRequest',
-      'cookie': get_cookie()
+      'Cookie': get_cookie()
     },
     data: pdata == null ? {} : pdata,
     method: 'POST',
     success: function(res){
+      console.log(res);
       if (res.header['Set-Cookie'])
         save_cookie(res.header['Set-Cookie']);
       if(success != null)
@@ -110,10 +116,10 @@ function get_verifycode(success,fail)
   wx.downloadFile({
     url: app.globalData.ApiUrls.VerifyCodeURL,
     header: {
-      'content-type': 'application/x-www-form-urlencoded',
-      'User-Agent': 'HavfunClient-WeChatAPP',
+      'Content-Type': 'application/x-www-form-urlencoded',
+//      'User-Agent': 'HavfunClient-WeChatAPP',
       'X-Requested-With': 'XMLHttpRequest',
-      'cookie': get_cookie()
+      'Cookie': get_cookie()
     },
     success: function(res)
     {

@@ -11,22 +11,12 @@ function getNewVcode(that)
   that.setData({ vCodeLoading: true});
   http.get_verifycode(function(res){
     if(res.statusCode == 200)
-    {
       that.setData({ verifyCodeURL: res.tempFilePath });
-    }
     else
-    {
-      wx.showToast({
-        title: 'http错误' + res.statusCode.toString(),
-        image: '../../imgs/alert.png'
-      });   
-    }
+      app.showError('http' + res.statusCode.toString());
   },
   function(){
-    wx.showToast({
-      title: '获取验证码错误' + res.statusCode.toString(),
-      image: '../../imgs/alert.png'
-    });   
+    app.showError('获取验证码错误' + res.statusCode.toString());
   });
   //that.setData({ vCodeLoading: true, verifyCodeURL: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + http.get_cookie_key('PHPSESSID') + "&c=" + Math.random().toString()});
 }
@@ -96,18 +86,12 @@ Page({
         }
         else
         {
-          wx.showToast({
-            title: '未知错误',
-            image: '../../imgs/alert.png'
-          });      
+          app.showError('未知错误');    
         }
         that.setData({ BLoading: false});
       },
       function(){
-        wx.showToast({
-          title: '连接服务器失败',
-          image: '../../imgs/alert.png'
-        });
+        app.showError('连接服务器失败');
       }
     );
   },
@@ -139,25 +123,16 @@ Page({
     var u_vcode = e.detail.value.verifycode;
     if(u_email.indexOf('@') < 1)
     {
-      wx.showToast({
-        title: '邮箱格式错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('邮箱格式错误');
       return;
     }
     if (u_pass.length < 5)
     {
-      wx.showToast({
-        title: '密码长度太短',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('密码长度太短');
       return;
     }
     if (u_vcode.length != 5) {
-      wx.showToast({
-        title: '验证码错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('验证码错误');
       return;
     }
     this.setData({ BLoading: true });
@@ -171,29 +146,20 @@ Page({
       console.log(res);
       if (res.status == 1)
       {
-        wx.showToast({
-          icon:'success',
-          title:res.info
-        });
+        app.showSuccess('res.info');
         wx.navigateTo({
           url: '../member/member'
         });
       }
       else
       {
-        wx.showToast({
-          title: res.info,
-          image: '../../imgs/alert.png'
-        });
+        app.showError(res.info);
         getNewVcode(that);
       }
       that.setData({ BLoading: false });
     },
     function(){
-      wx.showToast({
-        title: '连接服务器失败',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('连接服务器失败');
       that.setData({ BLoading: false });
     });
   },
@@ -204,18 +170,12 @@ Page({
     var u_vcode = e.detail.value.verifycode;
 
     if (u_email.indexOf('@') < 1) {
-      wx.showToast({
-        title: '邮箱格式错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('邮箱格式错误');
       return;
     }
 
     if (u_vcode.length != 5) {
-      wx.showToast({
-        title: '验证码错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('验证码错误');
       return;
     }
     this.setData({ BLoading: true });
@@ -227,25 +187,16 @@ Page({
       function (res) {
         console.log(res);
         if (res.status == 1) {
-          wx.showToast({
-            icon: 'success',
-            title: res.info
-          });
+          app.showSuccess(res.info);
         }
         else {
-          wx.showToast({
-            title: res.info,
-            image: '../../imgs/alert.png'
-          });
+          app.showError(res.info);
           getNewVcode(that);
         }
         that.setData({ BLoading: false });
       },
       function () {
-        wx.showToast({
-          title: '连接服务器失败',
-          image: '../../imgs/alert.png'
-        });
+        app.showError('连接服务器失败');
         that.setData({ BLoading: false });
       });
   },
@@ -256,18 +207,12 @@ Page({
     var u_vcode = e.detail.value.verifycode;
 
     if (u_email.indexOf('@') < 1) {
-      wx.showToast({
-        title: '邮箱格式错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('邮箱格式错误');
       return;
     }
 
     if (u_vcode.length != 5) {
-      wx.showToast({
-        title: '验证码错误',
-        image: '../../imgs/alert.png'
-      });
+      app.showError('验证码错误');
       return;
     }
     this.setData({ BLoading: true });
@@ -279,25 +224,16 @@ Page({
       function (res) {
         console.log(res);
         if (res.status == 1) {
-          wx.showToast({
-            icon: 'success',
-            title: res.info
-          });
+          app.showSuccess(res.info);
         }
         else {
-          wx.showToast({
-            title: res.info,
-            image: '../../imgs/alert.png'
-          });
+          app.showError(res.info);
           getNewVcode(that);
         }
         that.setData({ BLoading: false });
       },
       function () {
-        wx.showToast({
-          title: '连接服务器失败',
-          image: '../../imgs/alert.png'
-        });
+        app.showError('连接服务器失败');
         that.setData({ BLoading: false });
       });
   }
