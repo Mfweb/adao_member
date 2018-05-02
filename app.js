@@ -1,5 +1,6 @@
 //app.js
-const hostURL = "https://nmb.fastmirror.org";
+//const hostURL = "https://nmb.fastmirror.org";
+const hostURL = "https://adao.mfweb.top";
 App({
   onLaunch: function () {
   },
@@ -7,6 +8,7 @@ App({
     ApiUrls:{
       VerifyCodeURL: hostURL + "/Member/User/Index/verify.html",//请求验证码
       LoginURL: hostURL + "/Member/User/Index/login.html",//登录
+      //LoginURL: hostURL_My + "/adao/login.php",//登录
       SignupURL: hostURL + "/Member/User/Index/sendRegister.html",//注册
       ForgotURL: hostURL + "/Member/User/Index/sendForgotPassword.html",//忘记密码
       CheckSessionURL: hostURL + "/Member/User/Index/index.html",//检查是Session是否有效

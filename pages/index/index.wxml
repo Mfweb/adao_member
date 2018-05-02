@@ -2,7 +2,7 @@
 <view class="container">
   <!--<view class="mainTitle">A岛注册实名系统</view>-->
   <view class='title'>
-    <image mode='aspectFit' class='TitleIcons' src='../../imgs/mf1.png'></image>
+    <image mode='aspectFit' bindtap='onEat' class='TitleIcons' src='../../imgs/mf1.png'></image>
     <view class="loginTitle2">{{TitleText}}</view>
   </view>
   <view class='navigate'>

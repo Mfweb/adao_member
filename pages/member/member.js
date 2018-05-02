@@ -445,7 +445,7 @@ Page({
           console.log(res);
           if (res.status == 1) {
             that.setData({ vCodeShow: false });
-            that.setData({ CookieList: temp_data, EnterButLoading: false });
+            that.setData({ EnterButLoading: false });
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             app.showError('大成功');
           }
@@ -454,13 +454,13 @@ Page({
           }
           nw_run = false;
           that.setData({ vCodeShow: false });
-          that.setData({ CookieList: temp_data, EnterButLoading: false});
+          that.setData({ EnterButLoading: false});
           wx.startPullDownRefresh({});
         },
         function () {
           app.showError('发生了错误');
           nw_run = false;
-          that.setData({ CookieList: temp_data, EnterButLoading: false});
+          that.setData({ EnterButLoading: false});
         });
     }
     else if (e.target.id == 'Cert')//手机认证
@@ -482,34 +482,43 @@ Page({
           mobile: u_phone//手机号
         },
         function (res) {
+          try{
+            if (res.status == 0) {
+              app.showError(res.info);
+            }
+            else {
+              res = res.replace(/\r/g, "");
+              res = res.replace(/\n/g, "");
+
+              var body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
+              if (body_match != null) {
+                //var all_group = body_match[0].match(/tpl-form-maintext">[\s\D]*<b>[^<]+<\/b>/ig);
+                //console.log(all_group);
+                body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
+                console.log(body_match[0]);
+                that.setData({ CertMsg: WxParse.wxParse('item', 'html', body_match[0], that, null).nodes, ShowCertMsg: true, CertFormShow: false });
+                waitCert();
+              }
+              else {
+                app.showError('发生了错误');
+              }
+            }
+            nw_run = false;
+            that.setData({ EnterButLoading: false });
+          }
+          catch(err){
+            console.log(err);
+            app.showError(err.message);
+            nw_run = false;
+            that.setData({ EnterButLoading: false });
+          }
           //console.log(res);
-          if(res.status == 0)
-          {
-            app.showError(res.info);
-          }
-          else
-          {
-            res = res.replace(/\r/g, "");
-            res = res.replace(/\n/g, "");
-            
-            var body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
-            if(body_match != null)
-            {
-              that.setData({ CertMsg: WxParse.wxParse('item', 'html', body_match[0], that, null).nodes, ShowCertMsg: true, CertFormShow:false});
-              waitCert();
-            }
-            else
-            {
-              app.showError('发生了错误'); 
-            }
-          }
-          nw_run = false;
-          that.setData({ CookieList: temp_data, EnterButLoading: false });
+
         },
         function () {
           app.showError('发生了错误');
           nw_run = false;
-          that.setData({ CookieList: temp_data, EnterButLoading: false });
+          that.setData({ EnterButLoading: false });
         });
     }
   },
@@ -588,5 +597,16 @@ Page({
   },
   bindPickerChange:function(e){
     this.setData({ Cindex:e.detail.value});
+  },
+  onCopy:function(e){
+    wx.setClipboardData({
+      data: '+8617722525567',
+      success: function(){
+        app.showSuccess('复制完成');
+      },
+      fail: function(){
+        app.showError('复制失败');
+      }
+    })
   }
 })

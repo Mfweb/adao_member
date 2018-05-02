@@ -146,7 +146,7 @@ Page({
       console.log(res);
       if (res.status == 1)
       {
-        app.showSuccess('res.info');
+        app.showSuccess(res.info);
         wx.navigateTo({
           url: '../member/member'
         });
@@ -236,5 +236,10 @@ Page({
         app.showError('连接服务器失败');
         that.setData({ BLoading: false });
       });
+  },
+  onEat: function(e){
+    wx.playBackgroundAudio({
+      dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
+    })
   }
 })

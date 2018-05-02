@@ -33,13 +33,13 @@ function get_cookie()
   var out_str = '';
   for(let o in cookies)
   {
-    if(o=='path')continue;
+    if (o == 'path') continue;
     out_str += o;
     out_str += '=';
     out_str += cookies[o];
     out_str += ';';
   }
-  out_str = out_str.substring(0, out_str.length - 1);
+  //out_str = out_str.substring(0, out_str.length - 1);
   //console.log(out_str);
   return out_str;
 }
@@ -91,7 +91,6 @@ function api_request(url, pdata, success, fail)
     data: pdata == null ? {} : pdata,
     method: 'POST',
     success: function(res){
-      console.log(res);
       if (res.header['Set-Cookie'])
         save_cookie(res.header['Set-Cookie']);
       if(success != null)
@@ -114,11 +113,8 @@ function get_verifycode(success,fail)
 {
   const app = getApp();
   wx.downloadFile({
-    url: app.globalData.ApiUrls.VerifyCodeURL,
+    url: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + Math.random(),
     header: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-//      'User-Agent': 'HavfunClient-WeChatAPP',
-      'X-Requested-With': 'XMLHttpRequest',
       'Cookie': get_cookie()
     },
     success: function(res)

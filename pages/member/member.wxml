@@ -11,7 +11,7 @@
       <view class='CookieListTd2'>{{item.value}}</view>
       <view class='CookieListTd3'>
         <button id='{{index}}' bindtap='onDeleteCookie' class='cButton' loading='{{item.delLoading}}' type='warn' size='mini'>删除</button>
-        <button id='{{index}}' bindtap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>获取</button>
+        <button id='{{index}}' bindtap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>二维码</button>
       </view>
     </view>
     <form wx:if='{{vCodeShow}}' class='vcodeMode' id='{{FormID}}' bindsubmit='onEnter'>
@@ -55,7 +55,7 @@
       <button class='Uclose' type='warn' bindtap='onUClose'>取消操作</button>
     </form>
   <template wx:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}"/>
-
+  <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' bindtap='onCopy'>复制手机号</button>
   <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
 </view>
 
