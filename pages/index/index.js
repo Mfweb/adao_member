@@ -80,8 +80,8 @@ Page({
         else if (res.toString().indexOf('饼干管理') > 0)
         {
           console.log("登陆有效");
-          wx.navigateTo({
-            url: '../member/member'
+          wx.switchTab({
+            url: '../member-cookie/member-cookie',
           });
         }
         else
@@ -147,8 +147,8 @@ Page({
       if (res.status == 1)
       {
         app.showSuccess(res.info);
-        wx.navigateTo({
-          url: '../member/member'
+        wx.switchTab({
+          url: '../member-cookie/member-cookie',
         });
       }
       else

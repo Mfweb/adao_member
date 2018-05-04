@@ -1,0 +1,11 @@
+<view class='mcontainer'>
+  <form class='nPasswd' bindsubmit='onChangePasswdSubmit'>
+  <view class='loginForm'>
+    <input class='emailInput' name='opass' type='text' placeholder='输入旧密码' password='true' confirm-type='next'></input>
+    <input class='pswInput' name='npass' type='text' placeholder='新密码' password='true' confirm-type='next'></input>
+    <input class='codeInput' name='npass2' type='text' placeholder='再来一遍' password='true' confirm-type='go'></input>
+  </view>
+  <button loading='{{CPLoading}}' class='nButton' type='primary' form-type='submit' submit='changepasswd'>确认修改</button>
+  </form>
+</view>
+<view class='exitBtn{{ExitTouch?" exitBtnDw":""}}' bindtouchstart='onExitTS' bindtouchend='onExitTE' bindtouchcancel='onExitTC'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/exit.gif'></image></view>
