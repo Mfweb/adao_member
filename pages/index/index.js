@@ -2,7 +2,7 @@
 //获取应用实例
 const app = getApp();
 const http = require('../../utils/http.js');
-
+var rememberPW = false;
 /**
  * @brief 获得新的验证码
  */
@@ -62,11 +62,20 @@ Page({
     animations:[],
     TitleText:"登陆",
     vCodeLoading: true,
-    BLoading:false
+    BLoading:false,
+    RememberPW:false,
+    UserName:'',
+    PassWord:''
   },
   onLoad: function () {
     var that = this;
     switchPate(that,0);
+
+    var sUN = wx.getStorageSync('UserName');
+    var sPW = wx.getStorageSync('PassWord');
+    if(sUN != '' && sPW != '')
+      this.setData({ RememberPW: true, UserName: sUN, PassWord: sPW});
+
     this.setData({ BLoading:true});
     http.api_request(
       app.globalData.ApiUrls.CheckSessionURL,
@@ -146,6 +155,10 @@ Page({
       console.log(res);
       if (res.status == 1)
       {
+        if (rememberPW){
+          wx.setStorageSync('UserName', u_email);
+          wx.setStorageSync('PassWord', u_pass)
+        }
         app.showSuccess(res.info);
         wx.switchTab({
           url: '../member-cookie/member-cookie',
@@ -241,5 +254,8 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     })
+  },
+  onRPW:function(e){
+    rememberPW = e.detail.value;
   }
 })
