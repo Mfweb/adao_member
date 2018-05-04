@@ -75,3 +75,8 @@
   font-size: 12px;
 }
 
+.Sdata{
+ font-size: 25px;
+ text-align: center;
+ margin: 0 auto;
+}
