@@ -2,14 +2,15 @@ const app = getApp();
 const http = require('../../utils/http.js');
 var WxParse = require('../../wxParse/wxParse.js');
 var pw_run = false;
-var gt_run = false;
-var de_run = false;
 var nw_run = false;
-var np_run = false;
 var timer = null;
 
 
 function logOut() {
+  if(timer != null){
+    clearInterval(timer);
+    timer = null;
+  }
   http.set_cookie_key('memberUserspapapa', '');
   wx.reLaunch({
     url: '../index/index',
