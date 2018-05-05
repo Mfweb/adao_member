@@ -20,7 +20,14 @@ App({
       MobileCertURL: hostURL + "/Member/User/Authentication/mobileReverseAuthCode",//手机认证
       MobileCheckURL: hostURL + "/Member/User/Authentication/isBindMobile",//手机认证校验
       ChangePasswordURL: hostURL + "/Member/User/Index/changePassword.html"//修改密码
-    }
+    },
+    app_list : Array(
+      'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘
+      'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',//iOS橙岛(贼贼贼)
+      'https://www.pgyer.com/adao',//安卓芦苇娘
+      'https://www.pgyer.com/nimingban',//安卓基佬紫
+      'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h'//人权机
+    )
   },
   showSuccess(msg)
   {

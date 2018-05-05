@@ -141,7 +141,6 @@ Page({
       '牙买加 - +1876', '南极洲 - +64672'],
     CertMsg: null,//手机实名认证显示的消息
     ShowCertMsg: false,//是否显示实名认证消息
-    ExitTouch: false
   },
   onLoad: function (options) {
     var that = this;
@@ -283,14 +282,46 @@ Page({
       }
     });
   },
-  onExitTS: function (e) {
-    this.setData({ ExitTouch: true });
+  onExit: function (e) {
+    wx.showActionSheet({
+      itemList: ['APP下载', '关于', '退出登录'],
+      itemColor: '#334054',
+      success: function (e) {
+        if (e.cancel != true) {
+          if (e.tapIndex == 0) {//App下载
+            wx.showActionSheet({
+              itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
+              itemColor: '#334054',
+              success: function (e) {
+                if (e.cancel != true) {
+                  wx.setClipboardData({
+                    data: app.globalData.app_list[e.tapIndex],
+                    success: function () {
+                      app.showSuccess('链接已复制');
+                    },
+                    fail: function () {
+                      app.showError('复制失败');
+                    }
+                  });
+                }
+              }
+            });
+          }
+          else if (e.tapIndex == 1) {//关于
+
+          }
+          else if (e.tapIndex == 2) {//退出登录
+            logOut();
+          }
+        }
+        console.log(e);
+      },
+      fail: function () { }
+    });
   },
-  onExitTE: function (e) {
-    this.setData({ ExitTouch: false });
-    logOut();
-  },
-  onExitTC: function (e) {
-    this.setData({ ExitTouch: false });
+  onEat: function (e) {
+    wx.playBackgroundAudio({
+      dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
+    });
   }
 })

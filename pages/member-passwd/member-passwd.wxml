@@ -8,4 +8,4 @@
   <button loading='{{CPLoading}}' class='nButton' type='primary' form-type='submit' submit='changepasswd'>确认修改</button>
   </form>
 </view>
-<view class='exitBtn{{ExitTouch?" exitBtnDw":""}}' bindtouchstart='onExitTS' bindtouchend='onExitTE' bindtouchcancel='onExitTC'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/exit.gif'></image></view>
+<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onExit' bindlongtap='onEat'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image></view>

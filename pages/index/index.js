@@ -47,8 +47,8 @@ function switchPate(that,new_page)
     });
     animeIn.opacity(1).step();
     now_anime[new_page] = animeIn.export();
-    var tt = "登陆";
-    if(new_page == 0)tt="登陆"
+    var tt = "登录";
+    if(new_page == 0)tt="登录"
     else if(new_page == 1)tt = "注册"
     else if(new_page == 2)tt = "找回密码"
     that.setData({ animations: now_anime, TitleText:tt});
@@ -60,7 +60,7 @@ Page({
     verifyCodeURL:"",
     Mode:0,
     animations:[],
-    TitleText:"登陆",
+    TitleText:"登录",
     vCodeLoading: true,
     BLoading:false,
     RememberPW:false,
@@ -253,7 +253,7 @@ Page({
   onEat: function(e){
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
-    })
+    });
   },
   onRPW:function(e){
     rememberPW = e.detail.value;
