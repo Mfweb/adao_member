@@ -104,6 +104,9 @@ Page({
       }
     );
   },
+  onShow: function(e) {
+    console.log(e);
+  },
   onTapVerifyCode: function(e) {
     var that = this;
     getNewVcode(that);
@@ -257,5 +260,39 @@ Page({
   },
   onRPW:function(e){
     rememberPW = e.detail.value;
+  },
+  onAppDw:function(){
+    wx.showActionSheet({
+      itemList: ['APP下载', '关于'],
+      itemColor: '#334054',
+      success: function (e) {
+        if (e.cancel != true) {
+          if (e.tapIndex == 0) {//App下载
+            wx.showActionSheet({
+              itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
+              itemColor: '#334054',
+              success: function (e) {
+                if (e.cancel != true) {
+                  wx.setClipboardData({
+                    data: app.globalData.app_list[e.tapIndex],
+                    success: function () {
+                      app.showSuccess('链接已复制');
+                    },
+                    fail: function () {
+                      app.showError('复制失败');
+                    }
+                  });
+                }
+              }
+            });
+          }
+          else if (e.tapIndex == 1) {//关于
+            app.showError('并没有关于');
+          }
+        }
+        console.log(e);
+      },
+      fail: function () { }
+    });
   }
 })

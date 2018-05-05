@@ -61,3 +61,10 @@
   margin-bottom: 5px;
   margin-left: 10px;
 }
+.AppDownload{
+  text-align: center;
+  width: 100%;
+  color: #A9A9A9;
+  margin-top: 15px;
+  margin-bottom: 50px;
+}

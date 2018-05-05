@@ -21,6 +21,7 @@
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
   <view class='RememberPW'>记住密码<switch bindchange='onRPW' checked='{{RememberPW}}' class='RememberSW' value='rememberPW'></switch></view>
   <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='login'>登录</button>
+  <view class='AppDownload' bindtap='onAppDw'>App下载</view>
   </form>
   <!--注册-->
   <form wx:if='{{Mode==1}}' animation='{{animations[1]}}' class='lf' bindsubmit='onSignupSubmit'>
