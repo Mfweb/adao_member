@@ -1,12 +1,6 @@
 const app = getApp();
 const http = require('../../utils/http.js');
-var pw_run = false;
-var gt_run = false;
-var de_run = false;
-var nw_run = false;
 var np_run = false;
-var timer = null;
-
 
 function logOut()
 {

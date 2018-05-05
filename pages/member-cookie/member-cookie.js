@@ -4,7 +4,6 @@ var pw_run = false;
 var gt_run = false;
 var de_run = false;
 var nw_run = false;
-var np_run = false;
 
 function logOut() {
   http.set_cookie_key('memberUserspapapa', '');
