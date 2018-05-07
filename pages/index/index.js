@@ -73,9 +73,11 @@ Page({
 
     var sUN = wx.getStorageSync('UserName');
     var sPW = wx.getStorageSync('PassWord');
-    if(sUN != '' && sPW != '')
-      this.setData({ RememberPW: true, UserName: sUN, PassWord: sPW});
-
+    if(sUN != '' && sPW != ''){
+      rememberPW = true;
+      this.setData({ RememberPW: true, UserName: sUN, PassWord: sPW });
+    }
+    
     this.setData({ BLoading:true});
     http.api_request(
       app.globalData.ApiUrls.CheckSessionURL,

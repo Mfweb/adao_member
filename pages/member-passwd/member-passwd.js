@@ -87,9 +87,6 @@ Page({
     );
     console.log(e);
   },
-  onUnload:function(){
-    logOut();
-  },
   onExit: function (e) {
     wx.showActionSheet({
       itemList: ['APP下载', '关于', '退出登录'],

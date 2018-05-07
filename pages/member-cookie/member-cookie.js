@@ -281,10 +281,6 @@ Page({
         });
     }
   },
-  //窗口被关闭则直接退出登录
-  onUnload: function () {
-    logOut();
-  },
   //获取新Cookie
   onGetNewCookie: function () {
     var that = this;

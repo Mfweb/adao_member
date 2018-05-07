@@ -256,9 +256,6 @@ Page({
         that.setData({ EnterButLoading: false });
       });
   },
-  onUnload: function () {
-    logOut();
-  },
   onTapVerifyCode: function (e) {
     var that = this;
     getNewVcode(that);
