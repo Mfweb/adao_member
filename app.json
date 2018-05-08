@@ -1,38 +1,42 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/member-cookie/member-cookie",
     "pages/member-auth/member-auth",
-    "pages/member-passwd/member-passwd"
+    "pages/member-passwd/member-passwd",
+    "pages/list/list",
+    "pages/thread/thread"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#334054",
     "navigationBarTitleText": "A岛注册实名系统",
-    "navigationBarTextStyle":"#fff",
+    "navigationBarTextStyle": "#fff",
     "backgroundColor": "#334054"
   },
   "tabBar": {
     "color": "#ffffff",
     "selectedColor": "#02d52f",
     "backgroundColor": "#334054",
-    "list": [{
-      "pagePath": "pages/member-cookie/member-cookie",
-      "text": "饼干",
-      "iconPath": "imgs/cookie.png",
-      "selectedIconPath": "imgs/cookie-s.png"
-    },
-    {
-      "pagePath": "pages/member-auth/member-auth",
-      "text": "认证",
-      "iconPath": "imgs/certified.png",
-      "selectedIconPath": "imgs/certified-s.png"
-    },
-    {
-      "pagePath": "pages/member-passwd/member-passwd",
-      "text": "密码",
-      "iconPath": "imgs/passwd.png",
-      "selectedIconPath": "imgs/passwd-s.png"
-    }]
+    "list": [
+      {
+        "pagePath": "pages/member-cookie/member-cookie",
+        "text": "饼干",
+        "iconPath": "imgs/cookie.png",
+        "selectedIconPath": "imgs/cookie-s.png"
+      },
+      {
+        "pagePath": "pages/member-auth/member-auth",
+        "text": "认证",
+        "iconPath": "imgs/certified.png",
+        "selectedIconPath": "imgs/certified-s.png"
+      },
+      {
+        "pagePath": "pages/member-passwd/member-passwd",
+        "text": "密码",
+        "iconPath": "imgs/passwd.png",
+        "selectedIconPath": "imgs/passwd-s.png"
+      }
+    ]
   }
 }

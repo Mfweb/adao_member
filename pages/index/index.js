@@ -67,7 +67,7 @@ Page({
     UserName:'',
     PassWord:''
   },
-  onLoad: function () {
+  onLoad: function (e) {
     var that = this;
     switchPate(that,0);
 
@@ -79,6 +79,14 @@ Page({
     }
 
     this.setData({ BLoading:true});
+
+    if (e.tid != undefined) {//通过公众号分享串二维码扫描过来
+      wx.navigateTo({
+        url: '../list/list?tid=' + e.tid,
+      });
+      return;//不继续登录了
+    }
+
     http.api_request(
       app.globalData.ApiUrls.CheckSessionURL,
       null,
@@ -103,6 +111,7 @@ Page({
     );
   },
   onShow: function(e) {
+    
   },
   onTapVerifyCode: function(e) {
     var that = this;
@@ -268,7 +277,7 @@ Page({
               success: function (e) {
                 if (e.cancel != true) {
                   wx.setClipboardData({
-                    data: app.globalData.app_list[e.tapIndex],
+                    data: app.globalData.AppList[e.tapIndex],
                     success: function () {
                       app.showSuccess('链接已复制');
                     },

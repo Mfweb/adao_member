@@ -79,3 +79,7 @@ page{
   margin-top: 15px;
   margin-left: 15px;
 }
+
+.xuankuhongming{/*炫酷红名*/
+  color:#f00;
+}

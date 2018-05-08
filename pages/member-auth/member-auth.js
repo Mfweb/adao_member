@@ -285,7 +285,7 @@ Page({
               success: function (e) {
                 if (e.cancel != true) {
                   wx.setClipboardData({
-                    data: app.globalData.app_list[e.tapIndex],
+                    data: app.globalData.AppList[e.tapIndex],
                     success: function () {
                       app.showSuccess('链接已复制');
                     },

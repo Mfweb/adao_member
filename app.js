@@ -1,9 +1,10 @@
 //app.js
-require('./utils/tracker.min.js')({ token: '04857e5de9b18566c2e39dd7ec40c746', behaviour: 15 })
+//require('./utils/tracker.min.js')({ token: '04857e5de9b18566c2e39dd7ec40c746', behaviour: 15 })
 //const hostURL = "https://nmb.fastmirror.org";
 const hostURL = "https://adao.mfweb.top";
 App({
   onLaunch: function () {
+    this.getSysWindow();
   },
   globalData: {
     ApiUrls:{
@@ -20,15 +21,33 @@ App({
       CertifiedStatusURL: hostURL + "/Member/User/Authentication/mobile.html",//认证状态
       MobileCertURL: hostURL + "/Member/User/Authentication/mobileReverseAuthCode",//手机认证
       MobileCheckURL: hostURL + "/Member/User/Authentication/isBindMobile",//手机认证校验
-      ChangePasswordURL: hostURL + "/Member/User/Index/changePassword.html"//修改密码
+      ChangePasswordURL: hostURL + "/Member/User/Index/changePassword.html",//修改密码
+
+
+      ThreadURL: hostURL + "/Api/thread?appid=wechatapp",//获得串内容和回复
+      GetThreadURL: hostURL + "/Api/ref?appid=wechatapp",//获得串内容
+      GetSharesURL: "https://mfweb.top/adao/getshare.php",
+      ThumbImgURL: "http://nmbimg.fastmirror.org/thumb/",//缩略图
+      FullImgURL: "http://nmbimg.fastmirror.org/image/",//原图
     },
-    app_list : Array(
+    AppList : Array(
       'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘
       'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',//iOS橙岛(贼贼贼)
       'https://www.pgyer.com/adao',//安卓芦苇娘
       'https://www.pgyer.com/nimingban',//安卓基佬紫
       'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h'//人权机
-    )
+    ),
+    SystemInfo: {
+      Windows: {
+        height:0,
+        width:0
+      }
+    }
+  },
+  getSysWindow(){
+    var res = wx.getSystemInfoSync();//获取屏幕尺寸
+    this.globalData.SystemInfo.Windows.width = res.windowWidth;
+    this.globalData.SystemInfo.Windows.height = res.windowHeight;
   },
   showSuccess(msg)
   {

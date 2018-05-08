@@ -1,0 +1,125 @@
+/* pages/thread/thread.wxss */
+.thread-container {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10rpx 0;
+  box-sizing: border-box;
+  width: 100%;
+  background: #F5F5F5;
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
+  position: absolute;
+  z-index:0;
+  min-height: 100%;
+  margin: 0px;
+  margin-left: 0;
+  margin-top: 0px;
+  transition: All 0.4s ease; 
+  -webkit-transition: All 0.4s ease;
+  box-shadow: 0px 0px 6px 0px #fff;
+}
+
+.thread-item{/*主列表*/
+  width: 95%;
+  height: auto;
+  margin: 0px 0px 0px 0px;
+}
+
+.thread-b1{/*第一行信息栏 ID UID 时间*/
+  display:flex;
+  color:#00CCFF;
+  font-size: 12px;
+  justify-content: space-between;
+}
+
+
+.thread-b2{/*第二第三行信息栏 标题 姓名*/
+  display:block;
+  font-size: 12px;
+  color: #A6A6A6;
+  margin: 0px 0px 0px 0px;
+}
+.thread-title{/*标题*/
+ word-break:break-all;
+}
+
+.thread-readcount{/*回应数*/
+  color:#00CCFF;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-top: 2px;
+  text-align: left;
+}
+
+.po{/*PO主ID*/
+    background-color: #EED2EE;
+}
+
+.sage{/*SAGE*/
+  color:#f00;
+  font-size: 12px;
+  margin-right: 10px;
+  margin-top: 2px;
+  text-align: right;
+}
+.v_hr{/*主串列表分割线*/
+  height: 1px;
+  width: 95%;
+  margin: 5px auto;
+  background: #A1A1A1;
+  border: 1px solid #C4C4C4;
+  border-radius: 2px;
+}
+.bequote{/*引用*/
+  color:#9BCD9B;
+  background-color: #EAEAEA;
+  font-size: 30rpx;
+  float: left;
+  margin-top: 1px;
+}
+.loading_gif{
+  width: 24px;
+  height: 24px;
+}
+.thread-img{/*缩略图*/
+  margin:0 auto;
+  max-height:500rpx;
+}
+.list_bot{
+    width: 100%;
+    background: #F5F5F5;
+    height: 45px;
+    font-size: 15px;
+    margin: 0 auto;
+    text-align: center;
+    color: #00ccff;
+    margin-bottom: 45px;
+    margin-top: 5px;
+}
+.q_window{/*引用串窗口*/
+  position: fixed;
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 10%;
+  background: #F5F5F5;
+  z-index:4;
+  box-shadow: 0px 0px 6px 0px #fff;
+  max-height: 90%;
+  display: block;
+}
+.q_list_c{
+    display: block;
+    width: 100%;
+}
+.box{/*遮罩层*/
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#000;
+  opacity:0.7;
+  z-index:1;
+}
