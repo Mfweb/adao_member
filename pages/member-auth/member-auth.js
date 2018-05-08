@@ -66,7 +66,7 @@ function getCertifiedStatus(that) {
           if (phone_status != null) {
             phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
             if (phone_status != null) {
-              console.log(phone_status);
+              //console.log(phone_status);
               that.setData({ PhoneStatus: phone_status });
             }
           }
@@ -103,9 +103,9 @@ function waitCert() {
         if (res == true) {
           clearInterval(timer);
           timer = null;
+          console.log('phone auth success');
           wx.startPullDownRefresh({});
         }
-        console.log(res);
       },
       function () {
 
@@ -155,7 +155,6 @@ Page({
           logOut();
         }
         else if (res.toString().indexOf('饼干管理') > 0) {
-          console.log("登陆有效");
           wx.startPullDownRefresh({});
         }
         else {
@@ -182,7 +181,6 @@ Page({
   //验证码载入完成
   onCodeLoad: function (e) {
     this.setData({ vCodeLoading: false });
-    console.log('load success');
   },
   //验证码输入窗口关闭
   onUClose: function (e) {
@@ -227,10 +225,7 @@ Page({
 
             var body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
             if (body_match != null) {
-              //var all_group = body_match[0].match(/tpl-form-maintext">[\s\D]*<b>[^<]+<\/b>/ig);
-              //console.log(all_group);
               body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
-              console.log(body_match[0]);
               that.setData({ CertMsg: WxParse.wxParse('item', 'html', body_match[0], that, null).nodes, ShowCertMsg: true, CertFormShow: false });
               waitCert();
             }
@@ -242,13 +237,11 @@ Page({
           that.setData({ EnterButLoading: false });
         }
         catch (err) {
-          console.log(err);
+          console.log(err.message);
           app.showError(err.message);
           nw_run = false;
           that.setData({ EnterButLoading: false });
         }
-        //console.log(res);
-
       },
       function () {
         app.showError('发生了错误');
@@ -311,7 +304,6 @@ Page({
             logOut();
           }
         }
-        console.log(e);
       },
       fail: function () { }
     });
@@ -320,5 +312,6 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     });
+    console.log('play eat');
   }
 })

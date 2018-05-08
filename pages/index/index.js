@@ -77,20 +77,16 @@ Page({
       rememberPW = true;
       this.setData({ RememberPW: true, UserName: sUN, PassWord: sPW });
     }
-    
+
     this.setData({ BLoading:true});
     http.api_request(
       app.globalData.ApiUrls.CheckSessionURL,
       null,
       function(res){
-        if (res.status == 0)//登陆已经失效
-        {
+        if (res.status == 0) {//登陆已经失效
           getNewVcode(that);//请求验证码
-          console.log('未登陆');
         }
-        else if (res.toString().indexOf('饼干管理') > 0)
-        {
-          console.log("登陆有效");
+        else if (res.toString().indexOf('饼干管理') > 0){
           wx.switchTab({
             url: '../member-cookie/member-cookie',
           });
@@ -107,7 +103,6 @@ Page({
     );
   },
   onShow: function(e) {
-    console.log(e);
   },
   onTapVerifyCode: function(e) {
     var that = this;
@@ -127,7 +122,6 @@ Page({
   },
   onCodeLoad: function(e){
     this.setData({ vCodeLoading:false});
-    console.log('load success');
   },
   onLoginSubmit:function(e)//登陆
   {
@@ -157,7 +151,6 @@ Page({
       verify:u_vcode
     },
     function(res){
-      console.log(res);
       if (res.status == 1)
       {
         if (rememberPW){
@@ -203,7 +196,6 @@ Page({
         verify: u_vcode
       },
       function (res) {
-        console.log(res);
         if (res.status == 1) {
           app.showSuccess(res.info);
         }
@@ -240,7 +232,6 @@ Page({
         verify: u_vcode
       },
       function (res) {
-        console.log(res);
         if (res.status == 1) {
           app.showSuccess(res.info);
         }
@@ -259,6 +250,7 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     });
+    console.log('play eat');
   },
   onRPW:function(e){
     rememberPW = e.detail.value;
@@ -292,7 +284,6 @@ Page({
             app.showError('并没有关于');
           }
         }
-        console.log(e);
       },
       fail: function () { }
     });

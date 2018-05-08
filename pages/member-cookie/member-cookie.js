@@ -114,12 +114,13 @@ function getCookieQR(that, index) {
         res = res.replace(/ /g, "");
         var temp_match = res.match(/<divclass="tpl-form-maintext"><imgsrc="[\s\S]*?"style=/ig);
         if (temp_match != null) {
-          console.log(temp_match[0]);
+          //console.log(temp_match[0]);
           var qrCodeURL = temp_match[0].replace(/(<divclass="tpl-form-maintext"><imgsrc=")|("style=)/g, "");
           wx.previewImage({
             urls: [qrCodeURL],
-          })
-          console.log(qrCodeURL);
+          });
+          console.log('qrcode url:' + qrCodeURL);
+          //console.log(qrCodeURL);
         }
         else {
           app.showError('发生了错误');
@@ -162,7 +163,6 @@ Page({
           logOut();
         }
         else if (res.toString().indexOf('饼干管理') > 0) {
-          console.log("登陆有效");
           wx.startPullDownRefresh({});
         }
         else {
@@ -196,7 +196,6 @@ Page({
   //验证码载入完成
   onCodeLoad: function (e) {
     this.setData({ vCodeLoading: false });
-    console.log('load success');
   },
   //关闭验证码输入窗口
   onUClose: function (e) {
@@ -236,8 +235,10 @@ Page({
             wx.startPullDownRefresh({});//删除请求成功，刷新页面
             that.setData({ vCodeShow: false });
             app.showError('删除完成');
+            console.log('cookie delete success');
           }
           else {
+            console.log('cookie delete error:' + res.info);
             app.showError(res.info);
           }
           de_run = false;
@@ -259,14 +260,16 @@ Page({
           verify: u_vcode
         },
         function (res) {
-          console.log(res);
+          //console.log(res);
           if (res.status == 1) {
             that.setData({ vCodeShow: false });
             that.setData({ EnterButLoading: false });
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             app.showError('大成功');
+            console.log('get new cookie success');
           }
           else {
+            console.log('get new cookie error:' + res.info);
             app.showError(res.info);
           }
           nw_run = false;
@@ -324,7 +327,6 @@ Page({
             logOut();
           }
         }
-        console.log(e);
       },
       fail: function () { }
     });
@@ -333,5 +335,6 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     });
+    console.log('play eat');
   }
 })

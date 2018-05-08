@@ -22,13 +22,10 @@ Page({
       null,
       function (res) {
         wx.hideNavigationBarLoading();
-        if (res.status == 0)//登陆已经失效
-        {
+        if (res.status == 0) {//登陆已经失效
           logOut();
         }
         else if (res.toString().indexOf('饼干管理') > 0) {
-          console.log("登陆有效");
-          wx.startPullDownRefresh({});
         }
         else {
           logOut();
@@ -39,10 +36,6 @@ Page({
         logOut();
       }
     );
-  },
-  onPullDownRefresh: function ()
-  {
-    wx.stopPullDownRefresh();
   },
   onChangePasswdSubmit(e)
   {
@@ -85,7 +78,6 @@ Page({
         that.setData({ CPLoading: false });
       }
     );
-    console.log(e);
   },
   onExit: function (e) {
     wx.showActionSheet({
@@ -119,7 +111,6 @@ Page({
             logOut();
           }
         }
-        console.log(e);
       },
       fail: function () { }
     });
@@ -128,5 +119,6 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     });
+    console.log('play eat');
   }
 })
