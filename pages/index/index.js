@@ -16,9 +16,8 @@ function getNewVcode(that)
       app.showError('http' + res.statusCode.toString());
   },
   function(){
-    app.showError('获取验证码错误' + res.statusCode.toString());
+    app.showError('获取验证码错误');
   });
-  //that.setData({ vCodeLoading: true, verifyCodeURL: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + http.get_cookie_key('PHPSESSID') + "&c=" + Math.random().toString()});
 }
 
 

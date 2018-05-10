@@ -31,9 +31,9 @@ function getNewVcode(that) {
       app.showError('http错误' + res.statusCode.toString());
     }
   },
-    function () {
-      app.showError('获取验证码错误' + res.statusCode.toString());
-    });
+  function () {
+    app.showError('获取验证码错误');
+  });
 }
 
 /**
