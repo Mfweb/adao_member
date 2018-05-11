@@ -77,6 +77,7 @@ Page({
     tlist: []
   },
   onLoad: function (options) {
+    var messageMark_this = 1;
     pw_run = false;
     if (options.tid != undefined) {
       http.api_request(app.globalData.ApiUrls.GetSharesURL,
@@ -91,6 +92,21 @@ Page({
           else{
             tid_list = res.tids;
             wx.startPullDownRefresh({});
+            var messagemark_save = wx.getStorageSync('MessageMark');
+            if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '')
+              messagemark_save = 0;
+            if (messagemark_save < messageMark_this){
+              wx.showModal({
+                title: '提示',
+                content: '本页已支持长按复制串号。',
+                confirmText: '不再显示',
+                success: function (e) {
+                  if (e.confirm == true) {
+                    wx.setStorageSync('MessageMark', messageMark_this);
+                  }
+                }
+              });
+            }
           }
         },
         function(){
@@ -106,7 +122,6 @@ Page({
         url: '../index/index',
       });
     }
-   
   },
   onPullDownRefresh: function () {
     if (pw_run) return;
@@ -145,6 +160,37 @@ Page({
     wx.previewImage({
       current: app.globalData.ApiUrls.FullImgURL + this.data.tlist[e['currentTarget'].id].img,
       urls: [app.globalData.ApiUrls.FullImgURL + this.data.tlist[e['currentTarget'].id].img]
+    });
+  },
+  onLongtapItem: function (e) {
+    wx.showActionSheet({
+      itemList: ['复制串号', '复制链接'],
+      success: function(ex){
+        if (ex.cancel != true){
+          if(ex.tapIndex == 0){
+            wx.setClipboardData({
+              data: e['currentTarget'].id,
+              success: function(){
+                app.showSuccess('复制完成');
+              },
+              fail: function(){
+                app.showError('复制失败');
+              }
+            });
+          }
+          else{
+            wx.setClipboardData({
+              data: 'http://adnmb.com/t/' + e['currentTarget'].id,
+              success: function () {
+                app.showSuccess('复制完成');
+              },
+              fail: function () {
+                app.showError('复制失败');
+              }
+            });
+          }
+        }
+      }
     });
   }
 })

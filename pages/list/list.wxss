@@ -8,7 +8,7 @@
   padding: 10rpx 0;
   box-sizing: border-box;
   width: 100%;
-  background: #F5F5F5;
+  background: #D3D3D3;
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
   position: absolute;
   z-index:0;
@@ -18,13 +18,17 @@
   margin-top: 0px;
   transition: All 0.4s ease; 
   -webkit-transition: All 0.4s ease;
-  box-shadow: 0px 0px 6px 0px #fff;
+  box-shadow: 0px 0px 8px 0px #fff;
 }
 
 .list-item{
-  width: 95%;
+  border: 1px solid #fff;
+  width: 90%;
   height: auto;
-  margin: 0px 0px 0px 0px;
+  margin: 12px 0px 0px 0px;
+  background: #F5F5F5;
+  border-radius: 6px;
+  box-shadow: 3px 3px 10px #666;
 }
 
 .list-b1{/*第一行信息栏 ID UID 时间*/
@@ -67,14 +71,7 @@
   margin-top: 2px;
   text-align: right;
 }
-.v_hr{/*主串列表分割线*/
-  height: 1px;
-  width: 95%;
-  margin: 5px auto;
-  background: #A1A1A1;
-  border: 1px solid #C4C4C4;
-  border-radius: 2px;
-}
+
 .list-item-hover{
   background:#DBDBDB;
 }
@@ -83,4 +80,8 @@
 }
 .list-tap{
   width: 100%;
+}
+.text{
+  width: 97%;
+  margin: 0 auto;
 }

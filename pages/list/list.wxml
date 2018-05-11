@@ -2,7 +2,7 @@
 
 <view class='list-container'>
   <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover" wx:key="AllPush">
-    <view class="text" id="{{item.id}}" bindtap="bind_view_tap">
+    <view class="text" id="{{item.id}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
       <view class="list-b1">
         <view class="cid">No.{{item.id}}</view>
         <template is="wxParse" data="{{wxParseData:item.userid}}"/>
@@ -17,12 +17,11 @@
     <view class='list-img-ct' style="width:100%;" wx:if="{{item.img!=''}}">
       <image wx:if="{{!item.img_load_success}}" class="list-img-loading" src="../../imgs/loading.gif"></image>
       <image style="height:{{item.img_height}}px;width:{{item.img_width}}px;" id="{{index}}" class="list-img" src="{{item.thumburl}}{{item.img}}" mode="aspectFit" bindtap="bind_pic_tap" bindload="bind_pic_load">loading</image>
-      <view class='list-tap' id="{{item.id}}" bindtap="bind_view_tap"></view>
+      <view class='list-tap' id="{{item.id}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'></view>
     </view>
     <view class="list-b1">
         <view class="list-readcount">回应：{{item.replyCount}}</view>
         <view class="list-sage" hidden="{{item.sage==0?true:false}}">SAGE</view>
     </view>
-    <view class="v_hr"></view>
   </view>
 </view>
