@@ -79,6 +79,11 @@ Page({
 
     this.setData({ BLoading:true});
 
+    wx.navigateTo({
+      url: '../list/list?tid=1526223424kxWhb',
+    });
+    return;//不继续登录了
+
     if (e.tid != undefined) {//通过公众号分享串二维码扫描过来
       wx.navigateTo({
         url: '../list/list?tid=' + e.tid,

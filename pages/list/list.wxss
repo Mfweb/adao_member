@@ -8,21 +8,18 @@
   padding: 10rpx 0;
   box-sizing: border-box;
   width: 100%;
-  background: #D3D3D3;
+  background: #334054;
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
-  position: absolute;
   z-index:0;
   min-height: 100%;
-  margin: 0px;
-  margin-left: 0;
+  margin: 0 auto;
   margin-top: 0px;
   transition: All 0.4s ease; 
   -webkit-transition: All 0.4s ease;
-  box-shadow: 0px 0px 8px 0px #fff;
 }
 
 .list-item{
-  border: 1px solid #fff;
+  border: 1px solid #F5F5F5;
   width: 90%;
   height: auto;
   margin: 12px 0px 0px 0px;

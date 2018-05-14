@@ -1,4 +1,5 @@
 {
   "enablePullDownRefresh": true,
-  "navigationBarTitleText": "推送串列表"
+  "navigationBarTitleText": "推送串列表",
+  "backgroundColor": "#334054"
 }
