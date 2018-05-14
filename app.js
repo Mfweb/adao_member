@@ -1,5 +1,4 @@
 //app.js
-//require('./utils/tracker.min.js')({ token: '04857e5de9b18566c2e39dd7ec40c746', behaviour: 15 })
 //const hostURL = "https://nmb.fastmirror.org";
 const hostURL = "https://adao.mfweb.top";
 App({
