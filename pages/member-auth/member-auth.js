@@ -4,6 +4,7 @@ var WxParse = require('../../wxParse/wxParse.js');
 var pw_run = false;
 var nw_run = false;
 var timer = null;
+var auth_data = null;
 
 
 function logOut() {
@@ -141,6 +142,7 @@ Page({
       '牙买加 - +1876', '南极洲 - +64672'],
     CertMsg: null,//手机实名认证显示的消息
     ShowCertMsg: false,//是否显示实名认证消息
+    CopyLoading: false//复制手机号loading
   },
   onLoad: function (options) {
     var that = this;
@@ -220,6 +222,7 @@ Page({
             app.showError(res.info);
           }
           else {
+            auth_data = res;
             res = res.replace(/\r/g, "");
             res = res.replace(/\n/g, "");
 
@@ -262,15 +265,37 @@ Page({
     this.setData({ Cindex: e.detail.value });
   },
   onCopy: function (e) {
-    wx.setClipboardData({
-      data: '+8617722525567',
-      success: function () {
-        app.showSuccess('复制完成');
+    var that = this;
+    if (this.data.CopyLoading == true) return;
+    this.setData({ CopyLoading: true });
+    http.api_request(
+      app.globalData.ApiUrls.GetAuthPhoneURL,
+      {
+        rawdata: auth_data,
       },
-      fail: function () {
-        app.showError('复制失败');
+      function (res) {
+        if (res == null || res == "error") {
+          app.showError('复制失败');
+        }
+        else {
+          wx.setClipboardData({
+            data: res,
+            success: function () {
+              app.showSuccess('复制完成');
+            },
+            fail: function () {
+              app.showError('复制失败');
+            }
+          });
+        }
+
+        that.setData({ CopyLoading: false });
+      },
+      function () {
+        app.showError('获取失败');
+        that.setData({ CopyLoading: false });
       }
-    });
+    );
   },
   onExit: function (e) {
     wx.showActionSheet({
