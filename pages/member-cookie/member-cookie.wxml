@@ -14,10 +14,10 @@
       </view>
     </view>
     <form wx:if='{{vCodeShow}}' class='vcodeMode' id='{{FormID}}' bindsubmit='onEnter'>
-      <input class='McodeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='done'></input>
       <input name='needDeleteID' value='{{needDeleteID}}' style='display:none;'></input>
       <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
       <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindload='onCodeLoad' bindtap='onTapVerifyCode'></image>
+      <input class='McodeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='done'></input>
       <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
       <button class='Uclose' type='warn' bindtap='onUClose'>取消操作</button>
     </form>
