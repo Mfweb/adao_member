@@ -61,7 +61,7 @@ function getCookies(that) {
             that.setData({ CookieList: c_list });
           }
           else {
-            app.showError('没有找到饼干');
+            app.showError('饼干列表为空');
           }
         }
       }
@@ -267,6 +267,7 @@ Page({
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             app.showError('大成功');
             console.log('get new cookie success');
+            wx.startPullDownRefresh({});
           }
           else {
             console.log('get new cookie error:' + res.info);
@@ -275,7 +276,6 @@ Page({
           nw_run = false;
           that.setData({ vCodeShow: false });
           that.setData({ EnterButLoading: false });
-          wx.startPullDownRefresh({});
         },
         function () {
           app.showError('发生了错误');
