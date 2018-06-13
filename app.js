@@ -23,7 +23,8 @@ App({
       ChangePasswordURL: hostURL + "/Member/User/Index/changePassword.html",//修改密码
 
       GetAuthPhoneURL: "https://mfweb.top/adao/member/getphone.php",
-
+      GetRandomPicURL: "https://mfweb.top/adao/getpicture.php",
+      
       ThreadURL: hostURL + "/Api/thread?appid=wechatapp",//获得串内容和回复
       GetThreadURL: hostURL + "/Api/ref?appid=wechatapp",//获得串内容
       GetSharesURL: "https://mfweb.top/adao/getshare.php",

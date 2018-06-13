@@ -323,7 +323,9 @@ Page({
             });
           }
           else if (e.tapIndex == 1) {//关于
-            app.showError('并没有关于');
+            wx.navigateTo({
+              url: '../about/about',
+            });
           }
           else if (e.tapIndex == 2) {//退出登录
             logOut();

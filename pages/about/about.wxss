@@ -1,0 +1,31 @@
+/* pages/about/about.wxss */
+.h1{
+  width: 100%;
+  font-size: 30px;
+  color: #53d192;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.l1{
+  width: 100%;
+  font-size: 12px;
+  color: #D3D3D3;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.h2{
+  width: 100%;
+  font-size: 20px;
+  color: #53d192;
+  text-align: center;
+  margin-top: 10px;
+  text-decoration: underline;
+}
+
+.h3{
+  width: 100%;
+  font-size: 15px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 5px;
+}

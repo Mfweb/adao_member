@@ -5,7 +5,8 @@
     "pages/member-auth/member-auth",
     "pages/member-passwd/member-passwd",
     "pages/list/list",
-    "pages/thread/thread"
+    "pages/thread/thread",
+    "pages/about/about"
   ],
   "window": {
     "backgroundTextStyle": "light",

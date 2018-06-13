@@ -66,7 +66,11 @@ function getCookies(that) {
         }
       }
       else {
-        app.showError('获取饼干错误');
+        if (res.status == 0) {
+          app.showError(res.info);
+        }
+        else
+        { app.showError('获取饼干错误'); }
       }
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
@@ -321,7 +325,9 @@ Page({
             });
           }
           else if (e.tapIndex == 1) {//关于
-            app.showError('并没有关于');
+            wx.navigateTo({
+              url: '../about/about',
+            });
           }
           else if (e.tapIndex == 2) {//退出登录
             logOut();
