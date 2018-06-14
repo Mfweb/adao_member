@@ -77,5 +77,18 @@ Page({
     wx.previewImage({
       urls: [this.data.pic_url],
     })
+  },
+  feedbacktap: function(e) {
+    let res = wx.getSystemInfoSync();
+    let version = res.SDKVersion.split('.');
+    
+    if (version[0] < 2 || (version[0] == 2 && version[1] > 1))
+    {
+      wx.showModal({
+        title: '提示',
+        content: '微信版本号不支持该反馈方式，请更新微信或反馈到\r\nh@mfweb.pw',
+        showCancel: false
+      });
+    }
   }
 })
