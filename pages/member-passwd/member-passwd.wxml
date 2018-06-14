@@ -8,4 +8,4 @@
   <button loading='{{CPLoading}}' class='nButton' type='primary' form-type='submit' submit='changepasswd'>确认修改</button>
   </form>
 </view>
-<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onExit' bindlongtap='onEat'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image></view>
+<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onExit' bindlongpress='onEat'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image></view>

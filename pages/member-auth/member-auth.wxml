@@ -31,4 +31,4 @@
   <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}' bindtap='onCopy'>复制手机号</button>
   <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
 </view>
-<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onExit' bindlongtap='onEat'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image></view>
+<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onExit' bindlongpress='onEat'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image></view>
