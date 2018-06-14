@@ -40,7 +40,7 @@ function getCookies(that) {
     app.globalData.ApiUrls.CookiesListURL,
     null,
     function (res) {
-      //console.log(res);
+      //app.log(res);
       if (res.toString().indexOf('饼干列表') > 0) {
         res = res.replace(/ /g, '');
         res = res.replace(/\r/g, '');
@@ -57,7 +57,7 @@ function getCookies(that) {
                 c_list.push({ id: find_td[1].replace(/(<td>)|(<\/td>)/g, ""), value: find_td[2].replace(/(<td><ahref="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
               }
             }
-            //console.log(finds_tr);
+            //app.log(finds_tr);
             that.setData({ CookieList: c_list });
           }
           else {
@@ -107,24 +107,24 @@ function getCookieQR(that, index) {
   temp_data[index].getLoading = true;
   that.setData({ CookieList: temp_data });
   temp_data[index].getLoading = false;
-  //console.log(temp_data[index]);
+  //app.log(temp_data[index]);
 
   http.api_request(
     app.globalData.ApiUrls.CookieGetQRURL + temp_data[index].id + ".html",
     null,
     function (res) {
-      //console.log(res);
+      //app.log(res);
       if (res.indexOf('<div class="tpl-form-maintext"><img src="') > 0) {
         res = res.replace(/ /g, "");
         var temp_match = res.match(/<divclass="tpl-form-maintext"><imgsrc="[\s\S]*?"style=/ig);
         if (temp_match != null) {
-          //console.log(temp_match[0]);
+          //app.log(temp_match[0]);
           var qrCodeURL = temp_match[0].replace(/(<divclass="tpl-form-maintext"><imgsrc=")|("style=)/g, "");
           wx.previewImage({
             urls: [qrCodeURL],
           });
-          console.log('qrcode url:' + qrCodeURL);
-          //console.log(qrCodeURL);
+          app.log('qrcode url:' + qrCodeURL);
+          //app.log(qrCodeURL);
         }
         else {
           app.showError('发生了错误');
@@ -239,10 +239,10 @@ Page({
             wx.startPullDownRefresh({});//删除请求成功，刷新页面
             that.setData({ vCodeShow: false });
             app.showError('删除完成');
-            console.log('cookie delete success');
+            app.log('cookie delete success');
           }
           else {
-            console.log('cookie delete error:' + res.info);
+            app.log('cookie delete error:' + res.info);
             app.showError(res.info);
           }
           de_run = false;
@@ -264,17 +264,17 @@ Page({
           verify: u_vcode
         },
         function (res) {
-          //console.log(res);
+          //app.log(res);
           if (res.status == 1) {
             that.setData({ vCodeShow: false });
             that.setData({ EnterButLoading: false });
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             app.showError('大成功');
-            console.log('get new cookie success');
+            app.log('get new cookie success');
             wx.startPullDownRefresh({});
           }
           else {
-            console.log('get new cookie error:' + res.info);
+            app.log('get new cookie error:' + res.info);
             app.showError(res.info);
           }
           nw_run = false;
@@ -341,6 +341,6 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     });
-    console.log('play eat');
+    app.log('play eat');
   }
 })

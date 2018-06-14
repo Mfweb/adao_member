@@ -121,6 +121,6 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     });
-    console.log('play eat');
+    app.log('play eat');
   }
 })

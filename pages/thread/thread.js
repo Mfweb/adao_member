@@ -43,7 +43,7 @@ function GetQuoteOne(kindex, that, mode = 0) {
         }
       },
       function () {//fail
-        console.log("get quoteon error1");
+        app.log("get quoteon error1");
       });
   }
   else {
@@ -77,7 +77,7 @@ function GetQuoteOne(kindex, that, mode = 0) {
         that.setData({ q_list: q_list });
       },
       function () {//fail
-        console.log("get quoteon error2");
+        app.log("get quoteon error2");
       });
   }
 }

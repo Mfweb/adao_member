@@ -67,7 +67,7 @@ function getCertifiedStatus(that) {
           if (phone_status != null) {
             phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
             if (phone_status != null) {
-              //console.log(phone_status);
+              //app.log(phone_status);
               that.setData({ PhoneStatus: phone_status });
             }
           }
@@ -104,7 +104,7 @@ function waitCert() {
         if (res == true) {
           clearInterval(timer);
           timer = null;
-          console.log('phone auth success');
+          app.log('phone auth success');
           wx.startPullDownRefresh({});
         }
       },
@@ -240,7 +240,7 @@ Page({
           that.setData({ EnterButLoading: false });
         }
         catch (err) {
-          console.log(err.message);
+          app.log(err.message);
           app.showError(err.message);
           nw_run = false;
           that.setData({ EnterButLoading: false });
@@ -339,6 +339,6 @@ Page({
     wx.playBackgroundAudio({
       dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
     });
-    console.log('play eat');
+    app.log('play eat');
   }
 })

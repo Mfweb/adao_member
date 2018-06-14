@@ -82,7 +82,7 @@ Page({
     let res = wx.getSystemInfoSync();
     let version = res.SDKVersion.split('.');
     
-    if (version[0] < 2 || (version[0] == 2 && version[1] > 1))
+    if (parseInt(version[0]) < 2 || (parseInt(version[0]) == 2 && parseInt(version[1]) > 1))
     {
       wx.showModal({
         title: '提示',
