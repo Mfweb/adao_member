@@ -147,6 +147,11 @@ Page({
   onLoad: function (options) {
     var that = this;
     wx.showNavigationBarLoading();
+    if (wx.hideTabBarRedDot) {
+      wx.hideTabBarRedDot({
+        index: 1
+      });
+    }
     http.api_request(//检查登录是否有效
       app.globalData.ApiUrls.CheckSessionURL,
       null,

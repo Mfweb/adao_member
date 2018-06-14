@@ -68,6 +68,13 @@ function getCookies(that) {
       else {
         if (res.status == 0) {
           app.showError(res.info);
+          if (res.info == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot)
+          {
+            wx.showTabBarRedDot({
+              index: 1
+            });
+          }
+          app.log(res.info);
         }
         else
         { app.showError('获取饼干错误'); }

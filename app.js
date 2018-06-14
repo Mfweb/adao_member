@@ -67,7 +67,7 @@ App({
   log(msg)
   {
     console.log(msg);
-    if (wx.getLogManager())
+    if (wx.getLogManager)
     {
       const logger = wx.getLogManager();
       logger.log(msg);
