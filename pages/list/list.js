@@ -4,6 +4,8 @@ const app = getApp();
 var pw_run = false;
 const http = require('../../utils/http.js');
 var WxParse = require('../../wxParse/wxParse.js');
+var launchOpt = null;
+
 
 function getData(that, id) {
   if (id >= tid_list.length)
@@ -77,25 +79,34 @@ Page({
     tlist: []
   },
   onLoad: function (options) {
+    launchOpt = options;
+  },
+  onShow: function () {
+    if(launchOpt == null)
+    {
+      wx.reLaunch({
+        url: '../index/index',
+      });
+    }
     var messageMark_this = 1;
     pw_run = false;
-    if (options.tid != undefined) {
+    if (launchOpt.tid != undefined) {
       http.api_request(app.globalData.ApiUrls.GetSharesURL,
-        { tids: options.tid},
-        function(res){
-          if (res.status != 'ok'){
+        { tids: launchOpt.tid },
+        function (res) {
+          if (res.status != 'ok') {
             app.showError(res.status);
             wx.reLaunch({
               url: '../index/index',
             });
           }
-          else{
+          else {
             tid_list = res.tids;
             wx.startPullDownRefresh({});
             var messagemark_save = wx.getStorageSync('MessageMark');
             if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '')
               messagemark_save = 0;
-            if (messagemark_save < messageMark_this){
+            if (messagemark_save < messageMark_this) {
               wx.showModal({
                 title: '提示',
                 content: '本页已支持长按复制串号。',
@@ -109,7 +120,7 @@ Page({
             }
           }
         },
-        function(){
+        function () {
           app.showError('发生了错误');
           wx.reLaunch({
             url: '../index/index',
@@ -117,7 +128,7 @@ Page({
         }
       );
     }
-    else{
+    else {
       wx.reLaunch({
         url: '../index/index',
       });
