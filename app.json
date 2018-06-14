@@ -19,6 +19,7 @@
     "color": "#ffffff",
     "selectedColor": "#02d52f",
     "backgroundColor": "#334054",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/member-cookie/member-cookie",
