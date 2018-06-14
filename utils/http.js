@@ -91,7 +91,7 @@ function api_request(url, pdata, success, fail)
     data: pdata == null ? {} : pdata,
     method: 'POST',
     success: function(res){
-      if (res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie'))
+      if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie'))
         save_cookie(res.header['Set-Cookie']);
       if(success != null)
         success(res.data);
