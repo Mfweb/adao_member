@@ -8,7 +8,25 @@
   background-color: #334054;
   color:#fff;
   font-family: Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", FontAwesome, sans-serif;
-} 
+}
+.pdcontainer{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 0;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
+  position: absolute;
+  z-index:0;
+
+  margin: 0px;
+  margin-left: 0;
+  margin-top: 0px;
+  padding-bottom: 70px;
+}
 page{
   background-color: #334054;
 }
@@ -56,30 +74,14 @@ page{
   margin: 0 auto;
   margin-top: 2px;
 }
-.exitBtn{
-  position: fixed;
-  bottom: 10%;
-  right: 8%;
-  z-index: 888;
-  background: #708090;
-  width: 60px;
-  height: 60px;
-  border-radius: 40px;
-  box-shadow: 2px 2px 2px #FFF;
-  opacity:0.7;
-  content:"\f08b";
-}
-.exitBtnDw{
-  background-color: #F5F5F5;
-}
-.exitBtnIcon{
-  width: 30px;
-  height: 30px;
-  margin: 0 auto;
-  margin-top: 15px;
-  margin-left: 15px;
-}
 
 .xuankuhongming{/*炫酷红名*/
   color:#f00;
+}
+
+.lTitle{
+  text-align: center;
+  font-size: 20px;
+  margin: 0 auto;
+  color: rgb(50, 197, 210);
 }

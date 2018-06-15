@@ -1,22 +1,4 @@
-.mcontainer{
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10rpx 0;
-  box-sizing: border-box;
-  width: 100%;
-  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
-  position: absolute;
-  z-index:0;
-
-  margin: 0px;
-  margin-left: 0;
-  margin-top: 0px;
-  padding-bottom: 70px;
-}
-
+@import "../../templates/bubble.wxss";
 .CookieList{
   width: 100%;
   display: block;
@@ -49,12 +31,7 @@
 .cButton{
   margin: 0 auto;
 }
-.lTitle{
-  text-align: center;
-  font-size: 20px;
-  margin: 0 auto;
-  color: rgb(50, 197, 210);
-}
+
 .nButton{
   width: 90%;
   margin: 0 auto;

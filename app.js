@@ -22,8 +22,9 @@ App({
       MobileCheckURL: hostURL + "/Member/User/Authentication/isBindMobile",//手机认证校验
       ChangePasswordURL: hostURL + "/Member/User/Index/changePassword.html",//修改密码
 
-      GetAuthPhoneURL: "https://mfweb.top/adao/member/getphone.php",
-      GetRandomPicURL: "https://mfweb.top/adao/getpicture.php",
+      GetAuthPhoneURL: "https://mfweb.top/adao/member/getphone.php",//获取三酱验证手机号
+      GetRandomPicURL: "https://mfweb.top/adao/getpicture.php",//获取随机图
+      Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
       
       ThreadURL: hostURL + "/Api/thread?appid=wechatapp",//获得串内容和回复
       GetThreadURL: hostURL + "/Api/ref?appid=wechatapp",//获得串内容
@@ -72,5 +73,61 @@ App({
       const logger = wx.getLogManager();
       logger.log(msg);
     }
+  },
+  showDownloadAPP(){
+    var that = this;
+    wx.showActionSheet({
+      itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
+      itemColor: '#334054',
+      success: function (e) {
+        if (e.cancel != true) {
+          wx.setClipboardData({
+            data: that.globalData.AppList[e.tapIndex],
+            success: function () {
+              that.showSuccess('链接已复制');
+            },
+            fail: function () {
+              that.showError('复制失败');
+            }
+          });
+        }
+      }
+    });
+  },
+  ExitMenu(){
+    var that = this;
+    wx.showActionSheet({
+      itemList: ['APP下载', '关于', '退出登录'],
+      itemColor: '#334054',
+      success: function (e) {
+        if (e.cancel != true) {
+          if (e.tapIndex == 0) {//App下载
+            that.showDownloadAPP();
+          }
+          else if (e.tapIndex == 1) {//关于
+            wx.navigateTo({
+              url: '../about/about',
+            });
+          }
+          else if (e.tapIndex == 2) {//退出登录
+            that.logOut();
+          }
+        }
+      },
+      fail: function () { }
+    });
+  },
+  logOut() {
+    const http = require('utils/http.js');
+    http.set_cookie_key('memberUserspapapa', '');
+    wx.reLaunch({
+      url: '../index/index',
+    });
+  },
+  playEat() {
+    wx.playBackgroundAudio({
+      dataUrl: this.globalData.ApiUrls.Tnnaii_H_IslandURL,
+    });
+    this.log('play eat');
   }
 })

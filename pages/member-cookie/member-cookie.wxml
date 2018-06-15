@@ -1,4 +1,5 @@
-<view class='mcontainer'>
+<import src="../../templates/bubble.wxml"/>
+<view class='pdcontainer'>
   <view class='CookieList'>
     <view class='CookieListTr'>
       <view class='CookieListTd1 lTitle'>ID</view>
@@ -24,4 +25,4 @@
     <button bindtap='onGetNewCookie' class='nButton' type='primary'>获取新Cookie</button>
   </view>
 </view>
-<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onExit' bindlongpress='onEat'><image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image></view>
+<template is="bubble"></template>

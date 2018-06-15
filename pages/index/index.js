@@ -260,10 +260,7 @@ Page({
       });
   },
   onEat: function(e){
-    wx.playBackgroundAudio({
-      dataUrl: 'http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3',
-    });
-    app.log('play eat');
+    app.playEat();
   },
   onRPW:function(e){
     rememberPW = e.detail.value;
@@ -275,23 +272,7 @@ Page({
       success: function (e) {
         if (e.cancel != true) {
           if (e.tapIndex == 0) {//App下载
-            wx.showActionSheet({
-              itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
-              itemColor: '#334054',
-              success: function (e) {
-                if (e.cancel != true) {
-                  wx.setClipboardData({
-                    data: app.globalData.AppList[e.tapIndex],
-                    success: function () {
-                      app.showSuccess('链接已复制');
-                    },
-                    fail: function () {
-                      app.showError('复制失败');
-                    }
-                  });
-                }
-              }
-            });
+            app.showDownloadAPP();
           }
           else if (e.tapIndex == 1) {//关于
             wx.navigateTo({

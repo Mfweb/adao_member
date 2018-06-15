@@ -1,0 +1,28 @@
+@import "../../templates/bubble.wxss";
+.RunList{
+  width: 100%;
+  display: block;
+  color: #fffff0;
+  font-size: 15px;
+}
+.RunListTr{
+  display: flex;
+  width: 98%;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border-bottom: 1px solid #fff;
+  margin: 0 auto;
+}
+.RunListTd1{
+  width: 20%;
+  text-align: center;
+}
+.RunListTd2{
+  width: 40%;
+  text-align: center;
+}
+.RunListTd3{
+  width: 40%;
+  text-align: center;
+}

@@ -19,27 +19,6 @@ Page({
     var that = this;
     getImage(that);
   },
-  onReady: function () {
-  
-  },
-  onShow: function () {
-  
-  },
-  onHide: function () {
-  
-  },
-  onUnload: function () {
-  
-  },
-  onPullDownRefresh: function () {
-  
-  },
-  onReachBottom: function () {
-  
-  },
-  onShareAppMessage: function () {
-  
-  },
   tap1: function (e) {
     wx.setClipboardData({
       data: 'https://mfweb.top/',

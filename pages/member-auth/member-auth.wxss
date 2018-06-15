@@ -1,3 +1,4 @@
+@import "../../templates/bubble.wxss";
 .mcontainer{
   height: auto;
   display: flex;
