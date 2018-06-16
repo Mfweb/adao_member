@@ -16,13 +16,21 @@ function getData(that, id) {
     return;
   }
   var temp_data = that.data.tlist;
-  http.api_request(app.globalData.ApiUrls.ThreadURL,
+
+  var is_bt = false;
+  
+  if (tid_list[id].toString().substr(0,1) == 'b')
+  {
+    is_bt = true;
+    tid_list[id] = tid_list[id].substr(1);
+  }
+  http.api_request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
     { id: tid_list[id], page: 1 },
     function (res) {
-      if (res == '该主题不存在') {
+      if (typeof res == 'string') {
         var data = {
           'id': tid_list[id],
-          'content': WxParse.wxParse('item', 'html', '<p>主题不存在</p>', that, null).nodes,
+          'content': WxParse.wxParse('item', 'html', '<p>' + res+'</p>', that, null).nodes,
           'img': '',
           'thumburl': ''
         }
@@ -41,11 +49,12 @@ function getData(that, id) {
           'sage': res.sage,
           'replyCount': res.replyCount,
           'img_height': 0,
-          'img_width': 0
+          'img_width': 0,
+          'is_bt': is_bt
         }
         if (res.img != "") {
           data.img = res.img + res.ext;
-          data.thumburl = res.ext == ".gif" ? app.globalData.ApiUrls.FullImgURL : app.globalData.ApiUrls.ThumbImgURL;
+          data.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
           data.img_load_success = false;
         }
         else {
@@ -81,7 +90,7 @@ Page({
   onLoad: function (options) {
     launchOpt = options;
   },
-  onShow: function () {
+  onReady: function () {
     if(launchOpt == null)
     {
       wx.reLaunch({
@@ -165,22 +174,26 @@ Page({
     this.setData({ tlist: this.data.tlist });
   },
   bind_view_tap: function (e) {
-    wx.navigateTo({ url: '../thread/thread?id=' + e['currentTarget'].id });
+    wx.navigateTo({ url: '../thread/thread?id=' + this.data.tlist[e['currentTarget'].id].id + "&is_bt=" + e['currentTarget'].is_bt });
   },
   bind_pic_tap: function (e) {
+    let is_bt = this.data.tlist[e['currentTarget'].id].is_bt;
     wx.previewImage({
-      current: app.globalData.ApiUrls.FullImgURL + this.data.tlist[e['currentTarget'].id].img,
-      urls: [app.globalData.ApiUrls.FullImgURL + this.data.tlist[e['currentTarget'].id].img]
+      current: (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) + this.data.tlist[e['currentTarget'].id].img,
+      urls: [(is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) + this.data.tlist[e['currentTarget'].id].img]
     });
   },
   onLongtapItem: function (e) {
+    var is_bt = this.data.tlist[e['currentTarget'].id].is_bt;
+    var tid = this.data.tlist[e['currentTarget'].id].id;
+    console.log(e['currentTarget'].id);
     wx.showActionSheet({
       itemList: ['复制串号', '复制链接'],
       success: function(ex){
         if (ex.cancel != true){
           if(ex.tapIndex == 0){
             wx.setClipboardData({
-              data: e['currentTarget'].id,
+              data: tid,
               success: function(){
                 app.showSuccess('复制完成');
               },
@@ -191,7 +204,7 @@ Page({
           }
           else{
             wx.setClipboardData({
-              data: 'http://adnmb.com/t/' + e['currentTarget'].id,
+              data: (is_bt ?'https://tnmb.org/t/':'http://adnmb.com/t/') + tid,
               success: function () {
                 app.showSuccess('复制完成');
               },

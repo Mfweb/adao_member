@@ -10,12 +10,13 @@ var lont_tap_lock = false;
 var image_list = [];//图片列表
 var po_id = "";
 var mainListQuery = null;
+var is_bt = false;
 
 //先当做主串拉取 如果失败就当做回复拉取
 function GetQuoteOne(kindex, that, mode = 0) {
   if (mode == 0) {
     http.api_request(
-      app.globalData.ApiUrls.ThreadURL,
+      is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
       { id: that.data.q_list[kindex].id, page: 1 },
       function (res) {//success
         if (res == "该主题不存在")//不是主串 拉取串内容
@@ -26,7 +27,7 @@ function GetQuoteOne(kindex, that, mode = 0) {
           res.sid = res.id;
           if (res.img != "") {
             res.img = res.img + res.ext;
-            res.thumburl = res.ext == ".gif" ? app.globalData.ApiUrls.FullImgURL : app.globalData.ApiUrls.ThumbImgURL;
+            res.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
           }
           var html_h = "<font class='";
 
@@ -48,7 +49,7 @@ function GetQuoteOne(kindex, that, mode = 0) {
   }
   else {
     http.api_request(
-      app.globalData.ApiUrls.GetThreadURL + "&id=" + that.data.q_list[kindex].id,
+      (is_bt ? app.globalData.ApiUrls.BTGetThreadURL : app.globalData.ApiUrls.GetThreadURL) + "&id=" + that.data.q_list[kindex].id,
       {},
       function (res) {//success
         var q_list = that.data.q_list;
@@ -60,7 +61,7 @@ function GetQuoteOne(kindex, that, mode = 0) {
           res.content = WxParse.wxParse('item', 'html', res.content, that, null).nodes;
           if (res.img != "") {
             res.img = res.img + res.ext;
-            res.thumburl = app.globalData.ApiUrls.ThumbImgURL;
+            res.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
           }
           var html_h = "<font class='";
 
@@ -124,7 +125,7 @@ function GetList(that) {
   else
     that.setData({ bot_text: "Loading..." });
   http.api_request(
-    app.globalData.ApiUrls.ThreadURL,
+    is_bt ? app.globalData.ApiUrls.BTThreadURL:app.globalData.ApiUrls.ThreadURL,
     { id: forum_id, page: page },
     function (res) {//success
       if (res == "该主题不存在") {
@@ -166,9 +167,9 @@ function GetList(that) {
 
         if (res.img != "") {
           header.img = res.img + res.ext;
-          header.thumburl = res.ext == ".gif" ? app.globalData.ApiUrls.FullImgURL : app.globalData.ApiUrls.ThumbImgURL;
+          header.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
           header.img_load_success = false;
-          image_list.push(app.globalData.ApiUrls.FullImgURL + res.img + res.ext);
+          image_list.push((is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) + res.img + res.ext);
         }
         else {
           header.img = "";
@@ -192,8 +193,8 @@ function GetList(that) {
         for (let i = last_length; i < res.replys.length; i++) {
           if (res.replys[i].img != "") {
             res.replys[i].img = res.replys[i].img + res.replys[i].ext;
-            res.replys[i].thumburl = res.replys[i].ext == ".gif" ? app.globalData.ApiUrls.FullImgURL : app.globalData.ApiUrls.ThumbImgURL;
-            image_list.push(app.globalData.ApiUrls.FullImgURL + res.replys[i].img);
+            res.replys[i].thumburl = res.replys[i].ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
+            image_list.push((is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) + res.replys[i].img);
           }
           let temp_html = GetQuote(res.replys[i].content);
           res.replys[i].content = temp_html.html;//正则高亮所有引用串号
@@ -276,6 +277,7 @@ Page({
     image_list = [];
     po_id = "";
     mainListQuery = null;
+    is_bt = e.is_bt;
     wx.startPullDownRefresh({});
   },
   onShow: function () {
@@ -326,7 +328,7 @@ Page({
       img_url = this.data.list[e['currentTarget'].id].img;
 
     wx.previewImage({
-      current: app.globalData.ApiUrls.FullImgURL + img_url,
+      current: (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) + img_url,
       urls: image_list
     });
   },

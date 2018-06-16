@@ -39,12 +39,6 @@
         "text": "密码",
         "iconPath": "imgs/passwd.png",
         "selectedIconPath": "imgs/passwd-s.png"
-      },
-      {
-        "pagePath": "pages/member-sport/member-sport",
-        "text": "运动",
-        "iconPath": "imgs/sport.png",
-        "selectedIconPath": "imgs/sport-s.png"
       }
     ]
   }

@@ -25,12 +25,18 @@ App({
       GetAuthPhoneURL: "https://mfweb.top/adao/member/getphone.php",//获取三酱验证手机号
       GetRandomPicURL: "https://mfweb.top/adao/getpicture.php",//获取随机图
       Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
-      
+      //获取分享串
+      GetSharesURL: "https://mfweb.top/adao/getshare.php",
+      //主岛配置
       ThreadURL: hostURL + "/Api/thread?appid=wechatapp",//获得串内容和回复
       GetThreadURL: hostURL + "/Api/ref?appid=wechatapp",//获得串内容
-      GetSharesURL: "https://mfweb.top/adao/getshare.php",
       ThumbImgURL: "http://nmbimg.fastmirror.org/thumb/",//缩略图
       FullImgURL: "http://nmbimg.fastmirror.org/image/",//原图
+      //备胎岛配置
+      BTThreadURL: hostURL + "/btnmb/Api/thread?appid=wechatapp",//获得串内容和回复
+      BTGetThreadURL: hostURL + "/btnmb/Api/ref?appid=wechatapp",//获得串内容
+      BTThumbImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/thumb/",//缩略图
+      BTFullImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/image/",//原图
     },
     AppList : Array(
       'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘
