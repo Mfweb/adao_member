@@ -1,5 +1,7 @@
 <import src="../../templates/bubble.wxml"/>
 <view class='pdcontainer'>
+<button wx:if="{{!getAuthFail}}" loading='{{getLoading}}' class='upsportbtn' size='mini' type='primary' bindtap='onUpload'>上传步数</button>
+<button wx:if="{{getAuthFail}}" class='upsportbtn' open-type='openSetting' size='mini' type='primary' bindopensetting='onGetAuth'>设置权限</button>
   <view class='RunList'>
     <view class='RunListTr'>
       <view class='RunListTd1 lTitle'>排名</view>

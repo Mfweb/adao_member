@@ -37,6 +37,10 @@ App({
       BTGetThreadURL: hostURL + "/btnmb/Api/ref?appid=wechatapp",//获得串内容
       BTThumbImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/thumb/",//缩略图
       BTFullImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/image/",//原图
+      //小程序功能
+      WeLoginURL: "https://mfweb.top/adao/member/login.php",//登录
+      WeUploadRunURL: "https://mfweb.top/adao/member/uprun.php",//上传微信运动数据
+      WeDownloadRunURL: "https://mfweb.top/adao/member/dwrun.php",//获取微信运动排行
     },
     AppList : Array(
       'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘

@@ -26,3 +26,7 @@
   width: 40%;
   text-align: center;
 }
+.upsportbtn{
+  width: 120px;
+  margin-left: 10px;
+}
