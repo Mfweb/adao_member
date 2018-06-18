@@ -16,3 +16,17 @@
   </view>
 </view>
 <template is="bubble"></template>
+<view wx:if="{{showSelectCookie}}" class='modal' hover-stop-propagation='true'>
+  <view class='modal_title'>选择一个饼干</view>
+  <view class='modal_content'>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="modal_radio" wx:for="{{cookie_items}}" wx:key="clist">
+        <radio value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+      </label>
+    </radio-group>
+  </view>
+  <view class='modal_but'>
+    <view hover-class='modal_sel' bindtap='onSelectedCookie' hover-stay-time='250' class='modal_a'>选择</view>
+    <view hover-class='modal_sel' bindtap='onCancel' hover-stay-time='250' class='modal_b'>取消</view>
+  </view>
+</view>

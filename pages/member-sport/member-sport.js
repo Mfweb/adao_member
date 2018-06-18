@@ -1,5 +1,61 @@
 const app = getApp();
 const http = require('../../utils/http.js');
+var SelectCookieID = 0;
+
+
+function GetCookies(that)
+{
+  http.api_request(
+    app.globalData.ApiUrls.CookiesListURL,
+    null,
+    function (res) {
+      if (res.toString().indexOf('饼干列表') > 0) {
+        res = res.replace(/ /g, '');
+        res = res.replace(/\r/g, '');
+        res = res.replace(/\n/g, '');
+
+        var finds = res.match(/<tbody>[\s\S]*?<\/tbody>/ig);
+        if (finds != null) {
+          var finds_tr = finds[0].match(/<tr>[\s\S]*?<\/tr>/ig);
+          if (finds_tr != null) {
+            var c_list = Array();
+            for (let i = 0; i < finds_tr.length; i++) {
+              var find_td = finds_tr[i].match(/<td>[\s\S]*?<\/td>/ig);
+              if (find_td != null) {
+                c_list.push({ name: i, value: find_td[2].replace(/(<td><ahref="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
+              }
+            }
+            console.log(c_list);
+            that.setData({ cookie_items: c_list, showSelectCookie: true });
+          }
+          else {
+            app.showError('饼干列表为空');
+            that.setData({ getLoading: false });
+          }
+        }
+      }
+      else {
+        if (res.status == 0) {
+          app.showError(res.info);
+          if (res.info == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot) {
+            wx.showTabBarRedDot({
+              index: 1
+            });
+          }
+          that.setData({ getLoading: false });
+        }
+        else
+        {
+          app.showError('获取饼干错误');
+          that.setData({ getLoading: false });
+        }
+      }
+    },
+    function () {
+
+    }
+  );
+}
 
 //获取并上传运动数据
 function UpWeRunData(that)
@@ -11,7 +67,8 @@ function UpWeRunData(that)
         {
           session: wx.getStorageSync('LoginSession'),
           encryptedData: e.encryptedData,
-          iv: e.iv
+          iv: e.iv,
+          cookie: SelectCookieID
         },
         function (e) {
           app.showSuccess(e['stepInfoList'][30]['step'].toString());
@@ -38,7 +95,7 @@ function GetAuth(that)
     success: function (e) {
       if (e.errMsg == "authorize:ok") {
         //获取授权成功，获取并上传步数数据
-        UpWeRunData(that);
+        GetCookies(that);
       }
       else {
         app.showError("获取权限失败");
@@ -107,7 +164,15 @@ function WeLogin(that)
 Page({
   data: {
     getAuthFail: false,
-    getLoading:false
+    getLoading: false,
+    showSelectCookie: false,
+    cookie_items: [
+      { name: '0', value: 'fasdcfe', checked: 'true' },
+      { name: '1', value: 'gwqwetv' },
+      { name: '2', value: 'fsdfegt' },
+      { name: '3', value: 'fsdfegt' },
+      { name: '4', value: 'fsdfegt' },
+    ]
   },
   onLoad: function (options) {
   
@@ -150,7 +215,7 @@ Page({
       },
       //登录失败，重新登录
       fail: function () {
-        
+        WeLogin(that);
       }
     });
  
@@ -163,5 +228,16 @@ Page({
     else {
       app.showError('授权失败');
     }
+  },
+  radioChange: function(e) {
+    SelectCookieID = e.detail.value;
+  },
+  onCancel: function(){
+    this.setData({ showSelectCookie: false, getLoading: false });
+  },
+  onSelectedCookie: function(){
+    this.setData({ showSelectCookie: false });
+    var that = this;
+    UpWeRunData(that);
   }
 })

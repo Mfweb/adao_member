@@ -30,3 +30,58 @@
   width: 120px;
   margin-left: 10px;
 }
+
+.modal{
+  width: 80%;
+  height: auto;
+  position: fixed;
+  margin: 0 auto;
+  background-color: #334054;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  left: 10%;
+  margin-top: 10%;
+  box-shadow: 2px 2px 20px #FFF;
+}
+.modal_content{
+  margin: 0 auto;
+  width: 95%;
+}
+.modal_but{
+  height: 30px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  font-size: 20px;
+  border-top: 1px solid #fff;
+  margin-top: 10px;
+}
+.modal_a{
+  width: 50%;
+  color: #02d52f;
+  border-right: 1px solid #fff;
+}
+.modal_b{
+  width: 50%;
+  color: #f00;
+}
+.modal_content{
+  color: #fff;
+  width: 100%;
+}
+.modal_radio{
+  display: block;
+  margin-top: 8px;
+  margin-left: 10px;
+}
+.modal_title{
+  width: 100%;
+  font-size: 22px;
+  height: 30px;
+  text-align: center;
+  color: #fff;
+  border-bottom: 1px solid #fff;
+}
+.modal_sel{
+  background-color: #708090;
+}
