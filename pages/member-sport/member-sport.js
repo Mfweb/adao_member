@@ -26,6 +26,8 @@ function GetCookies(that)
               }
             }
             console.log(c_list);
+            SelectCookieID = 0;
+            c_list[0].checked = true;
             that.setData({ cookie_items: c_list, showSelectCookie: true });
           }
           else {
@@ -71,7 +73,7 @@ function UpWeRunData(that)
           cookie: SelectCookieID
         },
         function (e) {
-          app.showSuccess(e['stepInfoList'][30]['step'].toString());
+          app.showSuccess(e.toString());
           that.setData({ getLoading: false });
         },
         function () {
