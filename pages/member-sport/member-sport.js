@@ -73,7 +73,8 @@ function UpWeRunData(that)
           cookie: SelectCookieID
         },
         function (e) {
-          app.showSuccess(e.toString());
+          console.log(e);
+          //app.showSuccess(e.toString());
           that.setData({ getLoading: false });
         },
         function () {
@@ -190,6 +191,9 @@ Page({
   },
   onUnload: function () {
   
+  },
+  onPullDownRefresh () {
+    wx.stopPullDownRefresh();
   },
   onExit: function (e) {
     app.ExitMenu();

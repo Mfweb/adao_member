@@ -15,17 +15,17 @@ Page({
       function (res) {
         wx.hideNavigationBarLoading();
         if (res.status == 0) {//登陆已经失效
-          logOut();
+          app.logOut();
         }
         else if (res.toString().indexOf('饼干管理') > 0) {
         }
         else {
-          logOut();
+          app.logOut();
         }
       },
       function () {
         wx.hideNavigationBarLoading();
-        logOut();
+        app.logOut();
       }
     );
   },
@@ -57,7 +57,7 @@ Page({
       },
       function(res){
         if (res.status == 1)
-          logOut();
+          app.logOut();
         else
           app.showError(res.info);
         np_run = false;
