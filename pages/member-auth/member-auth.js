@@ -11,18 +11,18 @@ var auth_data = null;
  * @brief 获得新的验证码
  */
 function getNewVcode(that) {
-  that.setData({ vCodeLoading: true });
+  that.setData({ vCodeLoading: true, verifyCodeURL: "" });
   http.get_verifycode(function (res) {
     if (res.statusCode == 200) {
-      that.setData({ verifyCodeURL: res.tempFilePath });
+      that.setData({ vCodeLoading: false, verifyCodeURL: res.tempFilePath });
     }
     else {
       app.showError('http错误' + res.statusCode.toString());
     }
   },
-  function () {
-    app.showError('获取验证码错误');
-  });
+    function () {
+      app.showError('获取验证码错误');
+    });
 }
 
 /**
@@ -178,10 +178,6 @@ Page({
     var that = this;
     getCertifiedStatus(that);
     that.setData({ CertFormShow: false, ShowCertMsg: false });
-  },
-  //验证码载入完成
-  onCodeLoad: function (e) {
-    this.setData({ vCodeLoading: false });
   },
   //验证码输入窗口关闭
   onUClose: function (e) {

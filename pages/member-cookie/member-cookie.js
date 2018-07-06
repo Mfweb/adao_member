@@ -9,10 +9,10 @@ var nw_run = false;
  * @brief 获得新的验证码
  */
 function getNewVcode(that) {
-  that.setData({ vCodeLoading: true });
+  that.setData({ vCodeLoading: true, verifyCodeURL: "" });
   http.get_verifycode(function (res) {
     if (res.statusCode == 200) {
-      that.setData({ verifyCodeURL: res.tempFilePath });
+      that.setData({ vCodeLoading: false, verifyCodeURL: res.tempFilePath });
     }
     else {
       app.showError('http错误' + res.statusCode.toString());
@@ -91,11 +91,8 @@ function getCookies(that) {
  * 删除指定Cookie，这里只是弹出了验证码请求界面，具体实现在Enter中
  */
 function delCookie(that, index) {
-  if (de_run) return;
-  de_run = true;
   getNewVcode(that);
-  de_run = false;
-  that.setData({ vCodeLoading: true, vCodeShow: true, needDeleteID: index, FormID: "delete" });
+  that.setData({ vCodeShow: true, needDeleteID: index, FormID: "delete" });
 }
 /**
  * 获取指定Cookie的二维码
@@ -197,13 +194,9 @@ Page({
     var that = this;
     getCookieQR(that, e.target.id)
   },
-  //验证码载入完成
-  onCodeLoad: function (e) {
-    this.setData({ vCodeLoading: false });
-  },
   //关闭验证码输入窗口
   onUClose: function (e) {
-    this.setData({ vCodeShow: false, CertFormShow: false });
+    this.setData({ vCodeShow: false });
   },
   /**
    * 确认执行操作，需要验证码请求的操作通过这里执行
@@ -222,12 +215,9 @@ Page({
       if (de_run) return;
       de_run = true;
       var temp_data = that.data.CookieList;
-      temp_data[u_index].getLoading = true;
+      temp_data[u_index].delLoading = true;
       that.setData({ CookieList: temp_data });//对应的删除按钮显示loading
-      temp_data[u_index].getLoading = false;
-      getNewVcode(that);
-      de_run = false;
-      that.setData({ CookieList: temp_data, vCodeLoading: true, vCodeShow: true, needDeleteID: u_index });
+      temp_data[u_index].delLoading = false;
 
       http.api_request(
         app.globalData.ApiUrls.CookieDeleteURL + temp_data[u_index].id + ".html",
@@ -243,6 +233,7 @@ Page({
           }
           else {
             app.log('cookie delete error:' + res.info);
+            getNewVcode(that);
             app.showError(res.info);
           }
           de_run = false;
@@ -291,8 +282,8 @@ Page({
   //获取新Cookie
   onGetNewCookie: function () {
     var that = this;
+    this.setData({ vCodeShow: true, FormID: "new" });
     getNewVcode(that);
-    this.setData({ vCodeLoading: true, vCodeShow: true, FormID: "new" });
   },
   //刷新验证码
   onTapVerifyCode: function (e) {

@@ -8,16 +8,18 @@ var rememberPW = false;
  */
 function getNewVcode(that)
 {
-  that.setData({ vCodeLoading: true});
-  http.get_verifycode(function(res){
-    if(res.statusCode == 200)
-      that.setData({ verifyCodeURL: res.tempFilePath });
-    else
-      app.showError('http' + res.statusCode.toString());
+  that.setData({ vCodeLoading: true, verifyCodeURL: "" });
+  http.get_verifycode(function (res) {
+    if (res.statusCode == 200) {
+      that.setData({ vCodeLoading: false, verifyCodeURL: res.tempFilePath });
+    }
+    else {
+      app.showError('http错误' + res.statusCode.toString());
+    }
   },
-  function(){
-    app.showError('获取验证码错误');
-  });
+    function () {
+      app.showError('获取验证码错误');
+    });
 }
 
 
@@ -32,7 +34,7 @@ function switchPate(that,new_page)
   });
   animeOut.opacity(0).step();
 
-
+  getNewVcode(that);
 
   now_anime[now_page] = animeOut.export();
   that.setData({ vCodeLoading:true, animations: now_anime});
@@ -132,9 +134,6 @@ Page({
   onTapIforgot: function () {
     var that = this;
     switchPate(that, 2);
-  },
-  onCodeLoad: function(e){
-    this.setData({ vCodeLoading:false});
   },
   onLoginSubmit:function(e)//登陆
   {
