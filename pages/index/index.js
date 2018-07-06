@@ -70,10 +70,9 @@ Page({
   },
   onLoad: function (e) {
     var that = this;
-    switchPate(that,0);
-
     var sUN = wx.getStorageSync('UserName');
     var sPW = wx.getStorageSync('PassWord');
+
     if(sUN != '' && sPW != ''){
       rememberPW = true;
       this.setData({ RememberPW: true, UserName: sUN, PassWord: sPW });
@@ -98,7 +97,6 @@ Page({
       null,
       function(res){
         if (res.status == 0) {//登陆已经失效
-          getNewVcode(that);//请求验证码
         }
         else if (res.toString().indexOf('饼干管理') > 0){
           wx.switchTab({
@@ -113,8 +111,10 @@ Page({
       },
       function(){
         app.showError('连接服务器失败');
+        that.setData({ BLoading: false });
       }
     );
+    switchPate(that, 0);
   },
   onShow: function(e) {
     

@@ -128,8 +128,10 @@ App({
     });
   },
   logOut() {
-    const http = require('utils/http.js');
-    http.set_cookie_key('memberUserspapapa', '');
+    wx.setStorageSync('user_cookie', '');
+    wx.setStorageSync('LoginSession', '');
+    //const http = require('utils/http.js');
+    //http.set_cookie_key('memberUserspapapa', '');
     wx.reLaunch({
       url: '../index/index',
     });

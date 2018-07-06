@@ -72,10 +72,16 @@ function UpWeRunData(that)
           cookie: SelectCookieID
         },
         function (e) {
-          if (e.status == 0)
-            app.showSuccess(e.msg.toString());
-          else
-            app.showError(e.msg.toString());
+          try{
+            if (e.status == 0)
+              app.showSuccess(e.msg);
+            else
+              app.showError(e.msg);
+          }
+          catch(err){
+            app.showError("error");
+          }
+
           that.setData({ getLoading: false });
         },
         function () {
@@ -229,13 +235,14 @@ Page({
     var that = this;
 
     //检查登录是否有效
-    var now_session = wx.getStorageSync('LoginSession');
+    /*var now_session = wx.getStorageSync('LoginSession');
     if (now_session == null || now_session.length != 128) {
       app.log('session fail');
       WeLogin(that);
       return;
-    }
-
+    }*/
+    //这里有个问题，经常已经成功登陆但是会跳失败，暂时每次都登陆一下，使用频率不高
+    WeLogin(that);
     wx.checkSession({
       //登录有效，直接获取授权
       success: function () {
