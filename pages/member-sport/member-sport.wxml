@@ -8,10 +8,10 @@
       <view class='RunListTd2 lTitle'>饼干</view>
       <view class='RunListTd3 lTitle'>步数</view>
     </view>
-    <view class='RunListTr'>
-      <view class='RunListTd1'>1</view>
-      <view class='RunListTd2'>fdadefac</view>
-      <view class='RunListTd3'>66665</view>
+    <view wx:for='{{StepList}}' class='RunListTr' wx:key='steplist'>
+      <view class='RunListTd1'>{{index+1}}</view>
+      <view class='RunListTd2'>{{item.cookie}}</view>
+      <view class='RunListTd3'>{{item.stepdata}}</view>
     </view>
   </view>
 </view>

@@ -25,7 +25,6 @@ function GetCookies(that)
                 c_list.push({ name: i, value: find_td[2].replace(/(<td><ahref="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
               }
             }
-            console.log(c_list);
             SelectCookieID = 0;
             c_list[0].checked = true;
             that.setData({ cookie_items: c_list, showSelectCookie: true });
@@ -73,8 +72,10 @@ function UpWeRunData(that)
           cookie: SelectCookieID
         },
         function (e) {
-          console.log(e);
-          //app.showSuccess(e.toString());
+          if (e.status == 0)
+            app.showSuccess(e.msg.toString());
+          else
+            app.showError(e.msg.toString());
           that.setData({ getLoading: false });
         },
         function () {
@@ -112,6 +113,7 @@ function GetAuth(that)
   });
 }
 
+
 function WeLogin(that)
 {
   wx.login({
@@ -131,32 +133,31 @@ function WeLogin(that)
             time: new Date().getTime()
           },
           success: function (e) {
-            console.log(e);
             if (e.data.status == 0) {
               wx.setStorageSync('LoginSession', e.data.session);
               //获取授权
               GetAuth(that);
             }
             else {
-              app.showError("登录失败");
+              app.showError("登录失败4");
               that.setData({ getLoading: false });
             }
           },
           fail: function () {
-            app.showError("登录失败");
+            app.showError("登录失败3");
             that.setData({ getLoading: false });
           }
         });
       }
       else {
-        app.showError("登录失败");
+        app.showError("登录失败2");
         app.log(e);
         that.setData({ getLoading: false });
       }
     },
     //登录失败
     fail: function (e) {
-      app.showError("登录失败");
+      app.showError("登录失败1");
       app.log(e);
       that.setData({ getLoading: false });
     }
@@ -164,8 +165,28 @@ function WeLogin(that)
 }
 
 
+function GetStep(that)
+{
+  wx.request({
+    url: app.globalData.ApiUrls.WeDownloadRunURL,
+    success:function(res){
+      if (res.data.status == 0)
+        that.setData({StepList: res.data.steps});
+      else
+        app.showError(res.data.msg);
+      wx.stopPullDownRefresh();
+    },
+    fail:function(){
+      app.showError("网络错误");
+      wx.stopPullDownRefresh();
+    }
+  });
+}
+
+
 Page({
   data: {
+    StepList: [],
     getAuthFail: false,
     getLoading: false,
     showSelectCookie: false,
@@ -181,7 +202,7 @@ Page({
   
   },
   onReady: function () {
-  
+    wx.startPullDownRefresh({});
   },
   onShow: function () {
   
@@ -193,7 +214,8 @@ Page({
   
   },
   onPullDownRefresh () {
-    wx.stopPullDownRefresh();
+    var that = this;
+    GetStep(that);
   },
   onExit: function (e) {
     app.ExitMenu();
@@ -217,6 +239,7 @@ Page({
     wx.checkSession({
       //登录有效，直接获取授权
       success: function () {
+        //WeLogin(that);
         GetAuth(that);
       },
       //登录失败，重新登录
