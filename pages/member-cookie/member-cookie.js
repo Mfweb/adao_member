@@ -1,5 +1,6 @@
 const app = getApp();
 const http = require('../../utils/http.js');
+import drawQrcode from '../../utils/weapp.qrcode.min.js'
 var pw_run = false;
 var gt_run = false;
 var de_run = false;
@@ -86,7 +87,83 @@ function getCookies(that) {
     }
   );
 }
+/**
+ * 检查字符串是否是JSON
+ */
+function isJsonString(str) {
+  try {
+    if (typeof JSON.parse(str) == "object") {
+      return true;
+    }
+  } catch (e) {
+  }
+  return false;
+}
 
+/**
+ * 将内容创建成二维码并预览
+ */
+function createQRCode(that, content, callback) {
+  //在画布上创建二维码
+  drawQrcode({
+    width: 200,
+    height: 200,
+    canvasId: 'myQrcode',
+    text: content,
+    _this: that,
+    callback: function() {
+      setTimeout(function () {
+        //将二维码部分复制出来
+        wx.canvasGetImageData({
+          canvasId: 'myQrcode',
+          x: 0,
+          y: 0,
+          width: 200,
+          height: 200,
+          success: function (res) {
+            //填充整个画布
+            const ctx = wx.createCanvasContext('myQrcode', that);
+            ctx.setFillStyle('white');
+            ctx.fillRect(0, 0, 220, 220);
+            ctx.draw();
+            //将刚刚复制出来的二维码写到中心
+            wx.canvasPutImageData({
+              canvasId: 'myQrcode',
+              data: res.data,
+              x: 10,
+              y: 10,
+              width: 200,
+              success: function () {
+                //画布内容创建临时文件
+                wx.canvasToTempFilePath({
+                  canvasId: 'myQrcode',
+                  success: function (res) {
+                    console.log(res);
+                    //预览
+                    wx.previewImage({
+                      urls: [res.tempFilePath],
+                    });
+                  },
+                  fail: function () {
+                    console.log('error');
+                    app.showError("缓存二维码失败");
+                  }
+                }, that);
+              },
+              fail: function () {
+                app.showError('生成QR码错误2');
+              }
+            }, that);
+          },
+          fail: function () {
+            app.showError('生成QR码错误');
+          }
+        }, that);
+        callback();
+      }, 300);
+    }
+  });
+}
 /**
  * 删除指定Cookie，这里只是弹出了验证码请求界面，具体实现在Enter中
  */
@@ -110,25 +187,38 @@ function getCookieQR(that, index) {
     app.globalData.ApiUrls.CookieGetQRURL + temp_data[index].id + ".html",
     null,
     function (res) {
-      //app.log(res);
-      if (res.indexOf('<div class="tpl-form-maintext"><img src="') > 0) {
-        res = res.replace(/ /g, "");
-        var temp_match = res.match(/<divclass="tpl-form-maintext"><imgsrc="[\s\S]*?"style=/ig);
-        if (temp_match != null) {
-          //app.log(temp_match[0]);
-          var qrCodeURL = temp_match[0].replace(/(<divclass="tpl-form-maintext"><imgsrc=")|("style=)/g, "");
-          wx.previewImage({
-            urls: [qrCodeURL],
-          });
-          app.log('qrcode url:' + qrCodeURL);
-          //app.log(qrCodeURL);
+      if (res != null && typeof res == "string") {
+        if (res.indexOf('<div class="tpl-form-maintext"><img src="') > 0) {
+          res = res.replace(/ /g, "");
+          var temp_match = res.match(/<divclass="tpl-form-maintext"><imgsrc="[\s\S]*?"style=/ig);
+          if (temp_match != null) {
+            //app.log(temp_match[0]);
+            var qrCodeURL = temp_match[0].replace(/(<divclass="tpl-form-maintext"><imgsrc=")|("style=)/g, "");
+
+            app.log('qrcode url:' + qrCodeURL);
+            var qrCodeContent = decodeURIComponent(qrCodeURL.replace(/^[\s\S]*text=/g, ""));
+            if (isJsonString(qrCodeContent)) {
+              createQRCode(that, qrCodeContent, function () {
+                gt_run = false;
+                that.setData({ CookieList: temp_data });
+              });
+              return;
+            }
+            else {
+              app.showError('饼干内容错误');
+              app.log("get qr error:" + qrCodeContent);
+            }
+          }
+          else {
+            app.showError('发生了错误');
+          }
         }
         else {
           app.showError('发生了错误');
         }
       }
       else {
-        app.showError('发生了错误');
+        app.showError('获取错误');
       }
       gt_run = false;
       that.setData({ CookieList: temp_data });
@@ -179,20 +269,17 @@ Page({
   //下拉刷新
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading();
-    var that = this;
-    getCookies(that);
-    that.setData({ vCodeShow: false });
+    getCookies(this);
+    this.setData({ vCodeShow: false });
 
   },
   //删除饼干(弹出验证码)
   onDeleteCookie: function (e) {
-    var that = this;
-    delCookie(that, e.target.id)
+    delCookie(this, e.target.id)
   },
   //获取饼干QR码
   onGetCookie: function (e) {
-    var that = this;
-    getCookieQR(that, e.target.id)
+    getCookieQR(this, e.target.id)
   },
   //关闭验证码输入窗口
   onUClose: function (e) {

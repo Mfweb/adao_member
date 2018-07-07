@@ -26,3 +26,4 @@
   </view>
 </view>
 <template is="bubble"></template>
+<canvas class='qrCanvas' canvas-id="myQrcode"></canvas>

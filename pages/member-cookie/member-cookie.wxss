@@ -59,3 +59,8 @@
   color:#000;
   border-radius:8px;
 }
+.qrCanvas{
+  width: 220px;
+  height: 220px;
+  left: -240px;
+}

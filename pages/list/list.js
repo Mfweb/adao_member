@@ -32,7 +32,9 @@ function getData(that, id) {
           'id': tid_list[id],
           'content': WxParse.wxParse('item', 'html', '<p>' + res+'</p>', that, null).nodes,
           'img': '',
-          'thumburl': ''
+          'thumburl': '',
+          'img_height': 0,
+          'img_width': 0,
         }
         temp_data.push(data);
       }

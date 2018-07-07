@@ -242,7 +242,15 @@ Page({
       return;
     }*/
     //这里有个问题，经常已经成功登陆但是会跳失败，暂时每次都登陆一下，使用频率不高
-    WeLogin(that);
+    wx.showModal({
+      title: '提示',
+      content: '步数只保留24小时，每隔24小时可以上传一次。',
+      showCancel: false,
+      success: function () {
+        WeLogin(that);
+      }
+    });
+    /*
     wx.checkSession({
       //登录有效，直接获取授权
       success: function () {
@@ -253,7 +261,7 @@ Page({
       fail: function () {
         WeLogin(that);
       }
-    });
+    });*/
  
   },
   onGetAuth: function (e) {
