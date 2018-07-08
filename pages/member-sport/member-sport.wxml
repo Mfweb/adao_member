@@ -6,12 +6,13 @@
     <view class='RunListTr'>
       <view class='RunListTd1 lTitle'>排名</view>
       <view class='RunListTd2 lTitle'>饼干</view>
-      <view class='RunListTd3 lTitle'>步数</view>
+      <view class='RunListTd3 lTitle lTitle3'>步数</view>
     </view>
     <view wx:for='{{StepList}}' class='RunListTr' wx:key='steplist'>
       <view class='RunListTd1'>{{index+1}}</view>
       <view class='RunListTd2'>{{item.cookie}}</view>
       <view class='RunListTd3'>{{item.stepdata}}</view>
+      <view class='RunListB1' style='height:{{item.lsec}}px;background-color:{{item.color}};'></view>
     </view>
   </view>
 </view>

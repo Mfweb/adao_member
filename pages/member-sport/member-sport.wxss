@@ -23,14 +23,22 @@
   text-align: center;
 }
 .RunListTd3{
-  width: 40%;
+  width: 35%;
   text-align: center;
+}
+.RunListB1{
+  width: 5%;
+  right: 0;
+  bottom: 0px;
+}
+.lTitle3{
+  width: 35%;
+  margin-right: 5%;
 }
 .upsportbtn{
   width: 120px;
   margin-left: 10px;
 }
-
 .modal{
   width: 80%;
   height: auto;

@@ -73,8 +73,10 @@ function UpWeRunData(that)
         },
         function (e) {
           try{
-            if (e.status == 0)
+            if (e.status == 0) {
               app.showSuccess(e.msg);
+              wx.startPullDownRefresh({});
+            }
             else
               app.showError(e.msg);
           }
@@ -176,6 +178,7 @@ function GetStep(that)
   wx.request({
     url: app.globalData.ApiUrls.WeDownloadRunURL,
     success:function(res){
+      console.log(res);
       if (res.data.status == 0)
         that.setData({StepList: res.data.steps});
       else
