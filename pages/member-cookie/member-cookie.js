@@ -34,8 +34,7 @@ function getCookies(that) {
     app.globalData.ApiUrls.CookiesListURL,
     null,
     function (res) {
-      //app.log(res);
-      if (res.toString().indexOf('饼干列表') > 0) {
+      if (typeof res == 'string' && res.indexOf('饼干列表') > 0) {
         res = res.replace(/ /g, '');
         res = res.replace(/\r/g, '');
         res = res.replace(/\n/g, '');
@@ -59,19 +58,21 @@ function getCookies(that) {
           }
         }
       }
-      else {
+      else if (typeof res == 'object' && res.hasOwnProperty('status')) {
         if (res.status == 0) {
           app.showError(res.info);
-          if (res.info == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot)
-          {
+          if (res.info == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot) {
             wx.showTabBarRedDot({
               index: 1
             });
           }
-          app.log(res.info);
         }
-        else
-        { app.showError('获取饼干错误'); }
+        else {
+          app.showError('获取饼干错误2');
+        }
+      }
+      else {
+        app.showError('获取饼干错误1');
       }
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
@@ -187,7 +188,7 @@ function getCookieQR(that, index) {
     app.globalData.ApiUrls.CookieGetQRURL + temp_data[index].id + ".html",
     null,
     function (res) {
-      if (res != null && typeof res == "string") {
+      if (typeof res == "string") {
         if (res.indexOf('<div class="tpl-form-maintext"><img src="') > 0) {
           res = res.replace(/ /g, "");
           var temp_match = res.match(/<divclass="tpl-form-maintext"><imgsrc="[\s\S]*?"style=/ig);
@@ -249,11 +250,7 @@ Page({
       null,
       function (res) {
         wx.hideNavigationBarLoading();
-        if (res.status == 0)//登陆已经失效
-        {
-          app.logOut();
-        }
-        else if (res.toString().indexOf('饼干管理') > 0) {
+        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
           wx.startPullDownRefresh({});
         }
         else {

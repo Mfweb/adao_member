@@ -35,6 +35,11 @@ function getCertifiedStatus(that) {
     app.globalData.ApiUrls.CertifiedStatusURL,
     null,
     function (res) {
+      if(typeof res != 'string') {
+        wx.stopPullDownRefresh();
+        wx.hideNavigationBarLoading();
+        return;
+      }
       res = res.replace(/ /g, '');
       res = res.replace(/\r/g, '');
       res = res.replace(/\n/g, '');
@@ -55,7 +60,6 @@ function getCertifiedStatus(that) {
           if (phone_status != null) {
             phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
             if (phone_status != null) {
-              //app.log(phone_status);
               that.setData({ PhoneStatus: phone_status });
             }
           }
@@ -145,11 +149,7 @@ Page({
       null,
       function (res) {
         wx.hideNavigationBarLoading();
-        if (res.status == 0)//登陆已经失效
-        {
-          app.logOut();
-        }
-        else if (res.toString().indexOf('饼干管理') > 0) {
+        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
           wx.startPullDownRefresh({});
         }
         else {

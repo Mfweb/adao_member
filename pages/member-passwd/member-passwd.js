@@ -14,10 +14,8 @@ Page({
       null,
       function (res) {
         wx.hideNavigationBarLoading();
-        if (res.status == 0) {//登陆已经失效
-          app.logOut();
-        }
-        else if (res.toString().indexOf('饼干管理') > 0) {
+        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
+          wx.startPullDownRefresh({});
         }
         else {
           app.logOut();
@@ -56,10 +54,15 @@ Page({
         repwd: new_passwd2
       },
       function(res){
-        if (res.status == 1)
-          app.logOut();
-        else
-          app.showError(res.info);
+        if (typeof res == 'object') {
+          if (res.status == 1)
+            app.logOut();
+          else
+            app.showError(res.info);
+        }
+        else {
+          app.showError("发生了错误");
+        }
         np_run = false;
         that.setData({ CPLoading: false });
       },

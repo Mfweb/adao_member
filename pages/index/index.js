@@ -3,6 +3,7 @@
 const app = getApp();
 const http = require('../../utils/http.js');
 var rememberPW = false;
+const PageTitles = ['登录', '注册','找回密码'];
 /**
  * @brief 获得新的验证码
  */
@@ -48,11 +49,7 @@ function switchPate(that,new_page)
     });
     animeIn.opacity(1).step();
     now_anime[new_page] = animeIn.export();
-    var tt = "登录";
-    if(new_page == 0)tt="登录"
-    else if(new_page == 1)tt = "注册"
-    else if(new_page == 2)tt = "找回密码"
-    that.setData({ animations: now_anime, TitleText:tt});
+    that.setData({ animations: now_anime, TitleText: PageTitles[new_page]});
   }).bind(that), 200);
 }
 
@@ -61,7 +58,7 @@ Page({
     verifyCodeURL:"",
     Mode:0,
     animations:[],
-    TitleText:"登录",
+    TitleText: PageTitles[0],
     vCodeLoading: true,
     BLoading:false,
     RememberPW:false,
@@ -96,16 +93,18 @@ Page({
       app.globalData.ApiUrls.CheckSessionURL,
       null,
       function(res){
-        if (res.status == 0) {//登陆已经失效
-        }
-        else if (res.toString().indexOf('饼干管理') > 0){
+        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
           wx.switchTab({
             url: '../member-cookie/member-cookie',
           });
         }
-        else
-        {
-          app.showError('未知错误');    
+        else if (typeof res == 'object' && res.hasOwnProperty('info')) {
+          if (res.info != "并没有权限访问_(:з」∠)_") {
+            app.showError(res.info);
+          }
+        }
+        else {
+          app.showError('未知错误');
         }
         that.setData({ BLoading: false});
       },
@@ -163,21 +162,25 @@ Page({
       verify:u_vcode
     },
     function(res){
-      if (res.status == 1)
-      {
-        if (rememberPW){
-          wx.setStorageSync('UserName', u_email);
-          wx.setStorageSync('PassWord', u_pass)
+      if(typeof res == 'object') {
+        if (res.hasOwnProperty('status') && res.status == 1) {
+          if (rememberPW) {
+            wx.setStorageSync('UserName', u_email);
+            wx.setStorageSync('PassWord', u_pass)
+          }
+          app.showSuccess(res.info);
+          wx.switchTab({
+            url: '../member-cookie/member-cookie',
+          });
         }
-        app.showSuccess(res.info);
-        wx.switchTab({
-          url: '../member-cookie/member-cookie',
-        });
+        else {
+          app.showError(res.info);
+          getNewVcode(that);
+        }
       }
-      else
-      {
-        app.showError(res.info);
-        getNewVcode(that);
+      else {
+        app.showError('发生错误');
+        app.log(res);
       }
       that.setData({ BLoading: false });
     },
@@ -208,12 +211,18 @@ Page({
         verify: u_vcode
       },
       function (res) {
-        if (res.status == 1) {
-          app.showSuccess(res.info);
+        if (typeof res == 'object') {
+          if (res.status == 1) {
+            app.showSuccess(res.info);
+          }
+          else {
+            app.showError(res.info);
+            getNewVcode(that);
+          }
         }
         else {
-          app.showError(res.info);
-          getNewVcode(that);
+          app.showError('发生错误');
+          app.log(res);
         }
         that.setData({ BLoading: false });
       },
@@ -244,12 +253,18 @@ Page({
         verify: u_vcode
       },
       function (res) {
-        if (res.status == 1) {
-          app.showSuccess(res.info);
+        if (typeof res == 'object') {
+          if (res.status == 1) {
+            app.showSuccess(res.info);
+          }
+          else {
+            app.showError(res.info);
+            getNewVcode(that);
+          }
         }
         else {
-          app.showError(res.info);
-          getNewVcode(that);
+          app.showError('发生错误');
+          app.log(res);
         }
         that.setData({ BLoading: false });
       },
