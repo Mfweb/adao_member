@@ -8,29 +8,26 @@ var launchOpt = null;
 
 
 function getData(that, id) {
-  if (id >= tid_list.length)
-  {
+  if (id >= tid_list.length) {
     pw_run = false;
-    wx.hideNavigationBarLoading();
     wx.stopPullDownRefresh();
     return;
   }
   var temp_data = that.data.tlist;
 
   var is_bt = false;
-  
-  if (tid_list[id].toString().substr(0,1) == 'b')
-  {
+  if (tid_list[id].toString().substr(0, 1) == 'b') {
     is_bt = true;
     tid_list[id] = tid_list[id].substr(1);
   }
+
   http.api_request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
     { id: tid_list[id], page: 1 },
     function (res) {
       if (typeof res == 'string') {
         var data = {
           'id': tid_list[id],
-          'content': WxParse.wxParse('item', 'html', '<p>' + res+'</p>', that, null).nodes,
+          'content': WxParse.wxParse('item', 'html', '<p>' + res + '</p>', that, null).nodes,
           'img': '',
           'thumburl': '',
           'img_height': 0,
@@ -85,6 +82,33 @@ function getData(that, id) {
 }
 
 
+function GetLists(that) {
+  http.api_request(app.globalData.ApiUrls.GetSharesURL,
+    { tids: launchOpt.tid },
+    function (res) {
+      if (res.status != 'ok') {
+        app.showError(res.status);
+        wx.hideNavigationBarLoading();
+        wx.reLaunch({
+          url: '../index/index',
+        });
+      }
+      else {
+        tid_list = res.tids;
+        wx.hideNavigationBarLoading();
+        getData(that, 0);
+      }
+    },
+    function () {
+      app.showError('发生了错误');
+      wx.hideNavigationBarLoading();
+      wx.reLaunch({
+        url: '../index/index',
+      });
+    }
+  );
+}
+
 Page({
   data: {
     tlist: []
@@ -93,51 +117,31 @@ Page({
     launchOpt = options;
   },
   onReady: function () {
-    if(launchOpt == null)
-    {
+    if (launchOpt == null) {
       wx.reLaunch({
         url: '../index/index',
       });
     }
     var messageMark_this = 1;
+
     pw_run = false;
-    if (launchOpt.tid != undefined) {
-      http.api_request(app.globalData.ApiUrls.GetSharesURL,
-        { tids: launchOpt.tid },
-        function (res) {
-          if (res.status != 'ok') {
-            app.showError(res.status);
-            wx.reLaunch({
-              url: '../index/index',
-            });
+    var messagemark_save = wx.getStorageSync('MessageMark');
+    if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '')
+      messagemark_save = 0;
+    if (messagemark_save < messageMark_this) {
+      wx.showModal({
+        title: '提示',
+        content: '本页已支持长按复制串号。',
+        confirmText: '不再显示',
+        success: function (e) {
+          if (e.confirm == true) {
+            wx.setStorageSync('MessageMark', messageMark_this);
           }
-          else {
-            tid_list = res.tids;
-            wx.startPullDownRefresh({});
-            var messagemark_save = wx.getStorageSync('MessageMark');
-            if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '')
-              messagemark_save = 0;
-            if (messagemark_save < messageMark_this) {
-              wx.showModal({
-                title: '提示',
-                content: '本页已支持长按复制串号。',
-                confirmText: '不再显示',
-                success: function (e) {
-                  if (e.confirm == true) {
-                    wx.setStorageSync('MessageMark', messageMark_this);
-                  }
-                }
-              });
-            }
-          }
-        },
-        function () {
-          app.showError('发生了错误');
-          wx.reLaunch({
-            url: '../index/index',
-          });
         }
-      );
+      });
+    }
+    if (launchOpt.tid != undefined) {
+      wx.startPullDownRefresh({});
     }
     else {
       wx.reLaunch({
@@ -151,9 +155,9 @@ Page({
     wx.showNavigationBarLoading();
     var that = this;
     that.setData({ tlist: [] });
-    getData(that, 0);
+    GetLists(that);
   },
-  onUnload: function(e){
+  onUnload: function (e) {
     wx.reLaunch({
       url: '../index/index',
     });
@@ -170,13 +174,26 @@ Page({
     temp_width = app.globalData.SystemInfo.Windows.width / 2;//要缩放到的图片宽度
     temp_ratio = temp_width / e.detail.width;//计算缩放比例
     temp_height = e.detail.height * temp_ratio;//计算缩放后的高度
-    this.data.tlist[e.target.id].img_height = parseInt(temp_height);
+    if (!this.data.tlist[e.target.id].hasOwnProperty('img_height')) {
+
+      this.data.tlist[e.target.id].push({ img_height: parseInt(temp_height) });
+    }
+
+    if (!this.data.tlist[e.target.id].hasOwnProperty('img_width')) {
+      this.data.tlist[e.target.id].push({ img_width: parseInt(temp_width) });
+    }
+
+    if (!this.data.tlist[e.target.id].hasOwnProperty('img_load_success')) {
+      this.data.tlist[e.target.id].push({ img_load_success: true });
+    }
+
     this.data.tlist[e.target.id].img_width = parseInt(temp_width);
+    this.data.tlist[e.target.id].img_height = parseInt(temp_height);
     this.data.tlist[e.target.id].img_load_success = true;
     this.setData({ tlist: this.data.tlist });
   },
   bind_view_tap: function (e) {
-    wx.navigateTo({ url: '../thread/thread?id=' + this.data.tlist[e['currentTarget'].id].id + "&is_bt=" + e['currentTarget'].is_bt });
+    wx.navigateTo({ url: '../thread/thread?id=' + this.data.tlist[e['currentTarget'].id].id + "&is_bt=" + this.data.tlist[e['currentTarget'].id].is_bt });
   },
   bind_pic_tap: function (e) {
     let is_bt = this.data.tlist[e['currentTarget'].id].is_bt;
@@ -188,25 +205,24 @@ Page({
   onLongtapItem: function (e) {
     var is_bt = this.data.tlist[e['currentTarget'].id].is_bt;
     var tid = this.data.tlist[e['currentTarget'].id].id;
-    console.log(e['currentTarget'].id);
     wx.showActionSheet({
       itemList: ['复制串号', '复制链接'],
-      success: function(ex){
-        if (ex.cancel != true){
-          if(ex.tapIndex == 0){
+      success: function (ex) {
+        if (ex.cancel != true) {
+          if (ex.tapIndex == 0) {
             wx.setClipboardData({
               data: tid,
-              success: function(){
+              success: function () {
                 app.showSuccess('复制完成');
               },
-              fail: function(){
+              fail: function () {
                 app.showError('复制失败');
               }
             });
           }
-          else{
+          else {
             wx.setClipboardData({
-              data: (is_bt ?'https://tnmb.org/t/':'http://adnmb.com/t/') + tid,
+              data: (is_bt ? 'https://tnmb.org/t/' : 'http://adnmb.com/t/') + tid,
               success: function () {
                 app.showSuccess('复制完成');
               },

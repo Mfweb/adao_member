@@ -125,7 +125,7 @@ function GetList(that) {
   else
     that.setData({ bot_text: "Loading..." });
   http.api_request(
-    is_bt ? app.globalData.ApiUrls.BTThreadURL:app.globalData.ApiUrls.ThreadURL,
+    is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
     { id: forum_id, page: page },
     function (res) {//success
       if (res == "该主题不存在") {
@@ -267,6 +267,7 @@ Page({
   },
 
   onLoad: function (e) {
+    console.log(e);
     forum_id = e.id;
     page = 1;
     last_length = 0;
@@ -277,12 +278,14 @@ Page({
     image_list = [];
     po_id = "";
     mainListQuery = null;
-    is_bt = e.is_bt;
-    wx.startPullDownRefresh({});
+    is_bt = e.is_bt == 'true' ? true : false;
   },
   onShow: function () {
     mainListQuery = wx.createSelectorQuery();
     mainListQuery.select('#main_list').boundingClientRect();
+  },
+  onReady: function () {
+    wx.startPullDownRefresh({});
   },
   bind_view_tap: function (e)//点击查看引用串内容
   {
@@ -344,6 +347,20 @@ Page({
     temp_width = app.globalData.SystemInfo.Windows.width / 2;//要缩放到的图片宽度
     temp_ratio = temp_width / e.detail.width;//计算缩放比例
     temp_height = e.detail.height * temp_ratio;//计算缩放后的高度
+
+    if (!this.data.list[e.target.id].hasOwnProperty('img_height')) {
+
+      this.data.list[e.target.id].push({ img_height: parseInt(temp_height) });
+    }
+
+    if (!this.data.list[e.target.id].hasOwnProperty('img_width')) {
+      this.data.list[e.target.id].push({ img_width: parseInt(temp_width) });
+    }
+
+    if (!this.data.list[e.target.id].hasOwnProperty('img_load_success')) {
+      this.data.list[e.target.id].push({ img_load_success: true });
+    }
+
     this.data.list[e.target.id].img_height = parseInt(temp_height);
     this.data.list[e.target.id].img_width = parseInt(temp_width);
     this.data.list[e.target.id].img_load_success = true;
