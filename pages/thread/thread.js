@@ -278,7 +278,7 @@ Page({
     image_list = [];
     po_id = "";
     mainListQuery = null;
-    is_bt = e.is_bt == 'true' ? true : false;
+    is_bt = (e.is_bt == 'true' || e.is_bt == true) ? true : false;
   },
   onShow: function () {
     mainListQuery = wx.createSelectorQuery();
