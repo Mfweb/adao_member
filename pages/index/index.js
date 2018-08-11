@@ -50,6 +50,13 @@ function switchPate(that,new_page)
     animeIn.opacity(1).step();
     now_anime[new_page] = animeIn.export();
     that.setData({ animations: now_anime, TitleText: PageTitles[new_page]});
+    if (new_page == 1) {
+      wx.showModal({
+        title: '提示',
+        content: '目前微软旗下的所有邮箱（包括Hotmail、Outlook、Live等）和新浪邮箱全都屏蔽了A岛的注册邮件，请使用其他邮箱注册。',
+        showCancel: false
+      });
+    }
   }).bind(that), 200);
 }
 
