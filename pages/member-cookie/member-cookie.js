@@ -166,13 +166,6 @@ function createQRCode(that, content, callback) {
   });
 }
 /**
- * 删除指定Cookie，这里只是弹出了验证码请求界面，具体实现在Enter中
- */
-function delCookie(that, index) {
-  getNewVcode(that);
-  that.setData({ vCodeShow: true, needDeleteID: index, FormID: "delete" });
-}
-/**
  * 获取指定Cookie的二维码
  */
 function getCookieQR(that, index) {
@@ -272,7 +265,8 @@ Page({
   },
   //删除饼干(弹出验证码)
   onDeleteCookie: function (e) {
-    delCookie(this, e.target.id)
+    getNewVcode(this);
+    this.setData({ vCodeShow: true, needDeleteID: e.target.id, FormID: "delete" });
   },
   //获取饼干QR码
   onGetCookie: function (e) {

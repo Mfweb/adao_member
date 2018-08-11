@@ -63,17 +63,35 @@ App({
   },
   showSuccess(msg)
   {
-    wx.showToast({
-      icon: 'success',
-      title: msg
-    });
+    if(msg.length > 7) {
+      wx.showModal({
+        title: '提示',
+        content: msg,
+        showCancel: false
+      })
+    }
+    else {
+      wx.showToast({
+        icon: 'success',
+        title: msg
+      });
+    }
   },
   showError(msg)
   {
-    wx.showToast({
-      title: msg,
-      image: '../../imgs/alert.png'
-    });
+    if (msg.length > 7) {
+      wx.showModal({
+        title: '提示',
+        content: msg,
+        showCancel: false
+      })
+    }
+    else {
+      wx.showToast({
+        title: msg,
+        image: '../../imgs/alert.png'
+      });
+    }
   },
   log(msg)
   {
