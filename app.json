@@ -16,6 +16,12 @@
     "navigationBarTextStyle": "#fff",
     "backgroundColor": "#334054"
   },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 20000,
+    "uploadFile": 20000,
+    "downloadFile": 20000
+  },
   "tabBar": {
     "color": "#ffffff",
     "selectedColor": "#02d52f",

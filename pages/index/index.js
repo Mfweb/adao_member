@@ -60,6 +60,42 @@ function switchPate(that,new_page)
   }).bind(that), 200);
 }
 
+/**
+ * 获取并显示公告
+ */
+function showNotice(callback) {
+  wx.request({
+    url: app.globalData.ApiUrls.GetNoticeURL,
+    success: function (res) {
+      if (typeof res.data == 'object') {
+        if (res.data.errno == '0' && res.data.notice.length > 0) {
+          var noticeMark = wx.getStorageSync('NoticeMark');
+          if (noticeMark == undefined || noticeMark == null || noticeMark == '')
+            noticeMark = 0;
+          if (noticeMark < res.data.id) {
+            wx.showModal({
+              title: '提示',
+              content: res.data.notice,
+              confirmText: '不再显示',
+              success: function (e) {
+                if (e.confirm == true) {
+                  wx.setStorageSync('NoticeMark', res.data.id);
+                }
+                callback();
+              }
+            });
+            return;
+          }
+        }
+      }
+      callback();
+    },
+    fail: function () {
+      callback();
+    },
+  });
+}
+
 Page({
   data: {
     verifyCodeURL:"",
@@ -83,44 +119,46 @@ Page({
     }
 
     this.setData({ BLoading:true});
-/*
-    wx.navigateTo({
-      url: '../list/list?tid=1529161587tnZJN',
-    });
-    return;//不继续登录了
-*/
-    if (e.tid != undefined) {//通过公众号分享串二维码扫描过来
-      wx.navigateTo({
-        url: '../list/list?tid=' + e.tid,
-      });
-      return;//不继续登录了
-    }
-
-    http.api_request(
-      app.globalData.ApiUrls.CheckSessionURL,
-      null,
-      function(res){
-        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-          wx.switchTab({
-            url: '../member-cookie/member-cookie',
+    showNotice(function(){
+      /*
+          wx.navigateTo({
+            url: '../list/list?tid=1529161587tnZJN',
           });
-        }
-        else if (typeof res == 'object' && res.hasOwnProperty('info')) {
-          if (res.info != "并没有权限访问_(:з」∠)_") {
-            app.showError(res.info);
-          }
-        }
-        else {
-          app.showError('未知错误');
-        }
-        that.setData({ BLoading: false});
-      },
-      function(){
-        app.showError('连接服务器失败');
-        that.setData({ BLoading: false });
+          return;//不继续登录了
+      */
+      if (e.tid != undefined) {//通过公众号分享串二维码扫描过来
+        wx.navigateTo({
+          url: '../list/list?tid=' + e.tid,
+        });
+        return;//不继续登录了
       }
-    );
-    switchPate(that, 0);
+      http.api_request(
+        app.globalData.ApiUrls.CheckSessionURL,
+        null,
+        function (res) {
+          if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
+            wx.switchTab({
+              url: '../member-cookie/member-cookie',
+            });
+          }
+          else if (typeof res == 'object' && res.hasOwnProperty('info')) {
+            if (res.info != "并没有权限访问_(:з」∠)_") {
+              app.showError(res.info);
+            }
+          }
+          else {
+            app.showError('未知错误');
+          }
+          that.setData({ BLoading: false });
+        },
+        function () {
+          app.showError('连接服务器失败');
+          that.setData({ BLoading: false });
+        }
+      );
+      switchPate(that, 0);
+
+    });
   },
   onShow: function(e) {
     
@@ -143,6 +181,9 @@ Page({
   },
   onLoginSubmit:function(e)//登陆
   {
+    if (this.data.BLoading == true) {
+      return;
+    }
     var that = this;
     var u_email = e.detail.value.email;
     var u_pass  = e.detail.value.passwd;
@@ -198,6 +239,9 @@ Page({
   },
   onSignupSubmit: function(e)//注册
   {
+    if (this.data.BLoading == true) {
+      return;
+    }
     var that = this;
     var u_email = e.detail.value.email;
     var u_vcode = e.detail.value.verifycode;
@@ -240,6 +284,9 @@ Page({
   },
   onForgotPassSubmit: function (e)//忘记密码
   {
+    if (this.data.BLoading == true) {
+      return;
+    }
     var that = this;
     var u_email = e.detail.value.email;
     var u_vcode = e.detail.value.verifycode;

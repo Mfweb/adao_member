@@ -22,6 +22,7 @@ App({
       MobileCheckURL: hostURL + "/Member/User/Authentication/isBindMobile",//手机认证校验
       ChangePasswordURL: hostURL + "/Member/User/Index/changePassword.html",//修改密码
 
+      GetNoticeURL: "https://mfweb.top/adao/member/notice.php",//获取公告
       GetAuthPhoneURL: "https://mfweb.top/adao/member/getphone.php",//获取三酱验证手机号
       GetRandomPicURL: "https://mfweb.top/adao/getpicture.php",//获取随机图
       Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
