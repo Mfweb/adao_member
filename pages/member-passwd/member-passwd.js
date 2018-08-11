@@ -15,7 +15,6 @@ Page({
       function (res) {
         wx.hideNavigationBarLoading();
         if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-          wx.startPullDownRefresh({});
         }
         else {
           app.logOut();

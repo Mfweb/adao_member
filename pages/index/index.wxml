@@ -15,7 +15,7 @@
   <view class='loginForm'>
     <input class='emailInput' name='email' value='{{UserName}}' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
     <input class='pswInput' name='passwd' value='{{PassWord}}' type='text' placeholder='输入密码' password='true' confirm-type='next'></input>
-    <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
+    <input class='codeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='go'></input>
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
@@ -27,7 +27,7 @@
   <form wx:if='{{Mode==1}}' animation='{{animations[1]}}' class='lf' bindsubmit='onSignupSubmit'>
   <view class='loginForm'>
     <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
-    <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
+    <input class='codeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='go'></input>
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
@@ -37,7 +37,7 @@
   <form wx:if='{{Mode==2}}' animation='{{animations[2]}}' class='lf' bindsubmit='onForgotPassSubmit'>
   <view class='loginForm'>
     <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
-    <input class='codeInput' name='verifycode' type='text' placeholder='输入验证码' confirm-type='go'></input>
+    <input class='codeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='go'></input>
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>

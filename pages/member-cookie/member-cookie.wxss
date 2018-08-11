@@ -58,6 +58,8 @@
   font-size: 15px;
   color:#000;
   border-radius:8px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 .qrCanvas{
   width: 220px;
