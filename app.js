@@ -28,6 +28,8 @@ App({
       Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
       //获取分享串
       GetSharesURL: "https://mfweb.top/adao/getshare.php",
+      //获取服务条款
+      GetTermsURL: "https://mfweb.top/adao/member/getterms.php",
       //主岛配置
       ThreadURL: hostURL + "/Api/thread?appid=wechatapp",//获得串内容和回复
       GetThreadURL: hostURL + "/Api/ref?appid=wechatapp",//获得串内容
@@ -160,5 +162,44 @@ App({
       dataUrl: this.globalData.ApiUrls.Tnnaii_H_IslandURL,
     });
     this.log('play eat');
+  },
+  getTerms(callback = null) {
+    var terms_saved;
+    try {
+      terms_saved = JSON.parse(wx.getStorageSync('Terms'));
+    }
+    catch (e) {
+      terms_saved = null;
+    }
+
+    if (terms_saved == null || Date.parse(new Date()) - terms_saved.get_time > (1 * 60 * 60 * 1000)) {
+      wx.request({
+        url: this.globalData.ApiUrls.GetTermsURL,
+        success: function (res) {
+          if (res.data.hasOwnProperty('status') && res.data.status == 'ok') {
+            res.data.get_time = Date.parse(new Date());
+            wx.setStorageSync('Terms', JSON.stringify(res.data));
+          }
+          if (callback != null) {
+            callback(res.data);
+          }
+        },
+        fail: function () {
+          if (callback != null) {
+            if (terms_saved != null) {
+              callback(terms_saved);
+            }
+            else {
+              callback(false);
+            }
+          }
+        }
+      });
+    }
+    else {
+      if (callback != null) {
+        callback(terms_saved);
+      }
+    }
   }
 })

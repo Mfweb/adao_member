@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp();
 const http = require('../../utils/http.js');
+var WxParse = require('../../wxParse/wxParse.js');
 var rememberPW = false;
 const PageTitles = ['登录', '注册','找回密码'];
 /**
@@ -24,7 +25,7 @@ function getNewVcode(that)
 }
 
 
-function switchPate(that,new_page)
+function switchPage(that,new_page)
 {
   var now_page = that.data.Mode;
   var now_anime = that.data.animations;
@@ -98,15 +99,17 @@ function showNotice(callback) {
 
 Page({
   data: {
-    verifyCodeURL:"",
-    Mode:0,
-    animations:[],
+    verifyCodeURL: "",
+    Mode: 0,
+    animations: [],
     TitleText: PageTitles[0],
     vCodeLoading: true,
-    BLoading:false,
-    RememberPW:false,
-    UserName:'',
-    PassWord:''
+    BLoading: false,
+    RememberPW: false,
+    UserName: '',
+    PassWord: '',
+    showTermsWindow: false,
+    termsNodes: null
   },
   onLoad: function (e) {
     var that = this;
@@ -119,6 +122,7 @@ Page({
     }
 
     this.setData({ BLoading:true});
+    app.getTerms();
     showNotice(function(){
       /*
           wx.navigateTo({
@@ -156,7 +160,7 @@ Page({
           that.setData({ BLoading: false });
         }
       );
-      switchPate(that, 0);
+      switchPage(that, 0);
 
     });
   },
@@ -169,15 +173,15 @@ Page({
   },
   onTapIlogin:function(){
     var that = this;
-    switchPate(that, 0);
+    switchPage(that, 0);
   },
   onTapIsignup: function () {
     var that = this;
-    switchPate(that,1);
+    switchPage(that,1);
   },
   onTapIforgot: function () {
     var that = this;
-    switchPate(that, 2);
+    switchPage(that, 2);
   },
   onLoginSubmit:function(e)//登陆
   {
@@ -245,7 +249,11 @@ Page({
     var that = this;
     var u_email = e.detail.value.email;
     var u_vcode = e.detail.value.verifycode;
-
+    var u_agree = e.detail.value.agree.length;
+    if(!u_agree) {
+      app.showError('请阅读并同意服务条款和隐私政策');
+      return;    
+    }
     if (u_email.indexOf('@') < 1) {
       app.showError('邮箱格式错误');
       return;
@@ -259,12 +267,14 @@ Page({
     http.api_request(app.globalData.ApiUrls.SignupURL,
       {
         email: u_email,
-        verify: u_vcode
+        verify: u_vcode,
+        agree: ['']
       },
       function (res) {
         if (typeof res == 'object') {
           if (res.status == 1) {
             app.showSuccess(res.info);
+            switchPage(that, 0);
           }
           else {
             app.showError(res.info);
@@ -351,5 +361,26 @@ Page({
       },
       fail: function () { }
     });
-  }
+  },
+  onReadPrivacy:function(){
+    wx.navigateTo({ url: '../thread/thread?id=11689471&is_bt=false'});
+  },
+  onReadTerms: function(){
+    var _this = this;
+    app.getTerms(function (res) {
+      if(res === false) {
+        app.showError('网络错误');
+      }
+      else if (res.status != 'ok') {
+        app.showError(res.errmsg);
+      }
+      else {
+        _this.setData({ termsNodes: WxParse.wxParse('item', 'html', res.data, _this, null).nodes, showTermsWindow: true});
+      }
+    });
+  },
+  onReadTermsFinish: function(){
+    this.setData({ showTermsWindow: false });
+  },
+  f_touch:function(){}
 })

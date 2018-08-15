@@ -15,6 +15,7 @@
       <view class='RunListB1' style='height:{{item.lsec}}px;background-color:{{item.color}};'></view>
     </view>
   </view>
+  <ad unit-id="adunit-fb60e0d72b870b70"></ad>
 </view>
 <template is="bubble"></template>
 <view wx:if="{{showSelectCookie}}" class='modal' hover-stop-propagation='true'>

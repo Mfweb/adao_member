@@ -1,4 +1,5 @@
 <!--index.wxml-->
+<import src="../../wxParse/wxParse.wxml"/>
 <view class="container">
   <!--<view class="mainTitle">A岛注册实名系统</view>-->
   <view class='title'>
@@ -31,6 +32,14 @@
   </view>
   <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
+  <view class='user-agreement'>
+    <checkbox-group name="agree">
+      <label><checkbox name='agree'/></label>
+    </checkbox-group>
+    <view>
+      我已阅读并同意<label class='hight-light' bindtap='onReadTerms'>服务条款</label>和<label class='hight-light' bindtap='onReadPrivacy'>隐私政策</label>
+    </view>
+  </view>
   <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='reg'>发送注册邮件</button>
   </form>
   <!--忘记密码-->
@@ -43,4 +52,8 @@
   <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
   <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='forget'>发送邮件</button>
   </form>
+</view>
+<view wx:if="{{showTermsWindow}}" class='modal' hover-stop-propagation='true' catchscroll="f_touch">
+  <template wx:if="{{showTermsWindow}}" is="wxParse" data="{{wxParseData:termsNodes}}"/>
+  <button bindtap='onReadTermsFinish' class='modal-close'>已阅读并同意</button>
 </view>
