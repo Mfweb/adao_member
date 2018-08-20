@@ -141,7 +141,16 @@ Page({
       });
     }
     if (launchOpt.tid != undefined) {
-      wx.startPullDownRefresh({});
+      if (wx.startPullDownRefresh){
+        wx.startPullDownRefresh({});
+      }
+      else{
+        pw_run = true;
+        wx.showNavigationBarLoading();
+        var _this = this;
+        _this.setData({ tlist: [] });
+        GetLists(_this);
+      }
     }
     else {
       wx.reLaunch({
@@ -174,23 +183,14 @@ Page({
     temp_width = app.globalData.SystemInfo.Windows.width / 2;//要缩放到的图片宽度
     temp_ratio = temp_width / e.detail.width;//计算缩放比例
     temp_height = e.detail.height * temp_ratio;//计算缩放后的高度
-    if (!this.data.tlist[e.target.id].hasOwnProperty('img_height')) {
 
-      this.data.tlist[e.target.id].push({ img_height: parseInt(temp_height) });
-    }
+    var tempData = this.data.tlist;
 
-    if (!this.data.tlist[e.target.id].hasOwnProperty('img_width')) {
-      this.data.tlist[e.target.id].push({ img_width: parseInt(temp_width) });
-    }
+    tempData[e.target.id].img_height = temp_height;
+    tempData[e.target.id].img_width = temp_width;
+    tempData[e.target.id].img_load_success = true;
 
-    if (!this.data.tlist[e.target.id].hasOwnProperty('img_load_success')) {
-      this.data.tlist[e.target.id].push({ img_load_success: true });
-    }
-
-    this.data.tlist[e.target.id].img_width = parseInt(temp_width);
-    this.data.tlist[e.target.id].img_height = parseInt(temp_height);
-    this.data.tlist[e.target.id].img_load_success = true;
-    this.setData({ tlist: this.data.tlist });
+    this.setData({ tlist: tempData });
   },
   bind_view_tap: function (e) {
     wx.navigateTo({ url: '../thread/thread?id=' + this.data.tlist[e['currentTarget'].id].id + "&is_bt=" + this.data.tlist[e['currentTarget'].id].is_bt });

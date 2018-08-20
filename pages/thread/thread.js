@@ -101,6 +101,9 @@ function GetQuote(kid) {
   //var te_addr = /h.nimingban.com\/t\/\d{1,11}/g;
   var te2 = /\d{1,11}/g;
   var out_data = { html: null, all_kid: [] };
+  if(typeof kid != 'string' || kid.length == 0) {
+    return { html: kid, all_kid: []};
+  }
   var all_find = kid.match(te);
   if (all_find != null && all_find != false && all_find.length > 0) {
     out_data.html = kid.replace(te, '<view class="bequote">$&</view><view class="be_br"></view>');
@@ -267,7 +270,6 @@ Page({
   },
 
   onLoad: function (e) {
-    console.log(e);
     forum_id = e.id;
     page = 1;
     last_length = 0;
@@ -285,6 +287,21 @@ Page({
     mainListQuery.select('#main_list').boundingClientRect();
   },
   onReady: function () {
+    if (wx.startPullDownRefresh) {
+      wx.startPullDownRefresh({});
+    }
+    else{
+      pw_run = true;
+      page = 1;
+      last_length = 0;
+      this.setData(
+        {
+          list: [],
+          scrollTop: 0
+        });
+      var that = this;
+      GetList(that);
+    }
     wx.startPullDownRefresh({});
   },
   bind_view_tap: function (e)//点击查看引用串内容
@@ -305,6 +322,7 @@ Page({
   },
   onPullDownRefresh: function ()//下拉刷新
   {
+    if (pw_run == true)return;
     pw_run = true;
     page = 1;
     last_length = 0;
@@ -348,23 +366,13 @@ Page({
     temp_ratio = temp_width / e.detail.width;//计算缩放比例
     temp_height = e.detail.height * temp_ratio;//计算缩放后的高度
 
-    if (!this.data.list[e.target.id].hasOwnProperty('img_height')) {
+    var tempData = this.data.list;
 
-      this.data.list[e.target.id].push({ img_height: parseInt(temp_height) });
-    }
+    tempData[e.target.id].img_height = temp_height;
+    tempData[e.target.id].img_width = temp_width;
+    tempData[e.target.id].img_load_success = true;
 
-    if (!this.data.list[e.target.id].hasOwnProperty('img_width')) {
-      this.data.list[e.target.id].push({ img_width: parseInt(temp_width) });
-    }
-
-    if (!this.data.list[e.target.id].hasOwnProperty('img_load_success')) {
-      this.data.list[e.target.id].push({ img_load_success: true });
-    }
-
-    this.data.list[e.target.id].img_height = parseInt(temp_height);
-    this.data.list[e.target.id].img_width = parseInt(temp_width);
-    this.data.list[e.target.id].img_load_success = true;
-    this.setData({ list: this.data.list });
+    this.setData({ list: tempData });
   },
   f_touch: function () {
 

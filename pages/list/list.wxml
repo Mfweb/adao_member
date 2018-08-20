@@ -24,4 +24,5 @@
         <view class="list-sage" hidden="{{item.sage==0?true:false}}">SAGE</view>
     </view>
   </view>
+  <ad unit-id="adunit-e9432ea9ec0a8e5f"></ad>
 </view>
