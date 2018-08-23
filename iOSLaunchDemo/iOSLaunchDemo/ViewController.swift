@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     //MARK - OpenReg
     @IBAction func onOpenReg(_ sender: UIButton) {
         let launchManager = WXLaunchMiniProgramReq()
-        launchManager.miniProgramType = WXMiniProgramType.release
+        launchManager.miniProgramType = WXMiniProgramType.preview  //release  preview  test
         launchManager.path = "pages/index/index?mode=reg"
         launchManager.userName = "gh_f8c1b9909e51@app"
         WXApi.send(launchManager)
@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     //MARK - OpenCookie
     @IBAction func onOpenCookie(_ sender: UIButton) {
         let launchManager = WXLaunchMiniProgramReq()
-        launchManager.miniProgramType = WXMiniProgramType.release
+        launchManager.miniProgramType = WXMiniProgramType.preview
         launchManager.path = "pages/index/index?mode=cookie"
         launchManager.userName = "gh_f8c1b9909e51@app"
         WXApi.send(launchManager)

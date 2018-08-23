@@ -25,7 +25,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx0066e3ac88fdccb2</string>
+				<string>wxae088b5c050dc89c</string>
 			</array>
 		</dict>
 	</array>
@@ -43,7 +43,7 @@
 		<true/>
 	</dict>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>Main</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

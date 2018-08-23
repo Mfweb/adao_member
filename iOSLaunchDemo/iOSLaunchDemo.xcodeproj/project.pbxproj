@@ -16,6 +16,15 @@
 		8D697329212961D300A4C548 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D697328212961D300A4C548 /* libsqlite3.0.tbd */; };
 		8D697333212964D600A4C548 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D697332212964D600A4C548 /* libc++.tbd */; };
 		8D6973352129666600A4C548 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D69732E2129620900A4C548 /* UIKit.framework */; };
+		8DD21860212BC4AE00B8B8E7 /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD21857212BC4AE00B8B8E7 /* 1024.png */; };
+		8DD21861212BC4AE00B8B8E7 /* 20x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD21858212BC4AE00B8B8E7 /* 20x2.png */; };
+		8DD21862212BC4AE00B8B8E7 /* 20x3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD21859212BC4AE00B8B8E7 /* 20x3.png */; };
+		8DD21863212BC4AE00B8B8E7 /* 29x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2185A212BC4AE00B8B8E7 /* 29x2.png */; };
+		8DD21864212BC4AE00B8B8E7 /* 29x3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2185B212BC4AE00B8B8E7 /* 29x3.png */; };
+		8DD21865212BC4AE00B8B8E7 /* 40x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2185C212BC4AE00B8B8E7 /* 40x2.png */; };
+		8DD21866212BC4AE00B8B8E7 /* 40x3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2185D212BC4AE00B8B8E7 /* 40x3.png */; };
+		8DD21867212BC4AE00B8B8E7 /* 60x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2185E212BC4AE00B8B8E7 /* 60x2.png */; };
+		8DD21868212BC4AE00B8B8E7 /* 60x3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2185F212BC4AE00B8B8E7 /* 60x3.png */; };
 		8DF15F6B20A944FA007999FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF15F6A20A944FA007999FD /* AppDelegate.swift */; };
 		8DF15F6D20A944FA007999FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF15F6C20A944FA007999FD /* ViewController.swift */; };
 		8DF15F7020A944FA007999FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DF15F6E20A944FA007999FD /* Main.storyboard */; };
@@ -56,6 +65,15 @@
 		8D6973302129625600A4C548 /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
 		8D697332212964D600A4C548 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		8D6973342129664500A4C548 /* WeChatBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeChatBridging.h; sourceTree = "<group>"; };
+		8DD21857212BC4AE00B8B8E7 /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
+		8DD21858212BC4AE00B8B8E7 /* 20x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 20x2.png; sourceTree = "<group>"; };
+		8DD21859212BC4AE00B8B8E7 /* 20x3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 20x3.png; sourceTree = "<group>"; };
+		8DD2185A212BC4AE00B8B8E7 /* 29x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 29x2.png; sourceTree = "<group>"; };
+		8DD2185B212BC4AE00B8B8E7 /* 29x3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 29x3.png; sourceTree = "<group>"; };
+		8DD2185C212BC4AE00B8B8E7 /* 40x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 40x2.png; sourceTree = "<group>"; };
+		8DD2185D212BC4AE00B8B8E7 /* 40x3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 40x3.png; sourceTree = "<group>"; };
+		8DD2185E212BC4AE00B8B8E7 /* 60x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 60x2.png; sourceTree = "<group>"; };
+		8DD2185F212BC4AE00B8B8E7 /* 60x3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 60x3.png; sourceTree = "<group>"; };
 		8DF15F6720A944FA007999FD /* iOSLaunchDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSLaunchDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF15F6A20A944FA007999FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DF15F6C20A944FA007999FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +147,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8DD21856212BC4AE00B8B8E7 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				8DD21857212BC4AE00B8B8E7 /* 1024.png */,
+				8DD21858212BC4AE00B8B8E7 /* 20x2.png */,
+				8DD21859212BC4AE00B8B8E7 /* 20x3.png */,
+				8DD2185A212BC4AE00B8B8E7 /* 29x2.png */,
+				8DD2185B212BC4AE00B8B8E7 /* 29x3.png */,
+				8DD2185C212BC4AE00B8B8E7 /* 40x2.png */,
+				8DD2185D212BC4AE00B8B8E7 /* 40x3.png */,
+				8DD2185E212BC4AE00B8B8E7 /* 60x2.png */,
+				8DD2185F212BC4AE00B8B8E7 /* 60x3.png */,
+			);
+			path = AppIcons;
+			sourceTree = "<group>";
+		};
 		8DF15F5E20A944FA007999FD = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +193,7 @@
 				8DF15F7320A944FB007999FD /* LaunchScreen.storyboard */,
 				8DF15F7620A944FB007999FD /* Info.plist */,
 				8D6973342129664500A4C548 /* WeChatBridging.h */,
+				8DD21856212BC4AE00B8B8E7 /* AppIcons */,
 			);
 			path = iOSLaunchDemo;
 			sourceTree = "<group>";
@@ -267,8 +302,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DD21868212BC4AE00B8B8E7 /* 60x3.png in Resources */,
+				8DD21865212BC4AE00B8B8E7 /* 40x2.png in Resources */,
+				8DD21862212BC4AE00B8B8E7 /* 20x3.png in Resources */,
+				8DD21866212BC4AE00B8B8E7 /* 40x3.png in Resources */,
+				8DD21864212BC4AE00B8B8E7 /* 29x3.png in Resources */,
+				8DD21867212BC4AE00B8B8E7 /* 60x2.png in Resources */,
 				8DF15F7520A944FB007999FD /* LaunchScreen.storyboard in Resources */,
+				8DD21863212BC4AE00B8B8E7 /* 29x2.png in Resources */,
 				8DF15F7220A944FB007999FD /* Assets.xcassets in Resources */,
+				8DD21861212BC4AE00B8B8E7 /* 20x2.png in Resources */,
+				8DD21860212BC4AE00B8B8E7 /* 1024.png in Resources */,
 				8DF15F7020A944FA007999FD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

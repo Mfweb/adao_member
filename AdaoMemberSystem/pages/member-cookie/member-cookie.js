@@ -1,8 +1,7 @@
 const app = getApp();
 const http = require('../../utils/http.js');
+const cookie = require('../../utils/cookie.js');
 import drawQrcode from '../../utils/weapp.qrcode.min.js'
-var pw_run = false;
-var gt_run = false;
 var de_run = false;
 var nw_run = false;
 
@@ -27,78 +26,23 @@ function getNewVcode(that) {
 /**
  * 获取所有拥有的Cookie
  */
-function getCookies(that) {
-  if (pw_run) return;
-  pw_run = true;
-  http.api_request(
-    app.globalData.ApiUrls.CookiesListURL,
-    null,
-    function (res) {
-      if (typeof res == 'string' && res.indexOf('饼干列表') > 0) {
-        res = res.replace(/ /g, '');
-        res = res.replace(/\r/g, '');
-        res = res.replace(/\n/g, '');
-
-        var finds = res.match(/<tbody>[\s\S]*?<\/tbody>/ig);
-        if (finds != null) {
-          var finds_tr = finds[0].match(/<tr>[\s\S]*?<\/tr>/ig);
-          if (finds_tr != null) {
-            var c_list = Array();
-            for (let i = 0; i < finds_tr.length; i++) {
-              var find_td = finds_tr[i].match(/<td>[\s\S]*?<\/td>/ig);
-              if (find_td != null) {
-                c_list.push({ id: find_td[1].replace(/(<td>)|(<\/td>)/g, ""), value: find_td[2].replace(/(<td><ahref="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
-              }
-            }
-            //app.log(finds_tr);
-            that.setData({ CookieList: c_list });
-          }
-          else {
-            app.showError('饼干列表为空');
-          }
-        }
-      }
-      else if (typeof res == 'object' && res.hasOwnProperty('status')) {
-        if (res.status == 0) {
-          app.showError(res.info);
-          if (res.info == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot) {
-            wx.showTabBarRedDot({
-              index: 1
-            });
-          }
-        }
-        else {
-          app.showError('获取饼干错误2');
-        }
-      }
-      else {
-        app.showError('获取饼干错误1');
+function getCookies(_this) {
+  cookie.getCookies(function(status, msg) {
+    if(status == false) {
+      app.showError(msg);
+      if (msg == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot) {
+        wx.showTabBarRedDot({
+          index: 1
+        });
       }
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
-      pw_run = false;
-    },
-    function () {
-      wx.stopPullDownRefresh();
-      pw_run = false;
-      wx.hideNavigationBarLoading();
-      wx.navigateTo({
-        url: '../index/index'
-      });
+      return;
     }
-  );
-}
-/**
- * 检查字符串是否是JSON
- */
-function isJsonString(str) {
-  try {
-    if (typeof JSON.parse(str) == "object") {
-      return true;
-    }
-  } catch (e) {
-  }
-  return false;
+    _this.setData({ CookieList: msg });
+    wx.stopPullDownRefresh();
+    wx.hideNavigationBarLoading();
+  });
 }
 
 /**
@@ -168,60 +112,25 @@ function createQRCode(that, content, callback) {
 /**
  * 获取指定Cookie的二维码
  */
-function getCookieQR(that, index) {
-  if (gt_run) return;
-  gt_run = true;
-  var temp_data = that.data.CookieList;
+function getCookieQR(_this, index) {
+  var temp_data = _this.data.CookieList;
+  if (temp_data[index].getLoading == true)return;
   temp_data[index].getLoading = true;
-  that.setData({ CookieList: temp_data });
+  _this.setData({ CookieList: temp_data });
   temp_data[index].getLoading = false;
-  //app.log(temp_data[index]);
 
-  http.api_request(
-    app.globalData.ApiUrls.CookieGetQRURL + temp_data[index].id + ".html",
-    null,
-    function (res) {
-      if (typeof res == "string") {
-        if (res.indexOf('<div class="tpl-form-maintext"><img src="') > 0) {
-          res = res.replace(/ /g, "");
-          var temp_match = res.match(/<divclass="tpl-form-maintext"><imgsrc="[\s\S]*?"style=/ig);
-          if (temp_match != null) {
-            //app.log(temp_match[0]);
-            var qrCodeURL = temp_match[0].replace(/(<divclass="tpl-form-maintext"><imgsrc=")|("style=)/g, "");
-
-            app.log('qrcode url:' + qrCodeURL);
-            var qrCodeContent = decodeURIComponent(qrCodeURL.replace(/^[\s\S]*text=/g, ""));
-            if (isJsonString(qrCodeContent)) {
-              createQRCode(that, qrCodeContent, function () {
-                gt_run = false;
-                that.setData({ CookieList: temp_data });
-              });
-              return;
-            }
-            else {
-              app.showError('饼干内容错误');
-              app.log("get qr error:" + qrCodeContent);
-            }
-          }
-          else {
-            app.showError('发生了错误');
-          }
-        }
-        else {
-          app.showError('发生了错误');
-        }
-      }
-      else {
-        app.showError('获取错误');
-      }
-      gt_run = false;
-      that.setData({ CookieList: temp_data });
-    },
-    function () {
-      app.showError('发生了错误');
-      gt_run = false;
-      that.setData({ CookieList: temp_data });
-    });
+  cookie.getCookieDetail(temp_data[index].id, function(sta, detail) {
+    if (sta == true) {
+      createQRCode(_this, JSON.stringify({ cookie: detail}), function () {
+        _this.setData({ CookieList: temp_data });
+        return;
+      });
+    }
+    else {
+      app.showError(detail);
+      _this.setData({ CookieList: temp_data });
+    }
+  });
 }
 
 Page({

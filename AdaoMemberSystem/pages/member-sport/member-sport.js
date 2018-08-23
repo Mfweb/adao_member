@@ -1,61 +1,18 @@
 const app = getApp();
+const cookie = require('../../utils/cookie.js');
 const http = require('../../utils/http.js');
 var SelectCookieID = 0;
 
 
-function GetCookies(that)
+function GetCookies(_this)
 {
-  http.api_request(
-    app.globalData.ApiUrls.CookiesListURL,
-    null,
-    function (res) {
-      if (res.toString().indexOf('饼干列表') > 0) {
-        res = res.replace(/ /g, '');
-        res = res.replace(/\r/g, '');
-        res = res.replace(/\n/g, '');
-
-        var finds = res.match(/<tbody>[\s\S]*?<\/tbody>/ig);
-        if (finds != null) {
-          var finds_tr = finds[0].match(/<tr>[\s\S]*?<\/tr>/ig);
-          if (finds_tr != null) {
-            var c_list = Array();
-            for (let i = 0; i < finds_tr.length; i++) {
-              var find_td = finds_tr[i].match(/<td>[\s\S]*?<\/td>/ig);
-              if (find_td != null) {
-                c_list.push({ name: i, value: find_td[2].replace(/(<td><ahref="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
-              }
-            }
-            SelectCookieID = 0;
-            c_list[0].checked = true;
-            that.setData({ cookie_items: c_list, showSelectCookie: true });
-          }
-          else {
-            app.showError('饼干列表为空');
-            that.setData({ getLoading: false });
-          }
-        }
-      }
-      else {
-        if (res.status == 0) {
-          app.showError(res.info);
-          if (res.info == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot) {
-            wx.showTabBarRedDot({
-              index: 1
-            });
-          }
-          that.setData({ getLoading: false });
-        }
-        else
-        {
-          app.showError('获取饼干错误');
-          that.setData({ getLoading: false });
-        }
-      }
-    },
-    function () {
-
+  cookie.getCookies(function (status, msg) {
+    if (status == false) {
+      app.showError(msg);
+      return;
     }
-  );
+    _this.setData({ cookie_items: msg, showSelectCookie: true });
+  });
 }
 
 //获取并上传运动数据
@@ -127,7 +84,7 @@ function WeLogin(that)
   wx.login({
     //登录成功
     success: function (e) {
-      console.log(e);
+      app.log(e);
       if (e.code) {
         wx.request({
           url: app.globalData.ApiUrls.WeLoginURL,
@@ -178,7 +135,7 @@ function GetStep(that)
   wx.request({
     url: app.globalData.ApiUrls.WeDownloadRunURL,
     success:function(res){
-      console.log(res);
+      app.log(res);
       if (res.data.status == 0)
         that.setData({StepList: res.data.steps});
       else

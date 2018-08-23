@@ -5,6 +5,7 @@ const http = require('../../utils/http.js');
 var WxParse = require('../../wxParse/wxParse.js');
 var rememberPW = false;
 const PageTitles = ['登录', '注册','找回密码'];
+var memberMode = 0;
 /**
  * @brief 获得新的验证码
  */
@@ -130,6 +131,17 @@ Page({
           });
           return;//不继续登录了
       */
+      memberMode = 0;
+      if (app.globalData.SystemInfo.Scene == 1069) {//通过APP拉起
+        if (e.mode != undefined && e.mode == 'reg') {
+          that.setData({ BLoading: false });
+          switchPage(that, 1);
+          return;
+        }
+        else if (e.mode != undefined && e.mode == 'cookie') {
+          memberMode = 1;
+        }
+      }
       if (e.tid != undefined) {//通过公众号分享串二维码扫描过来
         wx.navigateTo({
           url: '../list/list?tid=' + e.tid,
@@ -141,9 +153,16 @@ Page({
         null,
         function (res) {
           if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-            wx.switchTab({
-              url: '../member-cookie/member-cookie',
-            });
+            if (memberMode == 0) {
+              wx.switchTab({
+                url: '../member-cookie/member-cookie',
+              });
+            }
+            else if (memberMode == 1) {
+              wx.navigateTo({
+                url: '../app-cookie/app-cookie',
+              });
+            }
           }
           else if (typeof res == 'object' && res.hasOwnProperty('info')) {
             if (res.info != "并没有权限访问_(:з」∠)_") {
@@ -161,7 +180,6 @@ Page({
         }
       );
       switchPage(that, 0);
-
     });
   },
   onShow: function(e) {
@@ -220,10 +238,16 @@ Page({
             wx.setStorageSync('UserName', u_email);
             wx.setStorageSync('PassWord', u_pass)
           }
-          app.showSuccess(res.info);
-          wx.switchTab({
-            url: '../member-cookie/member-cookie',
-          });
+          if (memberMode == 0) {
+            wx.switchTab({
+              url: '../member-cookie/member-cookie',
+            });
+          }
+          else if (memberMode == 1) {
+            wx.navigateTo({
+              url: '../app-cookie/app-cookie',
+            });
+          }
         }
         else {
           app.showError(res.info);

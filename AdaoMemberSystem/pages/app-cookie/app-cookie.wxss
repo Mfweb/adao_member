@@ -1,0 +1,42 @@
+.CookieList{
+  width: 100%;
+  display: block;
+  color: #fffff0;
+  font-size: 15px;
+}
+.CookieListTr{
+  display: flex;
+  width: 98%;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border-bottom: 1px solid #fff;
+  margin: 0 auto;
+}
+.CookieListTd1{
+  width: 25%;
+  text-align: center;
+}
+.CookieListTd2{
+  width: 45%;
+  text-align: center;
+}
+.CookieListTd3{
+  width: 30%;
+  text-align: center;
+  display: flex;
+}
+.cButton{
+  margin: 0 auto;
+}
+.nButton{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+.message{
+  width: 92%;
+  left: 4%;
+  font-size: 1rem;
+  color: #fff;
+}

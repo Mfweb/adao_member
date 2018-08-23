@@ -1,0 +1,24 @@
+<view class='pdcontainer'>
+  <view class='CookieList'>
+    <view class='CookieListTr'>
+      <view class='CookieListTd1 lTitle'>ID</view>
+      <view class='CookieListTd2 lTitle'>饼干</view>
+      <view class='CookieListTd3 lTitle'>导入</view>
+    </view>
+    <checkbox-group bindchange="checkboxChange">
+      <view wx:for="{{CookieList}}" class='CookieListTr' wx:key='cl'>
+        <view class='CookieListTd1'>{{item.id}}</view>
+        <view class='CookieListTd2'>{{item.value}}</view>
+        <view class='CookieListTd3'>
+        <label class="checkbox">
+          <checkbox value="{{index}}" bindtap='onTapCheckbox' id='{{index}}' disabled='{{disableCheckbox}}'/>选择
+        </label>
+        </view>
+      </view>
+    </checkbox-group>
+  </view>
+  <view class='message'>
+    请注意，如果确定导入饼干，则APP可以获取饼干（不会获得饼干显示名以及实名内容），请确定调用小程序的APP是否是需要导入饼干的APP，否则可能有变RBQ的风险。
+  </view>
+  <button bindtap='onReturn' disabled='{{disableLaunch}}' open-type='launchApp' app-parameter='{{returnJson}}' binderror="onLaunchAppError" class='nButton' type='primary'>确认导入选中的饼干</button>
+</view>

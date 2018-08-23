@@ -5,6 +5,9 @@ App({
   onLaunch: function () {
     this.getSysWindow();
   },
+  onShow: function(res){
+    this.globalData.SystemInfo.Scene = res.scene;
+  },
   globalData: {
     ApiUrls:{
       VerifyCodeURL: hostURL + "/Member/User/Index/verify.html",//请求验证码
@@ -16,6 +19,7 @@ App({
       CookiesListURL: hostURL + "/Member/User/Cookie/index.html",//饼干列表
       CookieDeleteURL: hostURL + "/Member/User/Cookie/delete/id/",//删除饼干
       CookieGetQRURL: hostURL + "/Member/User/Cookie/export/id/",//获取饼干二维码
+      CookieGetDetailURL: hostURL + "/Member/User/Cookie/switchTo/id/",//获取饼干内容
       CookieGetNewURL: hostURL + "/Member/User/Cookie/apply.html",//获取新饼干
       CertifiedStatusURL: hostURL + "/Member/User/Authentication/mobile.html",//认证状态
       MobileCertURL: hostURL + "/Member/User/Authentication/mobileReverseAuthCode",//手机认证
@@ -56,7 +60,8 @@ App({
       Windows: {
         height:0,
         width:0
-      }
+      },
+      Scene: 0
     }
   },
   getSysWindow(){
