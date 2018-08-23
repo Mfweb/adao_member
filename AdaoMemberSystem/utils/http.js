@@ -109,7 +109,7 @@ function api_request(url, pdata, success, fail)
  * @param fail:请求失败回调
  * @retval None
  */
-function get_verifycode(success,fail)
+function _get_verifycode(success,fail)
 {
   const app = getApp();
   wx.downloadFile({
@@ -128,6 +128,20 @@ function get_verifycode(success,fail)
         fail();
     }
   })
+}
+
+function get_verifycode(callback) {
+  _get_verifycode(function (res) {
+    if (res.statusCode == 200) {
+      callback(true, res.tempFilePath);
+    }
+    else {
+      callback(true, "../../imgs/loaderror.png", 'http错误' + res.statusCode.toString());
+    }
+  },
+  function () {
+    callback(true, "../../imgs/loaderror.png", '网络错误');
+  });
 }
 
 module.exports = {

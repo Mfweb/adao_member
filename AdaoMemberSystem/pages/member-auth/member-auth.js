@@ -10,19 +10,14 @@ var auth_data = null;
 /**
  * @brief 获得新的验证码
  */
-function getNewVcode(that) {
-  that.setData({ vCodeLoading: true, verifyCodeURL: "" });
-  http.get_verifycode(function (res) {
-    if (res.statusCode == 200) {
-      that.setData({ vCodeLoading: false, verifyCodeURL: res.tempFilePath });
+function getNewVcode(_this) {
+  _this.setData({ vCodeLoading: true, verifyCodeURL: "" });
+  http.get_verifycode(function (sta, img, msg) {
+    if (sta == false) {
+      app.showError(msg);
     }
-    else {
-      app.showError('http错误' + res.statusCode.toString());
-    }
-  },
-    function () {
-      app.showError('获取验证码错误');
-    });
+    _this.setData({ vCodeLoading: false, verifyCodeURL: img });
+  });
 }
 
 /**
