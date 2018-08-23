@@ -168,6 +168,7 @@ Page({
             app.showError('未知错误');
           }
           that.setData({ BLoading: false });
+          getNewVcode(that);
         },
         function () {
           app.showError('连接服务器失败');

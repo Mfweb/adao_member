@@ -103,6 +103,7 @@ function api_request(url, pdata, success, fail)
   })
 }
 
+var gettingVCode = false;
 /**
  * @brief 下载验证码
  * @param success:请求成功回调
@@ -131,7 +132,11 @@ function _get_verifycode(success,fail)
 }
 
 function get_verifycode(callback) {
+  if (gettingVCode)return;
+  gettingVCode = true;
+  
   _get_verifycode(function (res) {
+    gettingVCode = false;
     if (res.statusCode == 200) {
       callback(true, res.tempFilePath);
     }
@@ -140,6 +145,7 @@ function get_verifycode(callback) {
     }
   },
   function () {
+    gettingVCode = false;
     callback(true, "../../imgs/loaderror.png", '网络错误');
   });
 }
