@@ -5,47 +5,10 @@ var selectedList = [];
 /**
  * 获取所有拥有的Cookie
  */
-function getCookies(_this) {
-  cookie.getCookies(function (status, msg) {
-    if (status == false) {
-      app.showError(msg);
-      wx.stopPullDownRefresh();
-      wx.hideNavigationBarLoading();
-      return;
-    }
-    _this.setData({ CookieList: msg });
-    wx.stopPullDownRefresh();
-    wx.hideNavigationBarLoading();
-  });
-}
 
-function detailToString(_this) {
-  var tempObj = [];
-  for (let i = 0; i < selectedList.length; i++) {
-    tempObj.push(_this.data.CookieList[selectedList[i]].detail);
-  }
-  return JSON.stringify(tempObj);
-}
 
-function getDetail(_this, id) {
-  cookie.getCookieDetail(_this.data.CookieList[id].id, function(sta, res) {
-    if(sta == false) {
-      app.showError(res);
-      _this.setData({ disableCheckbox: false });
-      return;
-    }
-    _this.data.CookieList[id].detail = res;
-    _this.setData({ disableCheckbox: false, CookieList:_this.data.CookieList});
-    var tempString = detailToString(_this);
-    _this.setData({ returnJson: tempString});
-    if (selectedList.length > 0) {
-      _this.setData({ disableLaunch: false });
-    }
-    else {
-      _this.setData({ disableLaunch: true });
-    }
-  });
-}
+
+
 
 Page({
   data: {
@@ -54,7 +17,6 @@ Page({
     disableLaunch: true,
     disableCheckbox: false
   },
-
   onLoad: function (options) {
     selectedList = [];
     if(wx.startPullDownRefresh) {
@@ -62,39 +24,14 @@ Page({
     }
     else {
       wx.showNavigationBarLoading();
-      getCookies(this);
+      this.getCookies();
       this.setData({ vCodeShow: false });
     }
   },
-
-  onReady: function () {
-  
-  },
-
-  onShow: function () {
-
-  },
-
-  onHide: function () {
-  
-  },
-
-  onUnload: function () {
-  
-  },
-
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading();
-    getCookies(this);
+    this.getCookies();
     this.setData({ vCodeShow: false });
-  },
-
-  onReachBottom: function () {
-  
-  },
-
-  onShareAppMessage: function () {
-  
   },
   onReturn: function () {
     if (selectedList.length == 0) {
@@ -126,11 +63,53 @@ Page({
     var detail = this.data.CookieList[res.currentTarget.id].detail;
     if (detail == undefined || detail == null || detail == '') {
       this.setData({ disableCheckbox: true, disableLaunch: true});
-      getDetail(this, res.currentTarget.id);
+      this.getDetail(res.currentTarget.id);
     }
     else {
-      var tempString = detailToString(this);
+      var tempString = this.detailToString();
       this.setData({ returnJson: tempString });
     }
+  },
+  getCookies: function () {
+    var _this = this;
+    cookie.getCookies(function (status, msg) {
+      if (status == false) {
+        app.showError(msg);
+        wx.stopPullDownRefresh();
+        wx.hideNavigationBarLoading();
+        return;
+      }
+      _this.setData({ CookieList: msg });
+      wx.stopPullDownRefresh();
+      wx.hideNavigationBarLoading();
+    });
+  },
+  detailToString: function () {
+    var _this = this;
+    var tempObj = [];
+    for (let i = 0; i < selectedList.length; i++) {
+      tempObj.push(_this.data.CookieList[selectedList[i]].detail);
+    }
+    return JSON.stringify(tempObj);
+  },
+  getDetail: function (id) {
+    var _this = this;
+    cookie.getCookieDetail(_this.data.CookieList[id].id, function (sta, res) {
+      if (sta == false) {
+        app.showError(res);
+        _this.setData({ disableCheckbox: false });
+        return;
+      }
+      _this.data.CookieList[id].detail = res;
+      _this.setData({ disableCheckbox: false, CookieList: _this.data.CookieList });
+      var tempString = _this.detailToString();
+      _this.setData({ returnJson: tempString });
+      if (selectedList.length > 0) {
+        _this.setData({ disableLaunch: false });
+      }
+      else {
+        _this.setData({ disableLaunch: true });
+      }
+    });
   }
 })

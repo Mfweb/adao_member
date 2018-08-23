@@ -1,107 +1,8 @@
 const app = getApp();
 const http = require('../../utils/http.js');
 var WxParse = require('../../wxParse/wxParse.js');
-var pw_run = false;
-var nw_run = false;
 var timer = null;
-var auth_data = null;
-
-
-/**
- * @brief 获得新的验证码
- */
-function getNewVcode(_this) {
-  _this.setData({ vCodeLoading: true, verifyCodeURL: "" });
-  http.get_verifycode(function (sta, img, msg) {
-    if (sta == false) {
-      app.showError(msg);
-    }
-    _this.setData({ vCodeLoading: false, verifyCodeURL: img });
-  });
-}
-
-/**
- * 实名认证状态
- */
-function getCertifiedStatus(that) {
-  if (pw_run) return;
-  pw_run = true;
-  http.api_request(
-    app.globalData.ApiUrls.CertifiedStatusURL,
-    null,
-    function (res) {
-      if(typeof res != 'string') {
-        wx.stopPullDownRefresh();
-        wx.hideNavigationBarLoading();
-        return;
-      }
-      res = res.replace(/ /g, '');
-      res = res.replace(/\r/g, '');
-      res = res.replace(/\n/g, '');
-      var cert_status = '';
-      var phone_status = '';
-      if (res.indexOf('实名状态') > 0) {
-        cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
-        if (cert_status != null) {
-          cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
-          that.setData({ CertStatus: cert_status });
-        }
-        else {
-          app.showError('实名状态错误');
-        }
-        if (res.indexOf('已绑定手机') > 0)//手机认证已经成功的
-        {
-          phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
-          if (phone_status != null) {
-            phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
-            if (phone_status != null) {
-              that.setData({ PhoneStatus: phone_status });
-            }
-          }
-          that.setData({ CanCert: false });
-        }
-        else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
-        {
-          that.setData({ PhoneStatus: "未认证", CanCert: true });
-        }
-      }
-      else {
-        app.showError('发生了错误');
-      }
-      pw_run = false;
-      wx.stopPullDownRefresh();
-      wx.hideNavigationBarLoading();
-    },
-    function () {
-      app.showError('发生了错误');
-      pw_run = false;
-      wx.stopPullDownRefresh();
-      wx.hideNavigationBarLoading();
-    });
-}
-
-/**
- * 等到完成手机认证
- */
-function waitCert() {
-  timer = setInterval(function () {
-    http.api_request(app.globalData.ApiUrls.MobileCheckURL,
-      null,
-      function (res) {
-        if (res == true) {
-          clearInterval(timer);
-          timer = null;
-          app.log('phone auth success');
-          wx.startPullDownRefresh({});
-        }
-      },
-      function () {
-
-      }
-    );
-  }, 5000);
-}
-
+var authData = null;
 
 Page({
   data: {
@@ -109,7 +10,6 @@ Page({
     vCodeShow: false,//验证码是否已显示
     verifyCodeURL: "",//验证码链接
     EnterButLoading: false,//确认按钮loading
-    //实名认证相关
     CertStatus: "未知",//实名认证状态
     PhoneStatus: "未知",//手机实名认证状态
     CanCert: false,//是否可以手机实名认证（是否显示按钮）
@@ -132,7 +32,6 @@ Page({
     CopyLoading: false//复制手机号loading
   },
   onLoad: function (options) {
-    var that = this;
     wx.showNavigationBarLoading();
     if (wx.hideTabBarRedDot) {
       wx.hideTabBarRedDot({
@@ -170,9 +69,8 @@ Page({
       timer = null;
     }
     wx.showNavigationBarLoading();
-    var that = this;
-    getCertifiedStatus(that);
-    that.setData({ CertFormShow: false, ShowCertMsg: false });
+    this.getCertifiedStatus();
+    this.setData({ CertFormShow: false, ShowCertMsg: false });
   },
   //验证码输入窗口关闭
   onUClose: function (e) {
@@ -182,23 +80,22 @@ Page({
    * 确认执行操作，需要验证码请求的操作通过这里执行
    */
   onEnter: function (e) {
-    var that = this;
+    var _this = this;
     var u_vcode = e.detail.value.verifycode;
     var u_index = e.detail.value.needDeleteID;
     if (u_vcode.length != 5) {
       app.showError('验证码错误');
       return;
     }
-    that.setData({ EnterButLoading: true });
-    var u_country = that.data.Cindex + 1;
+    if (this.data.EnterButLoading == true) return;
+    this.setData({ EnterButLoading: true });
+    var u_country = _this.data.Cindex + 1;
     var u_phone = e.detail.value.phonenumber;
     if (!(/^\d{5,}$/.test(u_phone))) {
       app.showError('手机号错误');
       return false;
     }
 
-    if (nw_run) return;
-    nw_run = true;
     http.api_request(
       app.globalData.ApiUrls.MobileCertURL,
       {
@@ -212,56 +109,51 @@ Page({
             app.showError(res.info);
           }
           else {
-            auth_data = res;
+            authData = res;
             res = res.replace(/\r/g, "");
             res = res.replace(/\n/g, "");
 
             var body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
             if (body_match != null) {
               body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
-              that.setData({ CertMsg: WxParse.wxParse('item', 'html', body_match[0], that, null).nodes, ShowCertMsg: true, CertFormShow: false });
-              waitCert();
+              _this.setData({ CertMsg: WxParse.wxParse('item', 'html', body_match[0], _this, null).nodes, ShowCertMsg: true, CertFormShow: false });
+              _this.waitCert();
             }
             else {
               app.showError('发生了错误');
             }
           }
-          nw_run = false;
-          that.setData({ EnterButLoading: false });
+          _this.setData({ EnterButLoading: false });
         }
         catch (err) {
           app.log(err.message);
           app.showError(err.message);
-          nw_run = false;
-          that.setData({ EnterButLoading: false });
+          _this.setData({ EnterButLoading: false });
         }
       },
       function () {
         app.showError('发生了错误');
-        nw_run = false;
-        that.setData({ EnterButLoading: false });
+        _this.setData({ EnterButLoading: false });
       });
   },
   onTapVerifyCode: function (e) {
-    var that = this;
-    getNewVcode(that);
+    this.getNewVcode();
   },
   onPhoneCert: function () {
-    var that = this;
-    getNewVcode(that);
+    this.getNewVcode();
     this.setData({ CertFormShow: true });
   },
   bindPickerChange: function (e) {
     this.setData({ Cindex: e.detail.value });
   },
   onCopy: function (e) {
-    var that = this;
+    var _this = this;
     if (this.data.CopyLoading == true) return;
     this.setData({ CopyLoading: true });
     http.api_request(
       app.globalData.ApiUrls.GetAuthPhoneURL,
       {
-        rawdata: auth_data,
+        rawdata: authData,
       },
       function (res) {
         if (res == null || res == "error") {
@@ -279,11 +171,11 @@ Page({
           });
         }
 
-        that.setData({ CopyLoading: false });
+        _this.setData({ CopyLoading: false });
       },
       function () {
         app.showError('获取失败');
-        that.setData({ CopyLoading: false });
+        _this.setData({ CopyLoading: false });
       }
     );
   },
@@ -292,5 +184,97 @@ Page({
   },
   onEat: function (e) {
     app.playEat();
+  },
+  /**
+   * 获取新验证码
+   */
+  getNewVcode: function () {
+    var _this = this;
+    this.setData({ vCodeLoading: true, verifyCodeURL: "" });
+    http.get_verifycode(function (sta, img, msg) {
+      if (sta == false) {
+        app.showError(msg);
+      }
+      _this.setData({ vCodeLoading: false, verifyCodeURL: img });
+    });
+  },
+  /**
+   * 获取当前认证状态
+   */
+  getCertifiedStatus: function () {
+    var _this = this;
+    http.api_request(
+      app.globalData.ApiUrls.CertifiedStatusURL,
+      null,
+      function (res) {
+        if (typeof res != 'string') {
+          wx.stopPullDownRefresh();
+          wx.hideNavigationBarLoading();
+          return;
+        }
+        res = res.replace(/ /g, '');
+        res = res.replace(/\r/g, '');
+        res = res.replace(/\n/g, '');
+        var cert_status = '';
+        var phone_status = '';
+        if (res.indexOf('实名状态') > 0) {
+          cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
+          if (cert_status != null) {
+            cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
+            _this.setData({ CertStatus: cert_status });
+          }
+          else {
+            app.showError('实名状态错误');
+          }
+          if (res.indexOf('已绑定手机') > 0)//手机认证已经成功的
+          {
+            phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
+            if (phone_status != null) {
+              phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
+              if (phone_status != null) {
+                _this.setData({ PhoneStatus: phone_status });
+              }
+            }
+            _this.setData({ CanCert: false });
+          }
+          else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
+          {
+            _this.setData({ PhoneStatus: "未认证", CanCert: true });
+          }
+        }
+        else {
+          app.showError('发生了错误');
+        }
+        wx.stopPullDownRefresh();
+        wx.hideNavigationBarLoading();
+      },
+      function () {
+        app.showError('发生了错误');
+        wx.stopPullDownRefresh();
+        wx.hideNavigationBarLoading();
+      }
+    );
+  },
+  /**
+   * 等待认证成功
+   */
+  waitCert: function () {
+    timer = setInterval(function () {
+      http.api_request(app.globalData.ApiUrls.MobileCheckURL,
+        null,
+        function (res) {
+          console.log(res);
+          if (res == true) {
+            clearInterval(timer);
+            timer = null;
+            app.log('phone auth success');
+            wx.startPullDownRefresh({});
+          }
+        },
+        function () {
+
+        }
+      );
+    }, 5000);
   }
 })

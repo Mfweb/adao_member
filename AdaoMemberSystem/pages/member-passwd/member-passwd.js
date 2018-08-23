@@ -1,13 +1,11 @@
 const app = getApp();
 const http = require('../../utils/http.js');
-var np_run = false;
 
 Page({
   data: {
     CPLoading:false,
   },
   onLoad: function (options) {
-    var that = this;
     wx.showNavigationBarLoading();
     http.api_request(//检查登录是否有效
       app.globalData.ApiUrls.CheckSessionURL,
@@ -28,7 +26,6 @@ Page({
   },
   onChangePasswdSubmit(e)
   {
-    var that = this;
     var old_passwd = e.detail.value.opass;
     var new_passwd = e.detail.value.npass;
     var new_passwd2 = e.detail.value.npass2;
@@ -42,9 +39,11 @@ Page({
       app.showError('两次输入不一致');
       return;
     }
-    if (np_run) return;
-    np_run = true;
-    that.setData({ CPLoading:true});
+    if (this.data.CPLoading == true)return;
+
+    this.setData({ CPLoading:true});
+
+    var _this = this;
     http.api_request(
       app.globalData.ApiUrls.ChangePasswordURL,
       {
@@ -62,14 +61,12 @@ Page({
         else {
           app.showError("发生了错误");
         }
-        np_run = false;
-        that.setData({ CPLoading: false });
+        _this.setData({ CPLoading: false });
       },
       function()
       {
         app.showError('发生了错误');
-        np_run = false;
-        that.setData({ CPLoading: false });
+        _this.setData({ CPLoading: false });
       }
     );
   },

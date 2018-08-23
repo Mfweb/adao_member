@@ -23,7 +23,7 @@
   <view class='modal_content'>
     <radio-group class="radio-group" bindchange="radioChange">
       <label class="modal_radio" wx:for="{{cookie_items}}" wx:key="clist">
-        <radio value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+        <radio value="{{index}}" checked="{{item.checked}}"/>{{item.value}}
       </label>
     </radio-group>
   </view>
