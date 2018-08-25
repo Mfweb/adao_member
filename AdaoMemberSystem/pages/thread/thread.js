@@ -138,9 +138,9 @@ function GetList(that) {
       var list = that.data.list;
       if (list.length == 0)//第一页 添加正文内容
       {
-        var temp_fid = GetQuote(res.content);
+        let temp_fid = GetQuote(res.content);
 
-        var header = {
+        let header = {
           'id': res.id,
           'now': res.now,
           'userid': res.userid,
@@ -158,7 +158,7 @@ function GetList(that) {
         };
         po_id = res.userid;
 
-        var html_h = "<font class='";
+        let html_h = "<font class='";
 
         if (res.admin == 1)
           html_h += "xuankuhongming";
@@ -207,7 +207,7 @@ function GetList(that) {
           res.replys[i].img_width = 0;
           res.replys[i].img_load_success = false;
 
-          var html_h = "<font class='";
+          let html_h = "<font class='";
 
           if (res.replys[i].admin == 1)
             html_h += "xuankuhongming";
@@ -347,7 +347,7 @@ Page({
       img_url = this.data.q_list[e['currentTarget'].id].img;
     else
       img_url = this.data.list[e['currentTarget'].id].img;
-
+    console.log(img_url)
     wx.previewImage({
       current: (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) + img_url,
       urls: image_list
@@ -367,7 +367,10 @@ Page({
     temp_height = e.detail.height * temp_ratio;//计算缩放后的高度
 
     var tempData = this.data.list;
-
+    if (tempData == undefined || tempData == null) {
+      console.log('aerror');
+      return;
+    }
     tempData[e.target.id].img_height = temp_height;
     tempData[e.target.id].img_width = temp_width;
     tempData[e.target.id].img_load_success = true;

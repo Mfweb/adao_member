@@ -25,7 +25,7 @@ function getData(that, id) {
     { id: tid_list[id], page: 1 },
     function (res) {
       if (typeof res == 'string') {
-        var data = {
+        let data = {
           'id': tid_list[id],
           'content': WxParse.wxParse('item', 'html', '<p>' + res + '</p>', that, null).nodes,
           'img': '',
@@ -36,7 +36,7 @@ function getData(that, id) {
         temp_data.push(data);
       }
       else {
-        var data = {
+        let data = {
           'id': res.id,
           'now': res.now,
           'userid': res.userid,
@@ -186,6 +186,7 @@ Page({
 
     var tempData = this.data.tlist;
 
+    if (tempData == undefined || tempData == null)return;
     tempData[e.target.id].img_height = temp_height;
     tempData[e.target.id].img_width = temp_width;
     tempData[e.target.id].img_load_success = true;
