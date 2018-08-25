@@ -44,6 +44,7 @@ Page({
         if (e.mode != undefined && e.mode == 'reg') {
           _this.setData({ BLoading: false });
           _this.switchPage(1);
+          _this.getNewVcode();
           return;
         }
         else if (e.mode != undefined && e.mode == 'cookie') {
