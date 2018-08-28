@@ -170,6 +170,11 @@ Page({
             index: 1
           });
         }
+        else {
+          wx.hideTabBarRedDot({
+            index: 1
+          });
+        }
         wx.stopPullDownRefresh();
         wx.hideNavigationBarLoading();
         return;

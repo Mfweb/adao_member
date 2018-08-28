@@ -13,6 +13,7 @@ function getCookies(callback) {
     app.globalData.ApiUrls.CookiesListURL,
     null,
     function (res) {
+      console.log(res);
       if (typeof res == 'string' && res.indexOf('饼干列表') > 0) {
         res = res.replace(/ /g, '');
         res = res.replace(/\r/g, '');
