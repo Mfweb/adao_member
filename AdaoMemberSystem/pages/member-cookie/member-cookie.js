@@ -16,6 +16,7 @@ Page({
     CookieWarning: null
   },
   onLoad: function (options) {
+    app.checkVersion();
     var _this = this;
     wx.showNavigationBarLoading();
     http.api_request(//检查登录是否有效

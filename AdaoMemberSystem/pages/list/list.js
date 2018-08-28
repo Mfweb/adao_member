@@ -114,6 +114,7 @@ Page({
     tlist: []
   },
   onLoad: function (options) {
+    app.checkVersion();
     launchOpt = options;
   },
   onReady: function () {

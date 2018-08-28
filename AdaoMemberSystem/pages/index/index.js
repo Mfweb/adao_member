@@ -21,6 +21,7 @@ Page({
     termsNodes: null
   },
   onLoad: function (e) {
+    app.checkVersion();
     var _this = this;
     var sUN = wx.getStorageSync('UserName');
     var sPW = wx.getStorageSync('PassWord');

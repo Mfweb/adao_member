@@ -206,5 +206,12 @@ App({
         callback(terms_saved);
       }
     }
+  },
+  checkVersion: function(){
+    let verString = wx.getSystemInfoSync();
+    let version = verString.SDKVersion.split('.');
+    if (parseInt(version[0]) <= 1 && parseInt(version[1]) < 9) {
+      this.showError('你的微信版本太低了，可能会遇到各种问题。\r\n请升级到6.6.0或以上');
+    }
   }
 })
