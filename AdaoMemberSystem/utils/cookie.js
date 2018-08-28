@@ -13,47 +13,57 @@ function getCookies(callback) {
     app.globalData.ApiUrls.CookiesListURL,
     null,
     function (res) {
-      console.log(res);
       if (typeof res == 'string' && res.indexOf('饼干列表') > 0) {
         res = res.replace(/ /g, '');
         res = res.replace(/\r/g, '');
         res = res.replace(/\n/g, '');
-        var finds = res.match(/<tbody>[\s\S]*?<\/tbody>/ig);
-        if (finds != null) {
-          var finds_tr = finds[0].match(/<tr>[\s\S]*?<\/tr>/ig);
-          if (finds_tr != null) {
-            var cookieList = Array();
-            for (let i = 0; i < finds_tr.length; i++) {
-              var find_td = finds_tr[i].match(/<td>[\s\S]*?<\/td>/ig);
+        let warning = res.match(/<b>\[警告\]<\/b>[\s\S]*?<\/span>/ig);
+        if (warning != null) {
+          warning = '⚠️ [警告]' + warning[0].replace(/<b>\[警告\]<\/b>/g, '').replace(/<\/span>/g, '');
+        }
+        let capacity = res.match(/饼干容量<bclass="am-text-primary">[\s\S]*?<\/b>/ig);
+        if (capacity != null) {
+          capacity = capacity[0].replace(/饼干容量<bclass="am-text-primary">/g, '').replace(/<\/b>/g, '');
+        }
+
+        let info = { warning: warning, capacity: capacity};
+
+        let tbody = res.match(/<tbody>[\s\S]*?<\/tbody>/ig);
+        if (tbody != null) {
+          let tableRoll = tbody[0].match(/<tr>[\s\S]*?<\/tr>/ig);
+          if (tableRoll != null) {
+            let cookieList = Array();
+            for (let i = 0; i < tableRoll.length; i++) {
+              let find_td = tableRoll[i].match(/<td>[\s\S]*?<\/td>/ig);
               if (find_td != null) {
                 cookieList.push({ id: find_td[1].replace(/(<td>)|(<\/td>)/g, ""), value: find_td[2].replace(/(<td><ahref="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
               }
             }
-            callback(true, cookieList);
+            callback(true, cookieList, info);
           }
           else {
-            callback(false, '饼干列表为空');
+            callback(false, '饼干列表为空', info);
           }
         }
         else {
-          callback(false, '获取信息错误');
+          callback(false, '获取信息错误', info);
         }
       }
       else if (typeof res == 'object' && res.hasOwnProperty('status')) {
         if (res.status == 0) {
-          callback(false, res.info);
+          callback(false, res.info, null);
         }
         else {
-          callback(false, '获取饼干错误2');
+          callback(false, '获取饼干错误2', null);
         }
       }
       else {
-        callback(false, '获取饼干错误1');
+        callback(false, '获取饼干错误1', null);
       }
       getCookieRunning = false;
     },
     function () {
-      callback(false, '网络错误');
+      callback(false, '网络错误', null);
       getCookieRunning = false;
     }
   );

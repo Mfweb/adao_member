@@ -12,6 +12,8 @@ Page({
     needDeleteID: "",//需要删除的饼干index
     FormID: "",//表单提交ID
     EnterButLoading: false,//确认按钮loading
+    CookieNum: '[0/0]',
+    CookieWarning: null
   },
   onLoad: function (options) {
     var _this = this;
@@ -162,7 +164,11 @@ Page({
    */
   getCookies: function () {
     var _this = this;
-    cookie.getCookies(function (status, msg) {
+    cookie.getCookies(function (status, msg, info) {
+      if (info != null) {
+        _this.setData({ CookieNum: info.capacity, CookieWarning: info.warning });
+      }
+
       if (status == false) {
         app.showError(msg);
         if (msg == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot) {
@@ -179,6 +185,7 @@ Page({
         wx.hideNavigationBarLoading();
         return;
       }
+
       _this.setData({ CookieList: msg });
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
