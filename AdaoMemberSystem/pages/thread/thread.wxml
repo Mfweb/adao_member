@@ -3,7 +3,7 @@
 
 <!--列表-->
 <view class="thread-container" id="main_list">
-  <view class="thread-item" wx:for="{{list}}" id="{{index}}" bindtap="bind_view_tap" wx:key="f_list">
+  <view class="thread-item" wx:for="{{list}}" id="{{index}}" bindtap="bind_view_tap">
     <view class="text">
       <view class="thread-b1">
         <view class="cid">No.{{item.id}}</view>
@@ -36,7 +36,7 @@
 <view style="width:100%;height:100%;" class="box" hidden="{{!open}}" bindtap="tap_ch"></view>
 <!--显示引用串-->
 <scroll-view class="q_window" hidden="{{!open}}" scroll-y="true">
-    <view wx:for="{{q_list}}" wx:key="q_key" id="{{item.sid}}" class="q_list_c" catchtap="bind_qd_tap">
+    <view wx:for="{{q_list}}" id="{{item.sid}}" class="q_list_c" catchtap="bind_qd_tap">
       <view class="text">
         <view class="thread-b1">
           <view class="cid">{{item.id}}</view>

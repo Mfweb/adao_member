@@ -367,7 +367,7 @@ Page({
     temp_height = e.detail.height * temp_ratio;//计算缩放后的高度
 
     var tempData = this.data.list;
-    if (tempData == undefined || tempData == null) {
+    if (tempData[e.target.id] == undefined || tempData[e.target.id] == null) {
       console.log('aerror');
       return;
     }

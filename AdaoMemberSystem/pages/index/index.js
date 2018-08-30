@@ -5,6 +5,7 @@ var WxParse = require('../../wxParse/wxParse.js');
 const pageTitles = ['登录', '注册', '找回密码'];
 var rememberPW = false;
 var memberMode = 0;
+var pageEvent = null;
 
 Page({
   data: {
@@ -21,10 +22,13 @@ Page({
     termsNodes: null
   },
   onLoad: function (e) {
+    pageEvent = e;
+  },
+  onReady: function () {
     app.checkVersion();
-    var _this = this;
-    var sUN = wx.getStorageSync('UserName');
-    var sPW = wx.getStorageSync('PassWord');
+    let _this = this;
+    let sUN = wx.getStorageSync('UserName');
+    let sPW = wx.getStorageSync('PassWord');
 
     if (sUN != '' && sPW != '') {
       rememberPW = true;
@@ -33,31 +37,39 @@ Page({
 
     this.setData({ BLoading: true });
     app.getTerms();
+    this.switchPage(0);
+    wx.showNavigationBarLoading();
     this.showNotice(function () {
       /*
           wx.navigateTo({
-            url: '../list/list?tid=1529161587tnZJN',
+            url: '../list/list?tid=15335689135k6hu',
           });
           return;//不继续登录了
       */
       memberMode = 0;
       if (app.globalData.SystemInfo.Scene == 1069) {//通过APP拉起
-        if (e.mode != undefined && e.mode == 'reg') {
+        if (pageEvent.mode != undefined && pageEvent.mode == 'reg') {
           _this.setData({ BLoading: false });
           _this.switchPage(1);
           _this.getNewVcode();
+          wx.hideNavigationBarLoading();
+          pageEvent.mode = '';
           return;
         }
-        else if (e.mode != undefined && e.mode == 'cookie') {
+        else if (pageEvent.mode != undefined && pageEvent.mode == 'cookie') {
           memberMode = 1;
         }
       }
-      if (e.tid != undefined) {//通过公众号分享串二维码扫描过来
+
+      if (pageEvent.tid != undefined) {//通过公众号分享串二维码扫描过来
         wx.navigateTo({
-          url: '../list/list?tid=' + e.tid,
+          url: '../list/list?tid=' + pageEvent.tid,
         });
+        wx.hideNavigationBarLoading();
+        pageEvent.tid = undefined;
         return;//不继续登录了
       }
+
       http.api_request(
         app.globalData.ApiUrls.CheckSessionURL,
         null,
@@ -84,13 +96,14 @@ Page({
           }
           _this.setData({ BLoading: false });
           _this.getNewVcode();
+          wx.hideNavigationBarLoading();
         },
         function () {
           app.showError('连接服务器失败');
           _this.setData({ BLoading: false });
+          wx.hideNavigationBarLoading();
         }
       );
-      _this.switchPage(0);
     });
   },
   onTapVerifyCode: function (e) {
@@ -116,10 +129,10 @@ Page({
     if (this.data.BLoading == true) {
       return;
     }
-    var _this = this;
-    var u_email = e.detail.value.email;
-    var u_pass = e.detail.value.passwd;
-    var u_vcode = e.detail.value.verifycode;
+    let _this = this;
+    let u_email = e.detail.value.email;
+    let u_pass = e.detail.value.passwd;
+    let u_vcode = e.detail.value.verifycode;
     if (u_email.indexOf('@') < 1) {
       app.showError('邮箱格式错误');
       return;
@@ -181,10 +194,10 @@ Page({
     if (this.data.BLoading == true) {
       return;
     }
-    var _this = this;
-    var u_email = e.detail.value.email;
-    var u_vcode = e.detail.value.verifycode;
-    var u_agree = e.detail.value.agree.length;
+    let _this = this;
+    let u_email = e.detail.value.email;
+    let u_vcode = e.detail.value.verifycode;
+    let u_agree = e.detail.value.agree.length;
     if (!u_agree) {
       app.showError('请阅读并同意服务条款和隐私政策');
       return;
@@ -235,9 +248,9 @@ Page({
     if (this.data.BLoading == true) {
       return;
     }
-    var _this = this;
-    var u_email = e.detail.value.email;
-    var u_vcode = e.detail.value.verifycode;
+    let _this = this;
+    let u_email = e.detail.value.email;
+    let u_vcode = e.detail.value.verifycode;
 
     if (u_email.indexOf('@') < 1) {
       app.showError('邮箱格式错误');

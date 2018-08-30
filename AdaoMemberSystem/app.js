@@ -1,6 +1,6 @@
 //app.js
 //const hostURL = "https://nmb.fastmirror.org";
-const hostURL = "https://adao.mfweb.top";
+const hostURL = "https://amember.mfweb.top";
 App({
   onLaunch: function () {
     this.getSysWindow();
@@ -10,44 +10,43 @@ App({
   },
   globalData: {
     ApiUrls:{
-      VerifyCodeURL: hostURL + "/Member/User/Index/verify.html",//请求验证码
-      LoginURL: hostURL + "/Member/User/Index/login.html",//登录
-      //LoginURL: hostURL_My + "/adao/login.php",//登录
-      SignupURL: hostURL + "/Member/User/Index/sendRegister.html",//注册
-      ForgotURL: hostURL + "/Member/User/Index/sendForgotPassword.html",//忘记密码
-      CheckSessionURL: hostURL + "/Member/User/Index/index.html",//检查是Session是否有效
-      CookiesListURL: hostURL + "/Member/User/Cookie/index.html",//饼干列表
-      CookieDeleteURL: hostURL + "/Member/User/Cookie/delete/id/",//删除饼干
-      CookieGetQRURL: hostURL + "/Member/User/Cookie/export/id/",//获取饼干二维码
-      CookieGetDetailURL: hostURL + "/Member/User/Cookie/switchTo/id/",//获取饼干内容
-      CookieGetNewURL: hostURL + "/Member/User/Cookie/apply.html",//获取新饼干
-      CertifiedStatusURL: hostURL + "/Member/User/Authentication/mobile.html",//认证状态
-      MobileCertURL: hostURL + "/Member/User/Authentication/mobileReverseAuthCode",//手机认证
-      MobileCheckURL: hostURL + "/Member/User/Authentication/isBindMobile",//手机认证校验
-      ChangePasswordURL: hostURL + "/Member/User/Index/changePassword.html",//修改密码
+      VerifyCodeURL: hostURL + "/nmb/Member/User/Index/verify.html",//请求验证码
+      LoginURL: hostURL + "/nmb/Member/User/Index/login.html",//登录
+      SignupURL: hostURL + "/nmb/Member/User/Index/sendRegister.html",//注册
+      ForgotURL: hostURL + "/nmb/Member/User/Index/sendForgotPassword.html",//忘记密码
+      CheckSessionURL: hostURL + "/nmb/Member/User/Index/index.html",//检查是Session是否有效
+      CookiesListURL: hostURL + "/nmb/Member/User/Cookie/index.html",//饼干列表
+      CookieDeleteURL: hostURL + "/nmb/Member/User/Cookie/delete/id/",//删除饼干
+      CookieGetQRURL: hostURL + "/nmb/Member/User/Cookie/export/id/",//获取饼干二维码
+      CookieGetDetailURL: hostURL + "/nmb/Member/User/Cookie/switchTo/id/",//获取饼干内容
+      CookieGetNewURL: hostURL + "/nmb/Member/User/Cookie/apply.html",//获取新饼干
+      CertifiedStatusURL: hostURL + "/nmb/Member/User/Authentication/mobile.html",//认证状态
+      MobileCertURL: hostURL + "/nmb/Member/User/Authentication/mobileReverseAuthCode",//手机认证
+      MobileCheckURL: hostURL + "/nmb/Member/User/Authentication/isBindMobile",//手机认证校验
+      ChangePasswordURL: hostURL + "/nmb/Member/User/Index/changePassword.html",//修改密码
 
-      GetNoticeURL: "https://mfweb.top/adao/member/notice.php",//获取公告
-      GetAuthPhoneURL: "https://mfweb.top/adao/member/getphone.php",//获取三酱验证手机号
-      GetRandomPicURL: "https://mfweb.top/adao/getpicture.php",//获取随机图
+      GetNoticeURL: hostURL + "/adao/member/notice.php",//获取公告
+      GetAuthPhoneURL: hostURL + "/adao/member/getphone.php",//获取三酱验证手机号
+      GetRandomPicURL: hostURL + "/adao/getpicture.php",//获取随机图
       Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
       //获取分享串
-      GetSharesURL: "https://mfweb.top/adao/getshare.php",
+      GetSharesURL: hostURL + "/adao/getshare.php",
       //获取服务条款
-      GetTermsURL: "https://mfweb.top/adao/member/getterms.php",
+      GetTermsURL: hostURL + "/adao/member/getterms.php",
       //主岛配置
-      ThreadURL: hostURL + "/Api/thread?appid=wechatapp",//获得串内容和回复
-      GetThreadURL: hostURL + "/Api/ref?appid=wechatapp",//获得串内容
-      ThumbImgURL: "http://nmbimg.fastmirror.org/thumb/",//缩略图
-      FullImgURL: "http://nmbimg.fastmirror.org/image/",//原图
+      ThreadURL: hostURL + "/nmb/Api/thread?appid=wechatapp",//获得串内容和回复
+      GetThreadURL: hostURL + "/nmb/Api/ref?appid=wechatapp",//获得串内容
+      ThumbImgURL: "https://nmbimg.fastmirror.org/thumb/",//缩略图
+      FullImgURL: "https://nmbimg.fastmirror.org/image/",//原图
       //备胎岛配置
       BTThreadURL: hostURL + "/btnmb/Api/thread?appid=wechatapp",//获得串内容和回复
       BTGetThreadURL: hostURL + "/btnmb/Api/ref?appid=wechatapp",//获得串内容
       BTThumbImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/thumb/",//缩略图
       BTFullImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/image/",//原图
       //小程序功能
-      WeLoginURL: "https://mfweb.top/adao/member/login.php",//登录
-      WeUploadRunURL: "https://mfweb.top/adao/member/uprun.php",//上传微信运动数据
-      WeDownloadRunURL: "https://mfweb.top/adao/member/dwrun.php",//获取微信运动排行
+      WeLoginURL: hostURL + "/adao/member/login.php",//登录
+      WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
+      WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
     },
     AppList : Array(
       'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘

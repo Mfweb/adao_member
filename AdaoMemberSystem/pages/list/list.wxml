@@ -1,7 +1,7 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
 <view class='list-container'>
-  <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover" wx:key="AllPush">
+  <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover">
     <view class="text" id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
       <view class="list-b1">
         <view class="cid">No.{{item.id}}</view>

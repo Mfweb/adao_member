@@ -187,7 +187,7 @@ Page({
 
     var tempData = this.data.tlist;
 
-    if (tempData == undefined || tempData == null)return;
+    if (tempData[e.target.id] == undefined || tempData[e.target.id] == null)return;
     tempData[e.target.id].img_height = temp_height;
     tempData[e.target.id].img_width = temp_width;
     tempData[e.target.id].img_load_success = true;
