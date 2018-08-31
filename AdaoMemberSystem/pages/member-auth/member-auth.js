@@ -32,29 +32,17 @@ Page({
     CopyLoading: false//复制手机号loading
   },
   onLoad: function (options) {
+
+  },
+  onReady: function () {
     wx.showNavigationBarLoading();
+    wx.startPullDownRefresh({});
+
     if (wx.hideTabBarRedDot) {
       wx.hideTabBarRedDot({
         index: 1
       });
     }
-    http.api_request(//检查登录是否有效
-      app.globalData.ApiUrls.CheckSessionURL,
-      null,
-      function (res) {
-        wx.hideNavigationBarLoading();
-        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-          wx.startPullDownRefresh({});
-        }
-        else {
-          app.logOut();
-        }
-      },
-      function () {
-        wx.hideNavigationBarLoading();
-        app.logOut();
-      }
-    );
   },
   onHide: function () {
     if (timer != null) {

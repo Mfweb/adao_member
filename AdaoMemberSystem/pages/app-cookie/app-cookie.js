@@ -2,13 +2,6 @@ const app = getApp();
 const http = require('../../utils/http.js');
 const cookie = require('../../utils/cookie.js');
 var selectedList = [];
-/**
- * 获取所有拥有的Cookie
- */
-
-
-
-
 
 Page({
   data: {
@@ -18,8 +11,11 @@ Page({
     disableCheckbox: false
   },
   onLoad: function (options) {
+
+  },
+  onReady: function () {
     selectedList = [];
-    if(wx.startPullDownRefresh) {
+    if (wx.startPullDownRefresh) {
       wx.startPullDownRefresh({});
     }
     else {

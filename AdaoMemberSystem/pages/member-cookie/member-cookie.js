@@ -16,26 +16,12 @@ Page({
     CookieWarning: null
   },
   onLoad: function (options) {
+
+  },
+  onReady: function () {
     app.checkVersion();
     var _this = this;
-    wx.showNavigationBarLoading();
-    http.api_request(//检查登录是否有效
-      app.globalData.ApiUrls.CheckSessionURL,
-      null,
-      function (res) {
-        wx.hideNavigationBarLoading();
-        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-          wx.startPullDownRefresh({});
-        }
-        else {
-          app.logOut();
-        }
-      },
-      function () {
-        wx.hideNavigationBarLoading();
-        app.logOut();
-      }
-    );
+    wx.startPullDownRefresh({});
   },
   //下拉刷新
   onPullDownRefresh: function () {

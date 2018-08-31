@@ -6,23 +6,7 @@ Page({
     CPLoading:false,
   },
   onLoad: function (options) {
-    wx.showNavigationBarLoading();
-    http.api_request(//检查登录是否有效
-      app.globalData.ApiUrls.CheckSessionURL,
-      null,
-      function (res) {
-        wx.hideNavigationBarLoading();
-        if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-        }
-        else {
-          app.logOut();
-        }
-      },
-      function () {
-        wx.hideNavigationBarLoading();
-        app.logOut();
-      }
-    );
+
   },
   onChangePasswdSubmit(e)
   {
