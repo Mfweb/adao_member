@@ -89,22 +89,35 @@ Page({
     return JSON.stringify(tempObj);
   },
   getDetail: function (id) {
-    var _this = this;
+    let _this = this;
+    let tempList = this.data.CookieList;
+    
     cookie.getCookieDetail(_this.data.CookieList[id].id, function (sta, res) {
       if (sta == false) {
         app.showError(res);
-        _this.setData({ disableCheckbox: false });
+
+        if(tempList != undefined && tempList != []) {
+          tempList[id].checked = false;
+        }
+        _this.setData({ disableCheckbox: false, CookieList: tempList});
         return;
       }
-      _this.data.CookieList[id].detail = res;
-      _this.setData({ disableCheckbox: false, CookieList: _this.data.CookieList });
-      var tempString = _this.detailToString();
-      _this.setData({ returnJson: tempString });
-      if (selectedList.length > 0) {
-        _this.setData({ disableLaunch: false });
+
+      if (tempList != undefined && tempList != []) {
+        tempList[id].checked = true;
+        tempList[id].detail = res;
+        _this.setData({ disableCheckbox: false, CookieList: tempList });
+        var tempString = _this.detailToString();
+        _this.setData({ returnJson: tempString });
+        if (selectedList.length > 0) {
+          _this.setData({ disableLaunch: false });
+        }
+        else {
+          _this.setData({ disableLaunch: true });
+        }
       }
       else {
-        _this.setData({ disableLaunch: true });
+        app.showError('数据错误');
       }
     });
   }

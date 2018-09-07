@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
@@ -38,6 +38,19 @@
 					"pathName": "pages/index/index",
 					"query": "",
 					"scene": "1030"
+				},
+				{
+					"id": 1,
+					"name": "APP调用获取饼干",
+					"pathName": "pages/index/index",
+					"query": "mode=cookie",
+					"scene": "1054"
+				},
+				{
+					"id": -1,
+					"name": "APP调用注册",
+					"pathName": "pages/index/index",
+					"query": "mode=reg"
 				}
 			]
 		}

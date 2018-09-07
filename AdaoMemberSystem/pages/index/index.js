@@ -46,6 +46,7 @@ Page({
           });
           return;//不继续登录了
       */
+      //app.globalData.SystemInfo.Scene = 1069;
       memberMode = 0;
       if (app.globalData.SystemInfo.Scene == 1069) {//通过APP拉起
         if (pageEvent.mode != undefined && pageEvent.mode == 'reg') {

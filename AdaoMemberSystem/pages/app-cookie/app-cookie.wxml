@@ -10,8 +10,8 @@
         <view class='CookieListTd1'>{{item.id}}</view>
         <view class='CookieListTd2'>{{item.value}}</view>
         <view class='CookieListTd3'>
-        <label class="checkbox">
-          <checkbox value="{{index}}" bindtap='onTapCheckbox' id='{{index}}' disabled='{{disableCheckbox}}'/>选择
+        <label class="checkbox" bindtap='onTapCheckbox' id='{{index}}'>
+          <checkbox value="{{index}}" checked="{{item.checked}}" bindtap='onTapCheckbox' id='{{index}}' disabled='{{disableCheckbox}}'/>选择
         </label>
         </view>
       </view>
