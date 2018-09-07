@@ -35,8 +35,23 @@ Page({
     this.setData({ vCodeShow: true, needDeleteID: e.target.id, FormID: "delete" });
   },
   //获取饼干QR码
-  onGetCookie: function (e) {
-    this.getCookieQR(e.target.id)
+  onGetCookie: function (event) {
+    let selId = event.target.id;
+    let _this = this;
+    wx.showActionSheet({
+      itemList: ['获取二维码', '复制内容'],
+      itemColor: '#334054',
+      success: function (e) {
+        if (e.cancel != true) {
+          if (e.tapIndex == 0) {
+            _this.getCookieQR(selId);
+          }
+          else {
+            _this.getCookieToClipboard(selId);
+          }
+        }
+      }
+    })
   },
   //关闭验证码输入窗口
   onUClose: function (e) {
@@ -265,6 +280,35 @@ Page({
         app.showError(detail);
         _this.setData({ CookieList: temp_data });
       }
+    });
+  },
+  /**
+    * 获取Cookie详细并复制到剪切板
+    */
+  getCookieToClipboard: function (index) {
+    var _this = this;
+    var temp_data = _this.data.CookieList;
+    if (temp_data[index].getLoading == true) return;
+    temp_data[index].getLoading = true;
+    this.setData({ CookieList: temp_data });
+    temp_data[index].getLoading = false;
+
+    cookie.getCookieDetail(temp_data[index].id, function (sta, detail) {
+      if (sta == true) {
+        wx.setClipboardData({
+          data: detail,
+          success: function () {
+            app.showSuccess('饼干已复制');
+          },
+          fail: function () {
+            app.showError('复制失败');
+          }
+        });
+      }
+      else {
+        app.showError(detail);
+      }
+      _this.setData({ CookieList: temp_data });
     });
   }
 })

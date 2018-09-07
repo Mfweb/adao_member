@@ -11,7 +11,7 @@
       <view class='CookieListTd2'>{{item.value}}</view>
       <view class='CookieListTd3'>
         <button id='{{index}}' bindtap='onDeleteCookie' class='cButton' loading='{{item.delLoading}}' type='warn' size='mini'>删除</button>
-        <button id='{{index}}' bindtap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>二维码</button>
+        <button id='{{index}}' bindtap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>获取</button>
       </view>
     </view>
     <view class='cookie-num'>饼干槽:{{CookieNum}}</view>
