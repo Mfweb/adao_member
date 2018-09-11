@@ -86,6 +86,24 @@ App({
   },
   showError(msg)
   {
+    let xmsg = '无';
+    if(typeof msg != 'string') {
+      if(typeof msg != 'undefined') {
+        try {
+          xmsg = JSON.stringify(msg);
+        }
+        catch (err) {
+          xmsg = typeof msg;
+        }
+      }
+      msg = '错误';
+    }
+
+    wx.reportAnalytics('on_user_error', {
+      strerror: msg,
+      undefineerror: xmsg,
+    });
+
     if (msg.length > 7) {
       wx.showModal({
         title: '提示',
