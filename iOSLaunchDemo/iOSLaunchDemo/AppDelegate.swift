@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WXApiDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         //微信开放平台AppID（不是小程序的AppID），除了在这设置，还要在info-URL Types 里设置
         //请在微信开放平台申请自己的AppID，审核通过后在微信开放平台应用的 关联小程序信息 中 输入A岛小程序的AppID绑定A岛小程序，A岛小程序的AppID是 wx0066e3ac88fdccb2
-        //请注意，小程序1.5.9或以上版本才支持返回Cookie，Demo开放时1.5.9可能还没有通过审核
+        //请注意，小程序1.5.9或以上版本支持返回Cookie
         let registerStatus = WXApi.registerApp("wxae088b5c050dc89c")
         print("registerStatus:\(registerStatus)")
         return true
