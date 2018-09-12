@@ -2,7 +2,8 @@
 A岛用户系统，微信小程序
 
 AdaoMemberSystem: A岛用户系统微信小程序  
-iOSLaunchDemo: iOS调用注册&获取饼干Demo
+iOSLaunchDemo: iOS调用注册&获取饼干Demo  
+AndroidLaunchDemo: 安卓调用注册&获取饼干Demo
 # 截图 #
 
 ## 登录 ##

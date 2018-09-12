@@ -29,15 +29,6 @@ Page({
     this.getCookies();
     this.setData({ vCodeShow: false });
   },
-  onReturn: function () {
-    if (selectedList.length == 0) {
-      app.showError('请选择要导入的Cookie');
-      return;
-    }
-    wx.navigateTo({
-      url: '../index/index',
-    })
-  },
   onLaunchAppError: function(res) {
     app.showError("返回APP失败\r\n" + res.detail.errMsg);
     app.log(res);
