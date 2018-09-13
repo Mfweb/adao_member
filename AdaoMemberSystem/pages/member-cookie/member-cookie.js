@@ -88,7 +88,7 @@ Page({
           if (res.status == 1) {
             wx.startPullDownRefresh({});//删除请求成功，刷新页面
             _this.setData({ vCodeShow: false });
-            app.showError('删除完成');
+            app.showSuccess('删除完成');
             app.log('cookie delete success');
           }
           else {
@@ -116,7 +116,7 @@ Page({
             _this.setData({ vCodeShow: false });
             _this.setData({ EnterButLoading: false });
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
-            app.showError('大成功');
+            app.showSuccess('大成功');
             app.log('get new cookie success');
             wx.startPullDownRefresh({});
           }
