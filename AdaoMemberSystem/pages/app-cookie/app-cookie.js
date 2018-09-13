@@ -10,9 +10,6 @@ Page({
     disableLaunch: true,
     disableCheckbox: false
   },
-  onLoad: function (options) {
-
-  },
   onReady: function () {
     selectedList = [];
     if (wx.startPullDownRefresh) {
@@ -28,6 +25,13 @@ Page({
     wx.showNavigationBarLoading();
     this.getCookies();
     this.setData({ vCodeShow: false });
+  },
+  onTapReturn: function(res) {
+    if (selectedList.length > 0) {
+      wx.reLaunch({
+        url: '../index/index',
+      });
+    }
   },
   onLaunchAppError: function(res) {
     app.showError("返回APP失败\r\n" + res.detail.errMsg);
