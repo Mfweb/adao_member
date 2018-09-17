@@ -4,6 +4,7 @@ const hostURL = "https://amember.mfweb.top";
 App({
   onLaunch: function () {
     this.getSysWindow();
+    this.getCDN();
   },
   onShow: function(res){
     this.globalData.SystemInfo.Scene = res.scene;
@@ -33,6 +34,7 @@ App({
       GetSharesURL: hostURL + "/adao/getshare.php",
       //获取服务条款
       GetTermsURL: hostURL + "/adao/member/getterms.php",
+      GetCDNURL: "https://nmb.fastmirror.org/Api/getCdnPath?appid=wechatapp",//获取CDN地址
       //主岛配置
       ThreadURL: hostURL + "/nmb/Api/thread?appid=wechatapp",//获得串内容和回复
       GetThreadURL: hostURL + "/nmb/Api/ref?appid=wechatapp",//获得串内容
@@ -63,12 +65,30 @@ App({
       Scene: 0
     }
   },
-  getSysWindow(){
+  getCDN: function(){
+    let _this = this;
+    wx.request({
+      url: this.globalData.ApiUrls.GetCDNURL,
+      success: function(res){
+        if(typeof res.data == 'object') {
+          let max = 0;
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].rate > max) {
+              _this.globalData.ApiUrls.ThumbImgURL = res.data[i].url + "thumb/"
+              _this.globalData.ApiUrls.FullImgURL = res.data[i].url + "image/"
+              max = res.data[i].rate;
+            }
+          }
+        }
+      }
+    });
+  },
+  getSysWindow: function(){
     var res = wx.getSystemInfoSync();//获取屏幕尺寸
     this.globalData.SystemInfo.Windows.width = res.windowWidth;
     this.globalData.SystemInfo.Windows.height = res.windowHeight;
   },
-  showSuccess(msg)
+  showSuccess:function(msg)
   {
     if(msg.length > 7) {
       wx.showModal({
@@ -84,7 +104,7 @@ App({
       });
     }
   },
-  showError(msg)
+  showError: function(msg)
   {
     let xmsg = '无';
     if(typeof msg != 'string') {
@@ -118,7 +138,7 @@ App({
       });
     }
   },
-  log(msg)
+  log: function(msg)
   {
     console.log(msg);
     if (wx.getLogManager)
@@ -127,7 +147,7 @@ App({
       logger.log(msg);
     }
   },
-  showDownloadAPP(){
+  showDownloadAPP: function(){
     var that = this;
     wx.showActionSheet({
       itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
@@ -147,7 +167,7 @@ App({
       }
     });
   },
-  ExitMenu(){
+  ExitMenu: function(){
     var that = this;
     wx.showActionSheet({
       itemList: ['APP下载', '关于', '退出登录'],
@@ -170,7 +190,7 @@ App({
       fail: function () { }
     });
   },
-  logOut() {
+  logOut: function() {
     wx.setStorageSync('user_cookie', '');
     wx.setStorageSync('LoginSession', '');
     //const http = require('utils/http.js');
@@ -179,13 +199,13 @@ App({
       url: '../index/index',
     });
   },
-  playEat() {
+  playEat: function() {
     wx.playBackgroundAudio({
       dataUrl: this.globalData.ApiUrls.Tnnaii_H_IslandURL,
     });
     this.log('play eat');
   },
-  getTerms(callback = null) {
+  getTerms: function(callback = null) {
     var terms_saved;
     try {
       terms_saved = JSON.parse(wx.getStorageSync('Terms'));

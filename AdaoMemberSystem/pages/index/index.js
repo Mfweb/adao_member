@@ -40,12 +40,6 @@ Page({
     this.switchPage(0);
     wx.showNavigationBarLoading();
     this.showNotice(function () {
-      /*
-          wx.navigateTo({
-            url: '../list/list?tid=15335689135k6hu',
-          });
-          return;//不继续登录了
-      */
       //app.globalData.SystemInfo.Scene = 1069;
       memberMode = 0;
       if (app.globalData.SystemInfo.Scene == 1069) {//通过APP拉起

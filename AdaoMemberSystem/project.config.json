@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 3,
 			"list": [
 				{
 					"id": -1,
@@ -51,6 +51,13 @@
 					"name": "APP调用注册",
 					"pathName": "pages/index/index",
 					"query": "mode=reg"
+				},
+				{
+					"id": -1,
+					"name": "微信公众号文章",
+					"pathName": "pages/index/index",
+					"query": "tid=15335689135k6hu",
+					"scene": "1054"
 				}
 			]
 		}
