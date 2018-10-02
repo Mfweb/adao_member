@@ -66,7 +66,6 @@ App({
     }
   },
   getCDN: function(){
-    let _this = this;
     wx.request({
       url: this.globalData.ApiUrls.GetCDNURL,
       success: function(res){
@@ -74,13 +73,13 @@ App({
           let max = 0;
           for (let i = 0; i < res.data.length; i++) {
             if (res.data[i].rate > max) {
-              _this.globalData.ApiUrls.ThumbImgURL = res.data[i].url + "thumb/"
-              _this.globalData.ApiUrls.FullImgURL = res.data[i].url + "image/"
+              this.globalData.ApiUrls.ThumbImgURL = res.data[i].url + "thumb/"
+              this.globalData.ApiUrls.FullImgURL = res.data[i].url + "image/"
               max = res.data[i].rate;
             }
           }
         }
-      }
+      }.bind(this)
     });
   },
   getSysWindow: function(){

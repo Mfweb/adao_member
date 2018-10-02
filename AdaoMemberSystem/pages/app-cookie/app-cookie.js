@@ -62,7 +62,6 @@ Page({
     }
   },
   getCookies: function () {
-    var _this = this;
     cookie.getCookies(function (status, msg) {
       if (status == false) {
         app.showError(msg);
@@ -70,50 +69,48 @@ Page({
         wx.hideNavigationBarLoading();
         return;
       }
-      _this.setData({ CookieList: msg });
+      this.setData({ CookieList: msg });
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
-    });
+    }.bind(this));
   },
   detailToString: function () {
-    var _this = this;
     var tempObj = [];
     for (let i = 0; i < selectedList.length; i++) {
-      tempObj.push(_this.data.CookieList[selectedList[i]].detail);
+      tempObj.push(this.data.CookieList[selectedList[i]].detail);
     }
     return JSON.stringify(tempObj);
   },
   getDetail: function (id) {
-    let _this = this;
     let tempList = this.data.CookieList;
     
-    cookie.getCookieDetail(_this.data.CookieList[id].id, function (sta, res) {
+    cookie.getCookieDetail(this.data.CookieList[id].id, function (sta, res) {
       if (sta == false) {
         app.showError(res);
 
         if(tempList != undefined && tempList != []) {
           tempList[id].checked = false;
         }
-        _this.setData({ disableCheckbox: false, CookieList: tempList});
+        this.setData({ disableCheckbox: false, CookieList: tempList});
         return;
       }
 
       if (tempList != undefined && tempList != []) {
         tempList[id].checked = true;
         tempList[id].detail = res;
-        _this.setData({ disableCheckbox: false, CookieList: tempList });
-        var tempString = _this.detailToString();
-        _this.setData({ returnJson: tempString });
+        this.setData({ disableCheckbox: false, CookieList: tempList });
+        var tempString = this.detailToString();
+        this.setData({ returnJson: tempString });
         if (selectedList.length > 0) {
-          _this.setData({ disableLaunch: false });
+          this.setData({ disableLaunch: false });
         }
         else {
-          _this.setData({ disableLaunch: true });
+          this.setData({ disableLaunch: true });
         }
       }
       else {
         app.showError('数据错误');
       }
-    });
+    }.bind(this));
   }
 })

@@ -27,7 +27,6 @@ Page({
 
     this.setData({ CPLoading:true});
 
-    var _this = this;
     http.api_request(
       app.globalData.ApiUrls.ChangePasswordURL,
       {
@@ -45,13 +44,13 @@ Page({
         else {
           app.showError("发生了错误");
         }
-        _this.setData({ CPLoading: false });
-      },
+        this.setData({ CPLoading: false });
+      }.bind(this),
       function()
       {
         app.showError('发生了错误');
-        _this.setData({ CPLoading: false });
-      }
+        this.setData({ CPLoading: false });
+      }.bind(this)
     );
   },
   onExit: function (e) {

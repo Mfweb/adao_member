@@ -148,9 +148,8 @@ Page({
       else{
         pw_run = true;
         wx.showNavigationBarLoading();
-        var _this = this;
-        _this.setData({ tlist: [] });
-        GetLists(_this);
+        this.setData({ tlist: [] });
+        GetLists(this);
       }
     }
     else {

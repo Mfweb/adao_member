@@ -26,7 +26,6 @@ Page({
   },
   onReady: function () {
     app.checkVersion();
-    let _this = this;
     let sUN = wx.getStorageSync('UserName');
     let sPW = wx.getStorageSync('PassWord');
 
@@ -44,9 +43,9 @@ Page({
       memberMode = 0;
       if (app.globalData.SystemInfo.Scene == 1069) {//通过APP拉起
         if (pageEvent.mode != undefined && pageEvent.mode == 'reg') {
-          _this.setData({ BLoading: false });
-          _this.switchPage(1);
-          _this.getNewVcode();
+          this.setData({ BLoading: false });
+          this.switchPage(1);
+          this.getNewVcode();
           wx.hideNavigationBarLoading();
           pageEvent.mode = '';
           return;
@@ -89,17 +88,17 @@ Page({
           else {
             app.showError('未知错误');
           }
-          _this.setData({ BLoading: false });
-          _this.getNewVcode();
+          this.setData({ BLoading: false });
+          this.getNewVcode();
           wx.hideNavigationBarLoading();
-        },
+        }.bind(this),
         function () {
           app.showError('连接服务器失败');
-          _this.setData({ BLoading: false });
+          this.setData({ BLoading: false });
           wx.hideNavigationBarLoading();
-        }
+        }.bind(this)
       );
-    });
+    }.bind(this));
   },
   onTapVerifyCode: function (e) {
     this.getNewVcode();
@@ -124,7 +123,6 @@ Page({
     if (this.data.BLoading == true) {
       return;
     }
-    let _this = this;
     let u_email = e.detail.value.email;
     let u_pass = e.detail.value.passwd;
     let u_vcode = e.detail.value.verifycode;
@@ -167,19 +165,19 @@ Page({
           }
           else {
             app.showError(res.info);
-            _this.getNewVcode();
+            this.getNewVcode();
           }
         }
         else {
           app.showError('发生错误');
           app.log(res);
         }
-        _this.setData({ BLoading: false });
-      },
+        this.setData({ BLoading: false });
+      }.bind(this),
       function () {
         app.showError('连接服务器失败');
-        _this.setData({ BLoading: false });
-      });
+        this.setData({ BLoading: false });
+      }.bind(this));
   },
   /**
    * 注册
@@ -189,7 +187,6 @@ Page({
     if (this.data.BLoading == true) {
       return;
     }
-    let _this = this;
     let u_email = e.detail.value.email;
     let u_vcode = e.detail.value.verifycode;
     let u_agree = e.detail.value.agree.length;
@@ -217,23 +214,23 @@ Page({
         if (typeof res == 'object') {
           if (res.status == 1) {
             app.showSuccess(res.info);
-            _this.switchPage(0);
+            this.switchPage(0);
           }
           else {
             app.showError(res.info);
-            _this.getNewVcode();
+            this.getNewVcode();
           }
         }
         else {
           app.showError('发生错误');
           app.log(res);
         }
-        _this.setData({ BLoading: false });
-      },
+        this.setData({ BLoading: false });
+      }.bind(this),
       function () {
         app.showError('连接服务器失败');
-        _this.setData({ BLoading: false });
-      });
+        this.setData({ BLoading: false });
+      }.bind(this));
   },
   /**
    * 忘记密码
@@ -243,7 +240,6 @@ Page({
     if (this.data.BLoading == true) {
       return;
     }
-    let _this = this;
     let u_email = e.detail.value.email;
     let u_vcode = e.detail.value.verifycode;
 
@@ -269,19 +265,19 @@ Page({
           }
           else {
             app.showError(res.info);
-            _this.getNewVcode();
+            this.getNewVcode();
           }
         }
         else {
           app.showError('发生错误');
           app.log(res);
         }
-        _this.setData({ BLoading: false });
-      },
+        this.setData({ BLoading: false });
+      }.bind(this),
       function () {
         app.showError('连接服务器失败');
-        _this.setData({ BLoading: false });
-      });
+        this.setData({ BLoading: false });
+      }.bind(this));
   },
   onEat: function (e) {
     app.playEat();
@@ -318,7 +314,6 @@ Page({
    * 载入服务条款
    */
   onReadTerms: function () {
-    var _this = this;
     app.getTerms(function (res) {
       if (res === false) {
         app.showError('网络错误');
@@ -327,9 +322,9 @@ Page({
         app.showError(res.errmsg);
       }
       else {
-        _this.setData({ termsNodes: WxParse.wxParse('item', 'html', res.data, _this, null).nodes, showTermsWindow: true });
+        this.setData({ termsNodes: WxParse.wxParse('item', 'html', res.data, this, null).nodes, showTermsWindow: true });
       }
-    });
+    }.bind(this));
   },
   onReadTermsFinish: function () {
     this.setData({ showTermsWindow: false });
@@ -341,13 +336,12 @@ Page({
    */
   getNewVcode: function () {
     this.setData({ vCodeLoading: true, verifyCodeURL: "" });
-    var _this = this;
     http.get_verifycode(function (sta, img, msg) {
       if (sta == false) {
         app.showError(msg);
       }
-      _this.setData({ vCodeLoading: false, verifyCodeURL: img });
-    });
+      this.setData({ vCodeLoading: false, verifyCodeURL: img });
+    }.bind(this));
   },
   /**
    * 切换页面
@@ -365,17 +359,16 @@ Page({
     now_anime[now_page] = animeOut.export();
     this.setData({ animations: now_anime });
 
-    var _this = this;
     setTimeout((function callback() {
-      _this.setData({ Mode: new_page });
-      var now_anime = _this.data.animations;
+      this.setData({ Mode: new_page });
+      var now_anime = this.data.animations;
       var animeIn = wx.createAnimation({
         duration: 200,
         timingFunction: 'ease'
       });
       animeIn.opacity(1).step();
       now_anime[new_page] = animeIn.export();
-      _this.setData({ animations: now_anime, TitleText: pageTitles[new_page] });
+      this.setData({ animations: now_anime, TitleText: pageTitles[new_page] });
       if (new_page == 1) {
         wx.showModal({
           title: '提示',
@@ -383,7 +376,7 @@ Page({
           showCancel: false
         });
       }
-    }).bind(_this), 200);
+    }).bind(this), 200);
   },
   /**
    * 获取并显示公告

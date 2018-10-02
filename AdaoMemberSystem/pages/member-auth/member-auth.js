@@ -68,7 +68,6 @@ Page({
    * 确认执行操作，需要验证码请求的操作通过这里执行
    */
   onEnter: function (e) {
-    var _this = this;
     var u_vcode = e.detail.value.verifycode;
     var u_index = e.detail.value.needDeleteID;
     if (u_vcode.length != 5) {
@@ -77,7 +76,7 @@ Page({
     }
     if (this.data.EnterButLoading == true) return;
     this.setData({ EnterButLoading: true });
-    var u_country = _this.data.Cindex + 1;
+    var u_country = this.data.Cindex + 1;
     var u_phone = e.detail.value.phonenumber;
     if (!(/^\d{5,}$/.test(u_phone))) {
       app.showError('手机号错误');
@@ -104,25 +103,25 @@ Page({
             var body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
             if (body_match != null) {
               body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
-              _this.setData({ CertMsg: WxParse.wxParse('item', 'html', body_match[0], _this, null).nodes, ShowCertMsg: true, CertFormShow: false });
-              _this.waitCert();
+              this.setData({ CertMsg: WxParse.wxParse('item', 'html', body_match[0], this, null).nodes, ShowCertMsg: true, CertFormShow: false });
+              this.waitCert();
             }
             else {
               app.showError('发生了错误');
             }
           }
-          _this.setData({ EnterButLoading: false });
+          this.setData({ EnterButLoading: false });
         }
         catch (err) {
           app.log(err.message);
           app.showError(err.message);
-          _this.setData({ EnterButLoading: false });
+          this.setData({ EnterButLoading: false });
         }
-      },
+      }.bind(this),
       function () {
         app.showError('发生了错误');
-        _this.setData({ EnterButLoading: false });
-      });
+        this.setData({ EnterButLoading: false });
+      }.bind(this));
   },
   onTapVerifyCode: function (e) {
     this.getNewVcode();
@@ -135,7 +134,6 @@ Page({
     this.setData({ Cindex: e.detail.value });
   },
   onCopy: function (e) {
-    var _this = this;
     if (this.data.CopyLoading == true) return;
     this.setData({ CopyLoading: true });
     http.api_request(
@@ -159,12 +157,12 @@ Page({
           });
         }
 
-        _this.setData({ CopyLoading: false });
-      },
+        this.setData({ CopyLoading: false });
+      }.bind(this),
       function () {
         app.showError('获取失败');
-        _this.setData({ CopyLoading: false });
-      }
+        this.setData({ CopyLoading: false });
+      }.bind(this)
     );
   },
   onExit: function (e) {
@@ -177,20 +175,18 @@ Page({
    * 获取新验证码
    */
   getNewVcode: function () {
-    var _this = this;
     this.setData({ vCodeLoading: true, verifyCodeURL: "" });
     http.get_verifycode(function (sta, img, msg) {
       if (sta == false) {
         app.showError(msg);
       }
-      _this.setData({ vCodeLoading: false, verifyCodeURL: img });
-    });
+      this.setData({ vCodeLoading: false, verifyCodeURL: img });
+    }.bind(this));
   },
   /**
    * 获取当前认证状态
    */
   getCertifiedStatus: function () {
-    var _this = this;
     http.api_request(
       app.globalData.ApiUrls.CertifiedStatusURL,
       null,
@@ -209,7 +205,7 @@ Page({
           cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
           if (cert_status != null) {
             cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
-            _this.setData({ CertStatus: cert_status });
+            this.setData({ CertStatus: cert_status });
           }
           else {
             app.showError('实名状态错误');
@@ -220,14 +216,14 @@ Page({
             if (phone_status != null) {
               phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
               if (phone_status != null) {
-                _this.setData({ PhoneStatus: phone_status });
+                this.setData({ PhoneStatus: phone_status });
               }
             }
-            _this.setData({ CanCert: false });
+            this.setData({ CanCert: false });
           }
           else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
           {
-            _this.setData({ PhoneStatus: "未认证", CanCert: true });
+            this.setData({ PhoneStatus: "未认证", CanCert: true });
           }
         }
         else {
@@ -235,7 +231,7 @@ Page({
         }
         wx.stopPullDownRefresh();
         wx.hideNavigationBarLoading();
-      },
+      }.bind(this),
       function () {
         app.showError('发生了错误');
         wx.stopPullDownRefresh();

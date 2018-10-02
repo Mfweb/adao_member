@@ -35,13 +35,12 @@ Page({
   onUpload: function (e) {
     if (this.data.getLoading) return;
     this.setData({ getLoading: true });
-    var _this = this;
 
     //检查登录是否有效
     /*var now_session = wx.getStorageSync('LoginSession');
     if (now_session == null || now_session.length != 128) {
       app.log('session fail');
-      _this.WeLogin();
+      this.WeLogin();
       return;
     }*/
     //这里有个问题，经常已经成功登陆但是会跳失败，暂时每次都登陆一下，使用频率不高
@@ -50,8 +49,8 @@ Page({
       content: '步数只保留24小时，每隔24小时可以上传一次。',
       showCancel: false,
       success: function () {
-        _this.WeLogin();
-      }
+        this.WeLogin();
+      }.bind(this)
     });
     /*
     wx.checkSession({
@@ -90,46 +89,43 @@ Page({
    * 获取所有Cookie
    */
   GetCookies: function () {
-    var _this = this;
     cookie.getCookies(function (status, msg) {
       if (status == false) {
         app.showError(msg);
-        _this.setData({ getLoading: false });
+        this.setData({ getLoading: false });
         return;
       }
       msg[0].checked = 'true';
       SelectCookieID = 0;
-      _this.setData({ cookie_items: msg, showSelectCookie: true });
-    });
+      this.setData({ cookie_items: msg, showSelectCookie: true });
+    }.bind(this));
   },
   /**
    * 获取授权
    */
   GetAuth: function () {
-    var _this = this;
     wx.authorize({
       scope: 'scope.werun',
       success: function (e) {
         if (e.errMsg == "authorize:ok") {
           //获取授权成功，获取并上传步数数据
-          _this.GetCookies();
+          this.GetCookies();
         }
         else {
           app.showError("获取权限失败");
-          _this.setData({ getAuthFail: true, getLoading: false });
+          this.setData({ getAuthFail: true, getLoading: false });
         }
-      },
+      }.bind(this),
       fail: function (e) {
         app.showError("获取权限失败");
-        _this.setData({ getAuthFail: true, getLoading: false });
-      }
+        this.setData({ getAuthFail: true, getLoading: false });
+      }.bind(this)
     });
   },
   /**
    * 上传
    */
   UpWeRunData: function () {
-    var _this = this;
     wx.getWeRunData({
       success: function (e) {
         http.api_request(
@@ -141,6 +137,7 @@ Page({
             cookie: SelectCookieID
           },
           function (e) {
+            console.log(e);
             try {
               if (e.status == 0) {
                 app.showSuccess(e.msg);
@@ -153,25 +150,24 @@ Page({
               app.showError("error");
             }
 
-            _this.setData({ getLoading: false });
-          },
+            this.setData({ getLoading: false });
+          }.bind(this),
           function () {
             app.showError("上传失败");
-            _this.setData({ getLoading: false });
-          }
+            this.setData({ getLoading: false });
+          }.bind(this)
         );
-      },
+      }.bind(this),
       fail: function () {
         app.showError("获取数据失败");
-        _this.setData({ getLoading: false });
-      }
+        this.setData({ getLoading: false });
+      }.bind(this)
     })
   },
   /**
    * 登录
    */
   WeLogin: function () {
-    var _this = this;
     wx.login({
       //登录成功
       success: function (e) {
@@ -192,45 +188,44 @@ Page({
               if (e.data.status == 0) {
                 wx.setStorageSync('LoginSession', e.data.session);
                 //获取授权
-                _this.GetAuth();
+                this.GetAuth();
               }
               else {
                 app.showError("登录失败4");
-                _this.setData({ getLoading: false });
+                this.setData({ getLoading: false });
               }
-            },
+            }.bind(this),
             fail: function () {
               app.showError("登录失败3");
-              _this.setData({ getLoading: false });
-            }
+              this.setData({ getLoading: false });
+            }.bind(this)
           });
         }
         else {
           app.showError("登录失败2");
           app.log(e);
-          _this.setData({ getLoading: false });
+          this.setData({ getLoading: false });
         }
-      },
+      }.bind(this),
       //登录失败
       fail: function (e) {
         app.showError("登录失败1");
         app.log(e);
-        _this.setData({ getLoading: false });
-      }
+        this.setData({ getLoading: false });
+      }.bind(this)
     });
   },
   GetStep: function () {
-    var _this = this;
     wx.request({
       url: app.globalData.ApiUrls.WeDownloadRunURL,
       success: function (res) {
         app.log(res);
         if (res.data.status == 0)
-          _this.setData({ StepList: res.data.steps });
+          this.setData({ StepList: res.data.steps });
         else
           app.showError(res.data.msg);
         wx.stopPullDownRefresh();
-      },
+      }.bind(this),
       fail: function () {
         app.showError("网络错误");
         wx.stopPullDownRefresh();

@@ -20,7 +20,6 @@ Page({
   },
   onReady: function () {
     app.checkVersion();
-    var _this = this;
     wx.startPullDownRefresh({});
   },
   //下拉刷新
@@ -37,20 +36,19 @@ Page({
   //获取饼干QR码
   onGetCookie: function (event) {
     let selId = event.target.id;
-    let _this = this;
     wx.showActionSheet({
       itemList: ['获取二维码', '复制内容'],
       itemColor: '#334054',
       success: function (e) {
         if (e.cancel != true) {
           if (e.tapIndex == 0) {
-            _this.getCookieQR(selId);
+            this.getCookieQR(selId);
           }
           else {
-            _this.getCookieToClipboard(selId);
+            this.getCookieToClipboard(selId);
           }
         }
-      }
+      }.bind(this)
     })
   },
   //关闭验证码输入窗口
@@ -61,7 +59,6 @@ Page({
    * 确认执行操作，需要验证码请求的操作通过这里执行
    */
   onEnter: function (e) {
-    var _this = this;
     var u_vcode = e.detail.value.verifycode;
     var u_index = e.detail.value.needDeleteID;
     if (u_vcode.length != 5) {
@@ -87,21 +84,21 @@ Page({
         function (res) {
           if (res.status == 1) {
             wx.startPullDownRefresh({});//删除请求成功，刷新页面
-            _this.setData({ vCodeShow: false });
+            this.setData({ vCodeShow: false });
             app.showSuccess('删除完成');
             app.log('cookie delete success');
           }
           else {
             app.log('cookie delete error:' + res.info);
-            _this.getNewVcode();
+            this.getNewVcode();
             app.showError(res.info);
           }
-          _this.setData({ CookieList: temp_data, EnterButLoading: false });
-        },
+          this.setData({ CookieList: temp_data, EnterButLoading: false });
+        }.bind(this),
         function () {
           app.showError('发生了错误');
-          _this.setData({ CookieList: temp_data, EnterButLoading: false });
-        });
+          this.setData({ CookieList: temp_data, EnterButLoading: false });
+        }.bind(this));
     }
     else if (e.target.id == 'new')//获取新Cookie
     {
@@ -113,8 +110,8 @@ Page({
         function (res) {
           //app.log(res);
           if (res.status == 1) {
-            _this.setData({ vCodeShow: false });
-            _this.setData({ EnterButLoading: false });
+            this.setData({ vCodeShow: false });
+            this.setData({ EnterButLoading: false });
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             app.showSuccess('大成功');
             app.log('get new cookie success');
@@ -124,13 +121,13 @@ Page({
             app.log('get new cookie error:' + res.info);
             app.showError(res.info);
           }
-          _this.setData({ vCodeShow: false });
-          _this.setData({ EnterButLoading: false });
-        },
+          this.setData({ vCodeShow: false });
+          this.setData({ EnterButLoading: false });
+        }.bind(this),
         function () {
           app.showError('发生了错误');
-          _this.setData({ EnterButLoading: false });
-        });
+          this.setData({ EnterButLoading: false });
+        }.bind(this));
     }
   },
   //获取新Cookie
@@ -153,22 +150,20 @@ Page({
    */
   getNewVcode: function () {
     this.setData({ vCodeLoading: true, verifyCodeURL: "" });
-    var _this = this;
     http.get_verifycode(function (sta, img, msg) {
       if (sta == false) {
         app.showError(msg);
       }
-      _this.setData({ vCodeLoading: false, verifyCodeURL: img });
-    });
+      this.setData({ vCodeLoading: false, verifyCodeURL: img });
+    }.bind(this));
   },
   /**
    * 获取Cookie列表
    */
   getCookies: function () {
-    var _this = this;
     cookie.getCookies(function (status, msg, info) {
       if (info != null) {
-        _this.setData({ CookieNum: info.capacity, CookieWarning: info.warning });
+        this.setData({ CookieNum: info.capacity, CookieWarning: info.warning });
       }
 
       if (status == false) {
@@ -188,23 +183,22 @@ Page({
         return;
       }
 
-      _this.setData({ CookieList: msg });
+      this.setData({ CookieList: msg });
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
-    });
+    }.bind(this));
   },
   /**
    * 创建并显示二维码
    */
   createQRCode: function (content, callback) {
-    var _this = this;
     //在画布上创建二维码
     drawQrcode({
       width: 200,
       height: 200,
       canvasId: 'myQrcode',
       text: content,
-      _this: _this,
+      _this: this,
       callback: function () {
         setTimeout(function () {
           //将二维码部分复制出来
@@ -216,7 +210,7 @@ Page({
             height: 200,
             success: function (res) {
               //填充整个画布
-              const ctx = wx.createCanvasContext('myQrcode', _this);
+              const ctx = wx.createCanvasContext('myQrcode', this);
               ctx.setFillStyle('white');
               ctx.fillRect(0, 0, 220, 220);
               ctx.draw();
@@ -242,19 +236,19 @@ Page({
                       console.log('error');
                       app.showError("缓存二维码失败");
                     }
-                  }, _this);
+                  }, this);
                 },
                 fail: function () {
                   app.showError('生成QR码错误2');
                 }
-              }, _this);
-            },
+              }, this);
+            }.bind(this),
             fail: function () {
               app.showError('生成QR码错误');
             }
-          }, _this);
+          }, this);
           callback();
-        }, 300);
+        }.bind(this), 300);
       }
     });
   },
@@ -262,8 +256,7 @@ Page({
    * 获取Cookie详细并显示二维码
    */
   getCookieQR: function (index) {
-    var _this = this;
-    var temp_data = _this.data.CookieList;
+    var temp_data = this.data.CookieList;
     if (temp_data[index].getLoading == true) return;
     temp_data[index].getLoading = true;
     this.setData({ CookieList: temp_data });
@@ -271,23 +264,22 @@ Page({
 
     cookie.getCookieDetail(temp_data[index].id, function (sta, detail) {
       if (sta == true) {
-        _this.createQRCode(JSON.stringify({ cookie: detail }), function () {
-          _this.setData({ CookieList: temp_data });
+        this.createQRCode(JSON.stringify({ cookie: detail }), function () {
+          this.setData({ CookieList: temp_data });
           return;
-        });
+        }.bind(this));
       }
       else {
         app.showError(detail);
-        _this.setData({ CookieList: temp_data });
+        this.setData({ CookieList: temp_data });
       }
-    });
+    }.bind(this));
   },
   /**
     * 获取Cookie详细并复制到剪切板
     */
   getCookieToClipboard: function (index) {
-    var _this = this;
-    var temp_data = _this.data.CookieList;
+    var temp_data = this.data.CookieList;
     if (temp_data[index].getLoading == true) return;
     temp_data[index].getLoading = true;
     this.setData({ CookieList: temp_data });
@@ -308,7 +300,7 @@ Page({
       else {
         app.showError(detail);
       }
-      _this.setData({ CookieList: temp_data });
-    });
+      this.setData({ CookieList: temp_data });
+    }.bind(this));
   }
 })
