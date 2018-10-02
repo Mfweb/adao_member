@@ -6,11 +6,11 @@ App({
     this.getSysWindow();
     this.getCDN();
   },
-  onShow: function(res){
+  onShow: function (res) {
     this.globalData.SystemInfo.Scene = res.scene;
   },
   globalData: {
-    ApiUrls:{
+    ApiUrls: {
       VerifyCodeURL: hostURL + "/nmb/Member/User/Index/verify.html",//请求验证码
       LoginURL: hostURL + "/nmb/Member/User/Index/login.html",//登录
       SignupURL: hostURL + "/nmb/Member/User/Index/sendRegister.html",//注册
@@ -50,7 +50,7 @@ App({
       WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
       WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
     },
-    AppList : Array(
+    AppList: Array(
       'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘
       'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',//iOS橙岛(贼贼贼)
       'https://www.pgyer.com/adao',//安卓芦苇娘
@@ -59,17 +59,17 @@ App({
     ),
     SystemInfo: {
       Windows: {
-        height:0,
-        width:0
+        height: 0,
+        width: 0
       },
       Scene: 0
     }
   },
-  getCDN: function(){
+  getCDN: function () {
     wx.request({
       url: this.globalData.ApiUrls.GetCDNURL,
-      success: function(res){
-        if(typeof res.data == 'object') {
+      success: function (res) {
+        if (typeof res.data == 'object') {
           let max = 0;
           for (let i = 0; i < res.data.length; i++) {
             if (res.data[i].rate > max) {
@@ -82,14 +82,13 @@ App({
       }.bind(this)
     });
   },
-  getSysWindow: function(){
+  getSysWindow: function () {
     var res = wx.getSystemInfoSync();//获取屏幕尺寸
     this.globalData.SystemInfo.Windows.width = res.windowWidth;
     this.globalData.SystemInfo.Windows.height = res.windowHeight;
   },
-  showSuccess:function(msg)
-  {
-    if(msg.length > 7) {
+  showSuccess: function (msg) {
+    if (msg.length > 7) {
       wx.showModal({
         title: '提示',
         content: msg,
@@ -103,11 +102,10 @@ App({
       });
     }
   },
-  showError: function(msg)
-  {
+  showError: function (msg) {
     let xmsg = '无';
-    if(typeof msg != 'string') {
-      if(typeof msg != 'undefined') {
+    if (typeof msg != 'string') {
+      if (typeof msg != 'undefined') {
         try {
           xmsg = JSON.stringify(msg);
         }
@@ -137,16 +135,14 @@ App({
       });
     }
   },
-  log: function(msg)
-  {
+  log: function (msg) {
     console.log(msg);
-    if (wx.getLogManager)
-    {
+    if (wx.getLogManager) {
       const logger = wx.getLogManager();
       logger.log(msg);
     }
   },
-  showDownloadAPP: function(){
+  showDownloadAPP: function () {
     var that = this;
     wx.showActionSheet({
       itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
@@ -166,7 +162,7 @@ App({
       }
     });
   },
-  ExitMenu: function(){
+  ExitMenu: function () {
     var that = this;
     wx.showActionSheet({
       itemList: ['APP下载', '关于', '退出登录'],
@@ -189,7 +185,7 @@ App({
       fail: function () { }
     });
   },
-  logOut: function() {
+  logOut: function () {
     wx.setStorageSync('user_cookie', '');
     wx.setStorageSync('LoginSession', '');
     //const http = require('utils/http.js');
@@ -198,13 +194,13 @@ App({
       url: '../index/index',
     });
   },
-  playEat: function() {
+  playEat: function () {
     wx.playBackgroundAudio({
       dataUrl: this.globalData.ApiUrls.Tnnaii_H_IslandURL,
     });
     this.log('play eat');
   },
-  getTerms: function(callback = null) {
+  getTerms: function (callback = null) {
     var terms_saved;
     try {
       terms_saved = JSON.parse(wx.getStorageSync('Terms'));
@@ -243,7 +239,7 @@ App({
       }
     }
   },
-  checkVersion: function(){
+  checkVersion: function () {
     let verString = wx.getSystemInfoSync();
     let version = verString.SDKVersion.split('.');
     if (parseInt(version[0]) <= 1 && parseInt(version[1]) < 9) {

@@ -1,113 +1,11 @@
 // pages/list/list.js
-var tid_list = [];
 const app = getApp();
-var pw_run = false;
 const http = require('../../utils/http.js');
 var WxParse = require('../../wxParse/wxParse.js');
+
+var idList = [];
+var isRefreshing = false;
 var launchOpt = null;
-
-
-function getData(that, id) {
-  if (id >= tid_list.length) {
-    pw_run = false;
-    wx.stopPullDownRefresh();
-    return;
-  }
-  var temp_data = that.data.tlist;
-
-  var is_bt = false;
-  if (tid_list[id].toString().substr(0, 1) == 'b') {
-    is_bt = true;
-    tid_list[id] = tid_list[id].substr(1);
-  }
-
-  http.api_request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
-    { id: tid_list[id], page: 1 },
-    function (res) {
-      if (typeof res == 'string') {
-        let data = {
-          'id': tid_list[id],
-          'content': WxParse.wxParse('item', 'html', '<p>' + res + '</p>', that, null).nodes,
-          'img': '',
-          'thumburl': '',
-          'img_height': 0,
-          'img_width': 0,
-        }
-        temp_data.push(data);
-      }
-      else {
-        let data = {
-          'id': res.id,
-          'now': res.now,
-          'userid': res.userid,
-          'name': res.name,
-          'email': res.email,
-          'title': res.title,
-          'content': WxParse.wxParse('item', 'html', res.content, that, null).nodes,
-          'admin': res.admin,
-          'sage': res.sage,
-          'replyCount': res.replyCount,
-          'img_height': 0,
-          'img_width': 0,
-          'is_bt': is_bt
-        }
-        if (res.img != "") {
-          data.img = res.img + res.ext;
-          data.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
-          data.img_load_success = false;
-        }
-        else {
-          data.img = "";
-          data.thumburl = "";
-        }
-        temp_data.push(data);
-      }
-      that.setData({ tlist: temp_data });
-      id++;
-      getData(that, id);
-    },
-    function () {
-      app.showError('获取错误');
-      var data = {
-        'id': tid_list[id],
-        'content': WxParse.wxParse('item', 'html', '<p>获取失败</p>', that, null).nodes,
-        'img': '',
-        'thumburl': ''
-      }
-      that.setData({ tlist: temp_data });
-      temp_data.push(data);
-      id++;
-      getData(that, id);
-    });
-}
-
-
-function GetLists(that) {
-  http.api_request(app.globalData.ApiUrls.GetSharesURL,
-    { tids: launchOpt.tid },
-    function (res) {
-      if (res.status != 'ok') {
-        app.showError(res.status);
-        wx.hideNavigationBarLoading();
-        wx.reLaunch({
-          url: '../index/index',
-        });
-      }
-      else {
-        tid_list = res.tids;
-        wx.hideNavigationBarLoading();
-        getData(that, 0);
-      }
-    },
-    function () {
-      app.showError('发生了错误');
-      wx.hideNavigationBarLoading();
-      wx.reLaunch({
-        url: '../index/index',
-      });
-    }
-  );
-}
 
 Page({
   data: {
@@ -122,13 +20,16 @@ Page({
       wx.reLaunch({
         url: '../index/index',
       });
+      return;
     }
     var messageMark_this = 1;
 
-    pw_run = false;
+    isRefreshing = false;
     var messagemark_save = wx.getStorageSync('MessageMark');
-    if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '')
+    if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '') {
       messagemark_save = 0;
+    }
+
     if (messagemark_save < messageMark_this) {
       wx.showModal({
         title: '提示',
@@ -142,14 +43,14 @@ Page({
       });
     }
     if (launchOpt.tid != undefined) {
-      if (wx.startPullDownRefresh){
+      if (wx.startPullDownRefresh) {
         wx.startPullDownRefresh({});
       }
-      else{
-        pw_run = true;
+      else {
+        isRefreshing = true;
         wx.showNavigationBarLoading();
         this.setData({ tlist: [] });
-        GetLists(this);
+        this.getPostList();
       }
     }
     else {
@@ -159,12 +60,11 @@ Page({
     }
   },
   onPullDownRefresh: function () {
-    if (pw_run) return;
-    pw_run = true;
+    if (isRefreshing) return;
+    isRefreshing = true;
     wx.showNavigationBarLoading();
-    var that = this;
-    that.setData({ tlist: [] });
-    GetLists(that);
+    this.setData({ tlist: [] });
+    this.getPostList();
   },
   onUnload: function (e) {
     wx.reLaunch({
@@ -186,7 +86,7 @@ Page({
 
     var tempData = this.data.tlist;
 
-    if (tempData[e.target.id] == undefined || tempData[e.target.id] == null)return;
+    if (tempData[e.target.id] == undefined || tempData[e.target.id] == null) return;
     tempData[e.target.id].img_height = temp_height;
     tempData[e.target.id].img_width = temp_width;
     tempData[e.target.id].img_load_success = true;
@@ -203,6 +103,9 @@ Page({
       urls: [(is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) + this.data.tlist[e['currentTarget'].id].img]
     });
   },
+  /**
+   * 长按复制
+   */
   onLongtapItem: function (e) {
     var is_bt = this.data.tlist[e['currentTarget'].id].is_bt;
     var tid = this.data.tlist[e['currentTarget'].id].id;
@@ -235,5 +138,110 @@ Page({
         }
       }
     });
+  },
+  /**
+   * 获取串列表
+   */
+  getPostList: function () {
+    http.api_request(app.globalData.ApiUrls.GetSharesURL,
+      { tids: launchOpt.tid },
+      function (res) {
+        if (res.status != 'ok') {
+          app.showError(res.status);
+          wx.hideNavigationBarLoading();
+          wx.reLaunch({
+            url: '../index/index',
+          });
+        }
+        else {
+          idList = res.tids;
+          wx.hideNavigationBarLoading();
+          this.getPostDetail(0);
+        }
+      }.bind(this),
+      function () {
+        app.showError('发生了错误');
+        wx.hideNavigationBarLoading();
+        wx.reLaunch({
+          url: '../index/index',
+        });
+      }
+    );
+  },
+  /**
+   * 获取串内容
+   */
+  getPostDetail: function (id) {
+    if (id >= idList.length) {
+      isRefreshing = false;
+      wx.stopPullDownRefresh();
+      return;
+    }
+    var tempData = this.data.tlist;
+
+    var is_bt = false;
+    if (idList[id].toString().substr(0, 1) == 'b') {
+      is_bt = true;
+      idList[id] = idList[id].substr(1);
+    }
+
+    http.api_request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
+      { id: idList[id], page: 1 },
+      function (res) {
+        if (typeof res == 'string') {
+          let data = {
+            'id': idList[id],
+            'content': WxParse.wxParse('item', 'html', '<p>' + res + '</p>', this, null).nodes,
+            'img': '',
+            'thumburl': '',
+            'img_height': 0,
+            'img_width': 0,
+          }
+          tempData.push(data);
+        }
+        else {
+          let data = {
+            'id': res.id,
+            'now': res.now,
+            'userid': res.userid,
+            'name': res.name,
+            'email': res.email,
+            'title': res.title,
+            'content': WxParse.wxParse('item', 'html', res.content, this, null).nodes,
+            'admin': res.admin,
+            'sage': res.sage,
+            'replyCount': res.replyCount,
+            'img_height': 0,
+            'img_width': 0,
+            'is_bt': is_bt
+          }
+          if (res.img != "") {
+            data.img = res.img + res.ext;
+            data.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
+            data.img_load_success = false;
+          }
+          else {
+            data.img = "";
+            data.thumburl = "";
+          }
+          tempData.push(data);
+        }
+        this.setData({ tlist: tempData });
+        id++;
+        this.getPostDetail(id);
+      }.bind(this),
+      function () {
+        app.showError('获取错误');
+        var data = {
+          'id': idList[id],
+          'content': WxParse.wxParse('item', 'html', '<p>获取失败</p>', this, null).nodes,
+          'img': '',
+          'thumburl': ''
+        }
+        tempData.push(data);
+        this.setData({ tlist: tempData });
+        this.getPostDetail(++id);
+      }.bind(this)
+    );
   }
 })
