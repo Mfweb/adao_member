@@ -110,19 +110,28 @@
 }
 .q_window{/*引用串窗口*/
   width: 90%;
-  top: 10%;
+  max-height: 90%;
+  top: 5%;
   left: 5%;
+  display: flex;
+  position: fixed;
+  margin: 0 auto;
   background: #F5F5F5;
   z-index:4;
-  max-height: 90%;
-  display: block;
   border-radius: 6px;
   box-shadow: 3px 3px 10px #666;
+}
+.hiddenScroll{
   position: fixed;
+  left: 2.5%;
+}
+.q_list {
+  height: 100%;
+  width: 100%;
 }
 .q_list_c{
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 }
 .box{/*遮罩层*/
   position:fixed;
@@ -133,6 +142,8 @@
   background:#000;
   opacity:0.7;
   z-index:1;
+  width:100%;
+  height:100%;
 }
 .text{
   width: 97%;
