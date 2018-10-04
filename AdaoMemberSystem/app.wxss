@@ -1,6 +1,7 @@
 @import "wxParse/wxParse.wxss";
 /**app.wxss**/
 .container {
+  overflow-x: hidden;
   height: 100%;
   display: flex;
   flex-direction: column;

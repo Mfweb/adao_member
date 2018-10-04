@@ -24,10 +24,11 @@
 }
 
 .h3{
-  width: 100%;
+  width: 90%;
   font-size: 15px;
   color: #fff;
   text-align: center;
+  margin: 0 auto;
   margin-bottom: 5px;
 }
 .feedbackbut{
