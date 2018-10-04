@@ -175,7 +175,7 @@ App({
       success: function (e) {
         if (e.cancel != true) {
           wx.setClipboardData({
-            data: that.globalData.AppList[e.tapIndex],
+            data: that.globalData.AppList[e.tapIndex].url,
             success: function () {
               that.showSuccess('链接已复制');
             },
@@ -185,29 +185,6 @@ App({
           });
         }
       }
-    });
-  },
-  ExitMenu: function () {
-    var that = this;
-    wx.showActionSheet({
-      itemList: ['APP下载', '关于', '退出登录'],
-      itemColor: '#334054',
-      success: function (e) {
-        if (e.cancel != true) {
-          if (e.tapIndex == 0) {//App下载
-            that.showDownloadAPP();
-          }
-          else if (e.tapIndex == 1) {//关于
-            wx.navigateTo({
-              url: '../about/about',
-            });
-          }
-          else if (e.tapIndex == 2) {//退出登录
-            that.logOut();
-          }
-        }
-      },
-      fail: function () { }
     });
   },
   logOut: function () {
