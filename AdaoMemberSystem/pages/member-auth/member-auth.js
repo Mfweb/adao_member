@@ -29,13 +29,15 @@ Page({
       '牙买加 - +1876', '南极洲 - +64672'],
     CertMsg: null,//手机实名认证显示的消息
     ShowCertMsg: false,//是否显示实名认证消息
-    CopyLoading: false//复制手机号loading
+    CopyLoading: false,//复制手机号loading
+    pullDownRefing: false,
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
   },
   onLoad: function (options) {
 
   },
   onReady: function () {
-    wx.showNavigationBarLoading();
+    this.setData({ pullDownRefing: true });
     wx.startPullDownRefresh({});
 
     if (wx.hideTabBarRedDot) {
@@ -56,7 +58,7 @@ Page({
       clearInterval(timer);
       timer = null;
     }
-    wx.showNavigationBarLoading();
+    this.setData({ pullDownRefing: true });
     this.getCertifiedStatus();
     this.setData({ CertFormShow: false, ShowCertMsg: false });
   },
@@ -193,7 +195,7 @@ Page({
       function (res) {
         if (typeof res != 'string') {
           wx.stopPullDownRefresh();
-          wx.hideNavigationBarLoading();
+          this.setData({ pullDownRefing: false });
           return;
         }
         res = res.replace(/ /g, '');
@@ -230,13 +232,13 @@ Page({
           app.showError('发生了错误');
         }
         wx.stopPullDownRefresh();
-        wx.hideNavigationBarLoading();
+        this.setData({ pullDownRefing: false });
       }.bind(this),
       function () {
         app.showError('发生了错误');
         wx.stopPullDownRefresh();
-        wx.hideNavigationBarLoading();
-      }
+        this.setData({ pullDownRefing: false });
+      }.bind(this)
     );
   },
   /**

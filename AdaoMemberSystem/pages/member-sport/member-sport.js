@@ -9,6 +9,8 @@ Page({
     getAuthFail: false,
     getLoading: false,
     showSelectCookie: false,
+    pullDownRefing: false,
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
     cookie_items: [
       { name: '0', value: 'fasdcfe', checked: 'true' },
       { name: '1', value: 'gwqwetv' },
@@ -22,6 +24,7 @@ Page({
   },
   onReady: function () {
     wx.startPullDownRefresh({});
+    this.setData({ pullDownRefing: true });
   },
   onPullDownRefresh () {
     this.GetStep();
@@ -142,6 +145,7 @@ Page({
               if (e.status == 0) {
                 app.showSuccess(e.msg);
                 wx.startPullDownRefresh({});
+                this.setData({ pullDownRefing: true });
               }
               else
                 app.showError(e.msg);
@@ -225,11 +229,13 @@ Page({
         else
           app.showError(res.data.msg);
         wx.stopPullDownRefresh();
+        this.setData({ pullDownRefing: false });
       }.bind(this),
       fail: function () {
         app.showError("网络错误");
         wx.stopPullDownRefresh();
-      }
+        this.setData({ pullDownRefing: false });
+      }.bind(this)
     });
   }
 })

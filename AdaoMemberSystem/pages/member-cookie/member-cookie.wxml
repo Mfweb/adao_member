@@ -1,5 +1,11 @@
-<import src="../../templates/bubble.wxml"/>
-<view class='pdcontainer'>
+<import src="../../templates/menuButton/menuButton.wxml"/>
+<import src="../../templates/popupMenu/popupMenu.wxml"/>
+<view class='page-title' style='top: {{statusBarHeight}}px;'>
+  <image wx:if='{{pullDownRefing}}' class='page-title-icon' src="../../imgs/loading.gif" />
+  {{popupMenuOpenData.menuList[popupMenuOpenData.selectedIndex].name}}
+  <image wx:if='{{pullDownRefing}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+</view>
+<view class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
   <view class='CookieList'>
     <view class='CookieListTr'>
       <view class='CookieListTd1 lTitle'>ID</view>
@@ -27,5 +33,6 @@
     <button bindtap='onGetNewCookie' class='nButton' type='primary'>获取新Cookie</button>
   </view>
 </view>
-<template is="bubble"></template>
+<template is="menuButton" data="{{statusBarHeight}}"></template>
 <canvas class='qrCanvas' canvas-id="myQrcode"></canvas>
+<template is="popupMenu" data="{{...popupMenuOpenData}}"/>

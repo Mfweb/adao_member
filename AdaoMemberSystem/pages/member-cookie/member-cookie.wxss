@@ -1,4 +1,5 @@
-@import "../../templates/bubble.wxss";
+@import "../../templates/menuButton/menuButton.wxss";
+@import "../../templates/popupMenu/popupMenu.wxss";
 .CookieList{
   width: 100%;
   display: block;
@@ -84,4 +85,9 @@
   max-height: 50px;
   margin: 0 auto;
   margin-top: 8px;
+}
+
+.scroll-disable{
+  overflow: hidden;
+  position: fixed;
 }

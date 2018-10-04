@@ -13,18 +13,58 @@ Page({
     FormID: "",//表单提交ID
     EnterButLoading: false,//确认按钮loading
     CookieNum: '[0/0]',
-    CookieWarning: null
-  },
-  onLoad: function (options) {
-
+    CookieWarning: null,
+    pullDownRefing: false,
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
+    popupMenuOpenData: {
+      show: false,
+      statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
+      selectedIndex: 0,
+      picURL: '',
+      userName: '匿名肥宅',
+      appList: app.globalData.AppList,
+      menuList: [
+        {
+          name: '饼干管理',
+          icon: 'cookie'
+        },
+        {
+          name: '实名认证',
+          icon: 'certified'
+        },
+        {
+          name: '密码修改',
+          icon: 'passwd'
+        },
+        {
+          name: '肥宅排行',
+          icon: 'sport'
+        },
+        {
+          name: '关于',
+          icon: 'about'
+        },
+      ]
+    },
   },
   onReady: function () {
     app.checkVersion();
     wx.startPullDownRefresh({});
+    this.data.popupMenuOpenData.userName = wx.getStorageSync('UserName');
+    if (this.data.popupMenuOpenData.userName == undefined || this.data.popupMenuOpenData.userName == '') {
+      this.data.popupMenuOpenData.userName = '匿名肥宅';
+    }
+    this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+
+    app.getImage(function (url) {
+      this.data.popupMenuOpenData.picURL = url;
+      this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+      console.log(this.data.popupMenuOpenData);
+    }.bind(this));
   },
   //下拉刷新
   onPullDownRefresh: function () {
-    wx.showNavigationBarLoading();
+    this.setData({ pullDownRefing: true });
     this.getCookies();
     this.setData({ vCodeShow: false });
   },
@@ -139,8 +179,16 @@ Page({
   onTapVerifyCode: function (e) {
     this.getNewVcode();
   },
-  onExit: function (e) {
-    app.ExitMenu();
+  onTapMenuButton: function (e) {
+    this.data.popupMenuOpenData.show = true;
+    this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+  },
+  onTapOverlay: function() {
+    this.data.popupMenuOpenData.show = false;
+    this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
+  },
+  onPopupMenuCatchScroll: function() {
+
   },
   onEat: function (e) {
     app.playEat();
@@ -179,13 +227,13 @@ Page({
           });
         }
         wx.stopPullDownRefresh();
-        wx.hideNavigationBarLoading();
+        this.setData({ pullDownRefing: false });
         return;
       }
 
       this.setData({ CookieList: msg });
       wx.stopPullDownRefresh();
-      wx.hideNavigationBarLoading();
+      this.setData({ pullDownRefing: false });
     }.bind(this));
   },
   /**

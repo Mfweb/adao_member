@@ -8,7 +8,8 @@ Page({
     CookieList: [],
     returnJson: '',
     disableLaunch: true,
-    disableCheckbox: false
+    disableCheckbox: false,
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
   },
   onReady: function () {
     selectedList = [];

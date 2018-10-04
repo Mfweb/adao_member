@@ -1,7 +1,11 @@
 <import src="../../wxParse/wxParse.wxml"/>
-<import src="../../templates/bubble.wxml"/>
-
-<view class='mcontainer'>
+<import src="../../templates/menuButton/menuButton.wxml"/>
+<view class='page-title' style='top: {{statusBarHeight}}px;'>
+  <image wx:if='{{pullDownRefing}}' class='page-title-icon' src="../../imgs/loading.gif" />
+  实名认证
+  <image wx:if='{{pullDownRefing}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+</view>
+<view class='mcontainer' style='padding-top: {{statusBarHeight}}px;'>
   <view class='certTable'>
     <view>实名认证状态：</view>
     <view class='certSta'>{{CertStatus}}</view>
@@ -32,4 +36,4 @@
   <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}' bindtap='onCopy'>复制手机号</button>
   <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
 </view>
-<template is="bubble"></template>
+<template is="menuButton" data="{{statusBarHeight}}"></template>

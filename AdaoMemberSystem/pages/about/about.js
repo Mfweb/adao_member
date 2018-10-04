@@ -1,23 +1,13 @@
 const app = getApp();
 
-function getImage(that) {
-  wx.request({
-    url: app.globalData.ApiUrls.GetRandomPicURL,
-    success: function (res) {
-      if (res.statusCode == 200) {
-        that.setData({ pic_url: res.data });
-      }
-    }
-  });
-}
-
 Page({
   data: {
     pic_url : ""
   },
   onLoad: function (options) {
-    var that = this;
-    getImage(that);
+    app.getImage(function(url){
+      this.setData({ pic_url: url });
+    }.bind(this));
   },
   tap1: function (e) {
     wx.setClipboardData({
@@ -55,7 +45,7 @@ Page({
   onTapImg: function(e){
     wx.previewImage({
       urls: [this.data.pic_url],
-    })
+    });
   },
   feedbacktap: function(e) {
     let res = wx.getSystemInfoSync();

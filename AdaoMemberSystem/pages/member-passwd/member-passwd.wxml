@@ -1,5 +1,6 @@
-<import src="../../templates/bubble.wxml"/>
-<view class='mcontainer'>
+<import src="../../templates/menuButton/menuButton.wxml"/>
+<view class='page-title' style='top: {{statusBarHeight}}px;'>修改密码</view>
+<view class='mcontainer' style='padding-top: {{statusBarHeight}}px;'>
   <form class='nPasswd' bindsubmit='onChangePasswdSubmit'>
   <view class='loginForm'>
     <input class='emailInput' name='opass' type='text' placeholder='输入旧密码' password='true' confirm-type='next'></input>
@@ -9,4 +10,4 @@
   <button loading='{{CPLoading}}' class='nButton' type='primary' form-type='submit' submit='changepasswd'>确认修改</button>
   </form>
 </view>
-<template is="bubble"></template>
+<template is="menuButton" data="{{statusBarHeight}}"></template>

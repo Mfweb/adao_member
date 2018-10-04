@@ -15,44 +15,13 @@
     "navigationBarBackgroundColor": "#334054",
     "navigationBarTitleText": "A岛注册实名系统",
     "navigationBarTextStyle": "#fff",
-    "backgroundColor": "#334054"
+    "backgroundColor": "#334054",
+    "navigationStyle": "custom"
   },
   "networkTimeout": {
     "request": 20000,
     "connectSocket": 20000,
     "uploadFile": 20000,
     "downloadFile": 20000
-  },
-  "tabBar": {
-    "color": "#ffffff",
-    "selectedColor": "#02d52f",
-    "backgroundColor": "#334054",
-    "borderStyle": "white",
-    "list": [
-      {
-        "pagePath": "pages/member-cookie/member-cookie",
-        "text": "饼干",
-        "iconPath": "imgs/cookie.png",
-        "selectedIconPath": "imgs/cookie-s.png"
-      },
-      {
-        "pagePath": "pages/member-auth/member-auth",
-        "text": "认证",
-        "iconPath": "imgs/certified.png",
-        "selectedIconPath": "imgs/certified-s.png"
-      },
-      {
-        "pagePath": "pages/member-passwd/member-passwd",
-        "text": "密码",
-        "iconPath": "imgs/passwd.png",
-        "selectedIconPath": "imgs/passwd-s.png"
-      },
-      {
-        "pagePath": "pages/member-sport/member-sport",
-        "text": "运动",
-        "iconPath": "imgs/sport.png",
-        "selectedIconPath": "imgs/sport-s.png"
-      }
-    ]
   }
 }

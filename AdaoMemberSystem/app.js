@@ -50,17 +50,38 @@ App({
       WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
       WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
     },
-    AppList: Array(
-      'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',//iOS芦苇娘
-      'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',//iOS橙岛(贼贼贼)
-      'https://www.pgyer.com/adao',//安卓芦苇娘
-      'https://www.pgyer.com/nimingban',//安卓基佬紫
-      'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h'//人权机
-    ),
+    AppList: [
+      {
+        name: 'iOS芦苇娘',
+        url: 'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',
+        icon: 'ilw.png'
+      },
+      {
+        name: 'iOS橙岛',
+        url: 'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',
+        icon: 'izzz.png'
+      },
+      {
+        name: '安卓芦苇娘',
+        url: 'https://www.pgyer.com/adao',
+        icon: 'alw.png'
+      },
+      {
+        name: '安卓基佬紫',
+        url: 'https://www.pgyer.com/nimingban',
+        icon: 'azd.png'
+      },
+      {
+        name: '人权芦苇娘',
+        url: 'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h',
+        icon: 'rqlw.png'
+      },
+    ],
     SystemInfo: {
       Windows: {
         height: 0,
-        width: 0
+        width: 0,
+        statusBarHeight: 0
       },
       Scene: 0
     }
@@ -86,6 +107,10 @@ App({
     var res = wx.getSystemInfoSync();//获取屏幕尺寸
     this.globalData.SystemInfo.Windows.width = res.windowWidth;
     this.globalData.SystemInfo.Windows.height = res.windowHeight;
+    this.globalData.SystemInfo.Windows.statusBarHeight = res.statusBarHeight + 4;
+    if (res.model.indexOf('iPhone') < 0) {
+      this.globalData.SystemInfo.Windows.statusBarHeight += 4;
+    }
   },
   showSuccess: function (msg) {
     if (msg.length > 7) {
@@ -245,5 +270,15 @@ App({
     if (parseInt(version[0]) <= 1 && parseInt(version[1]) < 9) {
       this.showError('你的微信版本太低了，可能会遇到各种问题。\r\n请升级到6.6.0或以上');
     }
+  },
+  getImage: function (success) {
+    wx.request({
+      url: this.globalData.ApiUrls.GetRandomPicURL,
+      success: function (res) {
+        if (res.statusCode == 200) {
+          success(res.data);
+        }
+      }
+    });
   }
 })

@@ -1,5 +1,0 @@
-<template name="bubble">
-<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onExit' bindlongpress='onEat'>
-  <image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image>
-</view>
-</template>

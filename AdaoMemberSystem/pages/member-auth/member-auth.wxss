@@ -1,4 +1,4 @@
-@import "../../templates/bubble.wxss";
+@import "../../templates/menuButton/menuButton.wxss";
 .mcontainer{
   height: auto;
   display: flex;
@@ -14,7 +14,7 @@
 
   margin: 0px;
   margin-left: 0;
-  margin-top: 0px;
+  margin-top: 32px;
   padding-bottom: 70px;
 }
 .vcodeMode{

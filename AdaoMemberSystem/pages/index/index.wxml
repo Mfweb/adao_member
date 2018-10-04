@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <import src="../../wxParse/wxParse.wxml"/>
-<view class="container">
+<view class="container" style='padding-top: {{statusBarHeight}}px;'>
   <!--<view class="mainTitle">A岛注册实名系统</view>-->
   <view class='title'>
     <image mode='aspectFit' bindtap='onEat' class='TitleIcons' src='../../imgs/mf1.png'></image>

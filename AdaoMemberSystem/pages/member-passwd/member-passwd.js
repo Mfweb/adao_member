@@ -4,6 +4,7 @@ const http = require('../../utils/http.js');
 Page({
   data: {
     CPLoading:false,
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
   },
   onLoad: function (options) {
 

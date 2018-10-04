@@ -1,5 +1,10 @@
-<import src="../../templates/bubble.wxml"/>
-<view class='pdcontainer'>
+<import src="../../templates/menuButton/menuButton.wxml"/>
+<view class='page-title' style='top: {{statusBarHeight}}px;'>
+  <image wx:if='{{pullDownRefing}}' class='page-title-icon' src="../../imgs/loading.gif" />
+  肥宅排行
+  <image wx:if='{{pullDownRefing}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+</view>
+<view class='pdcontainer' style='padding-top: {{statusBarHeight}}px;'>
 <button wx:if="{{!getAuthFail}}" loading='{{getLoading}}' class='upsportbtn' size='mini' type='primary' bindtap='onUpload'>上传步数</button>
 <button wx:if="{{getAuthFail}}" class='upsportbtn' open-type='openSetting' size='mini' type='primary' bindopensetting='onGetAuth'>设置权限</button>
   <view class='RunList'>
@@ -17,7 +22,7 @@
   </view>
   <ad unit-id="adunit-fb60e0d72b870b70"></ad>
 </view>
-<template is="bubble"></template>
+<template is="menuButton" data="{{statusBarHeight}}"></template>
 <view wx:if="{{showSelectCookie}}" class='modal' hover-stop-propagation='true'>
   <view class='modal_title'>选择一个饼干</view>
   <view class='modal_content'>

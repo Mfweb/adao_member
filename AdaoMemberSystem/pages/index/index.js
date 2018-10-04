@@ -19,7 +19,8 @@ Page({
     UserName: '',
     PassWord: '',
     showTermsWindow: false,
-    termsNodes: null
+    termsNodes: null,
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
   },
   onLoad: function (e) {
     pageEvent = e;
@@ -70,7 +71,7 @@ Page({
         function (res) {
           if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
             if (memberMode == 0) {
-              wx.switchTab({
+              wx.navigateTo({
                 url: '../member-cookie/member-cookie',
               });
             }
@@ -153,7 +154,7 @@ Page({
               wx.setStorageSync('PassWord', u_pass)
             }
             if (memberMode == 0) {
-              wx.switchTab({
+              wx.navigateTo({
                 url: '../member-cookie/member-cookie',
               });
             }
