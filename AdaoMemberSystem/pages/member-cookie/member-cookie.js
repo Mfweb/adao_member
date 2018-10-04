@@ -5,17 +5,21 @@ import drawQrcode from '../../utils/weapp.qrcode.min.js'
 
 Page({
   data: {
-    CookieList: [],//饼干列表
-    vCodeLoading: false,//验证码是否在载入
-    vCodeShow: false,//验证码是否已显示
-    verifyCodeURL: "",//验证码链接
-    needDeleteID: "",//需要删除的饼干index
-    FormID: "",//表单提交ID
-    EnterButLoading: false,//确认按钮loading
-    CookieNum: '[0/0]',
-    CookieWarning: null,
+    
+    
     pullDownRefing: false,
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
+    cookieManagerOpenData: {
+      CookieList: [],//饼干列表
+      vCodeLoading: false,//验证码是否在载入
+      verifyCodeURL: "",//验证码链接
+      vCodeShow: false,//验证码是否已显示
+      needDeleteID: "",//需要删除的饼干index
+      FormID: "",//表单提交ID
+      EnterButLoading: false,//确认按钮loading
+      CookieNum: '[0/0]',
+      CookieWarning: null,
+    },
     popupMenuOpenData: {
       show: false,
       statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
@@ -47,6 +51,7 @@ Page({
       ]
     },
   },
+
   onReady: function () {
     app.checkVersion();
     wx.startPullDownRefresh({});
@@ -59,19 +64,23 @@ Page({
     app.getImage(function (url) {
       this.data.popupMenuOpenData.picURL = url;
       this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
-      console.log(this.data.popupMenuOpenData);
     }.bind(this));
   },
   //下拉刷新
   onPullDownRefresh: function () {
     this.setData({ pullDownRefing: true });
+    this.data.cookieManagerOpenData.vCodeShow = false;
+    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
     this.getCookies();
-    this.setData({ vCodeShow: false });
   },
+
   //删除饼干(弹出验证码)
   onDeleteCookie: function (e) {
     this.getNewVcode();
-    this.setData({ vCodeShow: true, needDeleteID: e.target.id, FormID: "delete" });
+    this.data.cookieManagerOpenData.vCodeShow = true;
+    this.data.cookieManagerOpenData.needDeleteID = e.target.id;
+    this.data.cookieManagerOpenData.FormID = 'delete';
+    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
   },
   //获取饼干QR码
   onGetCookie: function (event) {
@@ -93,7 +102,8 @@ Page({
   },
   //关闭验证码输入窗口
   onUClose: function (e) {
-    this.setData({ vCodeShow: false });
+    this.data.cookieManagerOpenData.vCodeShow = false;
+    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
   },
   /**
    * 确认执行操作，需要验证码请求的操作通过这里执行
@@ -105,26 +115,28 @@ Page({
       app.showError('验证码错误');
       return;
     }
-    if (this.data.EnterButLoading == true) return;
-    this.setData({ EnterButLoading: true });
+    if (this.data.cookieManagerOpenData.EnterButLoading == true) return;
+    this.data.cookieManagerOpenData.EnterButLoading = true;
+    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
     if (e.target.id == 'delete')//删除Cookie
     {
-      if (this.data.CookieList[u_index] == true) return;
+      if (this.data.cookieManagerOpenData.CookieList[u_index] == true) return;
 
-      var temp_data = this.data.CookieList;
-      temp_data[u_index].delLoading = true;
-      this.setData({ CookieList: temp_data });//对应的删除按钮显示loading
-      temp_data[u_index].delLoading = false;
+      var temp_data = this.data.cookieManagerOpenData;
+      temp_data.CookieList[u_index].delLoading = true;
+      this.setData({ cookieManagerOpenData: temp_data });//对应的删除按钮显示loading
+      temp_data.CookieList[u_index].delLoading = false;
 
       http.api_request(
-        app.globalData.ApiUrls.CookieDeleteURL + temp_data[u_index].id + ".html",
+        app.globalData.ApiUrls.CookieDeleteURL + temp_data.CookieList[u_index].id + ".html",
         {
           verify: u_vcode
         },
         function (res) {
           if (res.status == 1) {
             wx.startPullDownRefresh({});//删除请求成功，刷新页面
-            this.setData({ vCodeShow: false });
+            this.data.cookieManagerOpenData.vCodeShow = false;
+            this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
             app.showSuccess('删除完成');
             app.log('cookie delete success');
           }
@@ -133,11 +145,13 @@ Page({
             this.getNewVcode();
             app.showError(res.info);
           }
-          this.setData({ CookieList: temp_data, EnterButLoading: false });
+          this.data.cookieManagerOpenData.EnterButLoading = false;
+          this.setData({ cookieManagerOpenData: temp_data, cookieManagerOpenData: this.data.cookieManagerOpenData });
         }.bind(this),
         function () {
           app.showError('发生了错误');
-          this.setData({ CookieList: temp_data, EnterButLoading: false });
+          this.data.cookieManagerOpenData.EnterButLoading = false;
+          this.setData({ cookieManagerOpenData: temp_data, cookieManagerOpenData: this.data.cookieManagerOpenData });
         }.bind(this));
     }
     else if (e.target.id == 'new')//获取新Cookie
@@ -150,8 +164,6 @@ Page({
         function (res) {
           //app.log(res);
           if (res.status == 1) {
-            this.setData({ vCodeShow: false });
-            this.setData({ EnterButLoading: false });
             wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
             app.showSuccess('大成功');
             app.log('get new cookie success');
@@ -161,18 +173,22 @@ Page({
             app.log('get new cookie error:' + res.info);
             app.showError(res.info);
           }
-          this.setData({ vCodeShow: false });
-          this.setData({ EnterButLoading: false });
+          this.data.cookieManagerOpenData.vCodeShow = false;
+          this.data.cookieManagerOpenData.EnterButLoading = false;
+          this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
         }.bind(this),
         function () {
           app.showError('发生了错误');
-          this.setData({ EnterButLoading: false });
+          this.data.cookieManagerOpenData.EnterButLoading = false;
+          this.setData({ EnterButLoading: false, cookieManagerOpenData: this.data.cookieManagerOpenData});
         }.bind(this));
     }
   },
   //获取新Cookie
   onGetNewCookie: function () {
-    this.setData({ vCodeShow: true, FormID: "new" });
+    this.data.cookieManagerOpenData.vCodeShow = true;
+    this.data.cookieManagerOpenData.FormID = 'new';
+    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
     this.getNewVcode();
   },
   //刷新验证码
@@ -197,12 +213,16 @@ Page({
    * 获取新验证码
    */
   getNewVcode: function () {
-    this.setData({ vCodeLoading: true, verifyCodeURL: "" });
+    this.data.cookieManagerOpenData.vCodeLoading = true;
+    this.data.cookieManagerOpenData.verifyCodeURL = '';
+    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
     http.get_verifycode(function (sta, img, msg) {
       if (sta == false) {
         app.showError(msg);
       }
-      this.setData({ vCodeLoading: false, verifyCodeURL: img });
+      this.data.cookieManagerOpenData.vCodeLoading = false;
+      this.data.cookieManagerOpenData.verifyCodeURL = img;
+      this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
     }.bind(this));
   },
   /**
@@ -211,27 +231,19 @@ Page({
   getCookies: function () {
     cookie.getCookies(function (status, msg, info) {
       if (info != null) {
-        this.setData({ CookieNum: info.capacity, CookieWarning: info.warning });
+        this.data.cookieManagerOpenData.CookieNum = info.capacity;
+        this.data.cookieManagerOpenData.CookieWarning = info.warning;
+        this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
       }
 
       if (status == false) {
         app.showError(msg);
-        if (msg == "本页面需要实名后才可访问_(:з」∠)_" && wx.showTabBarRedDot) {
-          wx.showTabBarRedDot({
-            index: 1
-          });
-        }
-        else {
-          wx.hideTabBarRedDot({
-            index: 1
-          });
-        }
         wx.stopPullDownRefresh();
         this.setData({ pullDownRefing: false });
         return;
       }
-
-      this.setData({ CookieList: msg });
+      this.data.cookieManagerOpenData.CookieList = msg;
+      this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
       wx.stopPullDownRefresh();
       this.setData({ pullDownRefing: false });
     }.bind(this));
@@ -274,14 +286,12 @@ Page({
                   wx.canvasToTempFilePath({
                     canvasId: 'myQrcode',
                     success: function (res) {
-                      console.log(res);
                       //预览
                       wx.previewImage({
                         urls: [res.tempFilePath],
                       });
                     },
                     fail: function () {
-                      console.log('error');
                       app.showError("缓存二维码失败");
                     }
                   }, this);
@@ -304,22 +314,22 @@ Page({
    * 获取Cookie详细并显示二维码
    */
   getCookieQR: function (index) {
-    var temp_data = this.data.CookieList;
-    if (temp_data[index].getLoading == true) return;
-    temp_data[index].getLoading = true;
-    this.setData({ CookieList: temp_data });
-    temp_data[index].getLoading = false;
+    var temp_data = this.data.cookieManagerOpenData;
+    if (temp_data.CookieList[index].getLoading == true) return;
+    temp_data.CookieList[index].getLoading = true;
+    this.setData({ cookieManagerOpenData: temp_data });
+    temp_data.CookieList[index].getLoading = false;
 
-    cookie.getCookieDetail(temp_data[index].id, function (sta, detail) {
+    cookie.getCookieDetail(temp_data.CookieList[index].id, function (sta, detail) {
       if (sta == true) {
         this.createQRCode(JSON.stringify({ cookie: detail }), function () {
-          this.setData({ CookieList: temp_data });
+          this.setData({ cookieManagerOpenData: temp_data });
           return;
         }.bind(this));
       }
       else {
         app.showError(detail);
-        this.setData({ CookieList: temp_data });
+        this.setData({ cookieManagerOpenData: temp_data });
       }
     }.bind(this));
   },
@@ -327,13 +337,13 @@ Page({
     * 获取Cookie详细并复制到剪切板
     */
   getCookieToClipboard: function (index) {
-    var temp_data = this.data.CookieList;
-    if (temp_data[index].getLoading == true) return;
-    temp_data[index].getLoading = true;
-    this.setData({ CookieList: temp_data });
-    temp_data[index].getLoading = false;
+    var temp_data = this.data.cookieManagerOpenData;
+    if (temp_data.CookieList[index].getLoading == true) return;
+    temp_data.CookieList[index].getLoading = true;
+    this.setData({ cookieManagerOpenData: temp_data });
+    temp_data.CookieList[index].getLoading = false;
 
-    cookie.getCookieDetail(temp_data[index].id, function (sta, detail) {
+    cookie.getCookieDetail(temp_data.CookieList[index].id, function (sta, detail) {
       if (sta == true) {
         wx.setClipboardData({
           data: detail,
@@ -348,7 +358,7 @@ Page({
       else {
         app.showError(detail);
       }
-      this.setData({ CookieList: temp_data });
+      this.setData({ cookieManagerOpenData: temp_data });
     }.bind(this));
   }
 })
