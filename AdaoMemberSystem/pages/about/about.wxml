@@ -3,8 +3,8 @@
   <view>
     <view class="h1">A岛用户系统</view>
     <view class="l1" bindtap='tap1'>By Mfweb</view>
-    <view class="h3">版本：1.6.4</view>
-    <view class="h3">更新时间：2018.10.03</view>
+    <view class="h3">版本：1.6.5</view>
+    <view class="h3">更新时间：2018.10.05</view>
     <view class="h2" bindtap='tap2'>GitHub</view>
     <view class="h2" bindtap='tap3'>A岛微信小程序</view>
     <button class="feedbackbut" type="primary" open-type="feedback" bindtap='feedbacktap'>意见反馈</button>
