@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/userMember/userMember",
-    "pages/member-passwd/member-passwd",
     "pages/list/list",
     "pages/thread/thread",
     "pages/about/about",
