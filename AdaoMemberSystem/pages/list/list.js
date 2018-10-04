@@ -9,7 +9,8 @@ var launchOpt = null;
 
 Page({
   data: {
-    tlist: []
+    tlist: [],
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight + 16
   },
   onLoad: function (options) {
     app.checkVersion();
@@ -243,5 +244,10 @@ Page({
         this.getPostDetail(++id);
       }.bind(this)
     );
+  },
+  onTapBack: function () {
+    wx.navigateBack({
+
+    });
   }
 })

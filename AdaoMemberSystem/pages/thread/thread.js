@@ -21,6 +21,7 @@ Page({
       bottomMessage: "",
       showQuoteWindow: false,
       quoteList: [],
+      statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight + 16
     },
 
   onLoad: function (e) {
@@ -403,5 +404,10 @@ Page({
     for (let i = 0; i < all_kid.length; i++) {
       this.getQuoteDetail(i);//拉取内容
     }
+  },
+  onTapBack: function () {
+    wx.navigateBack({
+
+    });
   }
 })

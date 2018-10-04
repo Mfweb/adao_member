@@ -1,6 +1,7 @@
 <import src="../../wxParse/wxParse.wxml"/>
+<import src="../../templates/goBackButton/goBackButton.wxml"/>
 
-<view class='list-container'>
+<view class='list-container' style='padding-top: {{statusBarHeight}}px;'>
   <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover">
     <view class="text" id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
       <view class="list-b1">
@@ -26,3 +27,4 @@
   </view>
   <ad unit-id="adunit-e9432ea9ec0a8e5f"></ad>
 </view>
+<template is="goBackButton" data="{{statusBarHeight:statusBarHeight - 16}}"></template>

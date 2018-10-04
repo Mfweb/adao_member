@@ -1,0 +1,14 @@
+.goback-btn {
+  width: 25px;
+  height: 25px;
+  left: 7px;
+  position: fixed;
+}
+.goback-icon{
+  width: 25px;
+  height: 25px;
+  left: 0;
+}
+.goback-btn-hover{
+  opacity: 0.5;
+}

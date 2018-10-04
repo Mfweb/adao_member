@@ -1,9 +1,9 @@
 <!--index.wxml-->
 <import src="../../wxParse/wxParse.wxml"/>
-
+<import src="../../templates/goBackButton/goBackButton.wxml"/>
 <!--列表-->
-<view class="thread-container" id="main_list">
-  <view class="thread-item" wx:for="{{list}}" id="{{index}}" bindtap="onTapQuoteDetail">
+<view class="thread-container" id="main_list" style='margin-top: {{statusBarHeight+32}}px;'>
+  <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='' bindtap="onTapQuoteDetail">
     <view class="text">
       <view class="thread-b1">
         <view class="cid">No.{{item.id}}</view>
@@ -37,7 +37,7 @@
 <!--显示引用串-->
 <view wx:if="{{showQuoteWindow}}" class="q_window">
   <view class="q_list">
-      <view wx:for="{{quoteList}}" id="{{item.sid}}" class="q_list_c" catchtap="onTapQuoteID">
+      <view wx:for="{{quoteList}}" id="{{item.sid}}" class="q_list_c" wx:key='' catchtap="onTapQuoteID">
         <view class="text">
           <view class="thread-b1">
             <view class="cid">{{item.id}}</view>
@@ -63,3 +63,4 @@
       </view>
   </view>
 </view>
+<template is="goBackButton" data="{{statusBarHeight:statusBarHeight - 16}}"></template>

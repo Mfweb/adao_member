@@ -1,3 +1,4 @@
+<import src="../../templates/goBackButton/goBackButton.wxml"/>
 <view class="container" style='padding-top: {{statusBarHeight}}px;'>
   <view>
     <view>
@@ -18,6 +19,4 @@
     </view>
   </view>
 </view>
-<view class='goback-btn' hover-stay-time='100' hover-class='goback-btn-hover' style='top: {{statusBarHeight-16}}px;' bindtap='onTapBack'>
-  <image class='goback-icon' mode='aspectFit' src='../../imgs/back.png'></image>
-</view>
+<template is="goBackButton" data="{{statusBarHeight:statusBarHeight - 16}}"></template>

@@ -1,25 +1,19 @@
 /* pages/thread/thread.wxss */
+@import "../../templates/goBackButton/goBackButton.wxss";
 .thread-container {
   height: auto;
-  min-height: 100%;
-  width: 95%;
-  
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 10rpx 0;
   box-sizing: border-box;
+  width: 95%;
   background: #F5F5F5;
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
-  z-index:0;
-
-  transition: All 0.4s ease; 
-  -webkit-transition: All 0.4s ease;
-  border-radius: 6px;
-
+  min-height: 100%;
   margin: 0 auto;
-  margin-top: 0px;
+  border-radius: 6px;
 }
 
 .v_hr{/*主串列表分割线*/

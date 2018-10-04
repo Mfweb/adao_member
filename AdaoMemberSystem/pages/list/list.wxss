@@ -1,4 +1,6 @@
 /* pages/list/list.wxss */
+@import "../../templates/goBackButton/goBackButton.wxss";
+
 .list-container{
   height: auto;
   display: flex;
@@ -10,12 +12,9 @@
   width: 100%;
   background: #334054;
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
-  z-index:0;
   min-height: 100%;
   margin: 0 auto;
   margin-top: 0px;
-  transition: All 0.4s ease; 
-  -webkit-transition: All 0.4s ease;
 }
 
 .list-item{
