@@ -53,6 +53,12 @@ Page({
   },
   onTapCheckbox: function(res) {
     var detail = this.data.CookieList[res.currentTarget.id].detail;
+    if (this.data.CookieList[res.currentTarget.id].checked == true) {
+      this.data.CookieList[res.currentTarget.id].checked = false;
+      this.setData({ CookieList: this.data.CookieList});
+      console.log(this.data.returnJson);
+      return;
+    }
     if (detail == undefined || detail == null || detail == '') {
       this.setData({ disableCheckbox: true, disableLaunch: true});
       this.getDetail(res.currentTarget.id);

@@ -24,5 +24,8 @@
   <view class='message'>
     请注意，如果确定导入饼干，则APP可以获取饼干内容（不会获得饼干显示名以及实名内容），请确定调用小程序的APP是否是需要导入饼干的APP，否则可能有变RBQ的风险。
   </view>
+  <view class='message'>
+    紫岛只支持导入1个饼干，如果点击导入后没有返回APP请重新从APP调用。
+  </view>
   <button open-type="launchApp" app-parameter="{{returnJson}}" binderror="onLaunchAppError" bindtap='onTapReturn' disabled="{{disableLaunch}}"  class="nButton" type="primary">确认导入选中的饼干</button>
 </view>

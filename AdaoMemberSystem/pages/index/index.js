@@ -40,7 +40,11 @@ Page({
     this.switchPage(0);
     wx.showNavigationBarLoading();
     this.showNotice(function () {
-      //app.globalData.SystemInfo.Scene = 1069;
+      //1078用来测试的，因为小程序调试工具不支持1069
+      if (app.globalData.SystemInfo.Scene == 1078) {
+        app.globalData.SystemInfo.Scene = 1069;
+        pageEvent.mode = 'cookie';
+      }
       memberMode = 0;
       if (app.globalData.SystemInfo.Scene == 1069) {//通过APP拉起
         if (pageEvent.mode != undefined && pageEvent.mode == 'reg') {

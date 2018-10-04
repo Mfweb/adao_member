@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
@@ -44,7 +44,7 @@
 					"name": "APP调用获取饼干",
 					"pathName": "pages/index/index",
 					"query": "mode=cookie",
-					"scene": "1054"
+					"scene": "1078"
 				},
 				{
 					"id": -1,
