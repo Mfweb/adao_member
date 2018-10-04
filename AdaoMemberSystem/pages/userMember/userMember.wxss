@@ -13,10 +13,10 @@
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
   position: absolute;
   z-index:0;
-
+  
   margin: 0px;
-  margin-left: 0;
-  margin-top: 32px;
+  left: 0;
+  top: 32px;
   padding-bottom: 70px;
 }
 .vcodeMode{

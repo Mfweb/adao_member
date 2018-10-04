@@ -13,6 +13,6 @@
     </view>
   </view>
 </view>
-<view class='goback-btn' style='top: {{statusBarHeight-16}}px;' bindtap='onTapBack'>
+<view class='goback-btn' hover-stay-time='100' hover-class='goback-btn-hover' style='top: {{statusBarHeight-16}}px;' bindtap='onTapBack'>
   <image class='goback-icon' mode='aspectFit' src='../../imgs/back.png'></image>
 </view>

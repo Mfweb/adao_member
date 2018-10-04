@@ -79,6 +79,9 @@
   height: 40px;
   width: 100%;
 }
+.popup-menu-item-hover {
+  background-color: #778899;
+}
 .popup-menu-item-icon{
   margin-right: 3px;
   height: 32px;

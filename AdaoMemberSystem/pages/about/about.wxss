@@ -46,3 +46,6 @@
   height: 25px;
   left: 0;
 }
+.goback-btn-hover{
+  opacity: 0.5;
+}
