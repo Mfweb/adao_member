@@ -72,7 +72,7 @@ Page({
           if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
             if (memberMode == 0) {
               wx.navigateTo({
-                url: '../member-cookie/member-cookie',
+                url: '../userMember/userMember',
               });
             }
             else if (memberMode == 1) {
@@ -155,7 +155,7 @@ Page({
             }
             if (memberMode == 0) {
               wx.navigateTo({
-                url: '../member-cookie/member-cookie',
+                url: '../userMember/userMember',
               });
             }
             else if (memberMode == 1) {

@@ -1,8 +1,7 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/member-cookie/member-cookie",
-    "pages/member-auth/member-auth",
+    "pages/userMember/userMember",
     "pages/member-passwd/member-passwd",
     "pages/list/list",
     "pages/thread/thread",
