@@ -148,7 +148,14 @@ Page({
    * 切换页面
    */
   onTapMenuItem: function(e){
-    this.data.popupMenuOpenData.selectedIndex = e.currentTarget.id;
+    if (e.currentTarget.id == 4) {
+      wx.navigateTo({
+        url: '../about/about',
+      });
+    }
+    else {
+      this.data.popupMenuOpenData.selectedIndex = e.currentTarget.id;
+    }
     this.data.popupMenuOpenData.show = false;
     this.setData({ popupMenuOpenData: this.data.popupMenuOpenData});
   },
