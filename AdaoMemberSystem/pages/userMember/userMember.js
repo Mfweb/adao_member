@@ -175,12 +175,26 @@ Page({
     this.setData({ popupMenuOpenData: this.data.popupMenuOpenData });
   },
   onPopupMenuCatchScroll: function () {
-
+    
   },
   onEat: function (e) {
     app.playEat();
   },
-
+  /**
+   * 点击了APP下载
+   */
+  onTapDownloadApp: function (e) {
+    wx.setClipboardData({
+      data: app.globalData.AppList[e.currentTarget.id].url,
+      success: function () {
+        app.showSuccess('链接已复制');
+        this.onTapOverlay();
+      }.bind(this),
+      fail: function () {
+        app.showError('复制失败');
+      }
+    });
+  },
   pullDownRefreshAll: function () {
     this.setData({ pullDownRefing: true });
     //处理饼干数据
