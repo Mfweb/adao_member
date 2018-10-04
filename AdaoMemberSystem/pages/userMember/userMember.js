@@ -83,6 +83,10 @@ Page({
           name: '关于',
           icon: 'about'
         },
+        {
+          name: '退出',
+          icon: 'exit'
+        },
       ]
     },
   },
@@ -152,6 +156,9 @@ Page({
       wx.navigateTo({
         url: '../about/about',
       });
+    }
+    else if (e.currentTarget.id == 5) {
+      app.logOut();
     }
     else {
       this.data.popupMenuOpenData.selectedIndex = e.currentTarget.id;
