@@ -2,7 +2,8 @@ const app = getApp();
 
 Page({
   data: {
-    pic_url : ""
+    pic_url : "",
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight + 16
   },
   onLoad: function (options) {
     app.getImage(function(url){
@@ -57,5 +58,10 @@ Page({
         showCancel: false
       });
     }
+  },
+  onTapBack: function() {
+    wx.navigateBack({
+      
+    });
   }
 })

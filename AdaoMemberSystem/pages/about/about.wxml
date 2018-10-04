@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container" style='padding-top: {{statusBarHeight}}px;'>
   <view>
     <view>
       <view class="h1">A岛用户系统</view>
@@ -12,4 +12,7 @@
       <image mode="aspectFit" src="{{pic_url}}" bindtap='onTapImg'></image>
     </view>
   </view>
+</view>
+<view class='goback-btn' style='top: {{statusBarHeight-16}}px;' bindtap='onTapBack'>
+  <image class='goback-icon' mode='aspectFit' src='../../imgs/back.png'></image>
 </view>

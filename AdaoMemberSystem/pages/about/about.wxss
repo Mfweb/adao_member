@@ -35,3 +35,14 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.goback-btn {
+  width: 25px;
+  height: 25px;
+  left: 7px;
+  position: fixed;
+}
+.goback-icon{
+  width: 25px;
+  height: 25px;
+  left: 0;
+}
