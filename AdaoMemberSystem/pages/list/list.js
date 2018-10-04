@@ -10,7 +10,7 @@ var launchOpt = null;
 Page({
   data: {
     tlist: [],
-    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight + 16
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
   },
   onLoad: function (options) {
     app.checkVersion();

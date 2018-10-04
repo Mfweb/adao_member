@@ -1,7 +1,9 @@
 <import src="../../wxParse/wxParse.wxml"/>
 <import src="../../templates/goBackButton/goBackButton.wxml"/>
-
-<view class='list-container' style='padding-top: {{statusBarHeight}}px;'>
+<view class='page-title' style='top: {{statusBarHeight}}px;'>
+推送串列表
+</view>
+<view class='list-container' style='padding-top: {{statusBarHeight+32}}px;'>
   <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover">
     <view class="text" id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
       <view class="list-b1">
@@ -27,4 +29,4 @@
   </view>
   <ad unit-id="adunit-e9432ea9ec0a8e5f"></ad>
 </view>
-<template is="goBackButton" data="{{statusBarHeight:statusBarHeight - 16}}"></template>
+<template is="goBackButton" data="{{statusBarHeight:statusBarHeight}}"></template>

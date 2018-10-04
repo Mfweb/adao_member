@@ -21,7 +21,8 @@ Page({
       bottomMessage: "",
       showQuoteWindow: false,
       quoteList: [],
-      statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight + 16
+      title: '无标题',
+      statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
     },
 
   onLoad: function (e) {
@@ -217,10 +218,7 @@ Page({
             header.thumburl = "";
           }
           list.push(header);
-          wx.setNavigationBarTitle({
-            title: list[0].title,
-            success: function (res) { }
-          });
+          this.setData({ title: list[0].title});
         }
         else {
           if (res.replys[0].id == 9999999) {

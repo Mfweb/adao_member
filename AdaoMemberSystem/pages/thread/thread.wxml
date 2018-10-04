@@ -1,6 +1,9 @@
 <!--index.wxml-->
 <import src="../../wxParse/wxParse.wxml"/>
 <import src="../../templates/goBackButton/goBackButton.wxml"/>
+<view class='page-title' style='top: {{statusBarHeight}}px;'>
+{{title}}
+</view>
 <!--列表-->
 <view class="thread-container" id="main_list" style='margin-top: {{statusBarHeight+32}}px;'>
   <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='' bindtap="onTapQuoteDetail">
@@ -63,4 +66,4 @@
       </view>
   </view>
 </view>
-<template is="goBackButton" data="{{statusBarHeight:statusBarHeight - 16}}"></template>
+<template is="goBackButton" data="{{statusBarHeight:statusBarHeight}}"></template>

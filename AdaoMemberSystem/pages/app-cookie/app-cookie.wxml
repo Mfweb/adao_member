@@ -1,5 +1,9 @@
-<view class='pdcontainer'>
-  <view class='CookieList' style='padding-top: {{statusBarHeight}}px;'>
+
+<view class='page-title' style='top: {{statusBarHeight}}px;'>
+导入饼干
+</view>
+<view class='pdcontainer' style='padding-top: {{statusBarHeight+32}}px;'>
+  <view class='CookieList'>
     <view class='CookieListTr'>
       <view class='CookieListTd1 lTitle'>ID</view>
       <view class='CookieListTd2 lTitle'>饼干</view>
