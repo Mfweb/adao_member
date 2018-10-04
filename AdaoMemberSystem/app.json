@@ -5,7 +5,6 @@
     "pages/list/list",
     "pages/thread/thread",
     "pages/about/about",
-    "pages/member-sport/member-sport",
     "pages/app-cookie/app-cookie"
   ],
   "window": {

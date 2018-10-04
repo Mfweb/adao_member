@@ -48,8 +48,6 @@
     <view>手机认证状态：</view>
     <view class='certSta'>{{authOpenData.PhoneStatus}}</view>
   </view>
-
-
     <form wx:if='{{authOpenData.CertFormShow}}' class='vcodeMode' id='Cert' bindsubmit='onEnterAuth'>
       <view class="SelectCd">
         <picker bindchange="bindPickerChange" value="{{authOpenData.Cindex}}" range="{{authOpenData.Carray}}">
@@ -70,6 +68,8 @@
   <button wx:if='{{authOpenData.CanCert && (!authOpenData.ShowCertMsg && !authOpenData.CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
 </view>
 
+
+
 <view wx:if='{{popupMenuOpenData.selectedIndex==2}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
   <form class='nPasswd' bindsubmit='onChangePasswdSubmit'>
   <view class='loginForm'>
@@ -80,6 +80,43 @@
   <button loading='{{changePasswdOpenData.CPLoading}}' class='passwd-enter-button' type='primary' form-type='submit' submit='changepasswd'>确认修改</button>
   </form>
 </view>
+
+
+
+<view wx:if='{{popupMenuOpenData.selectedIndex==3}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+<button wx:if="{{!sportOpenData.getAuthFail}}" loading='{{sportOpenData.getLoading}}' class='upsportbtn' size='mini' type='primary' bindtap='onUploadStep'>上传步数</button>
+<button wx:if="{{sportOpenData.getAuthFail}}" class='upsportbtn' open-type='openSetting' size='mini' type='primary' bindopensetting='onGetAuth'>设置权限</button>
+  <view class='RunList'>
+    <view class='RunListTr'>
+      <view class='RunListTd1 lTitle'>排名</view>
+      <view class='RunListTd2 lTitle'>饼干</view>
+      <view class='RunListTd3 lTitle lTitle3'>步数</view>
+    </view>
+    <view wx:for='{{sportOpenData.StepList}}' class='RunListTr' wx:key=''>
+      <view class='RunListTd1'>{{index+1}}</view>
+      <view class='RunListTd2'>{{item.cookie}}</view>
+      <view class='RunListTd3'>{{item.stepdata}}</view>
+      <view class='RunListB1' style='height:{{item.lsec}}px;background-color:{{item.color}};'></view>
+    </view>
+  </view>
+  <ad unit-id="adunit-fb60e0d72b870b70"></ad>
+</view>
+<view wx:if="{{sportOpenData.showSelectCookie}}" class='modal' hover-stop-propagation='true'>
+  <view class='modal_title'>选择一个饼干</view>
+  <view class='modal_content'>
+    <radio-group class="radio-group" bindchange="onSelectCookieRadioChange">
+      <label class="modal_radio" wx:for="{{cookieManagerOpenData.CookieList}}" wx:key="">
+        <radio value="{{index}}" checked="{{item.checked}}"/>{{item.value}}
+      </label>
+    </radio-group>
+  </view>
+  <view class='modal_but'>
+    <view hover-class='modal_sel' bindtap='onSelectedCookie' hover-stay-time='250' class='modal_a'>选择</view>
+    <view hover-class='modal_sel' bindtap='onSelectedCancel' hover-stay-time='250' class='modal_b'>取消</view>
+  </view>
+</view>
+
+
 
 <template is="menuButton" data="{{statusBarHeight}}"></template>
 <canvas class='qrCanvas' canvas-id="myQrcode"></canvas>
