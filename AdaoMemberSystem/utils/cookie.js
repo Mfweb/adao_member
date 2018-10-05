@@ -12,7 +12,15 @@ function getCookies(callback) {
   http.api_request(
     app.globalData.ApiUrls.CookiesListURL,
     null,
-    function (res) {
+    function (res, header, httpCode) {
+      if (httpCode != 200 && httpCode != '200') {
+        callback(false, 'http' + httpCode, info);
+        return;
+      }
+      if(res == null) {
+        callback(false, '服务器错误', info);
+        return;
+      }
       if (typeof res == 'string' && res.indexOf('饼干列表') > 0) {
         res = res.replace(/ /g, '');
         res = res.replace(/\r/g, '');
