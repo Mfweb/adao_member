@@ -168,23 +168,22 @@ App({
     }
   },
   showDownloadAPP: function () {
-    var that = this;
     wx.showActionSheet({
       itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
       itemColor: '#334054',
       success: function (e) {
         if (e.cancel != true) {
           wx.setClipboardData({
-            data: that.globalData.AppList[e.tapIndex].url,
+            data: this.globalData.AppList[e.tapIndex].url,
             success: function () {
-              that.showSuccess('链接已复制');
-            },
+              this.showSuccess('链接已复制');
+            }.bind(this),
             fail: function () {
-              that.showError('复制失败');
-            }
+              this.showError('复制失败');
+            }.bind(this)
           });
         }
-      }
+      }.bind(this)
     });
   },
   logOut: function () {

@@ -75,7 +75,7 @@ Page({
         function (res) {
           if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
             if (memberMode == 0) {
-              wx.navigateTo({
+              wx.redirectTo({
                 url: '../userMember/userMember',
               });
             }
@@ -158,7 +158,7 @@ Page({
               wx.setStorageSync('PassWord', u_pass)
             }
             if (memberMode == 0) {
-              wx.navigateTo({
+              wx.redirectTo({
                 url: '../userMember/userMember',
               });
             }
