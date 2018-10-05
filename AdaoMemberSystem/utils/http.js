@@ -90,7 +90,10 @@ function api_request(url, pdata, success, fail)
     },
     data: pdata == null ? {} : pdata,
     method: 'POST',
-    success: function(res){
+    success: function(res) {
+      if (res.statusCode != 200 && res.statusCode != '200') {
+        app.showError('http' + res.statusCode);
+      }
       if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie'))
         save_cookie(res.header['Set-Cookie']);
       if(success != null)

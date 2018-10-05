@@ -9,7 +9,6 @@ var SelectCookieID = 0;
 
 Page({
   data: {
-    pullDownRefing: false,
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
     verifyCodeURL: "",//验证码链接
     vCodeLoading: false,//验证码是否在载入
@@ -25,7 +24,6 @@ Page({
    * 有的手机退出登录的时候页面数据不会重新初始化
    */
   resetData: function () {
-    this.data.pullDownRefing = false;
     this.data.statusBarHeight = app.globalData.SystemInfo.Windows.statusBarHeight;
     this.data.verifyCodeURL = "";
     this.data.vCodeLoading = false;
@@ -38,6 +36,7 @@ Page({
       EnterButLoading: false,//确认按钮loading
       CookieNum: '[0/0]',
       CookieWarning: null,
+      pullDownRefing: false
     };
 
     this.data.authOpenData = {
@@ -62,6 +61,7 @@ Page({
       CertMsg: null,//手机实名认证显示的消息
       ShowCertMsg: false,//是否显示实名认证消息
       CopyLoading: false,//复制手机号loading
+      pullDownRefing: false
     };
 
     this.data.changePasswdOpenData = {
@@ -73,6 +73,7 @@ Page({
       getAuthFail: false,
       getLoading: false,
       showSelectCookie: false,
+      pullDownRefing: false
     };
 
     this.data.popupMenuOpenData = {
@@ -111,7 +112,6 @@ Page({
     };
 
     this.setData({
-      pullDownRefing: this.data.pullDownRefing,
       statusBarHeight: this.data.statusBarHeight,
       verifyCodeURL: this.data.verifyCodeURL,
       vCodeLoading: this.data.vCodeLoading,
@@ -155,11 +155,10 @@ Page({
    * 开始下拉刷新
    */
   onPullDownRefresh: function () {
-    this.setData({ pullDownRefing: true });
-
     if (this.data.popupMenuOpenData.selectedIndex == 0) {
       //处理饼干数据
       this.data.cookieManagerOpenData.vCodeShow = false;
+      this.data.cookieManagerOpenData.pullDownRefing = true;
       this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
       this.getCookies();
     }
@@ -172,13 +171,15 @@ Page({
       this.getCertifiedStatus();
       this.data.authOpenData.CertFormShow = false;
       this.data.authOpenData.ShowCertMsg = false;
+      this.data.authOpenData.pullDownRefing = true;
       this.setData({ authOpenData: this.data.authOpenData });
     }
     else if (this.data.popupMenuOpenData.selectedIndex == 2){
-      this.setData({ pullDownRefing:false});
       wx.stopPullDownRefresh();
     }
     else if (this.data.popupMenuOpenData.selectedIndex == 3){
+      this.data.sportOpenData.pullDownRefing = true;
+      this.setData({ sportOpenData: this.data.sportOpenData });
       this.GetStep();
     }
   },
@@ -237,10 +238,9 @@ Page({
     });
   },
   pullDownRefreshAll: function () {
-    this.setData({ pullDownRefing: true });
     //处理饼干数据
     this.data.cookieManagerOpenData.vCodeShow = false;
-    this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
+    this.data.cookieManagerOpenData.pullDownRefing = true;
     this.getCookies();
     //处理实名认证相关数据
     if (timer != null) {
@@ -250,9 +250,16 @@ Page({
     this.getCertifiedStatus();
     this.data.authOpenData.CertFormShow = false;
     this.data.authOpenData.ShowCertMsg = false;
-    this.setData({ authOpenData: this.data.authOpenData });
+    this.data.authOpenData.pullDownRefing = true;
     //肥宅排行
+    this.data.sportOpenData.pullDownRefing = true;
     this.GetStep();
+
+    this.setData({
+      sportOpenData: this.data.sportOpenData,
+      authOpenData: this.data.authOpenData,
+      cookieManagerOpenData: this.data.cookieManagerOpenData
+    });
   },
 
   /**
@@ -349,7 +356,8 @@ Page({
               if (e.status == 0) {
                 app.showSuccess(e.msg);
                 wx.startPullDownRefresh({});
-                this.setData({ pullDownRefing: true });
+                this.data.sportOpenData.pullDownRefing = true;
+                this.setData({ sportOpenData: this.data.sportOpenData });
               }
               else
                 app.showError(e.msg);
@@ -391,12 +399,14 @@ Page({
           app.showError(res.data.msg);
         }
         wx.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
+        this.data.sportOpenData.pullDownRefing = false;
+        this.setData({ sportOpenData: this.data.sportOpenData });
       }.bind(this),
       fail: function () {
         app.showError("网络错误");
         wx.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
+        this.data.sportOpenData.pullDownRefing = false;
+        this.setData({ sportOpenData: this.data.sportOpenData });
       }.bind(this)
     });
   },
@@ -823,14 +833,15 @@ Page({
       if (status == false) {
         app.showError(msg);
         wx.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
+        this.data.cookieManagerOpenData.pullDownRefing = false;
+        this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
         if (callback !== null) callback(false);
         return;
       }
       this.data.cookieManagerOpenData.CookieList = msg;
+      this.data.cookieManagerOpenData.pullDownRefing = false;
       this.setData({ cookieManagerOpenData: this.data.cookieManagerOpenData });
       wx.stopPullDownRefresh();
-      this.setData({ pullDownRefing: false });
       if (callback !== null) callback(true);
     }.bind(this));
   },
@@ -957,7 +968,8 @@ Page({
       function (res) {
         if (typeof res != 'string') {
           wx.stopPullDownRefresh();
-          this.setData({ pullDownRefing: false });
+          this.data.authOpenData.pullDownRefing = false;
+          this.setData({ authOpenData: this.data.authOpenData });
           return;
         }
         res = res.replace(/ /g, '');
@@ -998,12 +1010,14 @@ Page({
           app.showError('发生了错误');
         }
         wx.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
+        this.data.authOpenData.pullDownRefing = false;
+        this.setData({ authOpenData: this.data.authOpenData });
       }.bind(this),
       function () {
         app.showError('发生了错误');
         wx.stopPullDownRefresh();
-        this.setData({ pullDownRefing: false });
+        this.data.authOpenData.pullDownRefing = false;
+        this.setData({ authOpenData: this.data.authOpenData });
       }.bind(this)
     );
   },

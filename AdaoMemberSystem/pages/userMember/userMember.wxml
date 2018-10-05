@@ -3,9 +3,9 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
 <view class='page-title' style='top: {{statusBarHeight}}px;'>
-  <image wx:if='{{pullDownRefing}}' class='page-title-icon' src="../../imgs/loading.gif" />
+  <image wx:if='{{cookieManagerOpenData.pullDownRefing || authOpenData.pullDownRefing || sportOpenData.pullDownRefing}}' class='page-title-icon' src="../../imgs/loading.gif" />
   {{popupMenuOpenData.menuList[popupMenuOpenData.selectedIndex].name}}
-  <image wx:if='{{pullDownRefing}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+  <image wx:if='{{cookieManagerOpenData.pullDownRefing || authOpenData.pullDownRefing || sportOpenData.pullDownRefing}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
 </view>
 
 <view wx:if='{{popupMenuOpenData.selectedIndex==0}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
