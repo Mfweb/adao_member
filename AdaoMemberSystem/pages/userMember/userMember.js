@@ -10,9 +10,9 @@ Page({
     startLoadAuth: false,
     startLoadSport: false,
 
-    onCookieLoading: false,
-    onAuthLoading: false,
-    onSportLoading: false,
+    cookieLoading: true,
+    authLoading: true,
+    sportLoading: true,
 
     popupMenuOpenData: {}
   },
@@ -29,9 +29,9 @@ Page({
       startLoadAuth: false,
       startLoadSport: false,
 
-      onCookieLoading: false,
-      onAuthLoading: false,
-      onSportLoading: false,
+      cookieLoading: true,
+      authLoading: false,
+      sportLoading: false,
 
 
       popupMenuOpenData: {
@@ -123,22 +123,33 @@ Page({
    * 页面改变
    */
   onChangePage: function(id) {
-    if (id.detail == 4) {
-      wx.navigateTo({
-        url: '../about/about',
-      });
+    switch (parseInt(id.detail)) {
+      case 0: 
+        this.setData({ cookieLoading: true });
+        break;
+      case 1:
+        this.setData({ authLoading: true });
+        break;
+      case 3:
+        this.setData({ sportLoading: true });
+        break;
+      case 4:
+        wx.navigateTo({
+          url: '../about/about',
+        });
+        break;
+      case 5:
+        app.logOut();
+        break;
     }
-    else if (id.detail == 5) {
-      app.logOut();
-    }
-    else {
+    if (id.detail < 4) {
       this.setData({ pageIndex: id.detail });
     }
   },
 
   onAuthLoadStart: function (event) {
     console.log('start');
-    this.setData({ onAuthLoading: true });
+    this.setData({ authLoading: true });
   },
   onAuthLoadEnd: function (event) {
     if (event.detail.needRefresh) {
@@ -147,12 +158,12 @@ Page({
     else {
       wx.stopPullDownRefresh();
     }
-    this.setData({ onAuthLoading: false });
+    this.setData({ authLoading: false });
   },
 
   onCookieLoadStart: function (event) {
     console.log('start');
-    this.setData({ onCookieLoading: true });
+    this.setData({ cookieLoading: true });
   },
   onCookieLoadEnd: function (event) {
     if (event.detail.needRefresh) {
@@ -161,12 +172,12 @@ Page({
     else {
       wx.stopPullDownRefresh();
     }
-    this.setData({ onCookieLoading: false });
+    this.setData({ cookieLoading: false });
   },
 
   onSportLoadStart: function (event) {
     console.log('start');
-    this.setData({ onSportLoading: true });
+    this.setData({ sportLoading: true });
   },
   onSportLoadEnd: function (event) {
     if (event.detail.needRefresh) {
@@ -175,6 +186,6 @@ Page({
     else {
       wx.stopPullDownRefresh();
     }
-    this.setData({ onSportLoading: false });
+    this.setData({ sportLoading: false });
   }
 })

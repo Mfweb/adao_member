@@ -1,9 +1,9 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
 <view class='page-title' style='top: {{statusBarHeight}}px;'>
-  <image wx:if='{{onCookieLoading || onAuthLoading || onSportLoading}}' class='page-title-icon' src="../../imgs/loading.gif" />
+  <image wx:if='{{cookieLoading || authLoading || sportLoading}}' class='page-title-icon' src="../../imgs/loading.gif" />
   {{popupMenuOpenData.menuList[pageIndex].name}}
-  <image wx:if='{{onCookieLoading || onAuthLoading || onSportLoading}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+  <image wx:if='{{cookieLoading || authLoading || sportLoading}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
 </view>
 
 <cookieManager 
