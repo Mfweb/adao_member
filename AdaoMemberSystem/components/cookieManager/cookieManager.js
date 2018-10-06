@@ -336,7 +336,8 @@ Component({
                   }
                 }, this);
               }.bind(this),
-              fail: function () {
+              fail: function (res) {
+                console.log(res);
                 app.showError('生成QR码错误');
               }
             }, this);
