@@ -1,6 +1,3 @@
-@import "../../templates/menuButton/menuButton.wxss";
-@import "../../templates/popupMenu/popupMenu.wxss";
-
 .pdcontainer{
   height: auto;
   display: flex;

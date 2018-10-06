@@ -1,14 +1,12 @@
-<import src="../../templates/menuButton/menuButton.wxml"/>
-<import src="../../templates/popupMenu/popupMenu.wxml"/>
 <import src="../../wxParse/wxParse.wxml"/>
 
 <view class='page-title' style='top: {{statusBarHeight}}px;'>
   <image wx:if='{{cookieManagerOpenData.pullDownRefing || authOpenData.pullDownRefing || sportOpenData.pullDownRefing}}' class='page-title-icon' src="../../imgs/loading.gif" />
-  {{popupMenuOpenData.menuList[popupMenuOpenData.selectedIndex].name}}
+  {{popupMenuOpenData.menuList[pageIndex].name}}
   <image wx:if='{{cookieManagerOpenData.pullDownRefing || authOpenData.pullDownRefing || sportOpenData.pullDownRefing}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
 </view>
 
-<view wx:if='{{popupMenuOpenData.selectedIndex==0}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+<view wx:if='{{pageIndex==0}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
   <view class='CookieList'>
     <view class='CookieListTr'>
       <view class='CookieListTd1 lTitle'>ID</view>
@@ -39,7 +37,7 @@
 
 
 
-<view wx:if='{{popupMenuOpenData.selectedIndex==1}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+<view wx:if='{{pageIndex==1}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
   <view class='certTable'>
     <view>实名认证状态：</view>
     <view class='certSta'>{{authOpenData.CertStatus}}</view>
@@ -70,7 +68,7 @@
 
 
 
-<view wx:if='{{popupMenuOpenData.selectedIndex==2}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+<view wx:if='{{pageIndex==2}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
   <form class='nPasswd' bindsubmit='onChangePasswdSubmit'>
   <view class='loginForm'>
     <input class='emailInput' name='opass' type='text' placeholder='输入旧密码' password='true' confirm-type='next'></input>
@@ -83,7 +81,7 @@
 
 
 
-<view wx:if='{{popupMenuOpenData.selectedIndex==3}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
+<view wx:if='{{pageIndex==3}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
 <button wx:if="{{!sportOpenData.getAuthFail}}" loading='{{sportOpenData.getLoading}}' class='upsportbtn' size='mini' type='primary' bindtap='onUploadStep'>上传步数</button>
 <button wx:if="{{sportOpenData.getAuthFail}}" class='upsportbtn' open-type='openSetting' size='mini' type='primary' bindopensetting='onGetAuth'>设置权限</button>
   <view class='RunList'>
@@ -116,8 +114,5 @@
   </view>
 </view>
 
-
-
-<template is="menuButton" data="{{statusBarHeight}}"></template>
+<leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
 <canvas class='qrCanvas' canvas-id="myQrcode"></canvas>
-<template is="popupMenu" data="{{...popupMenuOpenData}}"/>

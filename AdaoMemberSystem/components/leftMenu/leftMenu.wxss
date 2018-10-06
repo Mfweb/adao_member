@@ -1,3 +1,23 @@
+.exitBtn{
+  position: fixed;
+  left: 7px;
+  z-index: 888;
+  background: #334054;
+  width: 32px;
+  height: 32px;
+  opacity:0.7;
+  content:"\f08b";
+}
+.exitBtnDw{
+  background-color: #F5F5F5;
+}
+.exitBtnIcon{
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 1px;
+  margin-left: 1px;
+}
 .popup-menu {
   width: 50%;
   height: 100%;

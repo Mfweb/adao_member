@@ -1,4 +1,7 @@
 {
   "enablePullDownRefresh": true,
-  "navigationBarTitleText": "饼干管理"
+  "navigationBarTitleText": "饼干管理",
+  "usingComponents": {
+    "leftMenu": "/components/leftMenu/leftMenu"
+  }
 }

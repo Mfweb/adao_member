@@ -1,0 +1,31 @@
+<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onTapMenuButton' bindlongpress='onEat' style='top: {{data.statusBarHeight}}px;'>
+  <image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image>
+</view>
+
+<view class="popup-menu {{data.show==true?'popup-menu-open':''}}" style='top: {{data.statusBarHeight}}px; height: calc(100% - {{data.statusBarHeight}}px);'>
+  <view class='popup-menu-topbar'>
+    <image class='popup-menu-acimg' src="{{data.picURL}}" mode='aspectFill'></image>
+    <view class='popup-menu-userinfo'>
+      <image class='popup-menu-usericon' src="http://adnmb1.com/Public/member/users/assets/img/user_nohead.png" mode='aspectFill'></image>
+      <view class='popup-menu-username'>{{data.userName}}</view>
+    </view>
+  </view>
+  
+  <scroll-view class='popup-menu-list' scroll-y='true' catchscroll="onPopupMenuCatchScroll">
+    <view wx:for='{{data.menuList}}' class='popup-menu-item' hover-stay-time='100' hover-class='popup-menu-item-hover' wx:key='' id='{{index}}' bindtap='onTapMenuItem'>
+      <image class='popup-menu-item-icon' src='../../imgs/{{item.icon}}{{selectedIndex==index?"-s":""}}.png' mode='aspectFill'></image>
+      <view class='popup-menu-item-text{{data.selectedIndex==index?" popup-menu-selected-text":""}}'>{{item.name}}</view>
+    </view>
+
+    <view class='popup-text-sm'>APP下载:</view>
+    <view class='popup-line' />
+
+    <view wx:for='{{data.appList}}' class='popup-menu-item' hover-stay-time='100' hover-class='popup-menu-item-hover' wx:key='' id='{{index}}' bindtap='onTapDownloadApp'>
+      <image class='popup-menu-app-icon' src='../../imgs/{{item.icon}}' mode='aspectFill'></image>
+      <view class='popup-menu-app-text'>{{item.name}}</view>
+    </view>
+
+  </scroll-view>
+</view>
+
+<view class="popup-overlay {{data.show==true?'popup-overlay-show':''}}" bindtap='onTapOverlay'></view>
