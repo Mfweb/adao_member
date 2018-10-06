@@ -568,6 +568,7 @@ Page({
         try {
           if (res.status == 0) {
             app.showError(res.info);
+            this.getNewVcode();
           }
           else {
             authData = res;
