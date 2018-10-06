@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <import src="../../wxParse/wxParse.wxml"/>
-<title text='{{title}}' top='{{statusBarHeight}}'></title>
+<title text='{{title}}' top='{{statusBarHeight}}' loading='{{listLoading}}'></title>
 <!--列表-->
 <view class="thread-container" id="main_list" style='margin-top: {{statusBarHeight+32}}px;'>
   <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='' bindtap="onTapQuoteDetail">

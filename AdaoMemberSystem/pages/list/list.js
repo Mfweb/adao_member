@@ -10,7 +10,8 @@ var launchOpt = null;
 Page({
   data: {
     tlist: [],
-    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
+    statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
+    listLoading: false
   },
   onLoad: function (options) {
     app.checkVersion();
@@ -49,7 +50,6 @@ Page({
       }
       else {
         isRefreshing = true;
-        wx.showNavigationBarLoading();
         this.setData({ tlist: [] });
         this.getPostList();
       }
@@ -63,7 +63,6 @@ Page({
   onPullDownRefresh: function () {
     if (isRefreshing) return;
     isRefreshing = true;
-    wx.showNavigationBarLoading();
     this.setData({ tlist: [] });
     this.getPostList();
   },
@@ -144,25 +143,25 @@ Page({
    * 获取串列表
    */
   getPostList: function () {
+    this.setData({ listLoading: true });
     http.api_request(app.globalData.ApiUrls.GetSharesURL,
       { tids: launchOpt.tid },
       function (res) {
         if (res.status != 'ok') {
           app.showError(res.status);
-          wx.hideNavigationBarLoading();
+          this.setData({ listLoading: false });
           wx.reLaunch({
             url: '../index/index',
           });
         }
         else {
           idList = res.tids;
-          wx.hideNavigationBarLoading();
           this.getPostDetail(0);
         }
       }.bind(this),
       function () {
         app.showError('发生了错误');
-        wx.hideNavigationBarLoading();
+        this.setData({ listLoading: false });
         wx.reLaunch({
           url: '../index/index',
         });
@@ -176,6 +175,7 @@ Page({
     if (id >= idList.length) {
       isRefreshing = false;
       wx.stopPullDownRefresh();
+      this.setData({ listLoading: false });
       return;
     }
     var tempData = this.data.tlist;
@@ -228,8 +228,7 @@ Page({
           tempData.push(data);
         }
         this.setData({ tlist: tempData });
-        id++;
-        this.getPostDetail(id);
+        this.getPostDetail(++id);
       }.bind(this),
       function () {
         app.showError('获取错误');
@@ -244,10 +243,5 @@ Page({
         this.getPostDetail(++id);
       }.bind(this)
     );
-  },
-  onTapBack: function () {
-    wx.navigateBack({
-
-    });
   }
 })

@@ -22,6 +22,7 @@ Page({
       showQuoteWindow: false,
       quoteList: [],
       title: '无标题',
+      listLoading: false,
       statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
     },
 
@@ -161,6 +162,7 @@ Page({
   getReplys: function () {
     if (isGettingReply) return;
     isGettingReply = true;
+    this.setData({ listLoading: true });
     if (page != 1)
       this.setData({ bottomMessage: this.data.bottomMessage + ",Loading..." });
     else
@@ -170,7 +172,7 @@ Page({
       { id: postID, page: page },
       function (res) {
         if (res == "该主题不存在") {
-          this.setData({ bottomMessage: "该主题不存在" });
+          this.setData({ bottomMessage: "该主题不存在", listLoading: false });
           return;
         }
         let list = this.data.list;
@@ -277,15 +279,14 @@ Page({
             this.setData({ list: list });
           }
         }
-        this.setData({ bottomMessage: (list.length - 1) + "/" + list[0].replyCount });
+        this.setData({ bottomMessage: (list.length - 1) + "/" + list[0].replyCount, listLoading: false});
         isRefreshing = false;
         isGettingReply = false;
         wx.stopPullDownRefresh();
       }.bind(this),
       function () {
-        this.setData({ bottomMessage: "error" });
         app.showError('加载失败');
-        this.setData({ bottomMessage: "加载失败" });
+        this.setData({ bottomMessage: "加载失败", listLoading: true });
         isRefreshing = false;
         isGettingReply = false;
         wx.stopPullDownRefresh();
@@ -402,10 +403,5 @@ Page({
     for (let i = 0; i < all_kid.length; i++) {
       this.getQuoteDetail(i);//拉取内容
     }
-  },
-  onTapBack: function () {
-    wx.navigateBack({
-
-    });
   }
 })
