@@ -1,3 +1,4 @@
+@import "../../templates/goBackButton/goBackButton.wxss";
 .CookieList{
   width: 100%;
   display: block;
