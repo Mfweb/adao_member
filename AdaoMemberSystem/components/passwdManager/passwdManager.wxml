@@ -1,4 +1,4 @@
-<view class='pdcontainer' style='padding-top: {{data.top}}px;'>
+<view class='pdcontainer' style='padding-top: {{top}}px;'>
   <form class='nPasswd' bindsubmit='onChangePasswdSubmit'>
   <view class='loginForm'>
     <input class='emailInput' name='opass' type='text' placeholder='输入旧密码' password='true' confirm-type='next'></input>
