@@ -21,6 +21,7 @@ Component({
             loadSport: false,
           });
           this.GetStep();
+          this.triggerEvent('startload', { sta: false, needRefresh: false });
         }
       }
     }
@@ -132,7 +133,7 @@ Component({
               try {
                 if (e.status == 0) {
                   app.showSuccess(e.msg);
-                  //wx.startPullDownRefresh({});
+                  this.triggerEvent('endload', { sta: false, needRefresh: true });
                 }
                 else
                   app.showError(e.msg);
@@ -167,9 +168,11 @@ Component({
           else {
             app.showError(res.data.msg);
           }
+          this.triggerEvent('endload', { sta: false, needRefresh: false });
         }.bind(this),
         fail: function () {
           app.showError("网络错误");
+          this.triggerEvent('endload', { sta: false, needRefresh: false });
         }.bind(this)
       });
     },

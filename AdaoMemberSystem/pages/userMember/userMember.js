@@ -5,11 +5,14 @@ Page({
   data: {
     pageIndex: 0,
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
-    verifyCodeURL: "",//验证码链接
-    vCodeLoading: false,//验证码是否在载入
+
     startLoadCookies: false,
     startLoadAuth: false,
     startLoadSport: false,
+
+    onCookieLoading: false,
+    onAuthLoading: false,
+    onSportLoading: false,
 
     popupMenuOpenData: {}
   },
@@ -21,12 +24,15 @@ Page({
     this.setData({
       pageIndex: 0,
       statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
-      verifyCodeURL: '',
-      vCodeLoading: false,
 
       startLoadCookies: false,
       startLoadAuth: false,
       startLoadSport: false,
+
+      onCookieLoading: false,
+      onAuthLoading: false,
+      onSportLoading: false,
+
 
       popupMenuOpenData: {
         show: false,
@@ -128,5 +134,47 @@ Page({
     else {
       this.setData({ pageIndex: id.detail });
     }
+  },
+
+  onAuthLoadStart: function (event) {
+    console.log('start');
+    this.setData({ onAuthLoading: true });
+  },
+  onAuthLoadEnd: function (event) {
+    if (event.detail.needRefresh) {
+      wx.startPullDownRefresh({});
+    }
+    else {
+      wx.stopPullDownRefresh();
+    }
+    this.setData({ onAuthLoading: false });
+  },
+
+  onCookieLoadStart: function (event) {
+    console.log('start');
+    this.setData({ onCookieLoading: true });
+  },
+  onCookieLoadEnd: function (event) {
+    if (event.detail.needRefresh) {
+      wx.startPullDownRefresh({});
+    }
+    else {
+      wx.stopPullDownRefresh();
+    }
+    this.setData({ onCookieLoading: false });
+  },
+
+  onSportLoadStart: function (event) {
+    console.log('start');
+    this.setData({ onSportLoading: true });
+  },
+  onSportLoadEnd: function (event) {
+    if (event.detail.needRefresh) {
+      wx.startPullDownRefresh({});
+    }
+    else {
+      wx.stopPullDownRefresh();
+    }
+    this.setData({ onSportLoading: false });
   }
 })

@@ -1,15 +1,36 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
 <view class='page-title' style='top: {{statusBarHeight}}px;'>
-  <image wx:if='{{cookieManagerOpenData.pullDownRefing || authOpenData.pullDownRefing || sportOpenData.pullDownRefing}}' class='page-title-icon' src="../../imgs/loading.gif" />
+  <image wx:if='{{onCookieLoading || onAuthLoading || onSportLoading}}' class='page-title-icon' src="../../imgs/loading.gif" />
   {{popupMenuOpenData.menuList[pageIndex].name}}
-  <image wx:if='{{cookieManagerOpenData.pullDownRefing || authOpenData.pullDownRefing || sportOpenData.pullDownRefing}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+  <image wx:if='{{onCookieLoading || onAuthLoading || onSportLoading}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
 </view>
 
-<cookieManager wx:if='{{pageIndex==0}}' loadCookie="{{startLoadCookies}}" top="{{statusBarHeight}}"></cookieManager>
-<authManager wx:if='{{pageIndex==1}}' loadAuth="{{startLoadAuth}}" top="{{statusBarHeight}}"></authManager>
+<cookieManager 
+  wx:if='{{pageIndex==0}}'
+  loadCookie="{{startLoadCookies}}"
+  top="{{statusBarHeight}}"
+  bindstartload="onCookieLoadStart"
+  bindendload="onCookieLoadEnd">>
+</cookieManager>
+
+<authManager
+  wx:if='{{pageIndex==1}}'
+  loadAuth="{{startLoadAuth}}"
+  top="{{statusBarHeight}}"
+  bindstartload="onAuthLoadStart"
+  bindendload="onAuthLoadEnd">>
+</authManager>
+
 <passwdManager wx:if='{{pageIndex==2}}' top="{{statusBarHeight}}"></passwdManager>
-<sportManager wx:if='{{pageIndex==3}}' loadSport="{{startLoadSport}}" top="{{statusBarHeight}}"></sportManager>
+
+<sportManager
+  wx:if='{{pageIndex==3}}'
+  loadSport="{{startLoadSport}}"
+  top="{{statusBarHeight}}"
+  bindstartload="onSportLoadStart"
+  bindendload="onSportLoadEnd">
+</sportManager>
 
 <leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
 

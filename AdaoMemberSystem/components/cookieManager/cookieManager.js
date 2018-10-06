@@ -23,6 +23,7 @@ Component({
             vCodeShow: false
           });
           this.getCookies();
+          this.triggerEvent('startload', { sta: false, needRefresh: false });
         }
       }
     }
@@ -132,7 +133,7 @@ Component({
           },
           function (res) {
             if (res.status == 1) {
-              //wx.startPullDownRefresh({});//删除请求成功，刷新页面
+              this.triggerEvent('endload', { sta: false, needRefresh: true });
               this.setData({ vCodeShow: false });
               app.showSuccess('删除完成');
             }
@@ -164,7 +165,7 @@ Component({
           function (res) {
             //app.log(res);
             if (res.status == 1) {
-              //wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
+              this.triggerEvent('endload', { sta: false, needRefresh: true });
               app.showSuccess('大成功');
               app.log('get new cookie success');
             }
@@ -213,6 +214,7 @@ Component({
             CookieWarning: info.warning
           });
         }
+        this.triggerEvent('endload', { sta: false, needRefresh: false });
 
         if (status == false) {
           if (msg == '本页面需要实名后才可访问_(:з」∠)_') {

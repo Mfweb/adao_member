@@ -27,6 +27,7 @@ Component({
             ShowCertMsg: false,
             loadAuth: false
           });
+          this.triggerEvent('startload', { sta: false, needRefresh: false });
           this.getCertifiedStatus();
         }
       }
@@ -90,7 +91,7 @@ Component({
         app.showError('手机号错误');
         return false;
       }
-      console.log(u_country);
+      this.triggerEvent('startload', { sta: true, needRefresh: false })
       http.api_request(
         app.globalData.ApiUrls.MobileCertURL,
         {
@@ -123,13 +124,14 @@ Component({
                 app.showError('发生了错误');
               }
             }
-
-            this.setData({ EnterButLoading: false });
           }
           catch (err) {
             app.log(err.message);
+          }
+          finally {
             app.showError(err.message);
             this.setData({ EnterButLoading: false });
+            this.triggerEvent('endload', { sta: false, needRefresh: false })
           }
         }.bind(this),
         function () {
@@ -206,8 +208,6 @@ Component({
         });
       }.bind(this));
     },
-
-
     /**
      * 获取当前认证状态
      */
@@ -216,48 +216,47 @@ Component({
         app.globalData.ApiUrls.CertifiedStatusURL,
         null,
         function (res) {
-          if (typeof res != 'string') {
-            return;
-          }
-          res = res.replace(/ /g, '');
-          res = res.replace(/\r/g, '');
-          res = res.replace(/\n/g, '');
-          var cert_status = '';
-          var phone_status = '';
-          if (res.indexOf('实名状态') > 0) {
-            cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
-            if (cert_status != null) {
-              cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
-              this.setData({ CertStatus: cert_status });
+          if (typeof res == 'string') {
+            res = res.replace(/ /g, '');
+            res = res.replace(/\r/g, '');
+            res = res.replace(/\n/g, '');
+            var cert_status = '';
+            var phone_status = '';
+            if (res.indexOf('实名状态') > 0) {
+              cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
+              if (cert_status != null) {
+                cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
+                this.setData({ CertStatus: cert_status });
+              }
+              else {
+                app.showError('实名状态错误');
+              }
+              if (res.indexOf('已绑定手机') > 0) {//手机认证已经成功的
+                phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
+                if (phone_status != null) {
+                  phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
+                  if (phone_status != null) {
+                    this.setData({ PhoneStatus: phone_status });
+                  }
+                }
+                this.setData({ CanCert: false });
+              }
+              else if (res.indexOf('绑定手机') > 0) {//未进行手机实名认证
+                this.setData({
+                  PhoneStatus: '未认证',
+                  CanCert: true
+                });
+              }
             }
             else {
-              app.showError('实名状态错误');
-            }
-            if (res.indexOf('已绑定手机') > 0)//手机认证已经成功的
-            {
-              phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
-              if (phone_status != null) {
-                phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
-                if (phone_status != null) {
-                  this.setData({ PhoneStatus: phone_status });
-                }
-              }
-              this.setData({ CanCert: false });
-            }
-            else if (res.indexOf('绑定手机') > 0)//未进行手机实名认证
-            {
-              this.setData({
-                PhoneStatus: '未认证',
-                CanCert: true
-              });
+              app.showError('发生了错误');
             }
           }
-          else {
-            app.showError('发生了错误');
-          }
+          this.triggerEvent('endload', { sta: true, needRefresh: false })
         }.bind(this),
         function () {
           app.showError('发生了错误');
+          this.triggerEvent('endload', { sta: false, needRefresh: false })
         }.bind(this)
       );
     },
@@ -275,6 +274,7 @@ Component({
               timer = null;
               app.log('phone auth success');
               //wx.startPullDownRefresh({});
+              this.triggerEvent('endload', { sta: true, needRefresh: true })
             }
           },
           function () {
