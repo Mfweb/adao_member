@@ -7,38 +7,10 @@
 </view>
 
 <cookieManager id="cookieManager" wx:if='{{pageIndex==0}}' loadCookie="{{startLoadCookies}}" data="{{cookieManagerOpenData}}"></cookieManager>
+<authManager id="authManager" wx:if='{{pageIndex==1}}' loadAuth="{{startLoadAuth}}" data="{{authOpenData}}"></authManager>
 
 
 
-
-<view wx:if='{{pageIndex==1}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
-  <view class='certTable'>
-    <view>实名认证状态：</view>
-    <view class='certSta'>{{authOpenData.CertStatus}}</view>
-  </view>
-  <view class='certTable'>
-    <view>手机认证状态：</view>
-    <view class='certSta'>{{authOpenData.PhoneStatus}}</view>
-  </view>
-    <form wx:if='{{authOpenData.CertFormShow}}' class='vcodeMode' id='Cert' bindsubmit='onEnterAuth'>
-      <view class="SelectCd">
-        <picker bindchange="bindPickerChange" value="{{authOpenData.Cindex}}" range="{{authOpenData.Carray}}">
-          <view class="picker">
-          选择国家：{{authOpenData.Carray[authOpenData.Cindex]}}
-          </view>
-        </picker>
-      </view>
-      <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'></input>
-      <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'></input>
-      <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
-      <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
-      <button class='Uenter' form-type='submit' loading='{{authOpenData.EnterButLoading}}' type='primary'>确认操作</button>
-      <button class='Uclose' type='warn' bindtap='onAuthClose'>取消操作</button>
-    </form>
-  <template wx:if='{{authOpenData.ShowCertMsg}}' is="wxParse" data="{{wxParseData:authOpenData.CertMsg}}"/>
-  <button wx:if='{{authOpenData.ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{authOpenData.CopyLoading}}' bindtap='onCopyAuthPhoneNumber'>复制手机号</button>
-  <button wx:if='{{authOpenData.CanCert && (!authOpenData.ShowCertMsg && !authOpenData.CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
-</view>
 
 
 

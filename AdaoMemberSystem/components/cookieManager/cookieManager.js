@@ -20,11 +20,9 @@ Component({
         if(newVal == true) {
           this.setData({ 
             loadCookie:false,
-            vCodeShow: false,
-            loadCookie: false
+            vCodeShow: false
           });
           this.getCookies();
-          console.log('ref');
         }
       }
     }
@@ -134,7 +132,7 @@ Component({
           },
           function (res) {
             if (res.status == 1) {
-              wx.startPullDownRefresh({});//删除请求成功，刷新页面
+              //wx.startPullDownRefresh({});//删除请求成功，刷新页面
               this.setData({ vCodeShow: false });
               app.showSuccess('删除完成');
             }
@@ -166,10 +164,9 @@ Component({
           function (res) {
             //app.log(res);
             if (res.status == 1) {
-              wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
+              //wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
               app.showSuccess('大成功');
               app.log('get new cookie success');
-              wx.startPullDownRefresh({});
             }
             else {
               app.log('get new cookie error:' + res.info);
@@ -192,7 +189,7 @@ Component({
     getNewVcode: function () {
       this.setData({
         vCodeLoading: true,
-        verifyCodeURL: ''
+        verifyCodeURL: '../../imgs/loading.gif'
       });
 
       http.get_verifycode(function (sta, img, msg) {
@@ -218,7 +215,6 @@ Component({
         }
 
         if (status == false) {
-          wx.stopPullDownRefresh();
           if (msg == '本页面需要实名后才可访问_(:з」∠)_') {
             app.showError('请点击左上角菜单完成实名认证后再使用。');
           }
@@ -231,7 +227,6 @@ Component({
         this.setData({
           CookieList: msg,
         });
-        wx.stopPullDownRefresh();
         if (callback !== null) callback(true);
       }.bind(this));
     },

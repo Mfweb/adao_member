@@ -3,6 +3,7 @@
   "navigationBarTitleText": "饼干管理",
   "usingComponents": {
     "leftMenu": "/components/leftMenu/leftMenu",
-    "cookieManager": "/components/cookieManager/cookieManager"
+    "cookieManager": "/components/cookieManager/cookieManager",
+    "authManager": "/components/authManager/authManager"
   }
 }

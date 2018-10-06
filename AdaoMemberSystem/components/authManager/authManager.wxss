@@ -1,3 +1,4 @@
+@import "/wxParse/wxParse.wxss";
 .pdcontainer{
   height: auto;
   display: flex;
@@ -42,78 +43,55 @@
   padding-right: 8px;
 }
 
-.CookieList{
-  width: 100%;
-  display: block;
-  color: #fffff0;
-  font-size: 15px;
-}
-
-.CookieListTr{
+/*实名认证*/
+.certTable{
   display: flex;
-  width: 98%;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  border-bottom: 1px solid #fff;
-  margin: 0 auto;
-}
-.lTitle{
-  text-align: center;
+  color: #fff;
   font-size: 20px;
-  margin: 0 auto;
-  color: rgb(50, 197, 210);
-}
-.CookieListTd1{
-  width: 15%;
-  text-align: center;
-}
-.CookieListTd2{
-  width: 40%;
-  text-align: center;
-}
-.CookieListTd3{
-  width: 45%;
-  text-align: center;
-  display: flex;
-}
-.cButton{
-  margin: 0 auto;
+  margin-top: 10px;
+  overflow: scroll;
 }
 
-.nButton{
-  width: 90%;
+.certSta{
+  color: rgb(94, 185, 94);
+}
+.PhoneCertBut{
+  margin: 0 auto;
+  width: 70%;
+  margin-top: 20px;
+}
+.SelectCd{
+  width: 60%;
   margin: 0 auto;
   margin-top: 10px;
+  color: #fff;
+  height: 30px;
+  font-size: 15px;
+  border: 1px solid #fff;
+  border-radius:8px;
+}
+.picker{
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+.am-form-horizontal{
+  color: #fff;
+  width: 95%;
+  margin: 0 auto;
+  font-size: 12px;
 }
 
-.qrCanvas{
-  width: 220px;
-  height: 220px;
-  left: -240px;
-}
-.cookie-num{
-  color: #C0C0C0;
-  font-size: 0.7rem;
-  margin-left: 1%;
-  margin-top: 0.4rem;
-}
-.cookie-warn{
-  font-size: 17px;
-  color: darkorange;
-  width: 98%;
-  margin: 0 auto;
+.Sdata{
+ font-size: 25px;
+ text-align: center;
+ margin: 0 auto;
 }
 .verifyCode{
   width: 100%;
   max-height: 50px;
   margin: 0 auto;
   margin-top: 8px;
-}
-
-.scroll-disable{
-  overflow: hidden;
-  position: fixed;
 }
 .verifyCodeHid{
   height: 0px;

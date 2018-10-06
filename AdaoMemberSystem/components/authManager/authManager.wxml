@@ -1,0 +1,29 @@
+<import src="../../wxParse/wxParse.wxml"/>
+<view class='pdcontainer' style='padding-top: {{data.top}}px;'>
+  <view class='certTable'>
+    <view>实名认证状态：</view>
+    <view class='certSta'>{{CertStatus}}</view>
+  </view>
+  <view class='certTable'>
+    <view>手机认证状态：</view>
+    <view class='certSta'>{{PhoneStatus}}</view>
+  </view>
+    <form wx:if='{{CertFormShow}}' class='vcodeMode' id='Cert' bindsubmit='onEnterAuth'>
+      <view class="SelectCd">
+        <picker bindchange="bindPickerChange" value="{{Cindex}}" range="{{Carray}}">
+          <view class="picker">
+          选择国家：{{Carray[Cindex]}}
+          </view>
+        </picker>
+      </view>
+      <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'></input>
+      <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'></input>
+      <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
+      <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
+      <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
+      <button class='Uclose' type='warn' bindtap='onAuthClose'>取消操作</button>
+    </form>
+  <template wx:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}"/>
+  <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}' bindtap='onCopyAuthPhoneNumber'>复制手机号</button>
+  <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
+</view>
