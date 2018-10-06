@@ -1,0 +1,5 @@
+<view class='page-title' style='top: {{top}}px;'>
+  <image wx:if='{{loading}}' class='page-title-icon' src="../../imgs/loading.gif" />
+  {{text}}
+  <image wx:if='{{loading}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+</view>

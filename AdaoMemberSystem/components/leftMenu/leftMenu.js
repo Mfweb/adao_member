@@ -72,7 +72,10 @@ Component({
     onViewImage: function () {
       wx.previewImage({
         urls: [this.data.data.picURL],
-      })
+      });
+      getApp().getImage(function (url) {
+        this.setData({ 'data.picURL': url });
+      }.bind(this));
     }
   }
 })

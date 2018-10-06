@@ -1,6 +1,5 @@
-<view class='page-title' style='top: {{statusBarHeight}}px;'>
-导入饼干
-</view>
+<title text='导入饼干' top='{{statusBarHeight}}'></title>
+
 <view class='pdcontainer' style='padding-top: {{statusBarHeight+32}}px;'>
   <view class='CookieList'>
     <view class='CookieListTr'>

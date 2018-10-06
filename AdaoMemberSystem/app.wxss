@@ -72,23 +72,3 @@ page{
 ad{
   margin: 0.5rem;
 }
-.page-title{
-  font-size: 23px;
-  height: 32px;
-  width: 100%;
-  left: 0;
-  text-align: center;
-  position: fixed;
-  color: #fff;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-.page-title-icon{
-  height: 23px;
-  width: 23px;
-}
-.page-title-icon-right{
-  transform: scaleX(-1);
-}

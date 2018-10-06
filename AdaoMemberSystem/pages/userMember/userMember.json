@@ -6,6 +6,7 @@
     "cookieManager": "/components/cookieManager/cookieManager",
     "authManager": "/components/authManager/authManager",
     "passwdManager": "/components/passwdManager/passwdManager",
-    "sportManager": "/components/sportManager/sportManager"
+    "sportManager": "/components/sportManager/sportManager",
+    "title": "/components/title/title"
   }
 }

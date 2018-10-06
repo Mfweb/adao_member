@@ -1,11 +1,6 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
-<view class='page-title' style='top: {{statusBarHeight}}px;'>
-  <image wx:if='{{cookieLoading || authLoading || sportLoading}}' class='page-title-icon' src="../../imgs/loading.gif" />
-  {{popupMenuOpenData.menuList[pageIndex].name}}
-  <image wx:if='{{cookieLoading || authLoading || sportLoading}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
-</view>
-
+<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{cookieLoading || authLoading || sportLoading}}'></title>
 <cookieManager 
   wx:if='{{pageIndex==0}}'
   loadCookie="{{startLoadCookies}}"

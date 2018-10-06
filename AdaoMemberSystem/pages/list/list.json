@@ -3,6 +3,7 @@
   "navigationBarTitleText": "推送串列表",
   "backgroundColor": "#334054",
   "usingComponents": {
-    "goBackButton": "/components/goBackButton/goBackButton"
+    "goBackButton": "/components/goBackButton/goBackButton",
+    "title": "/components/title/title"
   }
 }
