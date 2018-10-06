@@ -119,10 +119,5 @@ Page({
         app.showError('数据错误');
       }
     }.bind(this));
-  },
-  onTapBack: function () {
-    wx.navigateBack({
-
-    });
   }
 })

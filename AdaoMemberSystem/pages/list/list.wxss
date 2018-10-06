@@ -1,6 +1,4 @@
 /* pages/list/list.wxss */
-@import "../../templates/goBackButton/goBackButton.wxss";
-
 .list-container{
   height: auto;
   display: flex;

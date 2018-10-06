@@ -1,6 +1,5 @@
 <!--index.wxml-->
 <import src="../../wxParse/wxParse.wxml"/>
-<import src="../../templates/goBackButton/goBackButton.wxml"/>
 <view class='page-title' style='top: {{statusBarHeight}}px;'>
 {{title}}
 </view>
@@ -66,4 +65,4 @@
       </view>
   </view>
 </view>
-<template is="goBackButton" data="{{statusBarHeight:statusBarHeight}}"></template>
+<goBackButton top="{{statusBarHeight}}"></goBackButton>

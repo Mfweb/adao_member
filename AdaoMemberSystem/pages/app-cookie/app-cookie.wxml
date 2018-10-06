@@ -1,4 +1,3 @@
-<import src="../../templates/goBackButton/goBackButton.wxml"/>
 <view class='page-title' style='top: {{statusBarHeight}}px;'>
 导入饼干
 </view>
@@ -29,4 +28,4 @@
   </view>
   <button open-type="launchApp" app-parameter="{{returnJson}}" binderror="onLaunchAppError" bindtap='onTapReturn' disabled="{{disableLaunch}}"  class="nButton" type="primary">确认导入选中的饼干</button>
 </view>
-<template is="goBackButton" data="{{statusBarHeight:statusBarHeight}}"></template>
+<goBackButton top="{{statusBarHeight}}"></goBackButton>

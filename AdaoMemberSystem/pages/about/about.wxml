@@ -1,4 +1,3 @@
-<import src="../../templates/goBackButton/goBackButton.wxml"/>
 <view class="container" style='padding-top: {{statusBarHeight}}px;'>
   <view>
     <view class="h1">A岛用户系统</view>
@@ -17,4 +16,4 @@
     <image mode="aspectFit" src="{{pic_url}}" bindtap='onTapImg'></image>
   </view>
 </view>
-<template is="goBackButton" data="{{statusBarHeight:statusBarHeight - 16}}"></template>
+<goBackButton top="{{statusBarHeight}}"></goBackButton>

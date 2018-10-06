@@ -1,5 +1,4 @@
 /* pages/about/about.wxss */
-@import "../../templates/goBackButton/goBackButton.wxss";
 .h1{
   width: 100%;
   font-size: 30px;

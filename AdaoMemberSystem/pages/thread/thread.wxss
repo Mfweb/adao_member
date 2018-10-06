@@ -1,5 +1,4 @@
 /* pages/thread/thread.wxss */
-@import "../../templates/goBackButton/goBackButton.wxss";
 .thread-container {
   height: auto;
   display: flex;
