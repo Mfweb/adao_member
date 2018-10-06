@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -58,6 +58,13 @@
 					"pathName": "pages/index/index",
 					"query": "tid=15335689135k6hu",
 					"scene": "1054"
+				},
+				{
+					"id": 4,
+					"name": "自动测试-登录、Cookie页面",
+					"pathName": "pages/index/index",
+					"query": "autoMode=1",
+					"scene": "1030"
 				}
 			]
 		}

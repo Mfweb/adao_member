@@ -8,6 +8,11 @@ App({
   },
   onShow: function (res) {
     this.globalData.SystemInfo.Scene = res.scene;
+    if(res.scene == 1030) {
+      wx.setStorageSync('LoginSession', '***');
+      wx.setStorageSync('MessageMark', 1);
+      wx.setStorageSync('user_cookie', '***');
+    }
   },
   globalData: {
     ApiUrls: {
