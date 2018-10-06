@@ -10,16 +10,16 @@
   wx:if='{{pageIndex==0}}'
   loadCookie="{{startLoadCookies}}"
   top="{{statusBarHeight}}"
-  bindstartload="onCookieLoadStart"
-  bindendload="onCookieLoadEnd">>
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">>
 </cookieManager>
 
 <authManager
   wx:if='{{pageIndex==1}}'
   loadAuth="{{startLoadAuth}}"
   top="{{statusBarHeight}}"
-  bindstartload="onAuthLoadStart"
-  bindendload="onAuthLoadEnd">>
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">>
 </authManager>
 
 <passwdManager wx:if='{{pageIndex==2}}' top="{{statusBarHeight}}"></passwdManager>
@@ -28,8 +28,8 @@
   wx:if='{{pageIndex==3}}'
   loadSport="{{startLoadSport}}"
   top="{{statusBarHeight}}"
-  bindstartload="onSportLoadStart"
-  bindendload="onSportLoadEnd">
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">
 </sportManager>
 
 <leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>

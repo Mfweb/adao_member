@@ -27,7 +27,7 @@ Component({
             ShowCertMsg: false,
             loadAuth: false
           });
-          this.triggerEvent('startload', { sta: false, needRefresh: false });
+          this.triggerEvent('startload', { from: 'auth', needRefresh: false });
           this.getCertifiedStatus();
         }
       }
@@ -91,7 +91,7 @@ Component({
         app.showError('手机号错误');
         return false;
       }
-      this.triggerEvent('startload', { sta: true, needRefresh: false })
+      this.triggerEvent('startload', { from: 'auth', needRefresh: false })
       http.api_request(
         app.globalData.ApiUrls.MobileCertURL,
         {
@@ -131,7 +131,7 @@ Component({
           finally {
             app.showError(err.message);
             this.setData({ EnterButLoading: false });
-            this.triggerEvent('endload', { sta: false, needRefresh: false })
+            this.triggerEvent('endload', { from: 'auth', needRefresh: false })
           }
         }.bind(this),
         function () {
@@ -252,11 +252,11 @@ Component({
               app.showError('发生了错误');
             }
           }
-          this.triggerEvent('endload', { sta: true, needRefresh: false })
+          this.triggerEvent('endload', { from: 'auth', needRefresh: false })
         }.bind(this),
         function () {
           app.showError('发生了错误');
-          this.triggerEvent('endload', { sta: false, needRefresh: false })
+          this.triggerEvent('endload', { from: 'auth', needRefresh: false })
         }.bind(this)
       );
     },
@@ -274,7 +274,7 @@ Component({
               timer = null;
               app.log('phone auth success');
               //wx.startPullDownRefresh({});
-              this.triggerEvent('endload', { sta: true, needRefresh: true })
+              this.triggerEvent('endload', { from: 'auth', needRefresh: true })
             }
           },
           function () {

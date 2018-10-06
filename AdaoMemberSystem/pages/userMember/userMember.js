@@ -146,12 +146,32 @@ Page({
       this.setData({ pageIndex: id.detail });
     }
   },
-
-  onAuthLoadStart: function (event) {
-    console.log('start');
-    this.setData({ authLoading: true });
+  onLoadStart: function (event) {
+    switch (event.detail.from) {
+      case 'auth':
+        this.setData({ authLoading: true });
+        break;
+      case 'cookie':
+        this.setData({ cookieLoading: true });
+        break;
+      case 'sport':
+        this.setData({ sportLoading: true });
+        break;
+    }
   },
-  onAuthLoadEnd: function (event) {
+  onLoadEnd: function (event) {
+    switch (event.detail.from) {
+      case 'auth':
+        this.setData({ authLoading: false });
+        break;
+      case 'cookie':
+        this.setData({ cookieLoading: false });
+        break;
+      case 'sport':
+        this.setData({ sportLoading: false });
+        break;
+    }
+
     if (event.detail.needRefresh) {
       wx.startPullDownRefresh({});
     }
@@ -159,33 +179,5 @@ Page({
       wx.stopPullDownRefresh();
     }
     this.setData({ authLoading: false });
-  },
-
-  onCookieLoadStart: function (event) {
-    console.log('start');
-    this.setData({ cookieLoading: true });
-  },
-  onCookieLoadEnd: function (event) {
-    if (event.detail.needRefresh) {
-      wx.startPullDownRefresh({});
-    }
-    else {
-      wx.stopPullDownRefresh();
-    }
-    this.setData({ cookieLoading: false });
-  },
-
-  onSportLoadStart: function (event) {
-    console.log('start');
-    this.setData({ sportLoading: true });
-  },
-  onSportLoadEnd: function (event) {
-    if (event.detail.needRefresh) {
-      wx.startPullDownRefresh({});
-    }
-    else {
-      wx.stopPullDownRefresh();
-    }
-    this.setData({ sportLoading: false });
   }
 })
