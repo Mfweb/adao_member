@@ -41,8 +41,8 @@ Page({
 
     this.data.authOpenData = {
       EnterButLoading: false,//确认按钮loading
-      CertStatus: "未知",//实名认证状态
-      PhoneStatus: "未知",//手机实名认证状态
+      CertStatus: "请下拉刷新",//实名认证状态
+      PhoneStatus: "请下拉刷新",//手机实名认证状态
       CanCert: false,//是否可以手机实名认证（是否显示按钮）
       CertFormShow: false,//实名认证表单是否显示
       Cindex: 0,
@@ -813,9 +813,14 @@ Page({
       }
 
       if (status == false) {
-        app.showError(msg);
         wx.stopPullDownRefresh();
         this.setData({ 'cookieManagerOpenData.pullDownRefing': false });
+        if (msg == '本页面需要实名后才可访问_(:з」∠)_') {
+          app.showError('请点击左上角菜单完成实名认证后再使用。');
+        }
+        else {
+          app.showError(msg);
+        }
         if (callback !== null) callback(false);
         return;
       }
