@@ -237,7 +237,7 @@ Component({
                 SelectCookieID = 0;
                 this.setData({
                   showSelectCookie: true,
-                  'cookieManagerOpenData.CookieList[0].checked': true
+                  'CookieList[0].checked': true
                 });
               }
               else {
@@ -261,6 +261,27 @@ Component({
           });
         }.bind(this)
       });
-    }
+    },
+    /**
+     * 获取Cookie列表
+     */
+    getCookies: function (callback = null) {
+      cookie.getCookies(function (status, msg, info) {
+        if (status == false) {
+          if (msg == '本页面需要实名后才可访问_(:з」∠)_') {
+            app.showError('请点击左上角菜单完成实名认证后再使用。');
+          }
+          else {
+            app.showError(msg);
+          }
+          if (callback !== null) callback(false);
+          return;
+        }
+        this.setData({
+          CookieList: msg,
+        });
+        if (callback !== null) callback(true);
+      }.bind(this));
+    },
   }
 })

@@ -78,15 +78,6 @@ Page({
     this.setData({ 'popupMenuOpenData.userName': tempUserName });
   },
   /**
-   * 页面关闭
-   */
-  onHide: function () {
-    if (timer != null) {
-      clearInterval(timer);
-      timer = null;
-    }
-  },
-  /**
    * 开始下拉刷新
    */
   onPullDownRefresh: function () {
