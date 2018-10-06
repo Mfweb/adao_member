@@ -1,0 +1,117 @@
+.pdcontainer{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 0;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
+  position: absolute;
+  z-index:0;
+  
+  margin: 0px;
+  left: 0;
+  top: 32px;
+  padding-bottom: 70px;
+}
+.vcodeMode{
+  width: 100%;
+}
+.Uenter{
+  width: 80%;
+  margin-top: 5px;
+}
+.Uclose{
+  width: 80%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.McodeInput{
+  height: 30px;
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 5px;
+  background: #fff;
+  margin-bottom: 5px;
+  font-size: 15px;
+  color:#000;
+  border-radius:8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.CookieList{
+  width: 100%;
+  display: block;
+  color: #fffff0;
+  font-size: 15px;
+}
+
+.CookieListTr{
+  display: flex;
+  width: 98%;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border-bottom: 1px solid #fff;
+  margin: 0 auto;
+}
+.lTitle{
+  text-align: center;
+  font-size: 20px;
+  margin: 0 auto;
+  color: rgb(50, 197, 210);
+}
+.CookieListTd1{
+  width: 15%;
+  text-align: center;
+}
+.CookieListTd2{
+  width: 40%;
+  text-align: center;
+}
+.CookieListTd3{
+  width: 45%;
+  text-align: center;
+  display: flex;
+}
+.cButton{
+  margin: 0 auto;
+}
+
+.nButton{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.qrCanvas{
+  width: 220px;
+  height: 220px;
+  left: -240px;
+}
+.cookie-num{
+  color: #C0C0C0;
+  font-size: 0.7rem;
+  margin-left: 1%;
+  margin-top: 0.4rem;
+}
+.cookie-warn{
+  font-size: 17px;
+  color: darkorange;
+  width: 98%;
+  margin: 0 auto;
+}
+.verifyCode{
+  width: 100%;
+  max-height: 50px;
+  margin: 0 auto;
+  margin-top: 8px;
+}
+
+.scroll-disable{
+  overflow: hidden;
+  position: fixed;
+}

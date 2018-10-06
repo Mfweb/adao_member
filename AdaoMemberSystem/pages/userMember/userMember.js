@@ -13,6 +13,7 @@ Page({
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
     verifyCodeURL: "",//验证码链接
     vCodeLoading: false,//验证码是否在载入
+    startLoadCookies: false,
 
     cookieManagerOpenData: {},
     authOpenData: {},
@@ -31,7 +32,12 @@ Page({
       verifyCodeURL: '',
       vCodeLoading: false,
 
+      startLoadCookies: false,
+
       cookieManagerOpenData: {
+        disableScroll: false,
+        top: app.globalData.SystemInfo.Windows.statusBarHeight,
+
         CookieList: [],//饼干列表
         vCodeShow: false,//验证码是否已显示
         needDeleteID: "",//需要删除的饼干index
@@ -141,10 +147,9 @@ Page({
     if (this.data.pageIndex == 0) {
       //处理饼干数据
       this.setData({
-        'cookieManagerOpenData.vCodeShow': false,
-        'cookieManagerOpenData.pullDownRefing': true
+        'cookieManagerOpenData.pullDownRefing': true,
+        startLoadCookies: true
       });
-      this.getCookies();
     }
     else if (this.data.pageIndex == 1) {
       //处理实名认证相关数据
@@ -167,6 +172,9 @@ Page({
       this.GetStep();
     }
   },
+  /**
+   * 页面改变
+   */
   onChangePage: function(id) {
     if (id.detail == 4) {
       wx.navigateTo({
@@ -180,13 +188,15 @@ Page({
       this.setData({ pageIndex: id.detail });
     }
   },
+  /**
+   * 下拉刷新所有
+   * 不会有下拉动画
+   */
   pullDownRefreshAll: function () {
     //处理饼干数据
     this.setData({
-      'cookieManagerOpenData.vCodeShow': false,
-      'cookieManagerOpenData.pullDownRefing': true
+      startLoadCookies: true
     });
-    this.getCookies();
     //处理实名认证相关数据
     if (timer != null) {
       clearInterval(timer);
@@ -203,8 +213,6 @@ Page({
       'sportOpenData.pullDownRefing': true
     });
     this.GetStep();
-
-
   },
 
   /**
@@ -599,135 +607,6 @@ Page({
   },
 
   /**
-   * 点击了删除饼干按钮
-   */
-  onDeleteCookie: function (e) {
-    this.getNewVcode();
-    this.setData({
-      'cookieManagerOpenData.vCodeShow': true,
-      'cookieManagerOpenData.needDeleteID': e.target.id,
-      'cookieManagerOpenData.FormID': 'delete'
-    });
-  },
-  /**
-   * 点击了获取饼干按钮
-   */
-  onGetCookie: function (event) {
-    let selId = event.target.id;
-    wx.showActionSheet({
-      itemList: ['获取二维码', '复制内容'],
-      itemColor: '#334054',
-      success: function (e) {
-        if (e.cancel != true) {
-          if (e.tapIndex == 0) {
-            this.getCookieQR(selId);
-          }
-          else {
-            this.getCookieToClipboard(selId);
-          }
-        }
-      }.bind(this)
-    })
-  },
-  /**
-   * 点击了关闭验证码输入框按钮
-   */
-  onUClose: function (e) {
-    this.setData({ 'cookieManagerOpenData.vCodeShow': false });
-  },
-  /**
-   * 确认操作删除或获取饼干
-   */
-  onEnterCookie: function (e) {
-    var u_vcode = e.detail.value.verifycode;
-    var u_index = e.detail.value.needDeleteID;
-    if (u_vcode.length != 5) {
-      app.showError('验证码错误');
-      return;
-    }
-    if (this.data.cookieManagerOpenData.EnterButLoading == true) return;
-    this.setData({ 'cookieManagerOpenData.EnterButLoading': true });
-    if (e.target.id == 'delete')//删除Cookie
-    {
-      if (this.data.cookieManagerOpenData.CookieList[u_index] == true) return;
-      var selectData = 'cookieManagerOpenData.CookieList[' + u_index + '].delLoading';
-      this.setData({ [selectData]: true });//对应的删除按钮显示loading
-
-      http.api_request(
-        app.globalData.ApiUrls.CookieDeleteURL + this.data.cookieManagerOpenData.CookieList[u_index].id + ".html",
-        {
-          verify: u_vcode
-        },
-        function (res) {
-          if (res.status == 1) {
-            wx.startPullDownRefresh({});//删除请求成功，刷新页面
-            this.setData({ 'cookieManagerOpenData.vCodeShow': false });
-            app.showSuccess('删除完成');
-          }
-          else {
-            app.log('cookie delete error:' + res.info);
-            this.getNewVcode();
-            app.showError(res.info);
-          }
-          this.setData({
-            [selectData]: false,
-            'cookieManagerOpenData.EnterButLoading': false
-          });
-        }.bind(this),
-        function () {
-          app.showError('发生了错误');
-          this.setData({
-            [selectData]: false,
-            'cookieManagerOpenData.EnterButLoading': false
-          });
-        }.bind(this));
-    }
-    else if (e.target.id == 'new')//获取新Cookie
-    {
-      http.api_request(
-        app.globalData.ApiUrls.CookieGetNewURL,
-        {
-          verify: u_vcode
-        },
-        function (res) {
-          //app.log(res);
-          if (res.status == 1) {
-            wx.startPullDownRefresh({});//获取新Cookie成功，刷新页面
-            app.showSuccess('大成功');
-            app.log('get new cookie success');
-            wx.startPullDownRefresh({});
-          }
-          else {
-            app.log('get new cookie error:' + res.info);
-            app.showError(res.info);
-          }
-          this.setData({
-            'cookieManagerOpenData.vCodeShow': false,
-            'cookieManagerOpenData.EnterButLoading': false
-          });
-        }.bind(this),
-        function () {
-          this.setData({ 'cookieManagerOpenData.EnterButLoading': false });
-        }.bind(this));
-    }
-  },
-  /**
-   * 获取新Cookie
-   */
-  onGetNewCookie: function () {
-    this.setData({
-      'cookieManagerOpenData.vCodeShow': true,
-      'cookieManagerOpenData.FormID': 'new'
-    });
-    this.getNewVcode();
-  },
-  /**
-   * 刷新验证码
-   */
-  onTapVerifyCode: function (e) {
-    this.getNewVcode();
-  },
-  /**
    * 获取新验证码
    */
   getNewVcode: function () {
@@ -746,147 +625,8 @@ Page({
       });
     }.bind(this));
   },
-  /**
-   * 获取Cookie列表
-   */
-  getCookies: function (callback = null) {
-    cookie.getCookies(function (status, msg, info) {
-      if (info != null) {
-        this.setData({
-          'cookieManagerOpenData.CookieNum': info.capacity,
-          'cookieManagerOpenData.CookieWarning': info.warning
-        });
-      }
 
-      if (status == false) {
-        wx.stopPullDownRefresh();
-        this.setData({ 'cookieManagerOpenData.pullDownRefing': false });
-        if (msg == '本页面需要实名后才可访问_(:з」∠)_') {
-          app.showError('请点击左上角菜单完成实名认证后再使用。');
-        }
-        else {
-          app.showError(msg);
-        }
-        if (callback !== null) callback(false);
-        return;
-      }
-      this.setData({
-        'cookieManagerOpenData.CookieList': msg,
-        'cookieManagerOpenData.pullDownRefing': false
-      });
-      wx.stopPullDownRefresh();
-      if (callback !== null) callback(true);
-    }.bind(this));
-  },
-  /**
-   * 创建并显示二维码
-   */
-  createQRCode: function (content, callback) {
-    //在画布上创建二维码
-    drawQrcode({
-      width: 200,
-      height: 200,
-      canvasId: 'myQrcode',
-      text: content,
-      _this: this,
-      callback: function () {
-        setTimeout(function () {
-          //将二维码部分复制出来
-          wx.canvasGetImageData({
-            canvasId: 'myQrcode',
-            x: 0,
-            y: 0,
-            width: 200,
-            height: 200,
-            success: function (res) {
-              //填充整个画布
-              const ctx = wx.createCanvasContext('myQrcode', this);
-              ctx.setFillStyle('white');
-              ctx.fillRect(0, 0, 220, 220);
-              ctx.draw();
-              //将刚刚复制出来的二维码写到中心
-              wx.canvasPutImageData({
-                canvasId: 'myQrcode',
-                data: res.data,
-                x: 10,
-                y: 10,
-                width: 200,
-                success: function () {
-                  //画布内容创建临时文件
-                  wx.canvasToTempFilePath({
-                    canvasId: 'myQrcode',
-                    success: function (res) {
-                      //预览
-                      wx.previewImage({
-                        urls: [res.tempFilePath],
-                      });
-                    },
-                    fail: function () {
-                      app.showError("缓存二维码失败");
-                    }
-                  }, this);
-                },
-                fail: function () {
-                  app.showError('生成QR码错误2');
-                }
-              }, this);
-            }.bind(this),
-            fail: function () {
-              app.showError('生成QR码错误');
-            }
-          }, this);
-          callback();
-        }.bind(this), 300);
-      }.bind(this)
-    });
-  },
-  /**
-   * 获取Cookie详细并显示二维码
-   */
-  getCookieQR: function (index) {
-    if (this.data.cookieManagerOpenData.CookieList[index].getLoading == true) return;
-    var selectData = 'cookieManagerOpenData.CookieList[' + index + '].getLoading';
-    this.setData({ [selectData]: true });
 
-    cookie.getCookieDetail(this.data.cookieManagerOpenData.CookieList[index].id, function (sta, detail) {
-      if (sta == true) {
-        this.createQRCode(JSON.stringify({ cookie: detail }), function () {
-          this.setData({ [selectData]: false });
-          return;
-        }.bind(this));
-      }
-      else {
-        app.showError(detail);
-        this.setData({ [selectData]: false });
-      }
-    }.bind(this));
-  },
-  /**
-    * 获取Cookie详细并复制到剪切板
-    */
-  getCookieToClipboard: function (index) {
-    if (this.data.cookieManagerOpenData.CookieList[index].getLoading == true) return;
-    var selectData = 'cookieManagerOpenData.CookieList[' + index + '].getLoading';
-    this.setData({ [selectData]: true });
-
-    cookie.getCookieDetail(this.data.cookieManagerOpenData.CookieList[index].id, function (sta, detail) {
-      if (sta == true) {
-        wx.setClipboardData({
-          data: detail,
-          success: function () {
-            app.showSuccess('饼干已复制');
-          },
-          fail: function () {
-            app.showError('复制失败');
-          }
-        });
-      }
-      else {
-        app.showError(detail);
-      }
-      this.setData({ [selectData]: false });
-    }.bind(this));
-  },
   /**
    * 获取当前认证状态
    */

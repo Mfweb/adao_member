@@ -1,0 +1,29 @@
+<view class='pdcontainer{{data.disableScroll?" scroll-disable":""}}' style='padding-top: {{data.top}}px;'>
+  <view class='CookieList'>
+    <view class='CookieListTr'>
+      <view class='CookieListTd1 lTitle'>ID</view>
+      <view class='CookieListTd2 lTitle'>饼干</view>
+      <view class='CookieListTd3 lTitle'>操作</view>
+    </view>
+    <view wx:for="{{CookieList}}" class='CookieListTr' wx:key='{{index}}'>
+      <view class='CookieListTd1'>{{item.id}}</view>
+      <view class='CookieListTd2'>{{item.value}}</view>
+      <view class='CookieListTd3'>
+        <button id='{{index}}' bindtap='onDeleteCookie' class='cButton' loading='{{item.delLoading}}' type='warn' size='mini'>删除</button>
+        <button id='{{index}}' bindtap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>获取</button>
+      </view>
+    </view>
+    <view class='cookie-num'>饼干槽:{{CookieNum}}</view>
+    <view wx:if='{{CookieWarning!=null}}' class='cookie-warn'>{{CookieWarning}}</view>
+    <form wx:if='{{vCodeShow}}' class='vcodeMode' id='{{FormID}}' bindsubmit='onEnterCookie'>
+      <input name='needDeleteID' value='{{needDeleteID}}' style='display:none;'></input>
+      <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
+      <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
+      <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'></input>
+      <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
+      <button class='Uclose' type='warn' bindtap='onUClose'>取消操作</button>
+    </form>
+    <button bindtap='onGetNewCookie' class='nButton' type='primary'>获取新Cookie</button>
+  </view>
+</view>
+<canvas class='qrCanvas' canvas-id="myQrcode"></canvas>

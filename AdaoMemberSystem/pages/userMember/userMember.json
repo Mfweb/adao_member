@@ -2,6 +2,7 @@
   "enablePullDownRefresh": true,
   "navigationBarTitleText": "饼干管理",
   "usingComponents": {
-    "leftMenu": "/components/leftMenu/leftMenu"
+    "leftMenu": "/components/leftMenu/leftMenu",
+    "cookieManager": "/components/cookieManager/cookieManager"
   }
 }
