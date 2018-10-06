@@ -69,5 +69,10 @@ Component({
     onPopupMenuCatchScroll: function () {
 
     },
+    onViewImage: function () {
+      wx.previewImage({
+        urls: [this.data.data.picURL],
+      })
+    }
   }
 })
