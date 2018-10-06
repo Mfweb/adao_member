@@ -8,22 +8,13 @@
 
 <cookieManager id="cookieManager" wx:if='{{pageIndex==0}}' loadCookie="{{startLoadCookies}}" data="{{cookieManagerOpenData}}"></cookieManager>
 <authManager id="authManager" wx:if='{{pageIndex==1}}' loadAuth="{{startLoadAuth}}" data="{{authOpenData}}"></authManager>
+<passwdManager id="passwdManager" wx:if='{{pageIndex==2}}' data="{{changePasswdOpenData}}"></passwdManager>
 
 
 
 
 
 
-<view wx:if='{{pageIndex==2}}' class='pdcontainer{{popupMenuOpenData.show?" scroll-disable":""}}' style='padding-top: {{statusBarHeight}}px;'>
-  <form class='nPasswd' bindsubmit='onChangePasswdSubmit'>
-  <view class='loginForm'>
-    <input class='emailInput' name='opass' type='text' placeholder='输入旧密码' password='true' confirm-type='next'></input>
-    <input class='pswInput' name='npass' type='text' placeholder='新密码' password='true' confirm-type='next'></input>
-    <input class='codeInput' name='npass2' type='text' placeholder='再来一遍' password='true' confirm-type='go'></input>
-  </view>
-  <button loading='{{changePasswdOpenData.CPLoading}}' class='passwd-enter-button' type='primary' form-type='submit' submit='changepasswd'>确认修改</button>
-  </form>
-</view>
 
 
 

@@ -1,9 +1,5 @@
 const app = getApp();
 const http = require('../../utils/http.js');
-const cookie = require('../../utils/cookie.js');
-var WxParse = require('../../wxParse/wxParse.js');
-import drawQrcode from '../../utils/weapp.qrcode.min.js'
-
 
 var SelectCookieID = 0;
 
@@ -43,7 +39,7 @@ Page({
         top: app.globalData.SystemInfo.Windows.statusBarHeight,
       },
       changePasswdOpenData: {
-        CPLoading: false
+        top: app.globalData.SystemInfo.Windows.statusBarHeight,
       },
       sportOpenData: {
         StepList: [],
@@ -396,49 +392,4 @@ Page({
       }.bind(this)
     });
   },
-  
-  /**
-   * 确认修改密码
-   */
-  onChangePasswdSubmit(e) {
-    var old_passwd = e.detail.value.opass;
-    var new_passwd = e.detail.value.npass;
-    var new_passwd2 = e.detail.value.npass2;
-    if (old_passwd < 5 || new_passwd < 5 || new_passwd2 < 5) {
-      app.showError('密码至少5位');
-      return;
-    }
-    if (new_passwd != new_passwd2) {
-      app.showError('两次输入不一致');
-      return;
-    }
-    if (this.data.changePasswdOpenData.CPLoading == true) return;
-    this.setData({ 'changePasswdOpenData.CPLoading': true });
-
-    http.api_request(
-      app.globalData.ApiUrls.ChangePasswordURL,
-      {
-        oldpwd: old_passwd,
-        pwd: new_passwd,
-        repwd: new_passwd2
-      },
-      function (res) {
-        if (typeof res == 'object') {
-          if (res.status == 1)
-            app.logOut();
-          else
-            app.showError(res.info);
-        }
-        else {
-          app.showError("发生了错误");
-        }
-        this.setData({ 'changePasswdOpenData.CPLoading': false });
-      }.bind(this),
-      function () {
-        app.showError('发生了错误');
-        this.setData({ 'changePasswdOpenData.CPLoading': false });
-      }.bind(this)
-    );
-  },
-  
 })

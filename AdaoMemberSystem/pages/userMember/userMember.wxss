@@ -42,16 +42,6 @@
   padding-right: 8px;
 }
 
-/*密码修改*/
-.passwd-enter-button{
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 30px;
-}
-
-.nPasswd{
-  width: 80%;
-}
 /*肥宅排行*/
 .RunList{
   width: 100%;
