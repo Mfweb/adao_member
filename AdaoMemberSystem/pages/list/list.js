@@ -71,8 +71,7 @@ Page({
       url: '../index/index',
     });
   },
-  bind_pic_load: function (e)//图片载入完成
-  {
+  bind_pic_load: function (e) {
     if (app.globalData.SystemInfo.Windows.height == 0 || app.globalData.SystemInfo.Windows.width == 0) {
       app.getSysWindow();
     }

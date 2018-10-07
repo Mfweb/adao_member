@@ -6,7 +6,7 @@
     <view class="text" id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
       <view class="list-b1">
         <view class="cid">No.{{item.id}}</view>
-        <template is="wxParse" data="{{wxParseData:item.userid}}"/>
+        <view> {{item.userid}}</view>
         <view class="stime">{{item.now}}</view>
       </view>
       <view class="list-b2">
