@@ -135,8 +135,9 @@ Component({
                   app.showSuccess(e.msg);
                   this.triggerEvent('endload', { from: 'sport', needRefresh: true });
                 }
-                else
+                else {
                   app.showError(e.msg);
+                }
               }
               catch (err) {
                 app.showError("error");

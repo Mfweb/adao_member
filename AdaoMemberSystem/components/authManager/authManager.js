@@ -129,7 +129,6 @@ Component({
             app.log(err.message);
           }
           finally {
-            app.showError(err.message);
             this.setData({ EnterButLoading: false });
             this.triggerEvent('endload', { from: 'auth', needRefresh: false })
           }
@@ -273,15 +272,14 @@ Component({
               clearInterval(timer);
               timer = null;
               app.log('phone auth success');
-              //wx.startPullDownRefresh({});
               this.triggerEvent('endload', { from: 'auth', needRefresh: true })
             }
-          },
+          }.bind(this),
           function () {
 
           }
         );
-      }, 5000);
+      }.bind(this), 5000);
     },
     /**
      * 刷新验证码
