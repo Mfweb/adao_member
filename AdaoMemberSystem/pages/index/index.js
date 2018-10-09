@@ -73,31 +73,34 @@ Page({
         app.globalData.ApiUrls.CheckSessionURL,
         null,
         function (res) {
-          if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-            if (memberMode == 0) {
-              wx.redirectTo({
-                url: '../userMember/userMember',
-              });
-            }
-            else if (memberMode == 1) {
-              wx.navigateTo({
-                url: '../app-cookie/app-cookie',
-              });
-            }
-          }
-          else if (typeof res == 'object' && res.hasOwnProperty('info')) {
-            if (res.info != "并没有权限访问_(:з」∠)_") {
-              app.showError(res.info);
-            }
-          }
-          else {
-            app.showError('未知错误');
-          }
           this.setData({ BLoading: false });
           this.getNewVcode();
           wx.hideNavigationBarLoading();
+          this.hideLaunchScreen(function(){
+            if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
+              if (memberMode == 0) {
+                wx.redirectTo({
+                  url: '../userMember/userMember',
+                });
+              }
+              else if (memberMode == 1) {
+                wx.navigateTo({
+                  url: '../app-cookie/app-cookie',
+                });
+              }
+            }
+            else if (typeof res == 'object' && res.hasOwnProperty('info')) {
+              if (res.info != "并没有权限访问_(:з」∠)_") {
+                app.showError(res.info);
+              }
+            }
+            else {
+              app.showError('未知错误');
+            }
+          }.bind(this));
         }.bind(this),
         function () {
+          this.hideLaunchScreen();
           app.showError('连接服务器失败');
           wx.hideNavigationBarLoading();
           this.setData({
@@ -318,6 +321,12 @@ Page({
   },
   onReadPrivacy: function () {
     wx.navigateTo({ url: '../thread/thread?id=11689471&is_bt=false' });
+  },
+  hideLaunchScreen: function (callback=null) {
+    let com = this.selectComponent('#LaunchScreen');
+    if(com != null) {
+      com.hide(callback);
+    }
   },
   /**
    * 载入服务条款

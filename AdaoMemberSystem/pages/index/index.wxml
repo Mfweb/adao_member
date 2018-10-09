@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <import src="../../wxParse/wxParse.wxml"/>
+<LaunchScreen id='LaunchScreen' top='{{statusBarHeight}}' />
 <view class="container" style='padding-top: {{statusBarHeight}}px;'>
   <!--<view class="mainTitle">A岛注册实名系统</view>-->
   <view class='title'>

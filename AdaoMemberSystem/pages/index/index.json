@@ -1,3 +1,6 @@
 {
-  "enablePullDownRefresh": false
+  "enablePullDownRefresh": false,
+    "usingComponents": {
+      "LaunchScreen": "/components/LaunchScreen/LaunchScreen"
+    }
 }
