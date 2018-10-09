@@ -53,6 +53,7 @@ Page({
           this.getNewVcode();
           wx.hideNavigationBarLoading();
           pageEvent.mode = '';
+          this.hideLaunchScreen();
           return;
         }
         else if (pageEvent.mode != undefined && pageEvent.mode == 'cookie') {
@@ -61,11 +62,13 @@ Page({
       }
 
       if (pageEvent.tid != undefined) {//通过公众号分享串二维码扫描过来
-        wx.navigateTo({
-          url: '../list/list?tid=' + pageEvent.tid,
-        });
-        wx.hideNavigationBarLoading();
-        pageEvent.tid = undefined;
+        this.hideLaunchScreen(function () {
+          wx.navigateTo({
+            url: '../list/list?tid=' + pageEvent.tid,
+          });
+          wx.hideNavigationBarLoading();
+          pageEvent.tid = undefined;
+        }.bind(this));
         return;//不继续登录了
       }
 
