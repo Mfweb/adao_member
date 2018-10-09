@@ -99,8 +99,12 @@ Page({
         }.bind(this),
         function () {
           app.showError('连接服务器失败');
-          this.setData({ BLoading: false });
           wx.hideNavigationBarLoading();
+          this.setData({
+            BLoading: false,
+            vCodeLoading: false,
+            verifyCodeURL: '../../imgs/loaderror.png'
+          });
         }.bind(this)
       );
     }.bind(this));
