@@ -5,6 +5,7 @@ App({
   onLaunch: function () {
     this.getSysWindow();
     this.getCDN();
+    this.downloadLaunchScreen();
   },
   onShow: function (res) {
     this.globalData.SystemInfo.Scene = res.scene;
@@ -34,6 +35,7 @@ App({
       GetNoticeURL: hostURL + "/adao/member/notice.php",//获取公告
       GetAuthPhoneURL: hostURL + "/adao/member/getphone.php",//获取三酱验证手机号
       GetRandomPicURL: hostURL + "/adao/getpicture.php",//获取随机图
+      GetLaunchPicURL: hostURL + "/adao/getlaunchscreen.php",//启动页面图
       Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
       //获取分享串
       GetSharesURL: hostURL + "/adao/getshare.php",
@@ -106,6 +108,49 @@ App({
           }
         }
       }.bind(this)
+    });
+  },
+  downloadLaunchScreen: function () {
+    wx.request({
+      url: this.globalData.ApiUrls.GetLaunchPicURL,
+      success: function (res) {
+        if(res.statusCode == 200 && res.data != null) {
+          wx.downloadFile({
+            url: res.data,
+            success: function (dres) {
+              if (dres.tempFilePath != null) {
+                wx.saveFile({
+                  tempFilePath: dres.tempFilePath,
+                  success: function (sres) {
+                    if (sres.errMsg == 'saveFile:ok') {
+                      wx.setStorage({
+                        key: 'launchImage',
+                        data: sres.savedFilePath,
+                        success: function() {
+                          wx.getSavedFileList({
+                            success: function (files) {
+                              console.log(files);
+                              if (files.errMsg == 'getSavedFileList:ok') {
+                                for (let i = 0; i < files.fileList.length; i++) {
+                                  if(files.fileList[i].filePath != sres.savedFilePath) {
+                                    wx.removeSavedFile({
+                                      filePath: files.fileList[i].filePath,
+                                    });
+                                  }
+                                }
+                              }
+                            }
+                          });
+                        }
+                      });
+                    }
+                  }
+                });
+              }
+            }
+          });
+        }
+      }
     });
   },
   getSysWindow: function () {

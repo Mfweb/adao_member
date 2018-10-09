@@ -18,7 +18,13 @@ Component({
     show: true,
     animation: null
   },
-
+  attached: function () {
+    let tempUrl = wx.getStorageSync('launchImage');
+    if (tempUrl != null && tempUrl != '' && typeof tempUrl == 'string') {
+      this.setData({ launchPicture:tempUrl});
+      console.log(tempUrl);
+    }
+  },
   /**
    * 组件的方法列表
    */
