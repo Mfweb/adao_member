@@ -70,6 +70,10 @@ Component({
 
     },
     onViewImage: function () {
+      if (this.data.data.picURL == '' || this.data.data.picURL == null) {
+        wx.showError('图片为空');
+        return;
+      }
       wx.previewImage({
         urls: [this.data.data.picURL],
       });

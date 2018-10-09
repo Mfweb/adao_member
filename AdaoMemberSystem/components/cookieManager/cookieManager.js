@@ -46,11 +46,6 @@ Component({
     CookieNum: '[0/0]',
     CookieWarning: null,
   },
-  attached: function () {
-    getApp().getImage(function (url) {
-      this.setData({ 'data.picURL': url });
-    }.bind(this));
-  },
   /**
    * 组件的方法列表
    */
