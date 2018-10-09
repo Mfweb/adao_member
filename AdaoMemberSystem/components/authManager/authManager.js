@@ -139,6 +139,7 @@ Component({
         function () {
           app.showError('发生了错误');
           this.setData({ EnterButLoading: false });
+          this.triggerEvent('endload', { from: 'auth', needRefresh: false })
         }.bind(this));
     },
     /**
