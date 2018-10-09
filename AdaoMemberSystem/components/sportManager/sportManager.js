@@ -11,6 +11,9 @@ Component({
     top: {
       type: Number
     },
+    hide: {
+      type: Boolean
+    },
     loadSport: {
       type: Boolean,
       value: false,

@@ -1,4 +1,4 @@
-<view class='pdcontainer' style='padding-top: {{top}}px;'>
+<view wx:if='{{hide}}' class='pdcontainer' style='padding-top: {{top}}px;'>
 <button wx:if="{{!getAuthFail}}" loading='{{getLoading}}' class='upsportbtn' size='mini' type='primary' bindtap='onUploadStep'>上传步数</button>
 <button wx:if="{{getAuthFail}}" class='upsportbtn' open-type='openSetting' size='mini' type='primary' bindopensetting='onGetAuth'>设置权限</button>
   <view class='RunList'>

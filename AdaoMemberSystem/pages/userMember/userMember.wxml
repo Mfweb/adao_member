@@ -1,8 +1,8 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
 <title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{cookieLoading || authLoading || sportLoading}}'></title>
-<cookieManager 
-  wx:if='{{pageIndex==0}}'
+<cookieManager
+  hide='{{pageIndex==0}}'
   loadCookie="{{startLoadCookies}}"
   top="{{statusBarHeight}}"
   bindstartload="onLoadStart"
@@ -10,17 +10,17 @@
 </cookieManager>
 
 <authManager
-  wx:if='{{pageIndex==1}}'
+  hide='{{pageIndex==1}}'
   loadAuth="{{startLoadAuth}}"
   top="{{statusBarHeight}}"
   bindstartload="onLoadStart"
   bindendload="onLoadEnd">>
 </authManager>
 
-<passwdManager wx:if='{{pageIndex==2}}' top="{{statusBarHeight}}"></passwdManager>
+<passwdManager hide='{{pageIndex==2}}' top="{{statusBarHeight}}"></passwdManager>
 
 <sportManager
-  wx:if='{{pageIndex==3}}'
+  hide='{{pageIndex==3}}'
   loadSport="{{startLoadSport}}"
   top="{{statusBarHeight}}"
   bindstartload="onLoadStart"

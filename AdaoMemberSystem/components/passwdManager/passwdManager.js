@@ -9,6 +9,9 @@ Component({
     top: {
       type: Number
     },
+    hide: {
+      type: Boolean
+    },
   },
 
   /**

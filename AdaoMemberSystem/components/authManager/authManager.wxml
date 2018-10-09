@@ -1,5 +1,5 @@
 <import src="../../wxParse/wxParse.wxml"/>
-<view class='pdcontainer' style='padding-top: {{top}}px;'>
+<view wx:if='{{hide}}' class='pdcontainer' style='padding-top: {{top}}px;'>
   <view class='certTable'>
     <view>实名认证状态：</view>
     <view class='certSta'>{{CertStatus}}</view>

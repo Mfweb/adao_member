@@ -1,4 +1,4 @@
-<view class='pdcontainer' style='padding-top: {{top}}px;'>
+<view wx:if='{{hide}}' class='pdcontainer' style='padding-top: {{top}}px;'>
   <view class='CookieList'>
     <view class='CookieListTr'>
       <view class='CookieListTd1 lTitle'>ID</view>

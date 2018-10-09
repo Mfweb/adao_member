@@ -125,13 +125,10 @@ Page({
   onChangePage: function(id) {
     switch (parseInt(id.detail)) {
       case 0: 
-        this.setData({ cookieLoading: true });
-        break;
       case 1:
-        this.setData({ authLoading: true });
-        break;
+      case 2:
       case 3:
-        this.setData({ sportLoading: true });
+        this.setData({ pageIndex: id.detail });
         break;
       case 4:
         wx.navigateTo({
@@ -141,9 +138,8 @@ Page({
       case 5:
         app.logOut();
         break;
-    }
-    if (id.detail < 4) {
-      this.setData({ pageIndex: id.detail });
+      default:
+        app.showError('哈？');
     }
   },
   onLoadStart: function (event) {
