@@ -356,7 +356,7 @@ Page({
    * 获取新验证码
    */
   getNewVcode: function () {
-    this.setData({ vCodeLoading: true, verifyCodeURL: "" });
+    this.setData({ vCodeLoading: true, verifyCodeURL: "../../imgs/loading.gif" });
     http.get_verifycode(function (sta, img, msg) {
       if (sta == false) {
         app.showError(msg);
