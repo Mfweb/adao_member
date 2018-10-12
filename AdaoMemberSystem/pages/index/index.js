@@ -102,9 +102,9 @@ Page({
             }
           }.bind(this));
         }.bind(this),
-        function () {
+        function (httpCode) {
           this.hideLaunchScreen();
-          app.showError('连接服务器失败');
+          app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
           wx.hideNavigationBarLoading();
           this.setData({
             BLoading: false,
@@ -189,8 +189,8 @@ Page({
         }
         this.setData({ BLoading: false });
       }.bind(this),
-      function () {
-        app.showError('连接服务器失败');
+      function (httpCode) {
+        app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
         this.setData({ BLoading: false });
       }.bind(this));
   },
@@ -242,8 +242,8 @@ Page({
         }
         this.setData({ BLoading: false });
       }.bind(this),
-      function () {
-        app.showError('连接服务器失败');
+      function (httpCode) {
+        app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
         this.setData({ BLoading: false });
       }.bind(this));
   },
@@ -289,8 +289,8 @@ Page({
         }
         this.setData({ BLoading: false });
       }.bind(this),
-      function () {
-        app.showError('连接服务器失败');
+      function (httpCode) {
+        app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
         this.setData({ BLoading: false });
       }.bind(this));
   },

@@ -94,6 +94,9 @@ function api_request(url, pdata, success, fail)
     success: function(res) {
       if (res.statusCode != 200 && res.statusCode != '200') {
         app.showError('http' + res.statusCode);
+        if (fail != null)
+          fail(res.statusCode);
+        return;
       }
       if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie'))
         save_cookie(res.header['Set-Cookie']);
@@ -102,7 +105,7 @@ function api_request(url, pdata, success, fail)
     },
     fail: function(){
       if(fail != null)
-        fail();
+        fail(null);
     }
   })
 }

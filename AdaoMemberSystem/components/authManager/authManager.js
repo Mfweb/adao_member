@@ -136,8 +136,8 @@ Component({
             this.triggerEvent('endload', { from: 'auth', needRefresh: false })
           }
         }.bind(this),
-        function () {
-          app.showError('发生了错误');
+        function (httpCode) {
+          app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
           this.setData({ EnterButLoading: false });
           this.triggerEvent('endload', { from: 'auth', needRefresh: false })
         }.bind(this));
@@ -185,8 +185,8 @@ Component({
           }
           this.setData({ CopyLoading: false });
         }.bind(this),
-        function () {
-          app.showError('获取失败');
+        function (httpCode) {
+          app.showError(httpCode == null ? '获取失败' : ('http' + httpCode));
           this.setData({ CopyLoading: false });
         }.bind(this)
       );
@@ -257,8 +257,8 @@ Component({
           }
           this.triggerEvent('endload', { from: 'auth', needRefresh: false })
         }.bind(this),
-        function () {
-          app.showError('发生了错误');
+        function (httpCode) {
+          app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
           this.triggerEvent('endload', { from: 'auth', needRefresh: false })
         }.bind(this)
       );

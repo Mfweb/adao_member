@@ -158,8 +158,8 @@ Page({
           this.getPostDetail(0);
         }
       }.bind(this),
-      function () {
-        app.showError('发生了错误');
+      function (httpCode) {
+        app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
         this.setData({ listLoading: false });
         wx.reLaunch({
           url: '../index/index',
@@ -229,8 +229,8 @@ Page({
         this.setData({ tlist: tempData });
         this.getPostDetail(++id);
       }.bind(this),
-      function () {
-        app.showError('获取错误');
+      function (httpCode) {
+        app.showError(httpCode == null ? '获取错误' : ('http' + httpCode));
         var data = {
           'id': idList[id],
           'content': WxParse.wxParse('item', 'html', '<p>获取失败</p>', this, null).nodes,

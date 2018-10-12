@@ -284,8 +284,8 @@ Page({
         isGettingReply = false;
         wx.stopPullDownRefresh();
       }.bind(this),
-      function () {
-        app.showError('加载失败');
+      function (httpCode) {
+        app.showError(httpCode == null ? '加载失败' : ('http' + httpCode));
         this.setData({ bottomMessage: "加载失败", listLoading: true });
         isRefreshing = false;
         isGettingReply = false;
@@ -354,7 +354,8 @@ Page({
             this.setData({ quoteList: quoteList });
           }
         }.bind(this),
-        function () {
+        function (httpCode) {
+          app.showError(httpCode == null ? '引用加载失败' : ('http' + httpCode));
           app.log("get quoteon error1");
         });
     }
@@ -388,7 +389,8 @@ Page({
           }
           this.setData({ quoteList: quoteList });
         }.bind(this),
-        function () {//fail
+        function (httpCode) {//fail
+          app.showError(httpCode == null ? '引用加载失败' : ('http' + httpCode));
           app.log("get quoteon error2");
         });
     }

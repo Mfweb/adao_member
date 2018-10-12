@@ -70,8 +70,8 @@ function getCookies(callback) {
       }
       getCookieRunning = false;
     },
-    function () {
-      callback(false, '网络错误', null);
+    function (httpCode) {
+      callback(false, httpCode == null ? '网络错误' : ('http' + httpCode), null);
       getCookieRunning = false;
     }
   );
@@ -104,8 +104,8 @@ function getCookieDetail(id, callback) {
       callback(false, '获取错误');
       getDetailRunning = false;
     },
-    function () {
-      callback(false, '网络错误');
+    function (httpCode) {
+      callback(false, httpCode == null ? '网络错误' : ('http' + httpCode));
       getDetailRunning = false;
   });
 }

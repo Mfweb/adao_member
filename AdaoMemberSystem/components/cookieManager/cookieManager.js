@@ -145,8 +145,8 @@ Component({
               EnterButLoading: false
             });
           }.bind(this),
-          function () {
-            app.showError('发生了错误');
+          function (httpCode) {
+            app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
             this.setData({
               [selectData]: false,
               EnterButLoading: false
@@ -176,7 +176,8 @@ Component({
               EnterButLoading: false
             });
           }.bind(this),
-          function () {
+          function (httpCode) {
+            app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
             this.setData({ EnterButLoading: false });
           }.bind(this));
       }

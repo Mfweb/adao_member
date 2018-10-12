@@ -62,8 +62,8 @@ Component({
           }
           this.setData({ 'CPLoading': false });
         }.bind(this),
-        function () {
-          app.showError('发生了错误');
+        function (httpCode) {
+          app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
           this.setData({ 'CPLoading': false });
         }.bind(this)
       );

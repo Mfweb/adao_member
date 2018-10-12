@@ -147,8 +147,8 @@ Component({
               }
               this.setData({ getLoading: false });
             }.bind(this),
-            function () {
-              app.showError("上传失败");
+            function (httpCode) {
+              app.showError(httpCode == null ? '上传失败' : ('http' + httpCode));
               this.setData({ getLoading: false });
             }.bind(this)
           );
