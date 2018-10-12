@@ -80,6 +80,7 @@ function set_cookie_key(key,value)
  */
 function api_request(url, pdata, success, fail)
 {
+  const app = getApp();
   wx.request({
     url: url,
     header: {
