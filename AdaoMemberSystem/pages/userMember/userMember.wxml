@@ -1,6 +1,6 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
-<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{cookieLoading || authLoading || sportLoading}}'></title>
+<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{wifeLoading || cookieLoading || authLoading || sportLoading}}'></title>
 <cookieManager
   hide='{{pageIndex==0}}'
   loadCookie="{{startLoadCookies}}"
@@ -31,6 +31,7 @@
   wx:if='{{pageIndex==4}}'
   top="{{statusBarHeight}}"
   loadWife="{{startLoadWife}}"
+  reloadWife="{{startReloadWife}}"
   bindstartload="onLoadStart"
   bindendload="onLoadEnd">
 </wifeList>

@@ -14,8 +14,27 @@ Component({
       value: false,
       observer: function (newVal, oldVal, changedPath) {
         if (newVal == true) {
+          this.setData({
+            loadWife: false,
+            isLoading: false
+          });
           this.getData();
-          this.setData({ loadWife: false });
+        }
+      }
+    },
+    reloadWife: {
+      type: Boolean,
+      value: false,
+      observer: function (newVal, oldVal, changedPath) {
+        if (newVal == true) {
+          nowPage = 0;
+          this.setData({
+            reloadWife: false,
+            leftList: [],
+            rightList: [],
+            isLoading: false
+          });
+          this.getData();
         }
       }
     }
@@ -45,6 +64,7 @@ Component({
     getData: function () {
       if (this.data.isLoading) return;
       this.setData({ isLoading: true });
+      this.triggerEvent('startload', { from: 'wife', needRefresh: false });
       wx.request({
         url: app.globalData.ApiUrls.GetRandomPicURL,
         data: {
@@ -61,6 +81,7 @@ Component({
         }.bind(this),
         fail: function () {
           app.showError('加载失败');
+          this.triggerEvent('endload', { from: 'wife', needRefresh: false });
         },
         complete: function () {
           this.setData({ isLoading: false });
@@ -69,6 +90,7 @@ Component({
     },
     _addImage: function (imgList, n) {
       if (n >= imgList.length) {
+        this.triggerEvent('endload', { from: 'wife', needRefresh: false });
         return;
       }
       this.createSelectorQuery().select('#list-left').boundingClientRect(function (res) {

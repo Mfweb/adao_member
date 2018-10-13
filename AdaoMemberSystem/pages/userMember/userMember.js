@@ -10,10 +10,12 @@ Page({
     startLoadAuth: false,
     startLoadSport: false,
     startLoadWife: false,
+    startReloadWife: false,
 
     cookieLoading: true,
     authLoading: true,
     sportLoading: true,
+    wifeLoading: false,
 
     popupMenuOpenData: {}
   },
@@ -30,10 +32,12 @@ Page({
       startLoadAuth: false,
       startLoadSport: false,
       startLoadWife: false,
+      startReloadWife: false,
 
       cookieLoading: true,
       authLoading: false,
       sportLoading: false,
+      wifeLoading: false,
 
 
       popupMenuOpenData: {
@@ -113,6 +117,11 @@ Page({
         startLoadSport: true
       });
     }
+    else if (this.data.pageIndex == 4) {
+      this.setData({
+        startReloadWife: true
+      });
+    }
   },
   /**
    * 下拉刷新所有
@@ -125,6 +134,9 @@ Page({
       startLoadSport: true
     });
   },
+  /**
+   * 上拉加载更多
+   */
   onReachBottom: function () {
     if (this.data.pageIndex == 4) {
       this.setData({
@@ -167,6 +179,9 @@ Page({
       case 'sport':
         this.setData({ sportLoading: true });
         break;
+      case 'wife':
+        this.setData({ wifeLoading: true });
+        break;
     }
   },
   onLoadEnd: function (event) {
@@ -179,6 +194,9 @@ Page({
         break;
       case 'sport':
         this.setData({ sportLoading: false });
+        break;
+      case 'wife':
+        this.setData({ wifeLoading: false });
         break;
     }
 
