@@ -76,6 +76,10 @@ Component({
             app.showError('http错误' + res.statusCode);
             return;
           }
+          if (res.data.items == 0) {
+            app.showError('老婆就这些啦');
+            return;
+          }
           this._addImage(res.data.items, 0);
           nowPage ++;
         }.bind(this),
