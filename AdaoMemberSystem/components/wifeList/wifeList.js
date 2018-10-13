@@ -85,16 +85,15 @@ Component({
         }.bind(this),
         fail: function () {
           app.showError('加载失败');
-          this.triggerEvent('endload', { from: 'wife', needRefresh: false });
         },
         complete: function () {
           this.setData({ isLoading: false });
+          this.triggerEvent('endload', { from: 'wife', needRefresh: false });
         }.bind(this)
       });
     },
     _addImage: function (imgList, n) {
       if (n >= imgList.length) {
-        this.triggerEvent('endload', { from: 'wife', needRefresh: false });
         return;
       }
       this.createSelectorQuery().select('#list-left').boundingClientRect(function (res) {
