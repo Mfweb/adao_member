@@ -110,6 +110,16 @@ Component({
 
         }.bind(this)).exec();
       }.bind(this)).exec();
-    }
+    },
+    onTapLeft: function(e){
+      wx.previewImage({
+        urls: [this.data.leftList[e.currentTarget.id].url],
+      });
+    },
+    onTapRight: function (e) {
+      wx.previewImage({
+        urls: [this.data.rightList[e.currentTarget.id].url],
+      });
+    },
   }
 })
