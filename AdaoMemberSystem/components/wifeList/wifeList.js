@@ -56,13 +56,8 @@ Component({
             app.showError('http错误' + res.statusCode);
             return;
           }
-          console.log(res.data);
-          for(let i = 0; i < res.data.items.length;i++) {
-            this._addImage(res.data.items[i]);
-          }
+          this._addImage(res.data.items, 0);
           nowPage ++;
-          //this.setData({ leftList: res.data.items, rightList: res.data.items });
-          //this._addImage();
         }.bind(this),
         fail: function () {
           app.showError('加载失败');
@@ -72,29 +67,25 @@ Component({
         }.bind(this)
       });
     },
-    _addImage: function (imgName) {
+    _addImage: function (imgList, n) {
+      if (n >= imgList.length) {
+        return;
+      }
       this.createSelectorQuery().select('#list-left').boundingClientRect(function (res) {
-        let leftHeight = res.height;
+        let leftInfo = res;
         this.createSelectorQuery().select('#list-right').boundingClientRect(function (res2) {
-          let rightHeight = res2.height;
-          if (rightHeight == leftHeight) {
-            if (this.data.leftList.length > this.data.rightList.length) {
-              this.data.rightList.push(imgName);
-              this.setData({ rightList: this.data.rightList });
-            }
-            else {
-              this.data.leftList.push(imgName);
-              this.setData({ leftList: this.data.leftList });
-            }
-          }
-          else if(rightHeight > leftHeight) {
-            this.data.leftList.push(imgName);
+          let rightInfo = res2;
+          let imgHeight = leftInfo.width / imgList[n].width * imgList[n].height;
+          if (leftInfo.height < rightInfo.height) {
+            this.data.leftList.push({ url: imgList[n].url, height: imgHeight });
             this.setData({ leftList: this.data.leftList });
           }
           else {
-            this.data.rightList.push(imgName);
+            this.data.rightList.push({ url: imgList[n].url, height: imgHeight });
             this.setData({ rightList: this.data.rightList });
           }
+          this._addImage(imgList, ++n);
+
         }.bind(this)).exec();
       }.bind(this)).exec();
     }
