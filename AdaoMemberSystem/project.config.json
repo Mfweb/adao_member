@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 3,
 			"list": [
 				{
 					"id": -1,
@@ -53,10 +53,10 @@
 					"query": "mode=reg"
 				},
 				{
-					"id": -1,
+					"id": 3,
 					"name": "微信公众号文章",
 					"pathName": "pages/index/index",
-					"query": "tid=15335689135k6hu",
+					"query": "tid=15388307702Svt8",
 					"scene": "1054"
 				},
 				{

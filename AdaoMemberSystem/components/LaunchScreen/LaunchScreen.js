@@ -22,7 +22,6 @@ Component({
     let tempUrl = wx.getStorageSync('launchImage');
     if (tempUrl != null && tempUrl != '' && typeof tempUrl == 'string') {
       this.setData({ launchPicture:tempUrl});
-      console.log(tempUrl);
     }
   },
   /**

@@ -1,0 +1,13 @@
+<view class='pdcontainer' style='padding-top: {{top}}px;'>
+  <view class='list-left' id='list-left'>
+    <view wx:for='{{leftList}}' wx:key='' class='list-item'>
+      <image class='list-image' mode='widthFix' src='https://amember.mfweb.top/adao/pictures/{{item}}'></image>
+    </view>
+  </view>
+
+  <view class='list-right' id='list-right'>
+    <view wx:for='{{rightList}}' wx:key='' class='list-item'>
+      <image class='list-image' mode='widthFix' src='https://amember.mfweb.top/adao/pictures/{{item}}'></image>
+    </view>
+  </view>
+</view>

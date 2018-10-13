@@ -9,6 +9,7 @@ Page({
     startLoadCookies: false,
     startLoadAuth: false,
     startLoadSport: false,
+    startLoadWife: false,
 
     cookieLoading: true,
     authLoading: true,
@@ -28,6 +29,7 @@ Page({
       startLoadCookies: false,
       startLoadAuth: false,
       startLoadSport: false,
+      startLoadWife: false,
 
       cookieLoading: true,
       authLoading: false,
@@ -58,6 +60,10 @@ Page({
             icon: 'sport',
             canSwitch: true
           },{
+            name: '选老婆',
+            icon: 'wifes',
+            canSwitch: true
+          }, {
             name: '关于',
             icon: 'about',
             canSwitch: false
@@ -119,6 +125,13 @@ Page({
       startLoadSport: true
     });
   },
+  onReachBottom: function () {
+    if (this.data.pageIndex == 4) {
+      this.setData({
+        startLoadWife: true
+      });
+    }
+  },
   /**
    * 页面改变
    */
@@ -128,14 +141,15 @@ Page({
       case 1:
       case 2:
       case 3:
+      case 4:
         this.setData({ pageIndex: id.detail });
         break;
-      case 4:
+      case 5:
         wx.navigateTo({
           url: '../about/about',
         });
         break;
-      case 5:
+      case 6:
         app.logOut();
         break;
       default:

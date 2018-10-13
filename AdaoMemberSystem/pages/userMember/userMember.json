@@ -7,6 +7,7 @@
     "authManager": "/components/authManager/authManager",
     "passwdManager": "/components/passwdManager/passwdManager",
     "sportManager": "/components/sportManager/sportManager",
-    "title": "/components/title/title"
+    "title": "/components/title/title",
+    "wifeList": "/components/wifeList/wifeList"
   }
 }

@@ -129,7 +129,6 @@ App({
                         success: function() {
                           wx.getSavedFileList({
                             success: function (files) {
-                              console.log(files);
                               if (files.errMsg == 'getSavedFileList:ok') {
                                 for (let i = 0; i < files.fileList.length; i++) {
                                   if(files.fileList[i].filePath != sres.savedFilePath) {

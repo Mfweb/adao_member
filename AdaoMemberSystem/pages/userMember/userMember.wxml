@@ -27,5 +27,13 @@
   bindendload="onLoadEnd">
 </sportManager>
 
+<wifeList
+  wx:if='{{pageIndex==4}}'
+  top="{{statusBarHeight}}"
+  loadWife="{{startLoadWife}}"
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">
+</wifeList>
+
 <leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
 
