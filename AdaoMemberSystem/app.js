@@ -1,4 +1,5 @@
 //app.js
+const wxApis = require('./utils/wxApis.js');
 //const hostURL = "https://nmb.fastmirror.org";
 const hostURL = "https://amember.mfweb.top";
 App({
@@ -111,46 +112,37 @@ App({
     });
   },
   downloadLaunchScreen: function () {
-    wx.request({
-      url: this.globalData.ApiUrls.GetLaunchPicURL,
-      success: function (res) {
-        if(res.statusCode == 200 && res.data != null) {
-          wx.downloadFile({
-            url: res.data,
-            success: function (dres) {
-              if (dres.tempFilePath != null) {
-                wx.saveFile({
-                  tempFilePath: dres.tempFilePath,
-                  success: function (sres) {
-                    if (sres.errMsg == 'saveFile:ok') {
-                      wx.setStorage({
-                        key: 'launchImage',
-                        data: sres.savedFilePath,
-                        success: function() {
-                          wx.getSavedFileList({
-                            success: function (files) {
-                              if (files.errMsg == 'getSavedFileList:ok') {
-                                for (let i = 0; i < files.fileList.length; i++) {
-                                  if(files.fileList[i].filePath != sres.savedFilePath) {
-                                    wx.removeSavedFile({
-                                      filePath: files.fileList[i].filePath,
-                                    });
-                                  }
-                                }
-                              }
-                            }
-                          });
-                        }
-                      });
-                    }
-                  }
-                });
-              }
-            }
-          });
-        }
+    wxApis.requestGet(this.globalData.ApiUrls.GetLaunchPicURL, null).then(res => {
+      if (res.statusCode <= 400) {
+        return wxApis.downloadFile(res.data, {});
       }
-    });
+    }).
+      then(res => {
+        if (res.statusCode <= 400 && res.errMsg == 'downloadFile:ok') {
+          return wxApis.saveFile(res.tempFilePath);
+        }
+      }).
+      then(res => {
+        if (res.errMsg == 'saveFile:ok') {
+          return wxApis.setStorage('launchImage', res.savedFilePath);
+        }
+      }).
+      then(res => {
+        return wxApis.getSavedFileList();
+      }).
+      then(res => {
+        if (res.errMsg == 'getSavedFileList:ok') {
+          let savedFilePath = wx.getStorageSync('launchImage');
+          console.log(res);
+          for (let i = 0; i < res.fileList.length; i++) {
+            if (res.fileList[i].filePath != savedFilePath) {
+              wx.removeSavedFile({
+                filePath: res.fileList[i].filePath,
+              });
+            }
+          }
+        }
+      });
   },
   getSysWindow: function () {
     var res = wx.getSystemInfoSync();//获取屏幕尺寸
