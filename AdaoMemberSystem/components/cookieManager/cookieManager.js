@@ -3,7 +3,6 @@ const app = getApp();
 const http = require('../../utils/http.js');
 const cookie = require('../../utils/cookie.js');
 var WxParse = require('../../wxParse/wxParse.js');
-import drawQrcode from '../../utils/weapp.qrcode.min.js'
 const wxApis = require('../../utils/wxApis.js');
 
 Component({
@@ -271,64 +270,32 @@ Component({
      * 创建并显示二维码
      */
     createQRCode: function (content, callback) {
-      //在画布上创建二维码
-      drawQrcode({
-        width: 200,
-        height: 200,
-        canvasId: 'myQrcode',
-        text: content,
-        _this: this,
-        callback: function () {
-          setTimeout(function () {
-            //将二维码部分复制出来
-            wx.canvasGetImageData({
-              canvasId: 'myQrcode',
-              x: 0,
-              y: 0,
-              width: 200,
-              height: 200,
-              success: function (res) {
-                //填充整个画布
-                const ctx = wx.createCanvasContext('myQrcode', this);
-                ctx.setFillStyle('white');
-                ctx.fillRect(0, 0, 220, 220);
-                ctx.draw();
-                //将刚刚复制出来的二维码写到中心
-                wx.canvasPutImageData({
-                  canvasId: 'myQrcode',
-                  data: res.data,
-                  x: 10,
-                  y: 10,
-                  width: 200,
-                  success: function () {
-                    //画布内容创建临时文件
-                    wx.canvasToTempFilePath({
-                      canvasId: 'myQrcode',
-                      success: function (res) {
-                        //预览
-                        wx.previewImage({
-                          urls: [res.tempFilePath],
-                        });
-                      },
-                      fail: function (res) {
-                        console.log(res);
-                        app.showError("缓存二维码失败");
-                      }
-                    }, this);
-                  }.bind(this),
-                  fail: function () {
-                    app.showError('生成QR码错误2');
-                  }
-                }, this);
-              }.bind(this),
-              fail: function (res) {
-                console.log(res);
-                app.showError('生成QR码错误');
-              }
-            }, this);
-            callback();
-          }.bind(this), 300);
-        }.bind(this)
+      wxApis.drawQrcodeX('myQrcode', content, this).then(() => {
+        return wxApis.setTimeoutX(300);
+      })
+      .then(() => {
+        return wxApis.canvasGetImageData('myQrcode', this);
+      })
+      .then(res => {
+        const ctx = wx.createCanvasContext('myQrcode', this);
+        ctx.setFillStyle('white');
+        ctx.fillRect(0, 0, 220, 220);
+        ctx.draw();
+        return wxApis.canvasPutImageData('myQrcode', res.data, this);
+      })
+      .then(() => {
+        return wxApis.canvasToTempFilePath('myQrcode', this);
+      })
+      .then(res => {
+        //预览
+        wx.previewImage({
+          urls: [res.tempFilePath],
+        });
+        callback();
+      })
+      .catch(err => {
+        app.showError('保存失败');
+        callback();
       });
     }
   }

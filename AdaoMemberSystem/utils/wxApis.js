@@ -1,4 +1,5 @@
 const Promise = require('./es6-promise.js');
+import drawQrcode from './weapp.qrcode.min.js'
 /**
  * 保存文件
  */
@@ -55,8 +56,87 @@ export const getSavedFileList = () => {
 /**
  * 延时
  */
-export const setTimeout = (ms) => {
+export const setTimeoutX = (ms) => {
   return new Promise(function (resolve, reject) {
-    setTimeout(resolve, ms);
+    setTimeout(function () {
+      resolve();
+    }, ms);
+  });
+}
+
+/**
+ * 绘制二维码
+ */
+export const drawQrcodeX = (id, content, _this) => {
+  return new Promise(function (resolve, reject) {
+    drawQrcode({
+      width: 200,
+      height: 200,
+      canvasId: id,
+      text: content,
+      _this: _this,
+      callback: function () {
+        resolve();
+      }
+    });
+  });
+}
+
+/**
+ * 获取canvas数据
+ */
+export const canvasGetImageData = (id, _this) => {
+  return new Promise(function (resolve, reject) {
+    wx.canvasGetImageData({
+      canvasId: id,
+      x: 0,
+      y: 0,
+      width: 200,
+      height: 200,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function () {
+        reject();
+      }
+    }, _this);
+  });
+}
+
+/**
+ * 写入canvas数据
+ */
+export const canvasPutImageData = (id, data, _this) => {
+  return new Promise(function (resolve, reject) {
+    wx.canvasPutImageData({
+      canvasId: id,
+      data: data,
+      x: 10,
+      y: 10,
+      width: 200,
+      success: function () {
+        resolve();
+      },
+      fail: function () {
+        reject();
+      }
+    }, _this);
+  });
+}
+
+/**
+ * 保存canvas内容
+ */
+export const canvasToTempFilePath = (id, _this) => {
+  return new Promise(function (resolve, reject) {
+    wx.canvasToTempFilePath({
+      canvasId: id,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function () {
+        reject();
+      }
+    }, _this);
   });
 }
