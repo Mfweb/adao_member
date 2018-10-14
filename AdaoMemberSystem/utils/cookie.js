@@ -1,4 +1,5 @@
-const http = require('http.js');
+const http = require('./http.js');
+const Promise = require('./es6-promise.js');
 var getCookieRunning = false;
 var getDetailRunning = false;
 const app = getApp();

@@ -17,7 +17,9 @@ Page({
     sportLoading: true,
     wifeLoading: false,
 
-    popupMenuOpenData: {}
+    popupMenuOpenData: {
+      statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
+    }
   },
   /**
    * 初始化变量
