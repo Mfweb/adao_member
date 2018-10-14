@@ -3,6 +3,7 @@
   height: 32px;
   left: 7px;
   position: fixed;
+  z-index: 999;
 }
 .goback-icon{
   top: 3px;
