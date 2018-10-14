@@ -15,9 +15,9 @@ Component({
 
   },
   attached: function () {
-    getApp().getImage(function (url) {
-      this.setData({ 'data.picURL': url });
-    }.bind(this));
+    getApp().getImage().then(res => {
+      this.setData({ 'data.picURL': res });
+    });
   },
   /**
    * 组件的方法列表
@@ -77,9 +77,9 @@ Component({
       wx.previewImage({
         urls: [this.data.data.picURL],
       });
-      getApp().getImage(function (url) {
-        this.setData({ 'data.picURL': url });
-      }.bind(this));
+      getApp().getImage().then(res => {
+        this.setData({ 'data.picURL': res });
+      });
     }
   }
 })

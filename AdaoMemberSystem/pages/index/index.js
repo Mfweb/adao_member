@@ -72,47 +72,43 @@ Page({
         return;//不继续登录了
       }
 
-      http.api_request(
-        app.globalData.ApiUrls.CheckSessionURL,
-        null,
-        function (res) {
-          this.setData({ BLoading: false });
-          this.getNewVcode();
-          wx.hideNavigationBarLoading();
-          this.hideLaunchScreen(function(){
-            if (typeof res == 'string' && res.indexOf('饼干管理') > 0) {
-              if (memberMode == 0) {
-                wx.redirectTo({
-                  url: '../userMember/userMember',
-                });
-              }
-              else if (memberMode == 1) {
-                wx.navigateTo({
-                  url: '../app-cookie/app-cookie',
-                });
-              }
+      http.request(app.globalData.ApiUrls.CheckSessionURL, null).then(res => {
+        this.setData({ BLoading: false });
+        this.getNewVcode();
+        wx.hideNavigationBarLoading();
+        this.hideLaunchScreen(function () {
+          if (typeof res.data == 'string' && res.data.indexOf('饼干管理') > 0) {
+            if (memberMode == 0) {
+              wx.redirectTo({
+                url: '../userMember/userMember',
+              });
             }
-            else if (typeof res == 'object' && res.hasOwnProperty('info')) {
-              if (res.info != "并没有权限访问_(:з」∠)_") {
-                app.showError(res.info);
-              }
+            else if (memberMode == 1) {
+              wx.navigateTo({
+                url: '../app-cookie/app-cookie',
+              });
             }
-            else {
-              app.showError('未知错误');
+          }
+          else if (typeof res.data == 'object' && res.data.hasOwnProperty('info')) {
+            if (res.data.info != "并没有权限访问_(:з」∠)_") {
+              app.showError(res.data.info);
             }
-          }.bind(this));
-        }.bind(this),
-        function (httpCode) {
-          this.hideLaunchScreen();
-          app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
-          wx.hideNavigationBarLoading();
-          this.setData({
-            BLoading: false,
-            vCodeLoading: false,
-            verifyCodeURL: '../../imgs/loaderror.png'
-          });
-        }.bind(this)
-      );
+          }
+          else {
+            app.showError('未知错误');
+          }
+        }.bind(this));
+      }).catch(error => {
+        this.hideLaunchScreen();
+        console.log(error);
+        app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+        wx.hideNavigationBarLoading();
+        this.setData({
+          BLoading: false,
+          vCodeLoading: false,
+          verifyCodeURL: '../../imgs/loaderror.png'
+        });
+      });
     }.bind(this));
   },
   onTapVerifyCode: function (e) {
@@ -154,14 +150,14 @@ Page({
       return;
     }
     this.setData({ BLoading: true });
-    http.api_request(app.globalData.ApiUrls.LoginURL,
+    http.request(app.globalData.ApiUrls.LoginURL,
       {
         email: u_email,
         password: u_pass,
         verify: u_vcode
-      },
-      function (res) {
-        if (typeof res == 'object') {
+      }).then(res => {
+        if (typeof res.data == 'object') {
+          res = res.data;
           if (res.hasOwnProperty('status') && res.status == 1) {
             if (rememberPW) {
               wx.setStorageSync('UserName', u_email);
@@ -188,11 +184,10 @@ Page({
           app.log(res);
         }
         this.setData({ BLoading: false });
-      }.bind(this),
-      function (httpCode) {
-        app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
+      }).catch(error => {
+        app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
         this.setData({ BLoading: false });
-      }.bind(this));
+      });
   },
   /**
    * 注册
@@ -219,33 +214,31 @@ Page({
       return;
     }
     this.setData({ BLoading: true });
-    http.api_request(app.globalData.ApiUrls.SignupURL,
+    http.request(app.globalData.ApiUrls.SignupURL, 
       {
         email: u_email,
         verify: u_vcode,
         agree: ['']
-      },
-      function (res) {
-        if (typeof res == 'object') {
-          if (res.status == 1) {
-            app.showSuccess(res.info);
+      }).then(res => {
+        if (typeof res.data == 'object') {
+          if (res.data.status == 1) {
+            app.showSuccess(res.data.info);
             this.switchPage(0);
           }
           else {
-            app.showError(res.info);
+            app.showError(res.data.info);
             this.getNewVcode();
           }
         }
         else {
           app.showError('发生错误');
-          app.log(res);
+          app.log(res.data);
         }
         this.setData({ BLoading: false });
-      }.bind(this),
-      function (httpCode) {
-        app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
+      }).catch(error => {
+        app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
         this.setData({ BLoading: false });
-      }.bind(this));
+      });
   },
   /**
    * 忘记密码
@@ -268,31 +261,29 @@ Page({
       return;
     }
     this.setData({ BLoading: true });
-    http.api_request(app.globalData.ApiUrls.ForgotURL,
-      {
-        email: u_email,
-        verify: u_vcode
-      },
-      function (res) {
-        if (typeof res == 'object') {
-          if (res.status == 1) {
-            app.showSuccess(res.info);
-          }
-          else {
-            app.showError(res.info);
-            this.getNewVcode();
-          }
+    http.request(app.globalData.ApiUrls.ForgotURL, 
+    {
+      email: u_email,
+      verify: u_vcode
+    }).then(res => {
+      if (typeof res.data == 'object') {
+        if (res.data.status == 1) {
+          app.showSuccess(res.data.info);
         }
         else {
-          app.showError('发生错误');
-          app.log(res);
+          app.showError(res.data.info);
+          this.getNewVcode();
         }
-        this.setData({ BLoading: false });
-      }.bind(this),
-      function (httpCode) {
-        app.showError(httpCode == null ? '连接服务器失败' : ('http' + httpCode));
-        this.setData({ BLoading: false });
-      }.bind(this));
+      }
+      else {
+        app.showError('发生错误');
+        app.log(res.data);
+      }
+      this.setData({ BLoading: false });
+    }).catch(error => {
+      app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+      this.setData({ BLoading: false });
+    });
   },
   onEat: function (e) {
     app.playEat();
@@ -343,7 +334,10 @@ Page({
         app.showError(res.errmsg);
       }
       else {
-        this.setData({ termsNodes: WxParse.wxParse('item', 'html', res.data, this, null).nodes, showTermsWindow: true });
+        this.setData({
+          termsNodes: WxParse.wxParse('item', 'html', res.data, this, null).nodes,
+          showTermsWindow: true
+        });
       }
     }.bind(this));
   },
@@ -357,12 +351,18 @@ Page({
    */
   getNewVcode: function () {
     this.setData({ vCodeLoading: true, verifyCodeURL: "../../imgs/loading.gif" });
-    http.get_verifycode(function (sta, img, msg) {
-      if (sta == false) {
-        app.showError(msg);
-      }
-      this.setData({ vCodeLoading: false, verifyCodeURL: img });
-    }.bind(this));
+    http.get_verifycode().then(res => {
+      this.setData({
+        vCodeLoading: false,
+        verifyCodeURL: res
+      });
+    }).catch(err => {
+      app.showError('获取验证码错误');
+      this.setData({
+        vCodeLoading: false,
+        verifyCodeURL: err
+      });
+    });
   },
   /**
    * 切换页面
@@ -403,35 +403,31 @@ Page({
    * 获取并显示公告
    */
   showNotice: function (callback) {
-    wx.request({
-      url: app.globalData.ApiUrls.GetNoticeURL,
-      success: function (res) {
-        if (typeof res.data == 'object') {
-          if (res.data.errno == '0' && res.data.notice.length > 0) {
-            var noticeMark = wx.getStorageSync('NoticeMark');
-            if (noticeMark == undefined || noticeMark == null || noticeMark == '')
-              noticeMark = 0;
-            if (noticeMark < res.data.id) {
-              wx.showModal({
-                title: '提示',
-                content: res.data.notice,
-                confirmText: '不再显示',
-                success: function (e) {
-                  if (e.confirm == true) {
-                    wx.setStorageSync('NoticeMark', res.data.id);
-                  }
-                  callback();
+    http.requestGet(app.globalData.ApiUrls.GetNoticeURL).then(res => {
+      if (typeof res.data == 'object') {
+        if (res.data.errno == '0' && res.data.notice.length > 0) {
+          var noticeMark = wx.getStorageSync('NoticeMark');
+          if (noticeMark == undefined || noticeMark == null || noticeMark == '')
+            noticeMark = 0;
+          if (noticeMark < res.data.id) {
+            wx.showModal({
+              title: '提示',
+              content: res.data.notice,
+              confirmText: '不再显示',
+              success: function (e) {
+                if (e.confirm == true) {
+                  wx.setStorageSync('NoticeMark', res.data.id);
                 }
-              });
-              return;
-            }
+                callback();
+              }
+            });
+            return;
           }
         }
-        callback();
-      },
-      fail: function () {
-        callback();
-      },
+      }
+      callback();
+    }).catch(() => {
+      callback();
     });
   }
 })

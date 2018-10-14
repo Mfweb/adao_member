@@ -1,4 +1,5 @@
 //app.js
+const http = require('./utils/http.js');
 const wxApis = require('./utils/wxApis.js');
 //const hostURL = "https://nmb.fastmirror.org";
 const hostURL = "https://amember.mfweb.top";
@@ -6,7 +7,6 @@ App({
   onLaunch: function () {
     this.getSysWindow();
     this.getCDN();
-    this.downloadLaunchScreen();
   },
   onShow: function (res) {
     this.globalData.SystemInfo.Scene = res.scene;
@@ -95,26 +95,23 @@ App({
     }
   },
   getCDN: function () {
-    wx.request({
-      url: this.globalData.ApiUrls.GetCDNURL,
-      success: function (res) {
-        if (typeof res.data == 'object') {
-          let max = 0;
-          for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].rate > max) {
-              this.globalData.ApiUrls.ThumbImgURL = res.data[i].url + "thumb/"
-              this.globalData.ApiUrls.FullImgURL = res.data[i].url + "image/"
-              max = res.data[i].rate;
-            }
+    http.requestGet(this.globalData.ApiUrls.GetCDNURL).then(res => {
+      if (typeof res.data == 'object') {
+        let max = 0;
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].rate > max) {
+            this.globalData.ApiUrls.ThumbImgURL = res.data[i].url + "thumb/"
+            this.globalData.ApiUrls.FullImgURL = res.data[i].url + "image/"
+            max = res.data[i].rate;
           }
         }
-      }.bind(this)
+      }
     });
   },
   downloadLaunchScreen: function () {
-    wxApis.requestGet(this.globalData.ApiUrls.GetLaunchPicURL, null).then(res => {
+    http.requestGet(this.globalData.ApiUrls.GetLaunchPicURL, null).then(res => {
       if (res.statusCode <= 400) {
-        return wxApis.downloadFile(res.data, {});
+        return http.downloadFile(res.data);
       }
     }).
       then(res => {
@@ -251,25 +248,21 @@ App({
     }
 
     if (terms_saved == null || Date.parse(new Date()) - terms_saved.get_time > (1 * 60 * 60 * 1000)) {
-      wx.request({
-        url: this.globalData.ApiUrls.GetTermsURL,
-        success: function (res) {
-          if (res.data.hasOwnProperty('status') && res.data.status == 'ok') {
-            res.data.get_time = Date.parse(new Date());
-            wx.setStorageSync('Terms', JSON.stringify(res.data));
+      http.requestGet(this.globalData.ApiUrls.GetTermsURL).then(res => {
+        if (res.data.hasOwnProperty('status') && res.data.status == 'ok') {
+          res.data.get_time = Date.parse(new Date());
+          wx.setStorageSync('Terms', JSON.stringify(res.data));
+        }
+        if (callback != null) {
+          callback(res.data);
+        }
+      }).catch(error => {
+        if (callback != null) {
+          if (terms_saved != null) {
+            callback(terms_saved);
           }
-          if (callback != null) {
-            callback(res.data);
-          }
-        },
-        fail: function () {
-          if (callback != null) {
-            if (terms_saved != null) {
-              callback(terms_saved);
-            }
-            else {
-              callback(false);
-            }
+          else {
+            callback(false);
           }
         }
       });
@@ -288,13 +281,17 @@ App({
     }
   },
   getImage: function (success) {
-    wx.request({
-      url: this.globalData.ApiUrls.GetRandomPicURL,
-      success: function (res) {
+    return new Promise((resolve, reject) => {
+      http.requestGet(this.globalData.ApiUrls.GetRandomPicURL).then(res => {
         if (res.statusCode == 200) {
-          success(res.data);
+          resolve(res.data);
         }
-      }
+        else {
+          reject();
+        }
+      }).catch(error => {
+        reject();
+      });
     });
   }
 })

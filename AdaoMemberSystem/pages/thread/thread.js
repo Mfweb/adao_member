@@ -167,16 +167,14 @@ Page({
       this.setData({ bottomMessage: this.data.bottomMessage + ",Loading..." });
     else
       this.setData({ bottomMessage: "Loading..." });
-    http.api_request(
-      isBtIsland ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
-      { id: postID, page: page },
-      function (res) {
-        if (res == "该主题不存在") {
+    http.request(isBtIsland ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL, 
+      { id: postID, page: page }).then(res => {
+        if (res.data == "该主题不存在") {
           this.setData({ bottomMessage: "该主题不存在", listLoading: false });
           return;
         }
         let list = this.data.list;
-
+        res = res.data;
         //第一页 添加正文内容
         if (list.length == 0) {
           let temp_fid = this.getQuoteList(res.content);
@@ -220,7 +218,7 @@ Page({
             header.thumburl = "";
           }
           list.push(header);
-          this.setData({ title: list[0].title});
+          this.setData({ title: list[0].title });
         }
         else {
           if (res.replys[0].id == 9999999) {
@@ -279,19 +277,17 @@ Page({
             this.setData({ list: list });
           }
         }
-        this.setData({ bottomMessage: (list.length - 1) + "/" + list[0].replyCount, listLoading: false});
+        this.setData({ bottomMessage: (list.length - 1) + "/" + list[0].replyCount, listLoading: false });
         isRefreshing = false;
         isGettingReply = false;
         wx.stopPullDownRefresh();
-      }.bind(this),
-      function (httpCode) {
-        app.showError(httpCode == null ? '加载失败' : ('http' + httpCode));
+      }).catch(error => {
+        app.showError(error == false ? '加载失败' : ('http' + error.statusCode));
         this.setData({ bottomMessage: "加载失败", listLoading: true });
         isRefreshing = false;
         isGettingReply = false;
         wx.stopPullDownRefresh();
-      }.bind(this)
-    );
+      });
   },
   /**
    * 获得引用串列表
@@ -325,14 +321,13 @@ Page({
    */
   getQuoteDetail: function (kindex, mode = 0) {
     if (mode == 0) {
-      http.api_request(
-        isBtIsland ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
-        { id: this.data.quoteList[kindex].id, page: 1 },
-        function (res) {
-          if (res == "该主题不存在") {//不是主串 拉取串内容
+      http.request(isBtIsland ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
+        { id: this.data.quoteList[kindex].id, page: 1 }).then(res => {
+          if (res.data == "该主题不存在") {//不是主串 拉取串内容
             this.getQuoteDetail(kindex, 1);
           }
           else {
+            res = res.data;
             var quoteList = this.data.quoteList;
             res.content = WxParse.wxParse('item', 'html', res.content, this, null).nodes;
             res.sid = res.id;
@@ -353,46 +348,42 @@ Page({
             quoteList[kindex] = res;
             this.setData({ quoteList: quoteList });
           }
-        }.bind(this),
-        function (httpCode) {
-          app.showError(httpCode == null ? '引用加载失败' : ('http' + httpCode));
+        }).catch(error => {
+          app.showError(error == false ? '引用加载失败' : ('http' + error.statusCode));
           app.log("get quoteon error1");
         });
     }
     else {
-      http.api_request(
-        (isBtIsland ? app.globalData.ApiUrls.BTGetThreadURL : app.globalData.ApiUrls.GetThreadURL) + "&id=" + this.data.quoteList[kindex].id,
-        {},
-        function (res) {
-          var quoteList = this.data.quoteList;
-          if (res == "thread不存在") {
-            var temp = { id: "ID不存在" };
-            quoteList[kindex] = temp;
+      http.request((isBtIsland ? app.globalData.ApiUrls.BTGetThreadURL : app.globalData.ApiUrls.GetThreadURL) + "&id=" + this.data.quoteList[kindex].id, null).then(res => {
+        var quoteList = this.data.quoteList;
+        if (res.data == "thread不存在") {
+          var temp = { id: "ID不存在" };
+          quoteList[kindex] = temp;
+        }
+        else {
+          res = res.data;
+          res.content = WxParse.wxParse('item', 'html', res.content, this, null).nodes;
+          if (res.img != "") {
+            res.img = res.img + res.ext;
+            res.thumburl = res.ext == ".gif" ? (isBtIsland ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (isBtIsland ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
           }
-          else {
-            res.content = WxParse.wxParse('item', 'html', res.content, this, null).nodes;
-            if (res.img != "") {
-              res.img = res.img + res.ext;
-              res.thumburl = res.ext == ".gif" ? (isBtIsland ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (isBtIsland ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
-            }
-            var html_h = "<font class='";
+          var html_h = "<font class='";
 
-            if (res.admin == 1)
-              html_h += "xuankuhongming";
-            if (res.userid == poUserID)
-              html_h += " po";
-            html_h += "'>"
-            html_h += res.userid + "</font>";
-            res.userid = WxParse.wxParse('item', 'html', html_h, this, null).nodes;
+          if (res.admin == 1)
+            html_h += "xuankuhongming";
+          if (res.userid == poUserID)
+            html_h += " po";
+          html_h += "'>"
+          html_h += res.userid + "</font>";
+          res.userid = WxParse.wxParse('item', 'html', html_h, this, null).nodes;
 
-            quoteList[kindex] = res;
-          }
-          this.setData({ quoteList: quoteList });
-        }.bind(this),
-        function (httpCode) {//fail
-          app.showError(httpCode == null ? '引用加载失败' : ('http' + httpCode));
-          app.log("get quoteon error2");
-        });
+          quoteList[kindex] = res;
+        }
+        this.setData({ quoteList: quoteList });
+      }).catch(error => {
+        app.showError(error == false ? '引用加载失败' : ('http' + error.statusCode));
+        app.log("get quoteon error2");
+      });
     }
   },
   getQuoteDetailList: function (all_kid, mode = 1) {

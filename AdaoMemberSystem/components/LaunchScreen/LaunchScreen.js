@@ -41,7 +41,7 @@ Component({
       this.setData({
         animation: animeOut.export()
       });
-
+      getApp().downloadLaunchScreen();
       setTimeout((function () {
         this.setData({
           show: false

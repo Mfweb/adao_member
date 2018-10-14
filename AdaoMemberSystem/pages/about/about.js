@@ -6,9 +6,9 @@ Page({
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight + 16
   },
   onLoad: function (options) {
-    app.getImage(function(url){
-      this.setData({ pic_url: url });
-    }.bind(this));
+    app.getImage().then(res => {
+      this.setData({ pic_url: res });
+    });
   },
   tap1: function (e) {
     wx.setClipboardData({

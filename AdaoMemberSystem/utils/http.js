@@ -1,20 +1,18 @@
+const Promise = require('./es6-promise.js');
+const wxApis = require('./wxApis.js');
 /**
  * @brief 保存所有Cookie
  * @param data:本次请求的setcookie内容
  * @retval None
  */
-function save_cookie(data)
-{
-  //console.log('save cookie');
-  //console.log(data);
-  data = data.replace(" ","");
+function save_cookie(data) {
+  data = data.replace(" ", "");
   data = data.split(";");
   var saved_data = wx.getStorageSync('user_cookie');
-  saved_data = JSON.parse(saved_data==''?'{}':saved_data);
+  saved_data = JSON.parse(saved_data == '' ? '{}' : saved_data);
 
   var save_array = Array();
-  for(let i = 0;i < data.length;i++)
-  {
+  for (let i = 0; i < data.length; i++) {
     var temp_data = data[i].split("=");
     saved_data[temp_data[0]] = temp_data[1];
   }
@@ -24,23 +22,17 @@ function save_cookie(data)
  * @brief 获取所有Cookie
  * @retval cookie内容
  */
-function get_cookie()
-{
-  //console.log('load cookie');
+function get_cookie() {
   var cookies = wx.getStorageSync('user_cookie');
   cookies = JSON.parse(cookies == '' ? '{}' : cookies);
-  //console.log(cookies);
   var out_str = '';
-  for(let o in cookies)
-  {
+  for (let o in cookies) {
     if (o == 'path') continue;
     out_str += o;
     out_str += '=';
     out_str += cookies[o];
     out_str += ';';
   }
-  //out_str = out_str.substring(0, out_str.length - 1);
-  //console.log(out_str);
   return out_str;
 }
 /**
@@ -48,8 +40,7 @@ function get_cookie()
  * @param key:指定key
  * @retval 指定Key的内容
  */
-function get_cookie_key(key)
-{
+function get_cookie_key(key) {
   var cookies = wx.getStorageSync('user_cookie');
   cookies = JSON.parse(cookies == '' ? '{}' : cookies);
   return cookies[key];
@@ -60,105 +51,130 @@ function get_cookie_key(key)
  * @param value:内容
  * @retval None
  */
-function set_cookie_key(key,value)
-{
+function set_cookie_key(key, value) {
   var cookies = wx.getStorageSync('user_cookie');
   cookies = JSON.parse(cookies == '' ? '{}' : cookies);
   if (cookies.hasOwnProperty(key))
     cookies[key] = value;
   else
-    cookies.push({key:value});
+    cookies.push({ key: value });
   wx.setStorageSync('user_cookie', JSON.stringify(cookies))
 }
+
 /**
  * @brief 带Cookie请求一个地址，并更新Cookie
  * @param url:要请求的地址
  * @param pdata:POST数据
- * @param success:请求成功回调
- * @param fail:请求失败回调
  * @retval None
  */
-function api_request(url, pdata, success, fail)
-{
-  const app = getApp();
-  wx.request({
-    url: url,
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-//      'User-Agent': 'HavfunClient-WeChatAPP',
-      'X-Requested-With': 'XMLHttpRequest',
-      'Cookie': get_cookie()
-    },
-    data: pdata == null ? {} : pdata,
-    method: 'POST',
-    success: function(res) {
-      if (res.statusCode != 200 && res.statusCode != '200') {
-        app.showError('http' + res.statusCode);
-        if (fail != null)
-          fail(res.statusCode);
-        return;
+function request (url, data) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url,
+      data,
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        //      'User-Agent': 'HavfunClient-WeChatAPP',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Cookie': get_cookie()
+      },
+      success: function (res) {
+        if (res.statusCode != 200 && res.statusCode != '200') {
+          reject(res);
+          return;
+        }
+        if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie')) {
+          save_cookie(res.header['Set-Cookie']);
+        }
+        resolve(res);
+      },
+      fail: function () {
+        reject(false);
       }
-      if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie'))
-        save_cookie(res.header['Set-Cookie']);
-      if(success != null)
-        success(res.data, res.header, res.statusCode);
-    },
-    fail: function(){
-      if(fail != null)
-        fail(null);
-    }
-  })
-}
-
-var gettingVCode = false;
-/**
- * @brief 下载验证码
- * @param success:请求成功回调
- * @param fail:请求失败回调
- * @retval None
- */
-function _get_verifycode(success,fail)
-{
-  const app = getApp();
-  wx.downloadFile({
-    url: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + Math.random(),
-    header: {
-      'Cookie': get_cookie()
-    },
-    success: function(res)
-    {
-      if (success != null)
-        success(res);
-    },
-    fail:function()
-    {
-      if (fail != null)
-        fail();
-    }
-  })
-}
-
-function get_verifycode(callback) {
-  if (gettingVCode)return;
-  gettingVCode = true;
-  
-  _get_verifycode(function (res) {
-    gettingVCode = false;
-    if (res.statusCode == 200) {
-      callback(true, res.tempFilePath);
-    }
-    else {
-      callback(true, "../../imgs/loaderror.png", 'http错误' + res.statusCode.toString());
-    }
-  },
-  function () {
-    gettingVCode = false;
-    callback(true, "../../imgs/loaderror.png", '网络错误');
+    });
   });
 }
 
+/**
+ * @brief Get请求一个地址，不带Cookie
+ * @param url:要请求的地址
+ * @param pdata:Get数据
+ * @retval None
+ */
+function requestGet(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url,
+      data,
+      method: 'GET',
+      success: function (res) {
+        if (res.statusCode != 200 && res.statusCode != '200') {
+          reject(res);
+          return;
+        }
+        if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie')) {
+          save_cookie(res.header['Set-Cookie']);
+        }
+        resolve(res);
+      },
+      fail: function () {
+        reject(false);
+      }
+    });
+  });
+}
+
+/**
+ * 下载文件
+ */
+function downloadFile(url, cookie = null) {
+  return new Promise((resolve, reject) => {
+    wx.downloadFile({
+      url,
+      header: {
+        'Cookie': cookie
+      },
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function () {
+        reject();
+      }
+    });
+  });
+}
+
+/**
+ * @brief 下载验证码
+ */
+function get_verifycode() {
+  const app = getApp();
+  return new Promise((resolve, reject) => {
+    wx.downloadFile({
+      url: app.globalData.ApiUrls.VerifyCodeURL + "?code=" + Math.random(),
+      header: {
+        'Cookie': get_cookie()
+      },
+      success: function (res) {
+        if (res.errMsg != 'downloadFile:ok') {
+          reject('../../loaderror.png');
+          return;
+        }
+        resolve(res.tempFilePath);
+      },
+      fail: function () {
+        reject('../../loaderror.png');
+      }
+    });
+  });
+  
+}
+
 module.exports = {
-  api_request: api_request,
+  request: request,
+  requestGet: requestGet,
+  downloadFile: downloadFile,
   get_cookie_key: get_cookie_key,
   set_cookie_key: set_cookie_key,
   get_verifycode: get_verifycode

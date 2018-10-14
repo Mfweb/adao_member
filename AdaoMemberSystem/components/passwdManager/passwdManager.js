@@ -42,31 +42,26 @@ Component({
       }
       if (this.data.CPLoading == true) return;
       this.setData({ 'CPLoading': true });
-
-      http.api_request(
-        app.globalData.ApiUrls.ChangePasswordURL,
-        {
-          oldpwd: old_passwd,
-          pwd: new_passwd,
-          repwd: new_passwd2
-        },
-        function (res) {
-          if (typeof res == 'object') {
-            if (res.status == 1)
-              app.logOut();
-            else
-              app.showError(res.info);
-          }
-          else {
-            app.showError("发生了错误");
-          }
-          this.setData({ 'CPLoading': false });
-        }.bind(this),
-        function (httpCode) {
-          app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
-          this.setData({ 'CPLoading': false });
-        }.bind(this)
-      );
+      http.request(app.globalData.ApiUrls.ChangePasswordURL,
+      {
+        oldpwd: old_passwd,
+        pwd: new_passwd,
+        repwd: new_passwd2
+      }).then(res => {
+        if (typeof res.data == 'object') {
+          if (res.data.status == 1)
+            app.logOut();
+          else
+            app.showError(res.data.info);
+        }
+        else {
+          app.showError("发生了错误");
+        }
+        this.setData({ 'CPLoading': false });
+      }).catch(error => {
+        app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+        this.setData({ 'CPLoading': false });
+      });
     }
   }
 })

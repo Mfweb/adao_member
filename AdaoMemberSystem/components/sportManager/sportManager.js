@@ -124,34 +124,30 @@ Component({
     UpWeRunData: function () {
       wx.getWeRunData({
         success: function (e) {
-          http.api_request(
-            app.globalData.ApiUrls.WeUploadRunURL,
+          http.request(app.globalData.ApiUrls.WeUploadRunURL,
             {
               session: wx.getStorageSync('LoginSession'),
               encryptedData: e.encryptedData,
               iv: e.iv,
               cookie: SelectCookieID
-            },
-            function (e) {
+            }).then(res => {
               try {
-                if (e.status == 0) {
-                  app.showSuccess(e.msg);
+                if (res.data.status == 0) {
+                  app.showSuccess(res.data.msg);
                   this.triggerEvent('endload', { from: 'sport', needRefresh: true });
                 }
                 else {
-                  app.showError(e.msg);
+                  app.showError(res.data.msg);
                 }
               }
               catch (err) {
                 app.showError("error");
               }
               this.setData({ getLoading: false });
-            }.bind(this),
-            function (httpCode) {
-              app.showError(httpCode == null ? '上传失败' : ('http' + httpCode));
+            }).catch(error => {
+              app.showError(error == false ? '上传失败' : ('http' + error.statusCode));
               this.setData({ getLoading: false });
-            }.bind(this)
-          );
+            });
         }.bind(this),
         fail: function () {
           app.showError("获取数据失败");
@@ -163,21 +159,17 @@ Component({
      * 获取步数排行
      */
     GetStep: function () {
-      wx.request({
-        url: app.globalData.ApiUrls.WeDownloadRunURL,
-        success: function (res) {
-          if (res.data.status == 0) {
-            this.setData({ StepList: res.data.steps });
-          }
-          else {
-            app.showError(res.data.msg);
-          }
-          this.triggerEvent('endload', { from: 'sport', needRefresh: false });
-        }.bind(this),
-        fail: function () {
-          app.showError("网络错误");
-          this.triggerEvent('endload', { from: 'sport', needRefresh: false });
-        }.bind(this)
+      http.requestGet(app.globalData.ApiUrls.WeDownloadRunURL).then(res => {
+        if (res.data.status == 0) {
+          this.setData({ StepList: res.data.steps });
+        }
+        else {
+          app.showError(res.data.msg);
+        }
+        this.triggerEvent('endload', { from: 'sport', needRefresh: false });
+      }).catch(error => {
+        app.showError("网络错误");
+        this.triggerEvent('endload', { from: 'sport', needRefresh: false });
       });
     },
     /**
@@ -188,20 +180,14 @@ Component({
         //登录成功
         success: function (e) {
           if (e.code) {
-            wx.request({
-              url: app.globalData.ApiUrls.WeLoginURL,
-              method: 'POST',
-              header: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With': 'XMLHttpRequest',
-              },
-              data: {
+            http.request(
+              app.globalData.ApiUrls.WeLoginURL,
+              {
                 code: e.code,
                 time: new Date().getTime()
-              },
-              success: function (e) {
-                if (e.data.status == 0) {
-                  wx.setStorageSync('LoginSession', e.data.session);
+              }).then(res => {
+                if (res.data.status == 0) {
+                  wx.setStorageSync('LoginSession', res.data.session);
                   //获取授权
                   this.GetAuth();
                 }
@@ -209,12 +195,11 @@ Component({
                   app.showError("登录失败4");
                   this.setData({ getLoading: false });
                 }
-              }.bind(this),
-              fail: function () {
+              }).catch(error => {
                 app.showError("登录失败3");
+                console.log(error);
                 this.setData({ getLoading: false });
-              }.bind(this)
-            });
+              });
           }
           else {
             app.showError("登录失败2");

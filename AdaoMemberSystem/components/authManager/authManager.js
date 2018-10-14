@@ -94,21 +94,21 @@ Component({
         app.showError('手机号错误');
         return false;
       }
-      this.triggerEvent('startload', { from: 'auth', needRefresh: false })
-      http.api_request(
+      this.triggerEvent('startload', { from: 'auth', needRefresh: false });
+      http.request(
         app.globalData.ApiUrls.MobileCertURL,
         {
           verify: u_vcode,//验证码
           mobile_country_id: u_country,//国家序号
           mobile: u_phone//手机号
-        },
-        function (res) {
+        }).then(res => {
           try {
             if (res.status == 0) {
               app.showError(res.info);
               this.getNewVcode();
             }
             else {
+              res = res.data;
               authData = res;
               res = res.replace(/\r/g, "");
               res = res.replace(/\n/g, "");
@@ -135,12 +135,11 @@ Component({
             this.setData({ EnterButLoading: false });
             this.triggerEvent('endload', { from: 'auth', needRefresh: false })
           }
-        }.bind(this),
-        function (httpCode) {
-          app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
+        }).catch(error => {
+          app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
           this.setData({ EnterButLoading: false });
           this.triggerEvent('endload', { from: 'auth', needRefresh: false })
-        }.bind(this));
+        });
     },
     /**
      * 点击了开始实名认证
@@ -162,34 +161,26 @@ Component({
     onCopyAuthPhoneNumber: function (e) {
       if (this.data.CopyLoading == true) return;
       this.setData({ CopyLoading: true });
-
-      http.api_request(
-        app.globalData.ApiUrls.GetAuthPhoneURL,
-        {
-          rawdata: authData,
-        },
-        function (res) {
-          if (res == null || res == "error") {
-            app.showError('复制失败');
-          }
-          else {
-            wx.setClipboardData({
-              data: res,
-              success: function () {
-                app.showSuccess('复制完成');
-              },
-              fail: function () {
-                app.showError('复制失败');
-              }
-            });
-          }
-          this.setData({ CopyLoading: false });
-        }.bind(this),
-        function (httpCode) {
-          app.showError(httpCode == null ? '获取失败' : ('http' + httpCode));
-          this.setData({ CopyLoading: false });
-        }.bind(this)
-      );
+      http.request(app.globalData.ApiUrls.GetAuthPhoneURL, { rawdata: authData}).then(res => {
+        if (res.data == null || res.data == "error") {
+          app.showError('复制失败');
+        }
+        else {
+          wx.setClipboardData({
+            data: res.data,
+            success: function () {
+              app.showSuccess('复制完成');
+            },
+            fail: function () {
+              app.showError('复制失败');
+            }
+          });
+        }
+        this.setData({ CopyLoading: false });
+      }).catch(error => {
+        app.showError(error == false ? '获取失败' : ('http' + error.statusCode));
+        this.setData({ CopyLoading: false });
+      });
     },
 
     /**
@@ -200,89 +191,81 @@ Component({
         vCodeLoading: true,
         verifyCodeURL: '../../imgs/loading.gif'
       });
-
-      http.get_verifycode(function (sta, img, msg) {
-        if (sta == false) {
-          app.showError(msg);
-        }
+      http.get_verifycode().then(res => {
         this.setData({
           vCodeLoading: false,
-          verifyCodeURL: img
+          verifyCodeURL: res
         });
-      }.bind(this));
+      }).catch(err => {
+        app.showError('获取验证码错误');
+        this.setData({
+          vCodeLoading: false,
+          verifyCodeURL: err
+        });
+      });
     },
     /**
      * 获取当前认证状态
      */
     getCertifiedStatus: function () {
-      http.api_request(
-        app.globalData.ApiUrls.CertifiedStatusURL,
-        null,
-        function (res) {
-          if (typeof res == 'string') {
-            res = res.replace(/ /g, '');
-            res = res.replace(/\r/g, '');
-            res = res.replace(/\n/g, '');
-            var cert_status = '';
-            var phone_status = '';
-            if (res.indexOf('实名状态') > 0) {
-              cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
-              if (cert_status != null) {
-                cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
-                this.setData({ CertStatus: cert_status });
-              }
-              else {
-                app.showError('实名状态错误');
-              }
-              if (res.indexOf('已绑定手机') > 0) {//手机认证已经成功的
-                phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
-                if (phone_status != null) {
-                  phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
-                  if (phone_status != null) {
-                    this.setData({ PhoneStatus: phone_status });
-                  }
-                }
-                this.setData({ CanCert: false });
-              }
-              else if (res.indexOf('绑定手机') > 0) {//未进行手机实名认证
-                this.setData({
-                  PhoneStatus: '未认证',
-                  CanCert: true
-                });
-              }
+      http.request(app.globalData.ApiUrls.CertifiedStatusURL, null).then(res => {
+        if (typeof res.data == 'string') {
+          res = res.data;
+          res = res.replace(/ /g, '');
+          res = res.replace(/\r/g, '');
+          res = res.replace(/\n/g, '');
+          var cert_status = '';
+          var phone_status = '';
+          if (res.indexOf('实名状态') > 0) {
+            cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
+            if (cert_status != null) {
+              cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
+              this.setData({ CertStatus: cert_status });
             }
             else {
-              app.showError('发生了错误');
+              app.showError('实名状态错误');
+            }
+            if (res.indexOf('已绑定手机') > 0) {//手机认证已经成功的
+              phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
+              if (phone_status != null) {
+                phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
+                if (phone_status != null) {
+                  this.setData({ PhoneStatus: phone_status });
+                }
+              }
+              this.setData({ CanCert: false });
+            }
+            else if (res.indexOf('绑定手机') > 0) {//未进行手机实名认证
+              this.setData({
+                PhoneStatus: '未认证',
+                CanCert: true
+              });
             }
           }
-          this.triggerEvent('endload', { from: 'auth', needRefresh: false })
-        }.bind(this),
-        function (httpCode) {
-          app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
-          this.triggerEvent('endload', { from: 'auth', needRefresh: false })
-        }.bind(this)
-      );
+          else {
+            app.showError('发生了错误');
+          }
+        }
+        this.triggerEvent('endload', { from: 'auth', needRefresh: false })
+      }).catch(error => {
+        app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+        this.triggerEvent('endload', { from: 'auth', needRefresh: false })
+      });
     },
     /**
      * 等待认证成功
      */
     waitCert: function () {
       timer = setInterval(function () {
-        http.api_request(app.globalData.ApiUrls.MobileCheckURL,
-          null,
-          function (res) {
-            console.log(res);
-            if (res == true) {
-              clearInterval(timer);
-              timer = null;
-              app.log('phone auth success');
-              this.triggerEvent('endload', { from: 'auth', needRefresh: true })
-            }
-          }.bind(this),
-          function () {
-
+        http.request(app.globalData.ApiUrls.MobileCheckURL, null).then(res => {
+          console.log(res.data);
+          if (res.data == true) {
+            clearInterval(timer);
+            timer = null;
+            app.log('phone auth success');
+            this.triggerEvent('endload', { from: 'auth', needRefresh: true })
           }
-        );
+        });
       }.bind(this), 5000);
     },
     /**

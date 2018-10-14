@@ -143,29 +143,25 @@ Page({
    */
   getPostList: function () {
     this.setData({ listLoading: true });
-    http.api_request(app.globalData.ApiUrls.GetSharesURL,
-      { tids: launchOpt.tid },
-      function (res) {
-        if (res.status != 'ok') {
-          app.showError(res.status);
-          this.setData({ listLoading: false });
-          wx.reLaunch({
-            url: '../index/index',
-          });
-        }
-        else {
-          idList = res.tids;
-          this.getPostDetail(0);
-        }
-      }.bind(this),
-      function (httpCode) {
-        app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
+    http.request(app.globalData.ApiUrls.GetSharesURL, { tids: launchOpt.tid }).then(res => {
+      if (res.data.status != 'ok') {
+        app.showError(res.data.status);
         this.setData({ listLoading: false });
         wx.reLaunch({
           url: '../index/index',
         });
       }
-    );
+      else {
+        idList = res.data.tids;
+        this.getPostDetail(0);
+      }
+    }).catch(error => {
+      app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+      this.setData({ listLoading: false });
+      wx.reLaunch({
+        url: '../index/index',
+      });
+    });
   },
   /**
    * 获取串内容
@@ -184,14 +180,12 @@ Page({
       is_bt = true;
       idList[id] = idList[id].substr(1);
     }
-
-    http.api_request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
-      { id: idList[id], page: 1 },
-      function (res) {
-        if (typeof res == 'string') {
+    http.request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL, 
+      { id: idList[id], page: 1 }).then(res => {
+        if (typeof res.data == 'string') {
           let data = {
             'id': idList[id],
-            'content': WxParse.wxParse('item', 'html', '<p>' + res + '</p>', this, null).nodes,
+            'content': WxParse.wxParse('item', 'html', '<p>' + res.data + '</p>', this, null).nodes,
             'img': '',
             'thumburl': '',
             'img_height': 0,
@@ -200,6 +194,7 @@ Page({
           tempData.push(data);
         }
         else {
+          res = res.data;
           let data = {
             'id': res.id,
             'now': res.now,
@@ -228,8 +223,7 @@ Page({
         }
         this.setData({ tlist: tempData });
         this.getPostDetail(++id);
-      }.bind(this),
-      function (httpCode) {
+      }).catch(error => {
         app.showError(httpCode == null ? '获取错误' : ('http' + httpCode));
         var data = {
           'id': idList[id],
@@ -240,7 +234,6 @@ Page({
         tempData.push(data);
         this.setData({ tlist: tempData });
         this.getPostDetail(++id);
-      }.bind(this)
-    );
+      });
   }
 })

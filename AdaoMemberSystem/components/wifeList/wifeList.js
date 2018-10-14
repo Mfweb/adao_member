@@ -1,6 +1,7 @@
 // components/wifeList/wifeList.js
 var nowPage = 0;
 const app = getApp();
+const http = require('../../utils/http.js');
 Component({
   /**
    * 组件的属性列表
@@ -65,31 +66,18 @@ Component({
       if (this.data.isLoading) return;
       this.setData({ isLoading: true });
       this.triggerEvent('startload', { from: 'wife', needRefresh: false });
-      wx.request({
-        url: app.globalData.ApiUrls.GetRandomPicURL,
-        data: {
-          page: nowPage
-        },
-        method: 'GET',
-        success: function (res) {
-          if(res.statusCode != 200 && res.statusCode != '200') {
-            app.showError('http错误' + res.statusCode);
-            return;
-          }
-          if (res.data.items == 0) {
-            app.showError('老婆就这些啦');
-            return;
-          }
-          this._addImage(res.data.items, 0);
-          nowPage ++;
-        }.bind(this),
-        fail: function () {
-          app.showError('加载失败');
-        },
-        complete: function () {
-          this.setData({ isLoading: false });
-          this.triggerEvent('endload', { from: 'wife', needRefresh: false });
-        }.bind(this)
+      http.requestGet(app.globalData.ApiUrls.GetRandomPicURL, { page: nowPage}).then(res => {
+        if (res.data.items.length == 0) {
+          app.showError('老婆就这些啦');
+          return;
+        }
+        this._addImage(res.data.items, 0);
+        nowPage++;
+      }).catch(error => {
+        app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+      }).finally(() => {
+        this.setData({ isLoading: false });
+        this.triggerEvent('endload', { from: 'wife', needRefresh: false });
       });
     },
     _addImage: function (imgList, n) {

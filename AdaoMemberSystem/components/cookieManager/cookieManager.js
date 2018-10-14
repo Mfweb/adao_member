@@ -4,6 +4,7 @@ const http = require('../../utils/http.js');
 const cookie = require('../../utils/cookie.js');
 var WxParse = require('../../wxParse/wxParse.js');
 import drawQrcode from '../../utils/weapp.qrcode.min.js'
+const wxApis = require('../../utils/wxApis.js');
 
 Component({
   /**
@@ -123,63 +124,49 @@ Component({
         if (this.data.CookieList[u_index].delLoading == true) return;
         var selectData = 'CookieList[' + u_index + '].delLoading';
         this.setData({ [selectData]: true });//对应的删除按钮显示loading
-
-        http.api_request(
-          app.globalData.ApiUrls.CookieDeleteURL + this.data.CookieList[u_index].id + ".html",
-          {
-            verify: u_vcode
-          },
-          function (res) {
-            if (res.status == 1) {
-              this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
-              this.setData({ vCodeShow: false });
-              app.showSuccess('删除完成');
-            }
-            else {
-              app.log('cookie delete error:' + res.info);
-              this.getNewVcode();
-              app.showError(res.info);
-            }
-            this.setData({
-              [selectData]: false,
-              EnterButLoading: false
-            });
-          }.bind(this),
-          function (httpCode) {
-            app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
-            this.setData({
-              [selectData]: false,
-              EnterButLoading: false
-            });
-          }.bind(this));
+        http.request(app.globalData.ApiUrls.CookieDeleteURL + this.data.CookieList[u_index].id + ".html", { verify: u_vcode}).then(res => {
+          if (res.data.status == 1) {
+            this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
+            this.setData({ vCodeShow: false });
+            app.showSuccess('删除完成');
+          }
+          else {
+            app.log('cookie delete error:' + res.data.info);
+            this.getNewVcode();
+            app.showError(res.data.info);
+          }
+          this.setData({
+            [selectData]: false,
+            EnterButLoading: false
+          });
+        }).catch(error => {
+          app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+          this.setData({
+            [selectData]: false,
+            EnterButLoading: false
+          });
+        });
       }
       else if (e.target.id == 'new')//获取新Cookie
       {
-        http.api_request(
-          app.globalData.ApiUrls.CookieGetNewURL,
-          {
-            verify: u_vcode
-          },
-          function (res) {
-            //app.log(res);
-            if (res.status == 1) {
-              this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
-              app.showSuccess('大成功');
-              app.log('get new cookie success');
-            }
-            else {
-              app.log('get new cookie error:' + res.info);
-              app.showError(res.info);
-            }
-            this.setData({
-              vCodeShow: false,
-              EnterButLoading: false
-            });
-          }.bind(this),
-          function (httpCode) {
-            app.showError(httpCode == null ? '发生了错误' : ('http' + httpCode));
-            this.setData({ EnterButLoading: false });
-          }.bind(this));
+        http.request(app.globalData.ApiUrls.CookieGetNewURL, { verify: u_vcode}).then(res => {
+          if (res.data.status == 1) {
+            this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
+            app.showSuccess('大成功');
+            app.log('get new cookie success');
+          }
+          else {
+            app.log('get new cookie error:' + res.data.info);
+            app.showError(res.data.info);
+          }
+          this.setData({
+            vCodeShow: false,
+            EnterButLoading: false
+          });
+        }).catch(error => {
+          app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+          this.setData({ EnterButLoading: false });
+        });
       }
     },
 
@@ -191,16 +178,18 @@ Component({
         vCodeLoading: true,
         verifyCodeURL: '../../imgs/loading.gif'
       });
-
-      http.get_verifycode(function (sta, img, msg) {
-        if (sta == false) {
-          app.showError(msg);
-        }
+      http.get_verifycode().then(res => {
         this.setData({
           vCodeLoading: false,
-          verifyCodeURL: img
+          verifyCodeURL: res
         });
-      }.bind(this));
+      }).catch(error => {
+        app.showError('获取验证码失败');
+        this.setData({
+          vCodeLoading: false,
+          verifyCodeURL: res
+        });
+      });
     },
     /**
      * 获取Cookie列表
