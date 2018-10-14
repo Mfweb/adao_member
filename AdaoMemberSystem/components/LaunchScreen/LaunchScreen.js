@@ -20,9 +20,12 @@ Component({
   },
   attached: function () {
     let tempUrl = wx.getStorageSync('launchImage');
-    if (tempUrl != null && tempUrl != '' && typeof tempUrl == 'string') {
-      this.setData({ launchPicture:tempUrl});
-    }
+    wx.getSavedFileInfo({
+      filePath: tempUrl,
+      success: function (res) {
+        this.setData({ launchPicture: tempUrl });
+      }.bind(this)
+    });
   },
   /**
    * 组件的方法列表

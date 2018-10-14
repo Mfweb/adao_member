@@ -133,7 +133,6 @@ App({
       then(res => {
         if (res.errMsg == 'getSavedFileList:ok') {
           let savedFilePath = wx.getStorageSync('launchImage');
-          console.log(res);
           for (let i = 0; i < res.fileList.length; i++) {
             if (res.fileList[i].filePath != savedFilePath) {
               wx.removeSavedFile({
