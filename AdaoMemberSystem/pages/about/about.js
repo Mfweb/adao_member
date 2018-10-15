@@ -58,10 +58,5 @@ Page({
         showCancel: false
       });
     }
-  },
-  onTapBack: function() {
-    wx.navigateBack({
-      
-    });
   }
 })

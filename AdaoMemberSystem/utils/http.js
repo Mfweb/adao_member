@@ -8,23 +8,27 @@ const wxApis = require('./wxApis.js');
 function save_cookie(data) {
   data = data.replace(" ", "");
   data = data.split(";");
-  var saved_data = wx.getStorageSync('user_cookie');
-  saved_data = JSON.parse(saved_data == '' ? '{}' : saved_data);
+  var saved_data = wx.getStorageSync('user_cookie') || {};
+  //兼容之前登录过的用户
+  if (typeof saved_data == 'string') {
+    wx.setStorageSync('user_cookie', {});
+    saved_data = {};
+  }
+  console.log(saved_data);
 
   var save_array = Array();
   for (let i = 0; i < data.length; i++) {
     var temp_data = data[i].split("=");
     saved_data[temp_data[0]] = temp_data[1];
   }
-  wx.setStorageSync('user_cookie', JSON.stringify(saved_data))
+  wx.setStorageSync('user_cookie', saved_data);
 }
 /**
  * @brief 获取所有Cookie
  * @retval cookie内容
  */
 function get_cookie() {
-  var cookies = wx.getStorageSync('user_cookie');
-  cookies = JSON.parse(cookies == '' ? '{}' : cookies);
+  var cookies = wx.getStorageSync('user_cookie') || {};
   var out_str = '';
   for (let o in cookies) {
     if (o == 'path') continue;
@@ -41,8 +45,7 @@ function get_cookie() {
  * @retval 指定Key的内容
  */
 function get_cookie_key(key) {
-  var cookies = wx.getStorageSync('user_cookie');
-  cookies = JSON.parse(cookies == '' ? '{}' : cookies);
+  var cookies = wx.getStorageSync('user_cookie') || {};
   return cookies[key];
 }
 /**
@@ -52,13 +55,12 @@ function get_cookie_key(key) {
  * @retval None
  */
 function set_cookie_key(key, value) {
-  var cookies = wx.getStorageSync('user_cookie');
-  cookies = JSON.parse(cookies == '' ? '{}' : cookies);
+  var cookies = wx.getStorageSync('user_cookie') || {};
   if (cookies.hasOwnProperty(key))
     cookies[key] = value;
   else
     cookies.push({ key: value });
-  wx.setStorageSync('user_cookie', JSON.stringify(cookies))
+  wx.setStorageSync('user_cookie', cookies);
 }
 
 /**

@@ -2,7 +2,6 @@
 const app = getApp();
 const http = require('../../utils/http.js');
 const cookie = require('../../utils/cookie.js');
-var WxParse = require('../../wxParse/wxParse.js');
 const wxApis = require('../../utils/wxApis.js');
 
 Component({
