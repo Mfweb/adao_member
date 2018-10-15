@@ -104,7 +104,7 @@
 .q_window{/*引用串窗口*/
   width: 90%;
   max-height: 90%;
-  top: 5%;
+  top: 10%;
   left: 5%;
   display: flex;
   position: fixed;
