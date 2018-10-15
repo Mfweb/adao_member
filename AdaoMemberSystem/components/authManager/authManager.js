@@ -92,7 +92,7 @@ Component({
       var u_phone = e.detail.value.phonenumber;
       if (!(/^\d{5,}$/.test(u_phone))) {
         app.showError('手机号错误');
-        return false;
+        return;
       }
       this.triggerEvent('startload', { from: 'auth', needRefresh: false });
       http.request(
@@ -113,7 +113,7 @@ Component({
               res = res.replace(/\r/g, "");
               res = res.replace(/\n/g, "");
 
-              var body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
+              let body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
               if (body_match != null) {
                 body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
                 this.setData({
@@ -153,7 +153,6 @@ Component({
      */
     bindPickerChange: function (e) {
       this.setData({ Cindex: e.detail.value });
-      console.log(this.data.Cindex);
     },
     /**
      * 点击了复制手机号
@@ -210,37 +209,44 @@ Component({
     getCertifiedStatus: function () {
       http.request(app.globalData.ApiUrls.CertifiedStatusURL, null).then(res => {
         if (typeof res.data == 'string') {
-          res = res.data;
-          res = res.replace(/ /g, '');
-          res = res.replace(/\r/g, '');
-          res = res.replace(/\n/g, '');
-          var cert_status = '';
-          var phone_status = '';
-          if (res.indexOf('实名状态') > 0) {
-            cert_status = res.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
+          let content = res.data.replace(/ /g, '');
+          content = content.replace(/\r/g, '');
+          content = content.replace(/\n/g, '');
+          if (content.indexOf('实名状态') > 0) {
+            let certStatus = {
+              statusString: '错误',
+              phoneNumber: '错误',
+              statusBool: false
+            };
+
+            let cert_status = content.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
             if (cert_status != null) {
-              cert_status = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
-              this.setData({ CertStatus: cert_status });
+              certStatus.statusString = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
             }
             else {
-              app.showError('实名状态错误');
+              certStatus.statusString = '状态错误';
             }
-            if (res.indexOf('已绑定手机') > 0) {//手机认证已经成功的
-              phone_status = res.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
-              if (phone_status != null) {
-                phone_status = phone_status[0].replace(/(>)|(<)/ig, "");
-                if (phone_status != null) {
-                  this.setData({ PhoneStatus: phone_status });
+
+            if (content.indexOf('已绑定手机') > 0) {//手机认证已经成功的
+              let phoneContent = content.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
+              if (phoneContent != null) {
+                phoneContent = phoneContent[0].replace(/(>)|(<)/ig, "");
+                if (phoneContent != null) {
+                  certStatus.phoneNumber = phoneContent;
                 }
               }
-              this.setData({ CanCert: false });
+              certStatus.statusBool = true;
             }
-            else if (res.indexOf('绑定手机') > 0) {//未进行手机实名认证
-              this.setData({
-                PhoneStatus: '未认证',
-                CanCert: true
-              });
+            else if (content.indexOf('绑定手机') > 0) {//未进行手机实名认证
+              certStatus.phoneNumber = '未认证';
+              certStatus.statusBool = false;
             }
+
+            this.setData({
+              CertStatus: certStatus.statusString,
+              PhoneStatus: certStatus.phoneNumber,
+              CanCert: !certStatus.statusBool
+            });
           }
           else {
             app.showError('发生了错误');
@@ -248,6 +254,7 @@ Component({
         }
         this.triggerEvent('endload', { from: 'auth', needRefresh: false })
       }).catch(error => {
+        app.log(error);
         app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
         this.triggerEvent('endload', { from: 'auth', needRefresh: false })
       });

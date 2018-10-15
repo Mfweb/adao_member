@@ -127,8 +127,9 @@ Component({
           this.setData({ vCodeShow: false });
           app.showSuccess('删除完成');
         }).catch(error => {
-          this.getNewVcode();
+          app.log(error);
           app.showError(error);
+          this.getNewVcode();
           this.setData({
             [selectData]: false,
             EnterButLoading: false
@@ -145,6 +146,7 @@ Component({
           app.showSuccess('大成功');
           app.log('get new cookie success');
         }).catch(error => {
+          app.log(error);
           app.showError(error);
           this.getNewVcode();
           this.setData({
@@ -209,13 +211,35 @@ Component({
       this.setData({ [selectData]: true });
 
       cookie.getCookieDetail(this.data.CookieList[index].id).then(res => {
-        this.createQRCode(JSON.stringify({ cookie: res }), function () {
+        return wxApis.drawQrcodeX('myQrcode', JSON.stringify({ cookie: res }), this);
+      })
+        .then(() => {
+          return wxApis.setTimeoutX(300);
+        })
+        .then(() => {
+          return wxApis.canvasGetImageData('myQrcode', this);
+        })
+        .then(res => {
+          const ctx = wx.createCanvasContext('myQrcode', this);
+          ctx.setFillStyle('white');
+          ctx.fillRect(0, 0, 220, 220);
+          ctx.draw();
+          return wxApis.canvasPutImageData('myQrcode', res.data, this);
+        })
+        .then(() => {
+          return wxApis.canvasToTempFilePath('myQrcode', this);
+        })
+        .then(res => {
+          wx.previewImage({
+            urls: [res.tempFilePath],
+          });
           this.setData({ [selectData]: false });
-        }.bind(this));
-      }).catch(error => {
-        app.showError(error);
-        this.setData({ [selectData]: false });
-      });
+        })
+        .catch(err => {
+          app.log(err);
+          app.showError(error);
+          this.setData({ [selectData]: false });
+        });
     },
     /**
       * 获取Cookie详细并复制到剪切板
@@ -237,40 +261,9 @@ Component({
           }
         });
       }).catch(error => {
+        app.log(error);
         app.showError(error);
         this.setData({ [selectData]: false });
-      });
-    },
-    /**
-     * 创建并显示二维码
-     */
-    createQRCode: function (content, callback) {
-      wxApis.drawQrcodeX('myQrcode', content, this).then(() => {
-        return wxApis.setTimeoutX(300);
-      })
-      .then(() => {
-        return wxApis.canvasGetImageData('myQrcode', this);
-      })
-      .then(res => {
-        const ctx = wx.createCanvasContext('myQrcode', this);
-        ctx.setFillStyle('white');
-        ctx.fillRect(0, 0, 220, 220);
-        ctx.draw();
-        return wxApis.canvasPutImageData('myQrcode', res.data, this);
-      })
-      .then(() => {
-        return wxApis.canvasToTempFilePath('myQrcode', this);
-      })
-      .then(res => {
-        //预览
-        wx.previewImage({
-          urls: [res.tempFilePath],
-        });
-        callback();
-      })
-      .catch(err => {
-        app.showError('保存失败');
-        callback();
       });
     }
   }

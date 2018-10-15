@@ -7,31 +7,31 @@ const app = getApp();
 function getCookies() {
   return new Promise(function (resolve, reject) {
     http.request(app.globalData.ApiUrls.CookiesListURL, null).then(res => {
-      if (res.statusCode != 200 && res.statusCode != '200') {
-        reject({ message: 'http ' + res.statusCode});
-        return;
-      }
-      if (res.data == null) {
+      if (!res.data) {
         reject({ message: '服务器错误' });
         return;
       }
       if (typeof res.data == 'string' && res.data.indexOf('饼干列表') > 0) {
-        res = res.data;
-        res = res.replace(/ /g, '');
-        res = res.replace(/\r/g, '');
-        res = res.replace(/\n/g, '');
-        let warning = res.match(/<b>\[警告\]<\/b>[\s\S]*?<\/span>/ig);
-        if (warning != null) {
-          warning = '⚠️ [警告]' + warning[0].replace(/<b>\[警告\]<\/b>/g, '').replace(/<\/span>/g, '');
-        }
-        let capacity = res.match(/饼干容量<bclass="am-text-primary">[\s\S]*?<\/b>/ig);
-        if (capacity != null) {
-          capacity = capacity[0].replace(/饼干容量<bclass="am-text-primary">/g, '').replace(/<\/b>/g, '');
+        let content = res.data.replace(/ /g, '');
+        content = content.replace(/\r/g, '');
+        content = content.replace(/\n/g, '');
+
+        let info = {
+          warning: null,
+          capacity: null
+        };
+
+        info.warning = content.match(/<b>\[警告\]<\/b>[\s\S]*?<\/span>/ig);
+        if (info.warning != null) {
+          info.warning = '⚠️ [警告]' + info.warning[0].replace(/<b>\[警告\]<\/b>/g, '').replace(/<\/span>/g, '');
         }
 
-        let info = { warning: warning, capacity: capacity };
+        info.capacity = content.match(/饼干容量<bclass="am-text-primary">[\s\S]*?<\/b>/ig);
+        if (info.capacity != null) {
+          info.capacity = info.capacity[0].replace(/饼干容量<bclass="am-text-primary">/g, '').replace(/<\/b>/g, '');
+        }
 
-        let tbody = res.match(/<tbody>[\s\S]*?<\/tbody>/ig);
+        let tbody = content.match(/<tbody>[\s\S]*?<\/tbody>/ig);
         if (tbody != null) {
           let tableRoll = tbody[0].match(/<tr>[\s\S]*?<\/tr>/ig);
           if (tableRoll != null) {
@@ -75,10 +75,10 @@ function getCookies() {
 function getCookieDetail(id) {
   return new Promise(function (resolve, reject) {
     http.request(app.globalData.ApiUrls.CookieGetDetailURL + id + ".html", null).then(res => {
-      if (res.header !== null && res.header !== undefined && res.header['Set-Cookie'] != null && res.header['Set-Cookie'] != undefined && typeof res.header['Set-Cookie'] == 'string') {
-        var cookieAll = res.header['Set-Cookie'];
+      if (res && res.header && res.header['Set-Cookie']) {
+        let cookieAll = res.header['Set-Cookie'];
         if (cookieAll.indexOf('userhash=') >= 0) {
-          var cookieDetail = cookieAll.split(';');
+          let cookieDetail = cookieAll.split(';');
           for (let i = 0; i < cookieDetail.length; i++) {
             if (cookieDetail[i].indexOf('userhash=') >= 0) {
               resolve(cookieDetail[i].replace(/userhash=/ig, ''));
@@ -94,6 +94,9 @@ function getCookieDetail(id) {
   });
 }
 
+/**
+ * 删除指定饼干
+ */
 function deleteCookie(id, vcode) {
   return new Promise(function (resolve, reject) {
     http.request(app.globalData.ApiUrls.CookieDeleteURL + id + ".html", { verify: vcode }).then(res => {
@@ -109,6 +112,9 @@ function deleteCookie(id, vcode) {
   });
 }
 
+/**
+ * 获取新饼干
+ */
 function getNewCookie(vcode) {
   return new Promise(function (resolve, reject) {
     http.request(app.globalData.ApiUrls.CookieGetNewURL, { verify: vcode }).then(res => {
@@ -120,7 +126,6 @@ function getNewCookie(vcode) {
       }
     }).catch(error => {
       reject(error == false ? '发生了错误' : ('http' + error.statusCode));
-      this.setData({ EnterButLoading: false });
     });
   });
 }

@@ -14,8 +14,6 @@ function save_cookie(data) {
     wx.setStorageSync('user_cookie', {});
     saved_data = {};
   }
-  console.log(saved_data);
-
   var save_array = Array();
   for (let i = 0; i < data.length; i++) {
     var temp_data = data[i].split("=");
@@ -82,11 +80,11 @@ function request (url, data) {
         'Cookie': get_cookie()
       },
       success: function (res) {
-        if (res.statusCode != 200 && res.statusCode != '200') {
+        if (res.statusCode >= 400) {
           reject(res);
           return;
         }
-        if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie')) {
+        if (res && res.header && res.header['Set-Cookie']) {
           save_cookie(res.header['Set-Cookie']);
         }
         resolve(res);
@@ -111,12 +109,9 @@ function requestGet(url, data = {}) {
       data,
       method: 'GET',
       success: function (res) {
-        if (res.statusCode != 200 && res.statusCode != '200') {
+        if (res.statusCode >= 400) {
           reject(res);
           return;
-        }
-        if (res != undefined && res.hasOwnProperty('header') && res.header.hasOwnProperty('Set-Cookie')) {
-          save_cookie(res.header['Set-Cookie']);
         }
         resolve(res);
       },
