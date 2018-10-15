@@ -56,7 +56,6 @@ Page({
     if (this.data.CookieList[res.currentTarget.id].checked == true) {
       this.data.CookieList[res.currentTarget.id].checked = false;
       this.setData({ CookieList: this.data.CookieList});
-      console.log(this.data.returnJson);
       return;
     }
     if (detail == undefined || detail == null || detail == '') {
@@ -69,17 +68,27 @@ Page({
     }
   },
   getCookies: function () {
-    cookie.getCookies(function (status, msg) {
-      if (status == false) {
-        app.showError(msg);
-        wx.stopPullDownRefresh();
-        wx.hideNavigationBarLoading();
-        return;
+    cookie.getCookies().then(res => {
+      if (res.cookies.length == 0) {
+        app.showError('没有饼干');
       }
-      this.setData({ CookieList: msg });
+      else {
+        this.setData({
+          CookieList: res.cookies,
+        });
+      }
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
-    }.bind(this));
+    }).catch(error => {
+        if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
+          app.showError('请点击左上角菜单完成实名认证后再使用。');
+        }
+        else {
+          app.showError(error.message);
+        }
+        wx.stopPullDownRefresh();
+        wx.hideNavigationBarLoading();
+      });
   },
   detailToString: function () {
     var tempObj = [];
@@ -90,18 +99,7 @@ Page({
   },
   getDetail: function (id) {
     let tempList = this.data.CookieList;
-    
-    cookie.getCookieDetail(this.data.CookieList[id].id, function (sta, res) {
-      if (sta == false) {
-        app.showError(res);
-
-        if(tempList != undefined && tempList != []) {
-          tempList[id].checked = false;
-        }
-        this.setData({ disableCheckbox: false, CookieList: tempList});
-        return;
-      }
-
+    cookie.getCookieDetail(this.data.CookieList[id].id).then(res => {
       if (tempList != undefined && tempList != []) {
         tempList[id].checked = true;
         tempList[id].detail = res;
@@ -118,6 +116,12 @@ Page({
       else {
         app.showError('数据错误');
       }
-    }.bind(this));
+    }).catch(error => {
+      app.showError(error);
+      if (tempList != undefined && tempList != []) {
+        tempList[id].checked = false;
+      }
+      this.setData({ disableCheckbox: false, CookieList: tempList });
+    });
   }
 })

@@ -118,53 +118,39 @@ Component({
       }
       if (this.data.EnterButLoading == true) return;
       this.setData({ EnterButLoading: true });
-      if (e.target.id == 'delete')//删除Cookie
-      {
+      if (e.target.id == 'delete') {//删除Cookie
         if (this.data.CookieList[u_index].delLoading == true) return;
         var selectData = 'CookieList[' + u_index + '].delLoading';
         this.setData({ [selectData]: true });//对应的删除按钮显示loading
-        http.request(app.globalData.ApiUrls.CookieDeleteURL + this.data.CookieList[u_index].id + ".html", { verify: u_vcode}).then(res => {
-          if (res.data.status == 1) {
-            this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
-            this.setData({ vCodeShow: false });
-            app.showSuccess('删除完成');
-          }
-          else {
-            app.log('cookie delete error:' + res.data.info);
-            this.getNewVcode();
-            app.showError(res.data.info);
-          }
-          this.setData({
-            [selectData]: false,
-            EnterButLoading: false
-          });
+
+        cookie.deleteCookie(this.data.CookieList[u_index].id, u_vcode).then(res => {
+          this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
+          this.setData({ vCodeShow: false });
+          app.showSuccess('删除完成');
         }).catch(error => {
-          app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+          this.getNewVcode();
+          app.showError(error);
           this.setData({
             [selectData]: false,
             EnterButLoading: false
           });
         });
       }
-      else if (e.target.id == 'new')//获取新Cookie
-      {
-        http.request(app.globalData.ApiUrls.CookieGetNewURL, { verify: u_vcode}).then(res => {
-          if (res.data.status == 1) {
-            this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
-            app.showSuccess('大成功');
-            app.log('get new cookie success');
-          }
-          else {
-            app.log('get new cookie error:' + res.data.info);
-            app.showError(res.data.info);
-          }
+      else if (e.target.id == 'new') {//获取新Cookie
+        cookie.getNewCookie(u_vcode).then(() => {
+          this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
           this.setData({
             vCodeShow: false,
             EnterButLoading: false
           });
+          app.showSuccess('大成功');
+          app.log('get new cookie success');
         }).catch(error => {
-          app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
-          this.setData({ EnterButLoading: false });
+          app.showError(error);
+          this.getNewVcode();
+          this.setData({
+            EnterButLoading: false
+          });
         });
       }
     },
@@ -193,31 +179,27 @@ Component({
     /**
      * 获取Cookie列表
      */
-    getCookies: function (callback = null) {
-      cookie.getCookies(function (status, msg, info) {
-        if (info != null) {
-          this.setData({
-            CookieNum: info.capacity,
-            CookieWarning: info.warning
-          });
-        }
-        this.triggerEvent('endload', { from: 'cookie', needRefresh: false });
-
-        if (status == false) {
-          if (msg == '本页面需要实名后才可访问_(:з」∠)_') {
-            app.showError('请点击左上角菜单完成实名认证后再使用。');
-          }
-          else {
-            app.showError(msg);
-          }
-          if (callback !== null) callback(false);
-          return;
+    getCookies: function () {
+      cookie.getCookies().then(res => {
+        if (res.cookies.length == 0) {
+          app.showError('没有饼干');
         }
         this.setData({
-          CookieList: msg,
+          CookieNum: res.info.capacity,
+          CookieWarning: res.info.warning,
+          CookieList: res.cookies
         });
-        if (callback !== null) callback(true);
-      }.bind(this));
+        this.triggerEvent('endload', { from: 'cookie', needRefresh: false });
+      })
+      .catch(error => {
+        if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
+          app.showError('请点击左上角菜单完成实名认证后再使用。');
+        }
+        else {
+          app.showError(error.message);
+        }
+        this.triggerEvent('endload', { from: 'cookie', needRefresh: false });
+      });
     },
     /**
       * 获取Cookie详细并显示二维码
@@ -227,18 +209,14 @@ Component({
       var selectData = 'CookieList[' + index + '].getLoading';
       this.setData({ [selectData]: true });
 
-      cookie.getCookieDetail(this.data.CookieList[index].id, function (sta, detail) {
-        if (sta == true) {
-          this.createQRCode(JSON.stringify({ cookie: detail }), function () {
-            this.setData({ [selectData]: false });
-            return;
-          }.bind(this));
-        }
-        else {
-          app.showError(detail);
+      cookie.getCookieDetail(this.data.CookieList[index].id).then(res => {
+        this.createQRCode(JSON.stringify({ cookie: res }), function () {
           this.setData({ [selectData]: false });
-        }
-      }.bind(this));
+        }.bind(this));
+      }).catch(error => {
+        app.showError(error);
+        this.setData({ [selectData]: false });
+      });
     },
     /**
       * 获取Cookie详细并复制到剪切板
@@ -248,23 +226,21 @@ Component({
       var selectData = 'CookieList[' + index + '].getLoading';
       this.setData({ [selectData]: true });
 
-      cookie.getCookieDetail(this.data.CookieList[index].id, function (sta, detail) {
-        if (sta == true) {
-          wx.setClipboardData({
-            data: detail,
-            success: function () {
-              app.showSuccess('饼干已复制');
-            },
-            fail: function () {
-              app.showError('复制失败');
-            }
-          });
-        }
-        else {
-          app.showError(detail);
-        }
+      cookie.getCookieDetail(this.data.CookieList[index].id).then(res => {
         this.setData({ [selectData]: false });
-      }.bind(this));
+        wx.setClipboardData({
+          data: res,
+          success: function () {
+            app.showSuccess('饼干已复制');
+          },
+          fail: function () {
+            app.showError('复制失败');
+          }
+        });
+      }).catch(error => {
+        app.showError(error);
+        this.setData({ [selectData]: false });
+      });
     },
     /**
      * 创建并显示二维码

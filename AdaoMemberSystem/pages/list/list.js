@@ -4,7 +4,6 @@ const http = require('../../utils/http.js');
 var WxParse = require('../../wxParse/wxParse.js');
 
 var idList = [];
-var isRefreshing = false;
 var launchOpt = null;
 
 Page({
@@ -26,7 +25,6 @@ Page({
     }
     var messageMark_this = 1;
 
-    isRefreshing = false;
     var messagemark_save = wx.getStorageSync('MessageMark');
     if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '') {
       messagemark_save = 0;
@@ -49,7 +47,6 @@ Page({
         wx.startPullDownRefresh({});
       }
       else {
-        isRefreshing = true;
         this.setData({ tlist: [] });
         this.getPostList();
       }
@@ -61,8 +58,6 @@ Page({
     }
   },
   onPullDownRefresh: function () {
-    if (isRefreshing) return;
-    isRefreshing = true;
     this.setData({ tlist: [] });
     this.getPostList();
   },
@@ -147,6 +142,7 @@ Page({
       if (res.data.status != 'ok') {
         app.showError(res.data.status);
         this.setData({ listLoading: false });
+        wx.stopPullDownRefresh();
         wx.reLaunch({
           url: '../index/index',
         });
@@ -158,9 +154,7 @@ Page({
     }).catch(error => {
       app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
       this.setData({ listLoading: false });
-      wx.reLaunch({
-        url: '../index/index',
-      });
+      wx.stopPullDownRefresh();
     });
   },
   /**
@@ -168,7 +162,6 @@ Page({
    */
   getPostDetail: function (id) {
     if (id >= idList.length) {
-      isRefreshing = false;
       wx.stopPullDownRefresh();
       this.setData({ listLoading: false });
       return;

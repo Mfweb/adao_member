@@ -1,6 +1,7 @@
 const app = getApp();
 const http = require('../../utils/http.js');
 const cookie = require('../../utils/cookie.js');
+const wxApis = require('../../utils/wxApis.js');
 var SelectCookieID = 0;
 
 Component({
@@ -122,38 +123,33 @@ Component({
      * 上传微信运动步数
      */
     UpWeRunData: function () {
-      wx.getWeRunData({
-        success: function (e) {
-          http.request(app.globalData.ApiUrls.WeUploadRunURL,
-            {
-              session: wx.getStorageSync('LoginSession'),
-              encryptedData: e.encryptedData,
-              iv: e.iv,
-              cookie: SelectCookieID
-            }).then(res => {
-              try {
-                if (res.data.status == 0) {
-                  app.showSuccess(res.data.msg);
-                  this.triggerEvent('endload', { from: 'sport', needRefresh: true });
-                }
-                else {
-                  app.showError(res.data.msg);
-                }
-              }
-              catch (err) {
-                app.showError("error");
-              }
-              this.setData({ getLoading: false });
-            }).catch(error => {
-              app.showError(error == false ? '上传失败' : ('http' + error.statusCode));
-              this.setData({ getLoading: false });
-            });
-        }.bind(this),
-        fail: function () {
-          app.showError("获取数据失败");
-          this.setData({ getLoading: false });
-        }.bind(this)
-      })
+      wxApis.getWeRunData().then(res => {
+        return http.request(app.globalData.ApiUrls.WeUploadRunURL,
+          {
+            session: wx.getStorageSync('LoginSession'),
+            encryptedData: res.encryptedData,
+            iv: res.iv,
+            cookie: SelectCookieID
+          });
+      }).then(res => {
+        try {
+          if (res.data.status == 0) {
+            app.showSuccess(res.data.msg);
+            this.triggerEvent('endload', { from: 'sport', needRefresh: true });
+          }
+          else {
+            app.showError(res.data.msg);
+          }
+        }
+        catch (err) {
+          app.showError("error");
+        }
+        this.setData({ getLoading: false });
+      }).catch(error => {
+        app.showError("获取数据失败");
+        console.log(error);
+        this.setData({ getLoading: false });
+      });
     },
     /**
      * 获取步数排行
@@ -176,104 +172,88 @@ Component({
      * 登录
      */
     WeLogin: function () {
-      wx.login({
-        //登录成功
-        success: function (e) {
-          if (e.code) {
-            http.request(
-              app.globalData.ApiUrls.WeLoginURL,
-              {
-                code: e.code,
-                time: new Date().getTime()
-              }).then(res => {
-                if (res.data.status == 0) {
-                  wx.setStorageSync('LoginSession', res.data.session);
-                  //获取授权
-                  this.GetAuth();
-                }
-                else {
-                  app.showError("登录失败4");
-                  this.setData({ getLoading: false });
-                }
-              }).catch(error => {
-                app.showError("登录失败3");
-                console.log(error);
-                this.setData({ getLoading: false });
-              });
-          }
-          else {
-            app.showError("登录失败2");
-            app.log(e);
-            this.setData({ getLoading: false });
-          }
-        }.bind(this),
-        //登录失败
-        fail: function (e) {
-          app.showError("登录失败1");
-          app.log(e);
+      wxApis.login().then(res => {
+        if (res.code) {
+          return http.request(
+            app.globalData.ApiUrls.WeLoginURL,
+            {
+              code: res.code,
+              time: new Date().getTime()
+            });
+        }
+        else {
+          app.showError("登录失败2");
+          app.log(res);
           this.setData({ getLoading: false });
-        }.bind(this)
+        }
+      })
+      .then(res => {
+        if (res.data.status == 0) {
+          wx.setStorageSync('LoginSession', res.data.session);
+          //获取授权
+          this.GetAuth();
+        }
+        else {
+          app.showError("登录失败4");
+          this.setData({ getLoading: false });
+        }
+      }).catch(error => {
+        app.showError("登录失败3");
+        console.log(error);
+        this.setData({ getLoading: false });
       });
     },
     /**
      * 获取授权
      */
     GetAuth: function () {
-      wx.authorize({
-        scope: 'scope.werun',
-        success: function (e) {
-          if (e.errMsg == "authorize:ok") {
-            //获取授权成功，获取并上传步数数据
-            this.getCookies(function (sta) {
-              if (sta) {
-                SelectCookieID = 0;
-                this.setData({
-                  showSelectCookie: true,
-                  'CookieList[0].checked': true
-                });
-              }
-              else {
-                this.setData({ getLoading: false });
-              }
-            }.bind(this));
-          }
-          else {
-            app.showError("获取权限失败");
+      wxApis.authorize().then(res => {
+        //获取授权成功，获取并上传步数数据
+        this.getCookies(function (sta) {
+          if (sta) {
+            SelectCookieID = 0;
             this.setData({
-              getLoading: false,
-              getAuthFail: true
+              showSelectCookie: true,
+              'CookieList[0].checked': true
             });
           }
-        }.bind(this),
-        fail: function (e) {
-          app.showError("获取权限失败");
-          this.setData({
-            getLoading: false,
-            getAuthFail: true
-          });
-        }.bind(this)
+          else {
+            this.setData({ getLoading: false });
+          }
+        }.bind(this));
+      }).catch(() => {
+        app.showError("获取权限失败");
+        this.setData({
+          getLoading: false,
+          getAuthFail: true
+        });
       });
     },
     /**
      * 获取Cookie列表
      */
     getCookies: function (callback = null) {
-      cookie.getCookies(function (status, msg, info) {
-        if (status == false) {
-          if (msg == '本页面需要实名后才可访问_(:з」∠)_') {
+      cookie.getCookies().then(res => {
+        if (res.cookies.length == 0) {
+          app.showError('没有饼干');
+          callback(false);
+        }
+        else {
+          this.setData({
+            CookieList: res.cookies,
+          });
+          callback(true);
+        }
+      })
+        .catch(error => {
+          if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
             app.showError('请点击左上角菜单完成实名认证后再使用。');
           }
           else {
-            app.showError(msg);
+            app.showError(error.message);
           }
-          if (callback !== null) callback(false);
-          return;
-        }
-        this.setData({
-          CookieList: msg,
+          callback(false);
         });
-        if (callback !== null) callback(true);
-      }.bind(this));
-    },
+    }
   }
 })

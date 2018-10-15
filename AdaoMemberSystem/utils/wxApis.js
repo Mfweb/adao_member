@@ -140,3 +140,58 @@ export const canvasToTempFilePath = (id, _this) => {
     }, _this);
   });
 }
+
+/**
+ * 获取微信运动步数
+ */
+export const getWeRunData = () => {
+  return new Promise(function (resolve, reject) {
+    wx.getWeRunData({
+      success: function (e) {
+        resolve(e);
+      },
+      fail: function() {
+        reject();
+      }
+    });
+  });
+}
+
+
+/**
+ * 微信登录
+ */
+export const login = () => {
+  return new Promise(function (resolve, reject) {
+    wx.login({
+      success: function (e) {
+        resolve(e);
+      },
+      fail: function () {
+        reject();
+      }
+    });
+  });
+}
+
+/**
+ * 微信登录
+ */
+export const authorize = () => {
+  return new Promise(function (resolve, reject) {
+    wx.authorize({
+      scope: 'scope.werun',
+      success: function (e) {
+        if (e.errMsg == "authorize:ok") {
+          resolve(e);
+        }
+        else {
+          reject();
+        }
+      },
+      fail: function () {
+        reject();
+      }
+    });
+  });
+}
