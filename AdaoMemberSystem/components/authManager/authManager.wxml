@@ -17,7 +17,7 @@
         </picker>
       </view>
       <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'></input>
-      <input class='McodeInput' name='verifycode' type='text' maxlength='5' placeholder='输入验证码' confirm-type='done'></input>
+      <input class='McodeInput' name='verifycode' type='text' maxlength='5' cursor-spacing='80' placeholder='输入验证码' confirm-type='done'></input>
       <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif' bindtap='onTapVerifyCode'></image>
       <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}' bindtap='onTapVerifyCode'></image>
       <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
