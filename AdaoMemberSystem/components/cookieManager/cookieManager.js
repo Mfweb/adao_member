@@ -124,7 +124,10 @@ Component({
 
         cookie.deleteCookie(this.data.CookieList[u_index].id, u_vcode).then(res => {
           this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
-          this.setData({ vCodeShow: false });
+          this.setData({
+            vCodeShow: false,
+            EnterButLoading: false
+          });
           app.showSuccess('删除完成');
         }).catch(error => {
           app.log(error);
