@@ -163,6 +163,9 @@ App({
         title: msg
       });
     }
+    wx.reportAnalytics('on_user_success', {
+      strmessage: msg
+    });
   },
   showError: function (msg) {
     let xmsg = '无';
