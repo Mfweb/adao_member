@@ -77,7 +77,7 @@ Component({
         nowPage++;
         this.setData({ bottomMessage: '上拉继续加载'});
       }).catch(error => {
-        app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+        app.showError(error == false ? '错误[Wife]' : ('Wife:' + error.statusCode));
       }).finally(() => {
         this.setData({ isLoading: false });
         this.triggerEvent('endload', { from: 'wife', needRefresh: false });

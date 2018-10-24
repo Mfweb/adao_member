@@ -146,7 +146,7 @@ Component({
         }
         this.setData({ getLoading: false });
       }).catch(error => {
-        app.showError("获取数据失败");
+        app.showError("获取运动失败");
         console.log(error);
         this.setData({ getLoading: false });
       });
@@ -164,7 +164,7 @@ Component({
         }
         this.triggerEvent('endload', { from: 'sport', needRefresh: false });
       }).catch(error => {
-        app.showError("网络错误");
+        app.showError("网络错误[Sport]");
         this.triggerEvent('endload', { from: 'sport', needRefresh: false });
       });
     },

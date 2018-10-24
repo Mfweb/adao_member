@@ -124,7 +124,7 @@ Component({
                 this.waitCert();
               }
               else {
-                app.showError('发生了错误');
+                app.showError('验证页面错误');
               }
             }
           }
@@ -136,7 +136,7 @@ Component({
             this.triggerEvent('endload', { from: 'auth', needRefresh: false })
           }
         }).catch(error => {
-          app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+          app.showError(error == false ? '错误[Auth]' : ('Auth:' + error.statusCode));
           this.setData({ EnterButLoading: false });
           this.triggerEvent('endload', { from: 'auth', needRefresh: false })
         });
@@ -177,7 +177,7 @@ Component({
         }
         this.setData({ CopyLoading: false });
       }).catch(error => {
-        app.showError(error == false ? '获取失败' : ('http' + error.statusCode));
+        app.showError(error == false ? '错误[Phone]' : ('AuthP:' + error.statusCode));
         this.setData({ CopyLoading: false });
       });
     },
@@ -249,13 +249,13 @@ Component({
             });
           }
           else {
-            app.showError('发生了错误');
+            app.showError('获取实名状态错误');
           }
         }
         this.triggerEvent('endload', { from: 'auth', needRefresh: false })
       }).catch(error => {
         app.log(error);
-        app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+        app.showError(error == false ? '错误[AuthS]' : ('[AuthS:]' + error.statusCode));
         this.triggerEvent('endload', { from: 'auth', needRefresh: false })
       });
     },

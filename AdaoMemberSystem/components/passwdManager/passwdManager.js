@@ -55,11 +55,11 @@ Component({
             app.showError(res.data.info);
         }
         else {
-          app.showError("发生了错误");
+          app.showError("错误[PWD]");
         }
         this.setData({ 'CPLoading': false });
       }).catch(error => {
-        app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
+        app.showError(error == false ? '错误[PWD]' : ('http:' + error.statusCode));
         this.setData({ 'CPLoading': false });
       });
     }

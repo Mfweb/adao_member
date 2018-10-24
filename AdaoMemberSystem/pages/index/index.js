@@ -95,13 +95,13 @@ Page({
             }
           }
           else {
-            app.showError('未知错误');
+            app.showError('检查登录错误');
           }
         }.bind(this));
       }).catch(error => {
         this.hideLaunchScreen();
         console.log(error);
-        app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+        app.showError(error == false ? '登录错误' : ('http:' + error.statusCode));
         wx.hideNavigationBarLoading();
         this.setData({
           BLoading: false,
@@ -180,7 +180,7 @@ Page({
           }
         }
         else {
-          app.showError('发生错误');
+          app.showError('登录页面错误');
           app.log(res);
         }
         this.setData({ BLoading: false });

@@ -217,7 +217,7 @@ Page({
         this.setData({ tlist: tempData });
         this.getPostDetail(++id);
       }).catch(error => {
-        app.showError(httpCode == null ? '获取错误' : ('http' + httpCode));
+        app.showError(httpCode == null ? '串获取错误' : ('topic:' + httpCode));
         var data = {
           'id': idList[id],
           'content': WxParse.wxParse('item', 'html', '<p>获取失败</p>', this, null).nodes,
