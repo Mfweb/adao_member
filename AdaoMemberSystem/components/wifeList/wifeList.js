@@ -17,7 +17,8 @@ Component({
         if (newVal == true) {
           this.setData({
             loadWife: false,
-            isLoading: false
+            isLoading: false,
+            bottomMessage: '正在加载...'
           });
           this.getData();
         }
@@ -33,7 +34,8 @@ Component({
             reloadWife: false,
             leftList: [],
             rightList: [],
-            isLoading: false
+            isLoading: false,
+            bottomMessage: '正在加载...'
           });
           this.getData();
         }
@@ -47,7 +49,8 @@ Component({
   data: {
     isLoading: false,
     leftList: [],
-    rightList: []
+    rightList: [],
+    bottomMessage: '上拉继续加载'
   },
   attached: function () {
     this.setData({
@@ -69,10 +72,12 @@ Component({
       http.requestGet(app.globalData.ApiUrls.GetRandomPicURL, { page: nowPage}).then(res => {
         if (res.data.items.length == 0) {
           app.showError('老婆就这些啦');
+          this.setData({ bottomMessage: '到底啦'});
           return;
         }
         this._addImage(res.data.items, 0);
         nowPage++;
+        this.setData({ bottomMessage: '上拉继续加载'});
       }).catch(error => {
         app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
       }).finally(() => {
