@@ -17,7 +17,6 @@ Component({
         if (newVal == true) {
           this.setData({
             loadWife: false,
-            isLoading: false,
             bottomMessage: '正在加载...'
           });
           this.getData();
@@ -34,7 +33,6 @@ Component({
             reloadWife: false,
             leftList: [],
             rightList: [],
-            isLoading: false,
             bottomMessage: '正在加载...'
           });
           this.getData();
