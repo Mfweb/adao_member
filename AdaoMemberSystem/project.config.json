@@ -6,7 +6,7 @@
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"uglifyFileName": true
+		"uglifyFileName": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "1.9.6",
