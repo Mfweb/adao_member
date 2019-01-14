@@ -6,7 +6,7 @@
   <view class='popup-menu-topbar' bindtap='onViewImage'>
     <image class='popup-menu-acimg' src="{{data.picURL}}" mode='aspectFill'></image>
     <view class='popup-menu-userinfo'>
-      <image class='popup-menu-usericon' src="http://adnmb1.com/Public/member/users/assets/img/user_nohead.png" mode='aspectFill'></image>
+      <image class='popup-menu-usericon' src="{{data.userIco}}" mode='aspectFill'></image>
       <view class='popup-menu-username'>{{data.userName}}</view>
     </view>
   </view>

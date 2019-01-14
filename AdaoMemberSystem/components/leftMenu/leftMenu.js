@@ -5,6 +5,10 @@ Component({
   properties: {
     data: {
       type: Object
+    },
+    userIco: {
+      type: String,
+      value: 'http://adnmb.com/Public/member/users/assets/img/user_nohead.png'
     }
   },
 

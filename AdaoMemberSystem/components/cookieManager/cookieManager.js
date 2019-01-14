@@ -193,7 +193,7 @@ Component({
           CookieWarning: res.info.warning,
           CookieList: res.cookies
         });
-        this.triggerEvent('endload', { from: 'cookie', needRefresh: false });
+        this.triggerEvent('endload', { from: 'cookie', needRefresh: false, userInfo: res.info });
       })
       .catch(error => {
         if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {

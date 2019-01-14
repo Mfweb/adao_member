@@ -18,8 +18,13 @@ function getCookies() {
 
         let info = {
           warning: null,
-          capacity: null
+          capacity: null,
+          userIco: null
         };
+        info.userIco = content.match(/tpl-header-list-user-ico"><imgsrc="[\s\S]*?"><\/span>/ig);
+        if(info.userIco != null) {
+          info.userIco = info.userIco[0].replace(/tpl-header-list-user-ico"><imgsrc="/g, '').replace(/"><\/span>/g, '');
+        }
 
         info.warning = content.match(/<b>\[警告\]<\/b>[\s\S]*?<\/span>/ig);
         if (info.warning != null) {

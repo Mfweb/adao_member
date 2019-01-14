@@ -44,6 +44,7 @@ Page({
 
       popupMenuOpenData: {
         show: false,
+        userIco: 'http://adnmb.com/Public/member/users/assets/img/user_nohead.png',
         statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight,
         selectedIndex: 0,
         picURL: '',
@@ -192,6 +193,9 @@ Page({
         this.setData({ authLoading: false });
         break;
       case 'cookie':
+        if (event.detail.userInfo) {
+          this.setData({ 'popupMenuOpenData.userIco': 'http://adnmb.com' + event.detail.userInfo.userIco });
+        }
         this.setData({ cookieLoading: false });
         break;
       case 'sport':
