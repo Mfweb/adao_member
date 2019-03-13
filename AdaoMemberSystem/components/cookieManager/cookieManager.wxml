@@ -13,6 +13,7 @@
         <button id='{{index}}' bindtap='onGetCookie' class='cButton' loading='{{item.getLoading}}' type='primary' size='mini'>获取</button>
       </view>
     </view>
+    <image wx:if='{{notAuth}}' class='anote' src='../../imgs/note.jpg' mode='aspectFit'></image>
     <view class='cookie-num'>饼干槽:{{CookieNum}}</view>
     <view wx:if='{{CookieWarning!=null}}' class='cookie-warn'>{{CookieWarning}}</view>
     <form wx:if='{{vCodeShow}}' class='vcodeMode' id='{{FormID}}' bindsubmit='onEnterCookie'>

@@ -119,3 +119,6 @@
   height: 0px;
   width: 0px;
 }
+.anote {
+  width: 100%;
+}

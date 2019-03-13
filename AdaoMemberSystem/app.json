@@ -11,14 +11,14 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#334054",
     "navigationBarTitleText": "A岛注册实名系统",
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "backgroundColor": "#334054",
     "navigationStyle": "custom"
   },
   "networkTimeout": {
-    "request": 10000,
+    "request": 16000,
     "connectSocket": 50000,
-    "uploadFile": 10000,
-    "downloadFile": 10000
+    "uploadFile": 16000,
+    "downloadFile": 16000
   }
 }

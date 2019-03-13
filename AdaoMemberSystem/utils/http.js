@@ -155,13 +155,13 @@ function get_verifycode() {
       },
       success: function (res) {
         if (res.errMsg != 'downloadFile:ok') {
-          reject('../../loaderror.png');
+          reject('loaderror.png');
           return;
         }
         resolve(res.tempFilePath);
       },
       fail: function () {
-        reject('../../loaderror.png');
+        reject('loaderror.png');
       }
     });
   });

@@ -199,7 +199,7 @@ Component({
         app.showError('获取验证码错误');
         this.setData({
           vCodeLoading: false,
-          verifyCodeURL: err
+          verifyCodeURL: "../../imgs/" + err
         });
       });
     },

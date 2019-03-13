@@ -44,6 +44,7 @@ Component({
     EnterButLoading: false,//确认按钮loading
     CookieNum: '[0/0]',
     CookieWarning: null,
+    notAuth: false
   },
   /**
    * 组件的方法列表
@@ -144,7 +145,8 @@ Component({
           this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
           this.setData({
             vCodeShow: false,
-            EnterButLoading: false
+            EnterButLoading: false,
+            notAuth: false
           });
           app.showSuccess('大成功');
           app.log('get new cookie success');
@@ -176,7 +178,7 @@ Component({
         app.showError('获取验证码失败');
         this.setData({
           vCodeLoading: false,
-          verifyCodeURL: res
+          verifyCodeURL: "../../imgs/" + err
         });
       });
     },
@@ -191,15 +193,22 @@ Component({
         this.setData({
           CookieNum: res.info.capacity,
           CookieWarning: res.info.warning,
-          CookieList: res.cookies
+          CookieList: res.cookies,
+          notAuth: false
         });
         this.triggerEvent('endload', { from: 'cookie', needRefresh: false, userInfo: res.info });
       })
       .catch(error => {
         if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
           app.showError('请点击左上角菜单完成实名认证后再使用。');
+          this.setData({
+            notAuth: true
+          });
         }
         else {
+          this.setData({
+            notAuth: false
+          });
           app.showError(error.message);
         }
         this.triggerEvent('endload', { from: 'cookie', needRefresh: false });
