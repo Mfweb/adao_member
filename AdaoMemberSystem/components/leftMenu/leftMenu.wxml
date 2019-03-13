@@ -1,4 +1,4 @@
-<view hover-class='exitBtnDw' class='exitBtn' hover-stay-time='100' bindtap='onTapMenuButton' bindlongpress='onEat' style='top: {{data.statusBarHeight}}px;'>
+<view hover-class="exitBtnDw" class="exitBtn" hover-stay-time='100' bindtap='onTapMenuButton' bindlongpress='onEat' style='top: {{data.statusBarHeight}}px;'>
   <image class='exitBtnIcon' mode='aspectFit' src='../../imgs/menu.png'></image>
 </view>
 

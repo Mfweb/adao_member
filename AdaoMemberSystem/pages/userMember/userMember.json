@@ -8,6 +8,7 @@
     "passwdManager": "/components/passwdManager/passwdManager",
     "sportManager": "/components/sportManager/sportManager",
     "title": "/components/title/title",
-    "wifeList": "/components/wifeList/wifeList"
+    "wifeList": "/components/wifeList/wifeList",
+    "lwMeme": "/components/lwMeme/lwMeme"
   }
 }

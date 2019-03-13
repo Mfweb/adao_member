@@ -35,6 +35,9 @@
   bindstartload="onLoadStart"
   bindendload="onLoadEnd">
 </wifeList>
-
+<lwMeme
+  wx:if='{{pageIndex==5}}'
+  top="{{statusBarHeight}}">
+</lwMeme>
 <leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
 

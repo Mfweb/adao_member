@@ -66,9 +66,13 @@ Page({
             name: '肥宅排行',
             icon: 'sport',
             canSwitch: true
-          },{
+          }, {
             name: '选老婆',
             icon: 'wifes',
+            canSwitch: true
+          }, {
+            name: '芦苇表情包',
+            icon: 'lw',
             canSwitch: true
           }, {
             name: '关于',
@@ -112,7 +116,7 @@ Page({
         startLoadAuth: true
       });
     }
-    else if (this.data.pageIndex == 2){
+    else if (this.data.pageIndex == 2 || this.data.pageIndex == 5){
       wx.stopPullDownRefresh();
     }
     else if (this.data.pageIndex == 3){
@@ -157,14 +161,15 @@ Page({
       case 2:
       case 3:
       case 4:
+      case 5:
         this.setData({ pageIndex: id.detail });
         break;
-      case 5:
+      case 6:
         wx.navigateTo({
           url: '../about/about',
         });
         break;
-      case 6:
+      case 7:
         app.logOut();
         break;
       default:
