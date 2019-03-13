@@ -77,16 +77,13 @@ Component({
 
     },
     onViewImage: function () {
-      if (this.data.data.picURL == '' || this.data.data.picURL == null) {
-        getApp().showError('图片为空');
-        return;
-      }
-      wx.previewImage({
-        urls: [this.data.data.picURL],
-      });
       getApp().getImage().then(res => {
-        this.setData({ 'data.picURL': res });
-      });
+        wx.previewImage({
+          urls: [res],
+        });
+      }).catch(() => {
+        console.log("error");
+      })
     }
   }
 })
