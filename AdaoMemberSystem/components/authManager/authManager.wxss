@@ -97,3 +97,11 @@
   height: 0px;
   width: 0px;
 }
+.user-note {
+  color: #F0E68C;
+  margin: 120px 10px 10px 10px;
+  font-size: 1rem;
+}
+.user-note-line {
+  margin: 30px 0 30px 0 ;
+}

@@ -26,4 +26,30 @@
   <template wx:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}"/>
   <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}' bindtap='onCopyAuthPhoneNumber'>复制手机号</button>
   <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
+  <view class='user-note'>
+    <view>
+    初来乍到，岛风喧嚣，担心一不小心就会惹怒暴躁肥肥？来阅读这篇很短的A岛指南能快速提高生存技巧噢⬇️
+    </view>
+    <view class='user-note-line'>
+    第一条，发串前阅读总版规和专版版规，违规内容很容易被秒删秒封（尤其是发车涉黄和zz）。
+    </view>
+    <view class='user-note-line'>
+    第二条，由于匿名版的意义和理性客观讨论的原则，形成了严格于一般网络社区的氛围，尤其反感“以现充和富有的优越感凌驾于他人之上”、“何不食肉糜的无病呻吟”、和“突出女性身份企图吸引眼球”，发布可能涉及到以上的内容前请斟酌，包括有意无意提到自己的上述身份。实际上在匿名版里你的身份没有意义也没人关心，我们只关注你要讨论的话题。
+    </view>
+    <view class='user-note-line'>
+    第三条，由于A岛曾作为A站子站运行，而A站是中国最早的弹幕网站，岛民或多或少亲身经历过B站的诸多流氓行为，所以普遍反感“无视/无知B站的恶行来本站宣传B站”。
+    </view>
+    <view class='user-note-line'>
+    第四条，专版可以提供专注某类话题的讨论环境，发表相关话题时可以优先使用专版。不是为了吸引眼球的女性身份内容可以去姐妹一版，不是要无病呻吟的心情随感内容可以去日记版，不是要宣传B站的二次元圈八卦内容可以去圈内版发布。
+    </view>
+    <view class='user-note-line'>
+    第五条，发串时不需要填写名称标题和邮箱，直接填写正文就可以发布
+    </view>
+    <view class='user-note-line'>
+    第六条，如果你能遵守以上社区公约，你将收获到更实事求是好好讨论的社区环境，如果不能遵守建议你先只围观（食雕）而不要轻易发布内容，或者尝试连点版本号开启里岛。
+    </view>
+    <view class='user-note-line'>
+    第七条，如果你已经切实的做好了以上公约却仍遭遇暴躁肥肥的愤怒和阴阳怪气，可以使用值班室进行举报，管理员会客观进行删封。
+    </view>
+  </view>
 </view>
