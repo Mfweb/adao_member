@@ -8,7 +8,7 @@ Component({
     },
     userIco: {
       type: String,
-      value: 'http://adnmb.com/Public/member/users/assets/img/user_nohead.png'
+      value: 'http://adnmb2.com/Public/member/users/assets/img/user_nohead.png'
     }
   },
 
@@ -19,9 +19,12 @@ Component({
 
   },
   attached: function () {
-    getApp().getImage().then(res => {
+    /*getApp().getImage().then(res => {
+      console.log(res); // 有的手机上莫名其妙404，换成静态图
       this.setData({ 'data.picURL': res });
-    });
+    }).catch(()=>{
+      console.log("error");
+    })*/
   },
   /**
    * 组件的方法列表

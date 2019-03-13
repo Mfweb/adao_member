@@ -4,9 +4,9 @@
 
 <view class="popup-menu {{data.show==true?'popup-menu-open':''}}" style='top: {{data.statusBarHeight}}px; height: calc(100% - {{data.statusBarHeight}}px);'>
   <view class='popup-menu-topbar' bindtap='onViewImage'>
-    <image class='popup-menu-acimg' src="{{data.picURL}}" mode='aspectFill'></image>
+    <image class='popup-menu-acimg' src="../../imgs/wlp.jpg" mode='aspectFill'></image>
     <view class='popup-menu-userinfo'>
-      <image class='popup-menu-usericon' src="{{data.userIco}}" mode='aspectFill'></image>
+      <!--<image class='popup-menu-usericon' src="{{data.userIco}}" mode='aspectFill'></image>-->
       <view class='popup-menu-username'>{{data.userName}}</view>
     </view>
   </view>

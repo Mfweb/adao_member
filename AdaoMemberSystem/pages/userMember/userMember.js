@@ -194,7 +194,7 @@ Page({
         break;
       case 'cookie':
         if (event.detail.userInfo) {
-          this.setData({ 'popupMenuOpenData.userIco': 'http://adnmb.com' + event.detail.userInfo.userIco });
+          this.setData({ 'popupMenuOpenData.userIco': 'http://adnmb2.com' + event.detail.userInfo.userIco });
         }
         this.setData({ cookieLoading: false });
         break;
