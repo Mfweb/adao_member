@@ -105,3 +105,20 @@
 .user-note-line {
   margin: 30px 0 30px 0 ;
 }
+.atm-sweater {
+  position: fixed;
+  max-width: 90%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.0;
+  margin: auto;
+  border-radius: 6px;
+  transition: All 0.4s ease;
+  z-index: -1;
+}
+.atm-sweater-show {
+  z-index: 999;
+  opacity: 0.4;
+}

@@ -3,6 +3,7 @@ const http = require('../../utils/http.js');
 var WxParse = require('../../wxParse/wxParse.js');
 var timer = null;
 var authData = null;
+var showATMCounter = 0;
 
 Component({
   /**
@@ -43,6 +44,7 @@ Component({
   data: {
     verifyCodeURL: '',
     vCodeLoading: false,
+    showATM: false,
     EnterButLoading: false,//确认按钮loading
     CertStatus: "请下拉刷新",//实名认证状态
     PhoneStatus: "请下拉刷新",//手机实名认证状态
@@ -281,5 +283,29 @@ Component({
     onTapVerifyCode: function (e) {
       this.getNewVcode();
     },
+
+    onShowATM: function(){
+      if (showATMCounter == 0) {
+        setTimeout(()=>{
+          if (showATMCounter >= 4) {
+            this.setData({
+              showATM: true
+            }, () => setTimeout(() => {
+              this.setData({
+                showATM: false
+              });
+              showATMCounter = 0;
+            }, 400));
+
+          }
+          else {
+            showATMCounter = 0;
+            console.log('out');
+          }
+        }, 500);
+      }
+      showATMCounter ++;
+      console.log(showATMCounter);
+    }
   }
 })
