@@ -19,12 +19,10 @@ Component({
 
   },
   attached: function () {
-    /*getApp().getImage().then(res => {
-      console.log(res); // 有的手机上莫名其妙404，换成静态图
-      this.setData({ 'data.picURL': res });
-    }).catch(()=>{
-      console.log("error");
-    })*/
+    getApp().getImage().then(res => {
+      // 有的手机上莫名其妙404，换成静态图，这里获取一下是为了及时同步图库
+      console.log(res);
+    });
   },
   /**
    * 组件的方法列表

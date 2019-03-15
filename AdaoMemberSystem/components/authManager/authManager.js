@@ -300,12 +300,10 @@ Component({
           }
           else {
             showATMCounter = 0;
-            console.log('out');
           }
         }, 500);
       }
       showATMCounter ++;
-      console.log(showATMCounter);
     }
   }
 })
