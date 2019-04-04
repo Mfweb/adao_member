@@ -70,6 +70,11 @@ App({
         icon: 'izzz.png'
       },
       {
+        name: 'iOS粉岛(测试)',
+        url: 'https://testflight.apple.com/join/zyS4hek1',
+        icon: 'ifd.png'
+      },
+      {
         name: '安卓芦苇娘',
         url: 'https://www.pgyer.com/adao',
         icon: 'alw.png'
@@ -78,6 +83,11 @@ App({
         name: '安卓基佬紫',
         url: 'https://www.pgyer.com/nimingban',
         icon: 'azd.png'
+      },
+      {
+        name: '安卓蓝岛',
+        url: 'https://www.pgyer.com/adnmb',
+        icon: 'ald.png'
       },
       {
         name: '人权芦苇娘',
