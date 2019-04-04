@@ -47,6 +47,7 @@ Page({
       }
       memberMode = 0;
       if (app.globalData.SystemInfo.Scene == 1069) {//通过APP拉起
+        app.globalData.SystemInfo.Scene = 1001;//清空状态
         if (pageEvent.mode != undefined && pageEvent.mode == 'reg') {
           this.setData({ BLoading: false });
           this.switchPage(1);
@@ -87,6 +88,7 @@ Page({
               wx.navigateTo({
                 url: '../app-cookie/app-cookie',
               });
+              memberMode = 0;//清空状态
             }
           }
           else if (typeof res.data == 'object' && res.data.hasOwnProperty('info')) {
@@ -172,6 +174,7 @@ Page({
               wx.navigateTo({
                 url: '../app-cookie/app-cookie',
               });
+              memberMode = 0; //清空状态
             }
           }
           else {

@@ -70,7 +70,9 @@ Page({
   getCookies: function () {
     cookie.getCookies().then(res => {
       if (res.cookies.length == 0) {
-        app.showError('没有饼干');
+        app.showError('你没有饼干，点击确认重新登录后获取饼干再次进行导入。', ()=> {
+          wx.navigateBack({});
+        });
       }
       else {
         this.setData({
@@ -81,7 +83,9 @@ Page({
       wx.hideNavigationBarLoading();
     }).catch(error => {
         if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
-          app.showError('请点击左上角菜单完成实名认证后再使用。');
+          app.showError('你还没有实名认证，请点击确认后重新登录，进入用户系统完成实名认证并领取饼干后再次导入。', ()=>{
+            wx.navigateBack({});
+          });
         }
         else {
           app.showError(error.message);

@@ -159,12 +159,13 @@ App({
       this.globalData.SystemInfo.Windows.statusBarHeight += 4;
     }
   },
-  showSuccess: function (msg) {
+  showSuccess: function (msg, success = () => { }) {
     if (msg.length > 7) {
       wx.showModal({
         title: '提示',
         content: msg,
-        showCancel: false
+        showCancel: false,
+        success: success
       })
     }
     else {
@@ -172,12 +173,13 @@ App({
         icon: 'success',
         title: msg
       });
+      success();
     }
     wx.reportAnalytics('on_user_success', {
       strmessage: msg
     });
   },
-  showError: function (msg) {
+  showError: function (msg, success = () => { }) {
     let xmsg = '无';
     if (typeof msg != 'string') {
       if (typeof msg != 'undefined') {
@@ -200,14 +202,16 @@ App({
       wx.showModal({
         title: '提示',
         content: msg,
-        showCancel: false
-      })
+        showCancel: false,
+        success: success
+      });
     }
     else {
       wx.showToast({
         title: msg,
         image: '../../imgs/alert.png'
       });
+      success();
     }
   },
   log: function (msg) {
