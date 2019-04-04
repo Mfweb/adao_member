@@ -97,7 +97,7 @@
   padding-right: 7px;
   justify-content: flex-start;
   align-items: center;
-  height: 40px;
+  height: 35px;
   width: 100%;
 }
 .popup-menu-item-hover {
@@ -105,8 +105,8 @@
 }
 .popup-menu-item-icon{
   margin-right: 3px;
-  height: 32px;
-  width: 32px;
+  height: 30px;
+  width: 30px;
 }
 .popup-menu-item-text{
   font-size: 20px;

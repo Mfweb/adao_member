@@ -219,7 +219,7 @@ App({
   },
   showDownloadAPP: function () {
     wx.showActionSheet({
-      itemList: ['iOS-芦苇娘', 'iOS-橙岛', '安卓-芦苇娘', '安卓-基佬紫', '人权机'],
+      itemList: ['iOS-芦苇娘', 'iOS-橙岛', 'iOS-粉岛(测试)', '安卓-芦苇娘', '安卓-基佬紫', '安卓-蓝岛', '人权机'],
       itemColor: '#334054',
       success: function (e) {
         if (e.cancel != true) {
