@@ -7,6 +7,7 @@ App({
   onLaunch: function () {
     this.getSysWindow();
     this.getCDN();
+    this.getApplist();
   },
   onShow: function (res) {
     this.globalData.SystemInfo.Scene = res.scene;
@@ -34,6 +35,7 @@ App({
       ChangePasswordURL: hostURL + "/nmb/Member/User/Index/changePassword.html",//修改密码
 
       GetNoticeURL: hostURL + "/adao/member/notice.php",//获取公告
+      GetAppListURL: hostURL + "/adao/member/applist.php",//获取App列表
       GetAuthPhoneURL: hostURL + "/adao/member/getphone.php",//获取三酱验证手机号
       GetRandomPicURL: hostURL + "/adao/getpicture.php",//获取随机图
       GetLaunchPicURL: hostURL + "/adao/getlaunchscreen.php",//启动页面图
@@ -58,43 +60,42 @@ App({
       WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
       WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
     },
-    AppList: [
-      {
-        name: 'iOS芦苇娘',
-        url: 'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',
-        icon: 'ilw.png'
-      },
-      {
-        name: 'iOS橙岛',
-        url: 'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',
-        icon: 'izzz.png'
-      },
-      {
-        name: 'iOS粉岛(测试)',
-        url: 'https://testflight.apple.com/join/zyS4hek1',
-        icon: 'ifd.png'
-      },
-      {
-        name: '安卓芦苇娘',
-        url: 'https://www.pgyer.com/adao',
-        icon: 'alw.png'
-      },
-      {
-        name: '安卓基佬紫',
-        url: 'https://www.pgyer.com/nimingban',
-        icon: 'azd.png'
-      },
-      {
-        name: '安卓蓝岛',
-        url: 'https://www.pgyer.com/adnmb',
-        icon: 'ald.png'
-      },
-      {
-        name: '人权芦苇娘',
-        url: 'https://www.microsoft.com/zh-cn/store/apps/a%E5%B2%9B%E5%8C%BF%E5%90%8D%E7%89%88/9nblggh1ng7h',
-        icon: 'rqlw.png'
-      },
-    ],
+    AppList: {
+      iOS: [
+        {
+          name: 'iOS芦苇娘',
+          url: 'https://itunes.apple.com/cn/app/ni-ming-bana-dao/id1094980737?mt=8',
+          icon: 'ilw.png'
+        },
+        {
+          name: 'iOS橙岛',
+          url: 'https://itunes.apple.com/cn/app/ac-ni-ming-ban/id987004913?mt=8',
+          icon: 'izzz.png'
+        },
+        {
+          name: 'iOS粉岛(测试)',
+          url: 'https://testflight.apple.com/join/zyS4hek1',
+          icon: 'ifd.png'
+        }
+      ],
+      Android: [
+        {
+          name: '安卓芦苇娘',
+          url: 'https://www.pgyer.com/adao',
+          icon: 'alw.png'
+        },
+        {
+          name: '安卓基佬紫',
+          url: 'https://www.pgyer.com/nimingban',
+          icon: 'azd.png'
+        },
+        {
+          name: '安卓蓝岛',
+          url: 'https://www.pgyer.com/adnmb',
+          icon: 'ald.png'
+        }
+      ]
+    },
     SystemInfo: {
       Windows: {
         height: 0,
@@ -223,21 +224,30 @@ App({
   },
   showDownloadAPP: function () {
     wx.showActionSheet({
-      itemList: ['iOS-芦苇娘', 'iOS-橙岛', 'iOS-粉岛(测试)', '安卓-芦苇娘', '安卓-基佬紫', '安卓-蓝岛', '人权机'],
-      itemColor: '#334054',
-      success: function (e) {
-        if (e.cancel != true) {
-          wx.setClipboardData({
-            data: this.globalData.AppList[e.tapIndex].url,
-            success: function () {
-              this.showSuccess('链接已复制');
-            }.bind(this),
-            fail: function () {
-              this.showError('复制失败');
-            }.bind(this)
+      itemList: Object.keys(this.globalData.AppList),
+      itemColor:'#334054',
+      success: e => {
+        if(!e.cancel) {
+          var selectPlatform = Object.keys(this.globalData.AppList)[e.tapIndex];
+          wx.showActionSheet({
+            itemList: this.globalData.AppList[selectPlatform].map(item => item.name),
+            itemColor: '#334054',
+            success: e => {
+              if (!e.cancel) {
+                wx.setClipboardData({
+                  data: this.globalData.AppList[selectPlatform][e.tapIndex].url,
+                  success: function () {
+                    this.showSuccess('链接已复制');
+                  }.bind(this),
+                  fail: function () {
+                    this.showError('复制失败');
+                  }.bind(this)
+                });
+              }
+            }
           });
         }
-      }.bind(this)
+      }
     });
   },
   logOut: function () {
@@ -289,6 +299,17 @@ App({
         callback(terms_saved);
       }
     }
+  },
+  getApplist: function() {
+    http.requestGet(this.globalData.ApiUrls.GetAppListURL).then(res => {
+      if (typeof res.data == 'object') {
+        if (res.data.errno == '0') {
+          this.globalData.AppList = JSON.parse(JSON.stringify(res.data.applist));
+        }
+      }
+    }).catch((res) => {
+      this.log('get applist error.');
+    });
   },
   checkVersion: function () {
     let verString = wx.getSystemInfoSync();

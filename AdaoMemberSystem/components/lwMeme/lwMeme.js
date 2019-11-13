@@ -15,7 +15,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    lwMemeSampleLeft: ['0.png', '2.png', '4.png', '6.png', '8.png', '10.png', '12.png', '14.png', '16.png'],
+    lwMemeSampleLeft: ['0.png', '2.png', '4.png', '6.png', '8.png', '10.png', '12.png', '14.png'],
     lwMemeSampleRight: ['1.png', '3.png', '5.png', '7.png', '9.png', '11.png', '13.png', '15.png']
   },
 

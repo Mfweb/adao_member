@@ -49,7 +49,7 @@ Page({
         selectedIndex: 0,
         picURL: '',
         userName: '匿名肥宅',
-        appList: app.globalData.AppList,
+        appList: app.globalData.AppList.iOS.concat(app.globalData.AppList.Android),
         menuList: [{
             name: '饼干管理',
             icon: 'cookie',

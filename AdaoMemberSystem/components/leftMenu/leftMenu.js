@@ -55,7 +55,7 @@ Component({
      */
     onTapDownloadApp: function (e) {
       wx.setClipboardData({
-        data: getApp().globalData.AppList[e.currentTarget.id].url,
+        data: this.data.data.appList[e.currentTarget.id].url,
         success: function () {
           getApp().showSuccess('链接已复制');
           this.onTapOverlay();

@@ -141,4 +141,7 @@
 .text{
   width: 97%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }

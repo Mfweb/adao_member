@@ -142,9 +142,10 @@ Page({
    */
   onPageScroll: function (e) {
     mainListQuery.exec(function (res) {
-      var max_height = res[0].height;
+      if(!res || res.length == 0 || !res[0].height) return;
+      var { height } = res[0];
       //大于2/3就加载下一页
-      if (e.scrollTop > (max_height * 0.66) && e.scrollTop < (max_height * 0.7)) {
+      if (e.scrollTop > (height * 0.66) && e.scrollTop < (height * 0.7)) {
         if (isRefreshing) return;
         this.getReplys();
       }

@@ -39,7 +39,7 @@ Page({
     app.getTerms();
     this.switchPage(0);
     wx.showNavigationBarLoading();
-    this.showNotice(function () {
+    this.showNotice(() => {
       //1078用来测试的，因为小程序调试工具不支持1069
       if (app.globalData.SystemInfo.Scene == 1078) {
         app.globalData.SystemInfo.Scene = 1069;
@@ -111,7 +111,7 @@ Page({
           verifyCodeURL: '../../imgs/loaderror.png'
         });
       });
-    }.bind(this));
+    });
   },
   onTapVerifyCode: function (e) {
     this.getNewVcode();
