@@ -408,7 +408,7 @@ Page({
   showNotice: function (callback) {
     http.requestGet(app.globalData.ApiUrls.GetNoticeURL).then(res => {
       if (typeof res.data == 'object') {
-        if (res.data.errno == '0' && res.data.notice.length > 0) {
+        if (res.data.status == 'ok' && res.data.notice.length > 0) {
           var noticeMark = wx.getStorageSync('NoticeMark');
           if (noticeMark == undefined || noticeMark == null || noticeMark == '')
             noticeMark = 0;

@@ -1,8 +1,7 @@
 //app.js
 const http = require('./utils/http.js');
 const wxApis = require('./utils/wxApis.js');
-//const hostURL = "https://nmb.fastmirror.org";
-const hostURL = "https://amember.mfweb.top";
+const hostURL = "https://reed.mfweb.top";
 App({
   onLaunch: function () {
     this.getSysWindow();
@@ -34,16 +33,16 @@ App({
       MobileCheckURL: hostURL + "/nmb/Member/User/Authentication/isBindMobile",//手机认证校验
       ChangePasswordURL: hostURL + "/nmb/Member/User/Index/changePassword.html",//修改密码
 
-      GetNoticeURL: hostURL + "/adao/member/notice.php",//获取公告
-      GetAppListURL: hostURL + "/adao/member/applist.php",//获取App列表
-      GetAuthPhoneURL: hostURL + "/adao/member/getphone.php",//获取三酱验证手机号
-      GetRandomPicURL: hostURL + "/adao/getpicture.php",//获取随机图
-      GetLaunchPicURL: hostURL + "/adao/getlaunchscreen.php",//启动页面图
+      GetNoticeURL: hostURL + "/WeChat/Member/Notice",//获取公告
+      GetAppListURL: hostURL + "/WeChat/Member/AppList",//获取App列表
+      GetAuthPhoneURL: hostURL + "/WeChat/Member/Phone",//获取三酱验证手机号
+      GetRandomPicURL: hostURL + "/Functions/Pictures/GetRandomPicture",//获取随机图
+      GetLaunchPicURL: hostURL + "/WeChat/Member/LaunchScreen",//启动页面图
       Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
       //获取分享串
-      GetSharesURL: hostURL + "/adao/getshare.php",
+      GetSharesURL: hostURL + "/WeChat/Member/Share",
       //获取服务条款
-      GetTermsURL: hostURL + "/adao/member/getterms.php",
+      GetTermsURL: hostURL + "/WeChat/Member/Terms",
       GetCDNURL: "https://nmb.fastmirror.org/Api/getCdnPath?appid=wechatapp",//获取CDN地址
       //主岛配置
       ThreadURL: hostURL + "/nmb/Api/thread?appid=wechatapp",//获得串内容和回复
@@ -56,9 +55,9 @@ App({
       BTThumbImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/thumb/",//缩略图
       BTFullImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/image/",//原图
       //小程序功能
-      WeLoginURL: hostURL + "/adao/member/login.php",//登录
-      WeUploadRunURL: hostURL + "/adao/member/uprun.php",//上传微信运动数据
-      WeDownloadRunURL: hostURL + "/adao/member/dwrun.php",//获取微信运动排行
+      WeLoginURL: hostURL + "/WeChat/Member/WeChatLogin",//登录
+      WeUploadRunURL: hostURL + "/WeChat/Member/UploadSport",//上传微信运动数据
+      WeDownloadRunURL: hostURL + "/WeChat/Member/GetSportList",//获取微信运动排行
     },
     AppList: {
       iOS: [
@@ -303,7 +302,7 @@ App({
   getApplist: function() {
     http.requestGet(this.globalData.ApiUrls.GetAppListURL).then(res => {
       if (typeof res.data == 'object') {
-        if (res.data.errno == '0') {
+        if (res.data.status == 'ok') {
           this.globalData.AppList = JSON.parse(JSON.stringify(res.data.applist));
         }
       }

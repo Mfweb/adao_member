@@ -133,12 +133,12 @@ Component({
           });
       }).then(res => {
         try {
-          if (res.data.status == 0) {
-            app.showSuccess(res.data.msg);
+          if (res.data.status == 'ok') {
+            app.showSuccess('上传成功');
             this.triggerEvent('endload', { from: 'sport', needRefresh: true });
           }
           else {
-            app.showError(res.data.msg);
+            app.showError(res.data.errmsg);
           }
         }
         catch (err) {
@@ -156,11 +156,11 @@ Component({
      */
     GetStep: function () {
       http.requestGet(app.globalData.ApiUrls.WeDownloadRunURL).then(res => {
-        if (res.data.status == 0) {
+        if (res.data.status == 'ok') {
           this.setData({ StepList: res.data.steps });
         }
         else {
-          app.showError(res.data.msg);
+          app.showError(res.data.errmsg);
         }
         this.triggerEvent('endload', { from: 'sport', needRefresh: false });
       }).catch(error => {
@@ -188,7 +188,7 @@ Component({
         }
       })
       .then(res => {
-        if (res.data.status == 0) {
+        if (res.data.status == "ok") {
           wx.setStorageSync('LoginSession', res.data.session);
           //获取授权
           this.GetAuth();
