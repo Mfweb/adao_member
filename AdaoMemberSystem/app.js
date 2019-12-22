@@ -18,46 +18,46 @@ App({
   },
   globalData: {
     ApiUrls: {
-      VerifyCodeURL: hostURL + "/nmb/Member/User/Index/verify.html",//请求验证码
-      LoginURL: hostURL + "/nmb/Member/User/Index/login.html",//登录
-      SignupURL: hostURL + "/nmb/Member/User/Index/sendRegister.html",//注册
-      ForgotURL: hostURL + "/nmb/Member/User/Index/sendForgotPassword.html",//忘记密码
-      CheckSessionURL: hostURL + "/nmb/Member/User/Index/index.html",//检查是Session是否有效
-      CookiesListURL: hostURL + "/nmb/Member/User/Cookie/index.html",//饼干列表
-      CookieDeleteURL: hostURL + "/nmb/Member/User/Cookie/delete/id/",//删除饼干
-      CookieGetQRURL: hostURL + "/nmb/Member/User/Cookie/export/id/",//获取饼干二维码
-      CookieGetDetailURL: hostURL + "/nmb/Member/User/Cookie/switchTo/id/",//获取饼干内容
-      CookieGetNewURL: hostURL + "/nmb/Member/User/Cookie/apply.html",//获取新饼干
-      CertifiedStatusURL: hostURL + "/nmb/Member/User/Authentication/mobile.html",//认证状态
-      MobileCertURL: hostURL + "/nmb/Member/User/Authentication/mobileReverseAuthCode",//手机认证
-      MobileCheckURL: hostURL + "/nmb/Member/User/Authentication/isBindMobile",//手机认证校验
-      ChangePasswordURL: hostURL + "/nmb/Member/User/Index/changePassword.html",//修改密码
+      VerifyCodeURL: `${hostURL}/nmb/Member/User/Index/verify.html`,//请求验证码
+      LoginURL: `${hostURL}/nmb/Member/User/Index/login.html`,//登录
+      SignupURL: `${hostURL}/nmb/Member/User/Index/sendRegister.html`,//注册
+      ForgotURL: `/${hostURL}nmb/Member/User/Index/sendForgotPassword.html`,//忘记密码
+      CheckSessionURL: `${hostURL}/nmb/Member/User/Index/index.html`,//检查是Session是否有效
+      CookiesListURL: `${hostURL}/nmb/Member/User/Cookie/index.html`,//饼干列表
+      CookieDeleteURL: `${hostURL}/nmb/Member/User/Cookie/delete/id/`,//删除饼干
+      CookieGetQRURL: `${hostURL}/nmb/Member/User/Cookie/export/id/`,//获取饼干二维码
+      CookieGetDetailURL: `${hostURL}/nmb/Member/User/Cookie/switchTo/id/`,//获取饼干内容
+      CookieGetNewURL: `${hostURL}/nmb/Member/User/Cookie/apply.html`,//获取新饼干
+      CertifiedStatusURL: `${hostURL}/nmb/Member/User/Authentication/mobile.html`,//认证状态
+      MobileCertURL: `${hostURL}/nmb/Member/User/Authentication/mobileReverseAuthCode`,//手机认证
+      MobileCheckURL: `${hostURL}/nmb/Member/User/Authentication/isBindMobile`,//手机认证校验
+      ChangePasswordURL: `${hostURL}/nmb/Member/User/Index/changePassword.html`,//修改密码
 
-      GetNoticeURL: hostURL + "/WeChat/Member/Notice",//获取公告
-      GetAppListURL: hostURL + "/WeChat/Member/AppList",//获取App列表
-      GetAuthPhoneURL: hostURL + "/WeChat/Member/Phone",//获取三酱验证手机号
-      GetRandomPicURL: hostURL + "/Functions/Pictures/GetRandomPicture",//获取随机图
-      GetLaunchPicURL: hostURL + "/WeChat/Member/LaunchScreen",//启动页面图
-      Tnnaii_H_IslandURL: "http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3",//奈奈-食我大雕
+      GetNoticeURL: `${hostURL}/WeChat/Member/Notice`,//获取公告
+      GetAppListURL: `${hostURL}/WeChat/Member/AppList`,//获取App列表
+      GetAuthPhoneURL: `${hostURL}/WeChat/Member/Phone`,//获取三酱验证手机号
+      GetRandomPicURL: `${hostURL}/Functions/Pictures/GetRandomPicture`,//获取随机图
+      GetLaunchPicURL: `${hostURL}/WeChat/Member/LaunchScreen`,//启动页面图
+      Tnnaii_H_IslandURL: `${hostURL}/static/voice/tnnaii-h-island-c.mp3`,//奈奈-食我大雕
       //获取分享串
-      GetSharesURL: hostURL + "/WeChat/Member/Share",
+      GetSharesURL: `${hostURL}/WeChat/Member/Share`,
       //获取服务条款
-      GetTermsURL: hostURL + "/WeChat/Member/Terms",
+      GetTermsURL: `${hostURL}/WeChat/Member/Terms`,
       GetCDNURL: "https://nmb.fastmirror.org/Api/getCdnPath?appid=wechatapp",//获取CDN地址
       //主岛配置
-      ThreadURL: hostURL + "/nmb/Api/thread?appid=wechatapp",//获得串内容和回复
-      GetThreadURL: hostURL + "/nmb/Api/ref?appid=wechatapp",//获得串内容
+      ThreadURL: `${hostURL}/nmb/Api/thread?appid=wechatapp`,//获得串内容和回复
+      GetThreadURL: `${hostURL}/nmb/Api/ref?appid=wechatapp`,//获得串内容
       ThumbImgURL: "https://nmbimg.fastmirror.org/thumb/",//缩略图
       FullImgURL: "https://nmbimg.fastmirror.org/image/",//原图
       //备胎岛配置
-      BTThreadURL: hostURL + "/btnmb/Api/thread?appid=wechatapp",//获得串内容和回复
-      BTGetThreadURL: hostURL + "/btnmb/Api/ref?appid=wechatapp",//获得串内容
+      BTThreadURL: `${hostURL}/btnmb/Api/thread?appid=wechatapp`,//获得串内容和回复
+      BTGetThreadURL: `${hostURL}/btnmb/Api/ref?appid=wechatapp`,//获得串内容
       BTThumbImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/thumb/",//缩略图
       BTFullImgURL: "https://tnmbstatic.fastmirror.org/Public/Upload/image/",//原图
       //小程序功能
-      WeLoginURL: hostURL + "/WeChat/Member/WeChatLogin",//登录
-      WeUploadRunURL: hostURL + "/WeChat/Member/UploadSport",//上传微信运动数据
-      WeDownloadRunURL: hostURL + "/WeChat/Member/GetSportList",//获取微信运动排行
+      WeLoginURL: `${hostURL}/WeChat/Member/WeChatLogin`,//登录
+      WeUploadRunURL: `${hostURL}/WeChat/Member/UploadSport`,//上传微信运动数据
+      WeDownloadRunURL: `${hostURL}/WeChat/Member/GetSportList`,//获取微信运动排行
     },
     AppList: {
       iOS: [
