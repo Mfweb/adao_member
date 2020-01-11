@@ -26,7 +26,7 @@
   <template wx:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}"/>
   <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}' bindtap='onCopyAuthPhoneNumber'>复制手机号</button>
   <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary' bindtap='onPhoneCert'>点击进行手机认证</button>
-  <image class='atm-sweater{{showATM?" atm-sweater-show":""}}' mode='aspectFit' src='https://amember.mfweb.top/adao/member/upload/5965a60bcd12d.png'></image>
+  <image class='atm-sweater{{showATM?" atm-sweater-show":""}}' mode='aspectFit' src='https://reed.mfweb.top/static/images/upload/5965a60bcd12d.png'></image>
   <view class='user-note'>
     <view>
     初来乍到，岛风喧嚣，担心一不小心就会惹怒暴躁肥肥？来阅读这篇很短的A岛指南能快速提高生存技巧噢⬇️

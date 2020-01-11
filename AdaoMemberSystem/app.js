@@ -21,7 +21,7 @@ App({
       VerifyCodeURL: `${hostURL}/nmb/Member/User/Index/verify.html`,//请求验证码
       LoginURL: `${hostURL}/nmb/Member/User/Index/login.html`,//登录
       SignupURL: `${hostURL}/nmb/Member/User/Index/sendRegister.html`,//注册
-      ForgotURL: `/${hostURL}nmb/Member/User/Index/sendForgotPassword.html`,//忘记密码
+      ForgotURL: `${hostURL}/nmb/Member/User/Index/sendForgotPassword.html`,//忘记密码
       CheckSessionURL: `${hostURL}/nmb/Member/User/Index/index.html`,//检查是Session是否有效
       CookiesListURL: `${hostURL}/nmb/Member/User/Cookie/index.html`,//饼干列表
       CookieDeleteURL: `${hostURL}/nmb/Member/User/Cookie/delete/id/`,//删除饼干

@@ -27,12 +27,12 @@
   <view class='lw-meme-sample'>
     <view class='lw-meme-sample-column'>
       <view wx:for='{{lwMemeSampleLeft}}' class='lw-meme-sample-item' wx:key='{{index}}'>
-        <image class='lw-meme-sample-img' mode='aspectFit' src='https://amember.mfweb.top/adao/member/upload/lw-meme-sample/{{item}}'></image>
+        <image class='lw-meme-sample-img' mode='aspectFit' src='https://reed.mfweb.top/static/images/upload/lw-meme-sample/{{item}}'></image>
       </view>
     </view>
     <view class='lw-meme-sample-column'>
       <view wx:for='{{lwMemeSampleRight}}' class='lw-meme-sample-item' wx:key='{{index}}'>
-        <image class='lw-meme-sample-img' mode='aspectFit' src='https://amember.mfweb.top/adao/member/upload/lw-meme-sample/{{item}}'></image>
+        <image class='lw-meme-sample-img' mode='aspectFit' src='https://reed.mfweb.top/static/images/upload/lw-meme-sample/{{item}}'></image>
       </view>
     </view>
   </view>

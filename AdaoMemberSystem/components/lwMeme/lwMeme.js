@@ -38,7 +38,7 @@ Component({
 
     onViewQrcode() {
       wx.previewImage({
-        urls: ['https://amember.mfweb.top/adao/member/upload/lwmeme-qrcode.png'],
+        urls: ['https://reed.mfweb.top/static/images/upload/lwmeme-qrcode.png'],
       })
     }
   }
