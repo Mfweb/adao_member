@@ -23,7 +23,7 @@ Page({
       });
       return;
     }
-    var messageMark_this = 1;
+    var messageMark_this = 2;
 
     var messagemark_save = wx.getStorageSync('MessageMark');
     if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '') {
@@ -33,7 +33,7 @@ Page({
     if (messagemark_save < messageMark_this) {
       wx.showModal({
         title: '提示',
-        content: '本页已支持长按复制串号。',
+        content: '长按可复制链接；右上角[...]支持分享。',
         confirmText: '不再显示',
         success: function (e) {
           if (e.confirm == true) {
