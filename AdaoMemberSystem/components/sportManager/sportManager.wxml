@@ -7,7 +7,7 @@
       <view class='RunListTd2 lTitle'>饼干</view>
       <view class='RunListTd3 lTitle lTitle3'>步数</view>
     </view>
-    <view wx:for='{{StepList}}' class='RunListTr' wx:key=''>
+    <view wx:for='{{StepList}}' class='RunListTr' wx:key='slist'>
       <view class='RunListTd1'>{{index+1}}</view>
       <view class='RunListTd2'>{{item.cookie}}</view>
       <view class='RunListTd3'>{{item.stepdata}}</view>
@@ -20,7 +20,7 @@
   <view class='modal_title'>选择一个饼干</view>
   <view class='modal_content'>
     <radio-group class="radio-group" bindchange="onSelectCookieRadioChange">
-      <label class="modal_radio" wx:for="{{CookieList}}" wx:key="">
+      <label class="modal_radio" wx:for="{{CookieList}}" wx:key="sclist">
         <radio value="{{index}}" checked="{{item.checked}}"/>{{item.value}}
       </label>
     </radio-group>

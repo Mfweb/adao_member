@@ -5,7 +5,7 @@
       <view class='CookieListTd2 lTitle'>饼干</view>
       <view class='CookieListTd3 lTitle'>操作</view>
     </view>
-    <view wx:for="{{CookieList}}" class='CookieListTr' wx:key='{{index}}'>
+    <view wx:for="{{CookieList}}" class='CookieListTr' wx:key='clist'>
       <view class='CookieListTd1'>{{item.id}}</view>
       <view class='CookieListTd2'>{{item.value}}</view>
       <view class='CookieListTd3'>

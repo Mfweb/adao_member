@@ -2,7 +2,7 @@
 <title text='推送串列表' top='{{statusBarHeight}}' loading='{{listLoading}}'></title>
 
 <view class='list-container' style='padding-top: {{statusBarHeight+32}}px;'>
-  <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover" wx:key="">
+  <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover" wx:key="mlist">
     <view class="text" id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
       <view class="list-b1">
         <view class="cid">No.{{item.id}}</view>

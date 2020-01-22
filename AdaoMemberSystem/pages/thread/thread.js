@@ -397,5 +397,20 @@ Page({
     for (let i = 0; i < all_kid.length; i++) {
       this.getQuoteDetail(i);//拉取内容
     }
+  },
+  onShareAppMessage: function (res) {
+    let desc = '';
+    try {
+      desc = this.data.list[0].content[0].text;
+    }
+    catch(e) {
+
+    }
+
+    return {
+      title: 'A岛匿名版',
+      desc: desc,
+      path: `pages/thread/thread?id=${postID}&is_bt=${isBtIsland}`
+    };
   }
 })

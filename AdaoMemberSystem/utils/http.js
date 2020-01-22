@@ -81,6 +81,7 @@ function request (url, data) {
       },
       success: function (res) {
         if (res.statusCode >= 400) {
+          console.error(`${url} ${JSON.stringify(res)}`);
           reject(res);
           return;
         }

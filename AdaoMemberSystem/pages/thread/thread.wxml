@@ -3,7 +3,7 @@
 <title text='{{title}}' top='{{statusBarHeight}}' loading='{{listLoading}}'></title>
 <!--列表-->
 <view class="thread-container" id="main_list" style='margin-top: {{statusBarHeight+32}}px;'>
-  <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='' bindtap="onTapQuoteDetail">
+  <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='tlist' bindtap="onTapQuoteDetail">
     <view class="text">
       <view class="thread-b1">
         <view class="cid">No.{{item.id}}</view>

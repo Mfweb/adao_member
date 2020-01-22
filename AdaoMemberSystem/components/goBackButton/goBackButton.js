@@ -22,7 +22,14 @@ Component({
    */
   methods: {
     onTapBack: function () {
-      wx.navigateBack({});
+      if (getCurrentPages().length == 1) {
+        wx.reLaunch({
+          url: '/pages/index/index',
+        })
+      }
+      else {
+        wx.navigateBack({});
+      }
     }
   }
 })

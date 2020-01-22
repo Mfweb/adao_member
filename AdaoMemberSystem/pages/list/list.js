@@ -228,5 +228,14 @@ Page({
         this.setData({ tlist: tempData });
         this.getPostDetail(++id);
       });
+  },
+  onShareAppMessage: function(res)
+  {
+    console.log(res);
+    return {
+      title: 'A岛匿名版',
+      desc: '今日精选串',
+      path: `pages/index/index?tid=${launchOpt.tid}`
+    };
   }
 })
