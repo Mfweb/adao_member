@@ -12,8 +12,7 @@ function getCookies() {
         return;
       }
       if (typeof res.data == 'string' && res.data.indexOf('饼干列表') > 0) {
-        let content = res.data.replace(/ /g, '');
-        content = content.replace(/\r/g, '');
+        let content = res.data.replace(/\r/g, '');
         content = content.replace(/\n/g, '');
 
         let info = {
@@ -21,9 +20,9 @@ function getCookies() {
           capacity: null,
           userIco: null
         };
-        info.userIco = content.match(/tpl-header-list-user-ico"><imgsrc="[\s\S]*?"><\/span>/ig);
+        info.userIco = content.match(/tpl-header-list-user-ico"><img src="[\s\S]*?"><\/span>/ig);
         if(info.userIco != null) {
-          info.userIco = info.userIco[0].replace(/tpl-header-list-user-ico"><imgsrc="/g, '').replace(/"><\/span>/g, '');
+          info.userIco = info.userIco[0].replace(/tpl-header-list-user-ico"><img src="/g, '').replace(/"><\/span>/g, '');
         }
 
         info.warning = content.match(/<b>\[警告\]<\/b>[\s\S]*?<\/span>/ig);
@@ -31,9 +30,9 @@ function getCookies() {
           info.warning = '⚠️ [警告]' + info.warning[0].replace(/<b>\[警告\]<\/b>/g, '').replace(/<\/span>/g, '');
         }
 
-        info.capacity = content.match(/饼干容量<bclass="am-text-primary">[\s\S]*?<\/b>/ig);
+        info.capacity = content.match(/饼干容量<b class="am-text-primary">[\s\S]*?<\/b>/ig);
         if (info.capacity != null) {
-          info.capacity = info.capacity[0].replace(/饼干容量<bclass="am-text-primary">/g, '').replace(/<\/b>/g, '');
+          info.capacity = info.capacity[0].replace(/饼干容量<b class="am-text-primary">/g, '').replace(/<\/b>/g, '');
         }
 
         let tbody = content.match(/<tbody>[\s\S]*?<\/tbody>/ig);
@@ -44,7 +43,7 @@ function getCookies() {
             for (let i = 0; i < tableRoll.length; i++) {
               let find_td = tableRoll[i].match(/<td>[\s\S]*?<\/td>/ig);
               if (find_td != null) {
-                cookieList.push({ id: find_td[1].replace(/(<td>)|(<\/td>)/g, ""), value: find_td[2].replace(/(<td><ahref="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
+                cookieList.push({ id: find_td[1].replace(/(<td>)|(<\/td>)/g, ""), value: find_td[2].replace(/(<td><a href="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
               }
             }
             resolve({ cookies: cookieList, info: info });
