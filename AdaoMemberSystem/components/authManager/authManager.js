@@ -266,7 +266,7 @@ Component({
      */
     waitCert: function () {
       timer = setInterval(function () {
-        http.request(app.globalData.ApiUrls.MobileCheckURL, null).then(res => {
+        http.request(`${app.globalData.ApiUrls.MobileCheckURL}?r=${Math.random()}`, null).then(res => {
           console.log(res.data);
           if (res.data == true) {
             clearInterval(timer);
