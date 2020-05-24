@@ -16,10 +16,10 @@
     "navigationStyle": "custom"
   },
   "networkTimeout": {
-    "request": 16000,
+    "request": 20000,
     "connectSocket": 50000,
-    "uploadFile": 16000,
-    "downloadFile": 16000
+    "uploadFile": 20000,
+    "downloadFile": 20000
   },
   "sitemapLocation": "sitemap.json"
 }
