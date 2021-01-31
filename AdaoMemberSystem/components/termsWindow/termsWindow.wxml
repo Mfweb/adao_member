@@ -1,0 +1,6 @@
+<!--components/termsWindow/termsWindow.wxml-->
+<import src="../../wxParse/wxParse.wxml" />
+<view wx:if="{{showTermsWindow}}" class='modal' hover-stop-propagation='true' catchscroll="f_touch">
+  <template wx:if="{{showTermsWindow}}" is="wxParse" data="{{wxParseData:termsNodes}}" />
+  <button bindtap='close' type="primary" class='modal-close'>{{closeText}}</button>
+</view>

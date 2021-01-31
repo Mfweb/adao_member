@@ -1,5 +1,5 @@
-<image animation='{{animation}}' wx:if='{{show}}' mode='aspectFill' class='launch-image' src='{{launchPicture}}'></image>
+<image animation='{{animation}}' wx:if='{{show}}' mode='aspectFill' class='launch-image' src='{{launchPicture}}' />
 <view animation='{{animation}}' wx:if='{{show}}' class='loading-view' style='top:{{top}}px'>
-<image class='loading-icon' src='../../imgs/loading.gif'></image>
-<view class='loading-text'>正在检查登录...</view>
+  <image class='loading-icon' src='../../imgs/loading.gif'></image>
+  <view class='loading-text'>正在检查登录...</view>
 </view>
