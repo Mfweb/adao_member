@@ -37,7 +37,7 @@
 <!--显示引用串-->
 <view wx:if="{{showQuoteWindow}}" class="q_window">
   <view class="q_list">
-      <view wx:for="{{quoteList}}" id="{{item.sid}}" class="q_list_c" wx:key='' catchtap="onTapQuoteID">
+      <view wx:for="{{quoteList}}" id="{{item.sid}}" class="q_list_c" wx:key='qute_list' catchtap="onTapQuoteID">
         <view class="text">
           <view class="thread-b1">
             <view class="cid">{{item.id}}</view>
