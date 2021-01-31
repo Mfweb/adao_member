@@ -2,7 +2,7 @@ const app = getApp();
 
 Page({
   data: {
-    pic_url : "",
+    pic_url: "",
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight + 16
   },
   onLoad: function (options) {
@@ -43,12 +43,12 @@ Page({
       }
     });
   },
-  onTapImg: function(e){
+  onTapImg: function (e) {
     wx.previewImage({
       urls: [this.data.pic_url],
     });
   },
-  feedbacktap: function(e) {
+  feedbacktap: function (e) {
     let res = wx.getSystemInfoSync();
     let version = res.SDKVersion.split('.');
     if (parseInt(version[0]) < 2 || (parseInt(version[0]) == 2 && parseInt(version[1]) < 1)) {
