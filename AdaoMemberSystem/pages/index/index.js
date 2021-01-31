@@ -18,8 +18,6 @@ Page({
     RememberPW: false,
     UserName: '',
     PassWord: '',
-    showTermsWindow: false,
-    termsNodes: null,
     statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
   },
   onLoad: function (e) {
@@ -131,8 +129,7 @@ Page({
   /**
    * 登录
    */
-  onLoginSubmit: function (e)
-  {
+  onLoginSubmit: function (e) {
     if (this.data.BLoading == true) {
       return;
     }
@@ -195,8 +192,7 @@ Page({
   /**
    * 注册
    */
-  onSignupSubmit: function (e)
-  {
+  onSignupSubmit: function (e) {
     if (this.data.BLoading == true) {
       return;
     }
@@ -217,7 +213,7 @@ Page({
       return;
     }
     this.setData({ BLoading: true });
-    http.request(app.globalData.ApiUrls.SignupURL, 
+    http.request(app.globalData.ApiUrls.SignupURL,
       {
         email: u_email,
         verify: u_vcode,
@@ -246,8 +242,7 @@ Page({
   /**
    * 忘记密码
    */
-  onForgotPassSubmit: function (e)
-  {
+  onForgotPassSubmit: function (e) {
     if (this.data.BLoading == true) {
       return;
     }
@@ -264,29 +259,29 @@ Page({
       return;
     }
     this.setData({ BLoading: true });
-    http.request(app.globalData.ApiUrls.ForgotURL, 
-    {
-      email: u_email,
-      verify: u_vcode
-    }).then(res => {
-      if (typeof res.data == 'object') {
-        if (res.data.status == 1) {
-          app.showSuccess(res.data.info);
+    http.request(app.globalData.ApiUrls.ForgotURL,
+      {
+        email: u_email,
+        verify: u_vcode
+      }).then(res => {
+        if (typeof res.data == 'object') {
+          if (res.data.status == 1) {
+            app.showSuccess(res.data.info);
+          }
+          else {
+            app.showError(res.data.info);
+            this.getNewVcode();
+          }
         }
         else {
-          app.showError(res.data.info);
-          this.getNewVcode();
+          app.showError('发生错误');
+          app.log(res.data);
         }
-      }
-      else {
-        app.showError('发生错误');
-        app.log(res.data);
-      }
-      this.setData({ BLoading: false });
-    }).catch(error => {
-      app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
-      this.setData({ BLoading: false });
-    });
+        this.setData({ BLoading: false });
+      }).catch(error => {
+        app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+        this.setData({ BLoading: false });
+      });
   },
   onEat: function (e) {
     app.playEat();
@@ -319,9 +314,9 @@ Page({
   onReadPrivacy: function () {
     wx.navigateTo({ url: '../thread/thread?id=11689471&is_bt=false' });
   },
-  hideLaunchScreen: function (callback=null) {
+  hideLaunchScreen: function (callback = null) {
     let com = this.selectComponent('#LaunchScreen');
-    if(com != null) {
+    if (com != null) {
       com.hide(callback);
     }
   },
@@ -329,23 +324,8 @@ Page({
    * 载入服务条款
    */
   onReadTerms: function () {
-    app.getTerms(function (res) {
-      if (res === false) {
-        app.showError('网络错误');
-      }
-      else if (res.status != 'ok') {
-        app.showError(res.errmsg);
-      }
-      else {
-        this.setData({
-          termsNodes: WxParse.wxParse('item', 'html', res.data, this, null).nodes,
-          showTermsWindow: true
-        });
-      }
-    }.bind(this));
-  },
-  onReadTermsFinish: function () {
-    this.setData({ showTermsWindow: false });
+    const terms_window = this.selectComponent('#termsWindow');
+    terms_window.showWindow();
   },
   f_touch: function () {
   },

@@ -1,5 +1,6 @@
 @import "/wxParse/wxParse.wxss";
-.pdcontainer{
+
+.pdcontainer {
   height: auto;
   display: flex;
   flex-direction: column;
@@ -10,26 +11,30 @@
   width: 100%;
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
   position: absolute;
-  z-index:0;
-  
+  z-index: 0;
+
   margin: 0px;
   left: 0;
   top: 32px;
   padding-bottom: 70px;
 }
-.vcodeMode{
+
+.vcodeMode {
   width: 100%;
 }
-.Uenter{
+
+.Uenter {
   width: 80%;
   margin-top: 5px;
 }
-.Uclose{
+
+.Uclose {
   width: 80%;
   margin-top: 10px;
   margin-bottom: 20px;
 }
-.McodeInput{
+
+.McodeInput {
   height: 30px;
   width: 60%;
   margin: 0 auto;
@@ -37,14 +42,14 @@
   background: #fff;
   margin-bottom: 5px;
   font-size: 15px;
-  color:#000;
-  border-radius:8px;
+  color: #000;
+  border-radius: 8px;
   padding-left: 8px;
   padding-right: 8px;
 }
 
 /*实名认证*/
-.certTable{
+.certTable {
   display: flex;
   color: #fff;
   font-size: 20px;
@@ -52,15 +57,17 @@
   overflow: scroll;
 }
 
-.certSta{
+.certSta {
   color: rgb(94, 185, 94);
 }
-.PhoneCertBut{
+
+.PhoneCertBut {
   margin: 0 auto;
   width: 70%;
   margin-top: 20px;
 }
-.SelectCd{
+
+.SelectCd {
   width: 60%;
   margin: 0 auto;
   margin-top: 10px;
@@ -68,43 +75,56 @@
   height: 30px;
   font-size: 15px;
   border: 1px solid #fff;
-  border-radius:8px;
+  border-radius: 8px;
 }
-.picker{
+
+.picker {
   width: 95%;
   margin: 0 auto;
   margin-top: 5px;
 }
-.am-form-horizontal{
+
+.am-form-horizontal {
   color: #fff;
   width: 95%;
   margin: 0 auto;
   font-size: 12px;
 }
 
-.Sdata{
- font-size: 25px;
- text-align: center;
- margin: 0 auto;
+.Sdata {
+  font-size: 25px;
+  text-align: center;
+  margin: 0 auto;
 }
-.verifyCode{
+
+.verifyCode {
   width: 100%;
   max-height: 50px;
   margin: 0 auto;
   margin-top: 8px;
 }
-.verifyCodeHid{
+
+.verifyCodeHid {
   height: 0px;
   width: 0px;
 }
+
 .user-note {
   color: #F0E68C;
   margin: 120px 10px 10px 10px;
   font-size: 1rem;
 }
+
 .user-note-line {
-  margin: 30px 0 30px 0 ;
+  margin: 30px 0 30px 0;
 }
+
+.hight-light {
+  margin-left: 4px;
+  margin-right: 4px;
+  color: #FFF;
+}
+
 .atm-sweater {
   position: fixed;
   max-width: 90%;
@@ -118,6 +138,7 @@
   transition: All 0.4s ease;
   z-index: -1;
 }
+
 .atm-sweater-show {
   z-index: 999;
   opacity: 0.4;
