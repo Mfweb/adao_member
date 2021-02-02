@@ -220,6 +220,9 @@ App({
       const logger = wx.getLogManager();
       logger.log(msg);
     }
+    wx.reportAnalytics('on_user_log', {
+      strmessage: msg
+    });
   },
   showDownloadAPP: function () {
     wx.showActionSheet({
