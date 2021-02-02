@@ -1,6 +1,7 @@
 <import src="../../wxParse/wxParse.wxml"/>
 
 <title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{wifeLoading || cookieLoading || authLoading || sportLoading}}'></title>
+<div id='top'></div>
 <cookieManager
   hide='{{pageIndex==0}}'
   loadCookie="{{startLoadCookies}}"

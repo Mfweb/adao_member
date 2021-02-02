@@ -163,6 +163,10 @@ Page({
       case 4:
       case 5:
         this.setData({ pageIndex: id.detail });
+        wx.pageScrollTo({
+          duration: 0,
+          selector: '#top'
+        });
         break;
       case 6:
         wx.navigateTo({
