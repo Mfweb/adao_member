@@ -24,7 +24,7 @@
       <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
       <button class='Uclose' type='warn' bindtap='onUClose'>取消操作</button>
     </form>
-    <button bindtap='onGetNewCookie' class='nButton' type='primary'>获取新Cookie</button>
+    <button bindtap='onGetNewCookie' class='nButton' type='primary'>获取新饼干</button>
   </view>
 </view>
 <canvas class='qrCanvas' canvas-id="myQrcode"></canvas>

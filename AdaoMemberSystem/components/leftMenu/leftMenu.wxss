@@ -1,25 +1,28 @@
-.exitBtn{
+.menu-open-button {
   position: fixed;
   left: 7px;
   z-index: 888;
   background: #334054;
   width: 32px;
   height: 32px;
-  opacity:0.7;
-  content:"\f08b";
+  opacity: 0.7;
+  content: "\f08b";
   overflow: hidden;
+  transition: All 0.2s ease;
 }
 
-.exitBtnDw{
+.menu-open-button-hover {
   background-color: #F5F5F5;
 }
-.exitBtnIcon{
+
+.menu-open-button .icon {
   width: 30px;
   height: 30px;
   margin: 0 auto;
   margin-top: 1px;
   margin-left: 1px;
 }
+
 .popup-menu {
   width: 50%;
   height: 100%;
@@ -30,39 +33,27 @@
   flex-direction: column;
   align-items: flex-start;
   left: -50%;
-  transition: All 0.4s ease; 
-  overflow: hidden;
-}
-.popup-overlay {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 100%;
-  z-index: 998;
-  background-color: rgba(0,0,0,0.8);
-  transition: All 0.4s ease; 
+  transition: All 0.4s ease;
   overflow: hidden;
 }
 
-.popup-menu-open {
-  transform: rotate(0deg) scale(1) translate(100%,0%);
+.popup-menu.open {
+  transform: rotate(0deg) scale(1) translate(100%, 0%);
 }
 
-.popup-overlay-show {
-  transform: rotate(0deg) scale(1) translate(-100%,0%);
-}
-
-.popup-menu-topbar {
+.popup-menu .topbar {
   height: 20%;
   width: 100%;
   top: 0px;
 }
-.popup-menu-acimg {
+
+
+.popup-menu .topbar .acimg {
   width: 100%;
   max-height: 100%;
 }
-.popup-menu-userinfo {
+
+.popup-menu .topbar .userinfo {
   position: absolute;
   top: 5%;
   height: 15%;
@@ -71,26 +62,32 @@
   align-items: center;
   width: 100%;
 }
-.popup-menu-usericon{
+
+
+.popup-menu .topbar .userinfo .usericon {
   height: 32px;
   width: 32px;
   border-radius: 16px;
   border: 1px solid #000;
 }
-.popup-menu-username{
+
+.popup-menu .topbar .userinfo .username {
   margin-top: 12%;
   font-size: 16px;
   color: #fff;
   text-shadow: 1px 0 0px #000, -1px 0 0px #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
 }
-.popup-menu-list {
+
+
+.popup-menu .list {
   top: 20%;
   width: 100%;
   height: 80%;
   padding-top: 10px;
 }
 
-.popup-menu-item {
+
+.popup-menu .list .item {
   display: flex;
   flex-direction: row;
   padding-left: 7px;
@@ -100,25 +97,27 @@
   height: 35px;
   width: 100%;
 }
-.popup-menu-item-hover {
+
+.popup-menu .list .item.hover {
   background-color: #778899;
 }
-.popup-menu-item-icon{
+
+.popup-menu .list .item .icon {
   margin-right: 3px;
   height: 30px;
   width: 30px;
 }
-.popup-menu-item-text{
+
+.popup-menu .list .item .text {
   font-size: 20px;
   color: #DCDCDC;
 }
-.popup-line{
-  height: 2px;
-  width: 100%;
-  margin-bottom: 5px;
-  background-color: #778899;
+
+.popup-menu .list .item .text.selected {
+  color: #02d52f;
 }
-.popup-text-sm{
+
+.popup-menu .list .tag {
   font-size: 10px;
   margin-top: 10px;
   margin-bottom: 2px;
@@ -126,16 +125,37 @@
   color: #C0C0C0;
 }
 
-.popup-menu-app-icon{
+.popup-menu .list .line {
+  height: 2px;
+  width: 100%;
+  margin-bottom: 5px;
+  background-color: #778899;
+}
+
+.popup-menu .list .item .app-icon {
   margin-right: 3px;
   height: 24px;
   width: 24px;
   border-radius: 6px;
 }
-.popup-menu-app-text{
+
+.popup-menu .list .item .app-text {
   font-size: 18px;
   color: #DCDCDC;
 }
-.popup-menu-selected-text{
-  color: #02d52f;
+
+.popup-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 100%;
+  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: All 0.4s ease;
+  overflow: hidden;
+}
+
+.popup-overlay.show {
+  transform: rotate(0deg) scale(1) translate(-100%, 0%);
 }

@@ -21,5 +21,8 @@
     "uploadFile": 20000,
     "downloadFile": 20000
   },
+  "requiredBackgroundModes": [
+    "audio"
+  ],
   "sitemapLocation": "sitemap.json"
 }

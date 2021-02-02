@@ -187,21 +187,21 @@ Component({
           this.setData({ getLoading: false });
         }
       })
-      .then(res => {
-        if (res.data.status == "ok") {
-          wx.setStorageSync('LoginSession', res.data.session);
-          //获取授权
-          this.GetAuth();
-        }
-        else {
-          app.showError("登录失败4");
+        .then(res => {
+          if (res.data.status == "ok") {
+            wx.setStorageSync('LoginSession', res.data.session);
+            //获取授权
+            this.GetAuth();
+          }
+          else {
+            app.showError("登录失败4");
+            this.setData({ getLoading: false });
+          }
+        }).catch(error => {
+          app.showError("登录失败3");
+          console.log(error);
           this.setData({ getLoading: false });
-        }
-      }).catch(error => {
-        app.showError("登录失败3");
-        console.log(error);
-        this.setData({ getLoading: false });
-      });
+        });
     },
     /**
      * 获取授权

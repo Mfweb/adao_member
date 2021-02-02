@@ -51,38 +51,38 @@ Page({
         userName: '匿名肥宅',
         appList: app.globalData.AppList.iOS.concat(app.globalData.AppList.Android),
         menuList: [{
-            name: '饼干管理',
-            icon: 'cookie',
-            canSwitch: true
-          },{
-            name: '实名认证',
-            icon: 'certified',
-            canSwitch: true
-          },{
-            name: '密码修改',
-            icon: 'passwd',
-            canSwitch: true
-          },{
-            name: '肥宅排行',
-            icon: 'sport',
-            canSwitch: true
-          }, {
-            name: '选老婆',
-            icon: 'wifes',
-            canSwitch: true
-          }, {
-            name: '芦苇表情包',
-            icon: 'lw',
-            canSwitch: true
-          }, {
-            name: '关于',
-            icon: 'about',
-            canSwitch: false
-          },{
-            name: '退出',
-            icon: 'exit',
-            canSwitch: false
-          },
+          name: '饼干管理',
+          icon: 'cookie',
+          canSwitch: true
+        }, {
+          name: '实名认证',
+          icon: 'certified',
+          canSwitch: true
+        }, {
+          name: '密码修改',
+          icon: 'passwd',
+          canSwitch: true
+        }, {
+          name: '肥宅排行',
+          icon: 'sport',
+          canSwitch: true
+        }, {
+          name: '选老婆',
+          icon: 'wifes',
+          canSwitch: true
+        }, {
+          name: '芦苇表情包',
+          icon: 'lw',
+          canSwitch: true
+        }, {
+          name: '关于',
+          icon: 'about',
+          canSwitch: false
+        }, {
+          name: '退出',
+          icon: 'exit',
+          canSwitch: false
+        },
         ]
       }
     });
@@ -116,10 +116,10 @@ Page({
         startLoadAuth: true
       });
     }
-    else if (this.data.pageIndex == 2 || this.data.pageIndex == 5){
+    else if (this.data.pageIndex == 2 || this.data.pageIndex == 5) {
       wx.stopPullDownRefresh();
     }
-    else if (this.data.pageIndex == 3){
+    else if (this.data.pageIndex == 3) {
       this.setData({
         startLoadSport: true
       });
@@ -154,9 +154,9 @@ Page({
   /**
    * 页面改变
    */
-  onChangePage: function(id) {
+  onChangePage: function (id) {
     switch (parseInt(id.detail)) {
-      case 0: 
+      case 0:
       case 1:
       case 2:
       case 3:
