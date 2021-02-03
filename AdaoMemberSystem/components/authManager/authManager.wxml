@@ -1,58 +1,58 @@
 <import src="../../wxParse/wxParse.wxml" />
 <view wx:if='{{hide}}' class='pdcontainer' bindtap='onShowATM' style='padding-top: {{top}}px;'>
-  <view class='certTable'>
-    <view>实名认证状态：</view>
-    <view class='certSta'>{{CertStatus}}</view>
-  </view>
-  <view class='certTable'>
-    <view>手机认证状态：</view>
-    <view class='certSta'>{{PhoneStatus}}</view>
-  </view>
-  <form wx:if='{{CertFormShow}}' class='vcodeMode' id='Cert' bindsubmit='onEnterAuth'>
-    <view class="SelectCd">
-      <picker bindchange="bindPickerChange" value="{{Cindex}}" range="{{Carray}}">
-        <view class="picker">
-          选择国家：{{Carray[Cindex]}}
+    <view class='certTable'>
+        <view>实名认证状态：</view>
+        <view class='certSta'>{{CertStatus}}</view>
+    </view>
+    <view class='certTable'>
+        <view>手机认证状态：</view>
+        <view class='certSta'>{{PhoneStatus}}</view>
+    </view>
+    <form wx:if='{{CertFormShow}}' class='vcodeMode' id='Cert' bindsubmit='onEnterAuth'>
+        <view class="SelectCd">
+            <picker bindchange="bindPickerChange" value="{{Cindex}}" range="{{Carray}}">
+                <view class="picker">
+                    选择国家：{{Carray[Cindex]}}
+                </view>
+            </picker>
         </view>
-      </picker>
+        <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'></input>
+        <input class='McodeInput' name='verifycode' type='text' maxlength='5' cursor-spacing='80' placeholder='输入验证码'
+            confirm-type='done'></input>
+        <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif'
+            bindtap='onTapVerifyCode'></image>
+        <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}'
+            bindtap='onTapVerifyCode'></image>
+        <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
+        <button class='Uclose' type='warn' bindtap='onAuthClose'>取消操作</button>
+    </form>
+    <template wx:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}" />
+    <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}'
+        bindtap='onCopyAuthPhoneNumber'>复制手机号</button>
+    <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary'
+        bindtap='onPhoneCert'>点击进行手机认证</button>
+    <image class='atm-sweater{{showATM?" atm-sweater-show":""}}' mode='aspectFit' src='../../imgs/atm.jpg'></image>
+    <view class='user-note'>
+        <view>
+            初来乍到，岛风喧嚣，担心一不小心就会惹怒暴躁肥肥？来阅读这篇很短的A岛指南能快速提高生存技巧噢
+        </view>
+        <view class='user-note-line'>
+            第一条，发串前请务必阅读<label class='hight-light' bindtap='onReadTerms'>总版规</label>、专版版规和<label class='hight-light'
+                bindtap='onRead17703121'>版务解释</label>，涉黄涉政等违反国家法律法规的内容是本站严厉打击的。
+        </view>
+        <view class='user-note-line'>
+            第二条，由于匿名版的意义和理性客观讨论的原则，形成了严格于一般网络社区的氛围，岛民们普遍反感“突出身份上的优越感以获得他人优待”（例如“新人可以不懂规矩”和“女性身份可以吸引眼球”），发布可能涉及到以上的内容前请斟酌，包括有意无意提到自己的上述身份。实际上在匿名版里你的身份不需要提起也没人关心，我们只关注你要讨论的话题。
+        </view>
+        <view class='user-note-line'>
+            第三条，专版和集中串可以提供专注某类话题的讨论环境，发表相关话题时可以优先使用专版。初上岛攻略→<label class='hight-light'
+                bindtap='onRead25834170'>新人答疑集中串</label>，以女性视角讨论→姐妹，时事热点民生→速报，宣泄心情随感→日记版，AB站相关的二次元圈子事→圈内
+        </view>
+        <view class='user-note-line'>
+            第四条，如果你能遵守以上社区公约，你将收获到更实事求是好好讨论的社区环境，如果不能遵守建议你先只围观（食雕）而不要轻易发布内容，或者尝试连点版本号开启里岛。
+        </view>
+        <view class='user-note-line'>
+            第五条，如果你已经切实的做好了以上公约却仍遭遇暴躁肥肥的愤怒和阴阳怪气，可以使用值班室进行举报，管理员会客观进行删封。
+        </view>
     </view>
-    <input class='McodeInput' name='phonenumber' type='number' placeholder='输入手机号' confirm-type='done'></input>
-    <input class='McodeInput' name='verifycode' type='text' maxlength='5' cursor-spacing='80' placeholder='输入验证码'
-      confirm-type='done'></input>
-    <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif'
-      bindtap='onTapVerifyCode'></image>
-    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}'
-      bindtap='onTapVerifyCode'></image>
-    <button class='Uenter' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
-    <button class='Uclose' type='warn' bindtap='onAuthClose'>取消操作</button>
-  </form>
-  <template wx:if='{{ShowCertMsg}}' is="wxParse" data="{{wxParseData:CertMsg}}" />
-  <button wx:if='{{ShowCertMsg}}' class='PhoneCertBut' type='primary' loading='{{CopyLoading}}'
-    bindtap='onCopyAuthPhoneNumber'>复制手机号</button>
-  <button wx:if='{{CanCert && (!ShowCertMsg && !CertFormShow)}}' class='PhoneCertBut' type='primary'
-    bindtap='onPhoneCert'>点击进行手机认证</button>
-  <image class='atm-sweater{{showATM?" atm-sweater-show":""}}' mode='aspectFit' src='../../imgs/atm.jpg'></image>
-  <view class='user-note'>
-    <view>
-      初来乍到，岛风喧嚣，担心一不小心就会惹怒暴躁肥肥？来阅读这篇很短的A岛指南能快速提高生存技巧噢
-    </view>
-    <view class='user-note-line'>
-      第一条，发串前请务必阅读<label class='hight-light' bindtap='onReadTerms'>总版规</label>、专版版规和<label class='hight-light'
-        bindtap='onRead17703121'>版务解释</label>，涉黄涉政等违反国家法律法规的内容是本站严厉打击的。
-    </view>
-    <view class='user-note-line'>
-      第二条，由于匿名版的意义和理性客观讨论的原则，形成了严格于一般网络社区的氛围，岛民们普遍反感“突出身份上的优越感以获得他人优待”（例如“新人可以不懂规矩”和“女性身份可以吸引眼球”），发布可能涉及到以上的内容前请斟酌，包括有意无意提到自己的上述身份。实际上在匿名版里你的身份不需要提起也没人关心，我们只关注你要讨论的话题。
-    </view>
-    <view class='user-note-line'>
-      第三条，专版和集中串可以提供专注某类话题的讨论环境，发表相关话题时可以优先使用专版。初上岛攻略→<label class='hight-light'
-        bindtap='onRead25834170'>新人答疑集中串</label>，以女性视角讨论→姐妹，时事热点民生→速报，宣泄心情随感→日记版，AB站相关的二次元圈子事→圈内
-    </view>
-    <view class='user-note-line'>
-      第四条，如果你能遵守以上社区公约，你将收获到更实事求是好好讨论的社区环境，如果不能遵守建议你先只围观（食雕）而不要轻易发布内容，或者尝试连点版本号开启里岛。
-    </view>
-    <view class='user-note-line'>
-      第五条，如果你已经切实的做好了以上公约却仍遭遇暴躁肥肥的愤怒和阴阳怪气，可以使用值班室进行举报，管理员会客观进行删封。
-    </view>
-  </view>
 </view>
 <termsWindow id='termsWindow' closeText='关闭' />

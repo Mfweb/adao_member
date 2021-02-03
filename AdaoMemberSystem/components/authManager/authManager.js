@@ -110,7 +110,7 @@ Component({
                             this.getNewVcode();
                         }
                         else {
-                            res = res.data;
+                            res = res.data || '';
                             authData = res;
                             res = res.replace(/\r/g, "");
                             res = res.replace(/\n/g, "");
@@ -267,7 +267,6 @@ Component({
         waitCert: function () {
             timer = setInterval(function () {
                 http.request(`${app.globalData.ApiUrls.MobileCheckURL}?r=${Math.random()}`, null).then(res => {
-                    console.log(res.data);
                     if (res.data == true) {
                         clearInterval(timer);
                         timer = null;

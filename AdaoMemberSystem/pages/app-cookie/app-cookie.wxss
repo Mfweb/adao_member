@@ -1,42 +1,53 @@
-.CookieList{
-  width: 100%;
-  display: block;
-  color: #fffff0;
-  font-size: 15px;
+.app-cookie .list {
+    width: 100%;
+    display: block;
+    color: #fffff0;
+    font-size: 15px;
 }
-.CookieListTr{
-  display: flex;
-  width: 98%;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  border-bottom: 1px solid #fff;
-  margin: 0 auto;
+
+.app-cookie .list .tr {
+    display: flex;
+    width: 98%;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    border-bottom: 1px solid #fff;
+    margin: 0 auto;
 }
-.CookieListTd1{
-  width: 25%;
-  text-align: center;
+
+.app-cookie .list .tr .title {
+    text-align: center;
+    font-size: 20px;
+    margin: 0 auto;
+    color: rgb(50, 197, 210);
 }
-.CookieListTd2{
-  width: 45%;
-  text-align: center;
+
+.app-cookie .list .tr .td1 {
+    width: 25%;
+    text-align: center;
 }
-.CookieListTd3{
-  width: 30%;
-  text-align: center;
-  display: flex;
+
+.app-cookie .list .tr .td2 {
+    width: 45%;
+    text-align: center;
 }
-.cButton{
-  margin: 0 auto;
+
+.app-cookie .list .tr .td3 {
+    width: 30%;
+    text-align: center;
+    display: flex;
 }
-.nButton{
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 30px;
+
+.app-cookie .launch-button {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 30px;
 }
-.message{
-  width: 92%;
-  left: 4%;
-  font-size: 1rem;
-  color: #fff;
+
+.app-cookie .message {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+    font-size: 1rem;
+    color: #fff;
 }
