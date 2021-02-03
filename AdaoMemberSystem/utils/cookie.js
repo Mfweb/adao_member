@@ -20,9 +20,9 @@ function getCookies() {
                     capacity: null,
                     userIco: null
                 };
-                info.userIco = content.match(/tpl-header-list-user-ico"><img src="[\s\S]*?"><\/span>/ig);
+                info.userIco = content.match(/tpl-header-list-user-ico">\s*<img\s*src="[\s\S]*?"><\/span>/ig);
                 if (info.userIco != null) {
-                    info.userIco = info.userIco[0].replace(/tpl-header-list-user-ico"><img src="/g, '').replace(/"><\/span>/g, '');
+                    info.userIco = info.userIco[0].replace(/tpl-header-list-user-ico">\s*<img\s*src="/g, '').replace(/"><\/span>/g, '');
                 }
 
                 info.warning = content.match(/<b>\[警告\]<\/b>[\s\S]*?<\/span>/ig);
@@ -46,6 +46,7 @@ function getCookies() {
                                 cookieList.push({ id: find_td[1].replace(/(<td>)|(<\/td>)/g, ""), value: find_td[2].replace(/(<td><a href="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
                             }
                         }
+                        console.log(info);
                         resolve({ cookies: cookieList, info: info });
                     }
                     else {
