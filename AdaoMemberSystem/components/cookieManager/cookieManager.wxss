@@ -17,6 +17,12 @@
     padding-bottom: 70px;
 }
 
+.cookie-manager .cookie-status {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
 .cookie-manager .list {
     width: 100%;
     display: block;

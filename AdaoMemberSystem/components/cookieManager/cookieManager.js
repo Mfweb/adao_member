@@ -42,6 +42,7 @@ Component({
         needDeleteID: "",//需要删除的饼干index
         FormID: "",//表单提交ID
         EnterButLoading: false,//确认按钮loading
+        newCookieStatus: true,
         CookieNum: '[0/0]',
         CookieWarning: null,
         notAuth: false
@@ -195,6 +196,7 @@ Component({
                     CookieNum: res.info.capacity,
                     CookieWarning: res.info.warning,
                     CookieList: res.cookies,
+                    newCookieStatus: res.info.cookieStatus,
                     notAuth: false
                 });
                 this.triggerEvent('endload', { from: 'cookie', needRefresh: false, userInfo: res.info });

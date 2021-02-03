@@ -18,7 +18,8 @@ function getCookies() {
                 let info = {
                     warning: null,
                     capacity: null,
-                    userIco: null
+                    userIco: null,
+                    cookieStatus: true
                 };
                 info.userIco = content.match(/tpl-header-list-user-ico">\s*<img\s*src="[\s\S]*?"><\/span>/ig);
                 if (info.userIco != null) {
@@ -34,6 +35,7 @@ function getCookies() {
                 if (info.capacity != null) {
                     info.capacity = info.capacity[0].replace(/饼干容量<b class="am-text-primary">/g, '').replace(/<\/b>/g, '');
                 }
+                info.cookieStatus = !/当前饼干领取权限[\s\S]+>\[已关闭]/i.test(content);
 
                 let tbody = content.match(/<tbody>[\s\S]*?<\/tbody>/ig);
                 if (tbody != null) {
@@ -46,7 +48,6 @@ function getCookies() {
                                 cookieList.push({ id: find_td[1].replace(/(<td>)|(<\/td>)/g, ""), value: find_td[2].replace(/(<td><a href="\#">)|(<\/a><\/td>)/g, ""), delLoading: false, getLoading: false });
                             }
                         }
-                        console.log(info);
                         resolve({ cookies: cookieList, info: info });
                     }
                     else {
