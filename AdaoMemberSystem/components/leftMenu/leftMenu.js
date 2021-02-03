@@ -56,13 +56,11 @@ Component({
         onTapDownloadApp: function (e) {
             wx.setClipboardData({
                 data: this.data.data.appList[e.currentTarget.id].url,
-                success: function () {
+                success: () => {
                     getApp().showSuccess('链接已复制');
                     this.onTapOverlay();
-                }.bind(this),
-                fail: function () {
-                    getApp().showError('复制失败');
-                }
+                },
+                fail: () => getApp().showError('复制失败')
             });
         },
         /**

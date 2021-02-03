@@ -173,61 +173,63 @@ Page({
             is_bt = true;
             idList[id] = idList[id].substr(1);
         }
-        http.request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL,
-            { id: idList[id], page: 1 }).then(res => {
-                if (typeof res.data == 'string') {
-                    let data = {
-                        'id': idList[id],
-                        'content': WxParse.wxParse('item', 'html', '<p>' + res.data + '</p>', this, null).nodes,
-                        'img': '',
-                        'thumburl': '',
-                        'img_height': 0,
-                        'img_width': 0,
-                    }
-                    tempData.push(data);
-                }
-                else {
-                    res = res.data;
-                    let data = {
-                        'id': res.id,
-                        'now': res.now,
-                        'userid': res.userid,
-                        'name': res.name,
-                        'email': res.email,
-                        'title': res.title,
-                        'content': WxParse.wxParse('item', 'html', res.content, this, null).nodes,
-                        'admin': res.admin,
-                        'sage': res.sage,
-                        'replyCount': res.replyCount,
-                        'img_height': 0,
-                        'img_width': 0,
-                        'is_bt': is_bt
-                    }
-                    if (res.img != "") {
-                        data.img = res.img + res.ext;
-                        data.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
-                        data.img_load_success = false;
-                    }
-                    else {
-                        data.img = "";
-                        data.thumburl = "";
-                    }
-                    tempData.push(data);
-                }
-                this.setData({ tlist: tempData });
-                this.getPostDetail(++id);
-            }).catch(error => {
-                app.showError(httpCode == null ? '串获取错误' : ('topic:' + httpCode));
-                var data = {
+        http.request(is_bt ? app.globalData.ApiUrls.BTThreadURL : app.globalData.ApiUrls.ThreadURL, {
+            id: idList[id],
+            page: 1
+        }).then(res => {
+            if (typeof res.data == 'string') {
+                let data = {
                     'id': idList[id],
-                    'content': WxParse.wxParse('item', 'html', '<p>获取失败</p>', this, null).nodes,
+                    'content': WxParse.wxParse('item', 'html', '<p>' + res.data + '</p>', this, null).nodes,
                     'img': '',
-                    'thumburl': ''
+                    'thumburl': '',
+                    'img_height': 0,
+                    'img_width': 0,
                 }
                 tempData.push(data);
-                this.setData({ tlist: tempData });
-                this.getPostDetail(++id);
-            });
+            }
+            else {
+                res = res.data;
+                let data = {
+                    'id': res.id,
+                    'now': res.now,
+                    'userid': res.userid,
+                    'name': res.name,
+                    'email': res.email,
+                    'title': res.title,
+                    'content': WxParse.wxParse('item', 'html', res.content, this, null).nodes,
+                    'admin': res.admin,
+                    'sage': res.sage,
+                    'replyCount': res.replyCount,
+                    'img_height': 0,
+                    'img_width': 0,
+                    'is_bt': is_bt
+                }
+                if (res.img != "") {
+                    data.img = res.img + res.ext;
+                    data.thumburl = res.ext == ".gif" ? (is_bt ? app.globalData.ApiUrls.BTFullImgURL : app.globalData.ApiUrls.FullImgURL) : (is_bt ? app.globalData.ApiUrls.BTThumbImgURL : app.globalData.ApiUrls.ThumbImgURL);
+                    data.img_load_success = false;
+                }
+                else {
+                    data.img = "";
+                    data.thumburl = "";
+                }
+                tempData.push(data);
+            }
+            this.setData({ tlist: tempData });
+            this.getPostDetail(++id);
+        }).catch(error => {
+            app.showError(httpCode == null ? '串获取错误' : ('topic:' + httpCode));
+            var data = {
+                'id': idList[id],
+                'content': WxParse.wxParse('item', 'html', '<p>获取失败</p>', this, null).nodes,
+                'img': '',
+                'thumburl': ''
+            }
+            tempData.push(data);
+            this.setData({ tlist: tempData });
+            this.getPostDetail(++id);
+        });
     },
     onShareAppMessage: function (res) {
         app.log(`share:${launchOpt.tid}`);

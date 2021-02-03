@@ -56,13 +56,13 @@ Page({
             }
 
             if (pageEvent.tid != undefined) {//通过公众号分享串二维码扫描过来
-                this.hideLaunchScreen(function () {
+                this.hideLaunchScreen(() => {
                     wx.navigateTo({
                         url: '../list/list?tid=' + pageEvent.tid,
                     });
                     wx.hideNavigationBarLoading();
                     pageEvent.tid = undefined;
-                }.bind(this));
+                });
                 return;//不继续登录了
             }
 
@@ -70,13 +70,13 @@ Page({
                 this.setData({ BLoading: false });
                 this.getNewVcode();
                 wx.hideNavigationBarLoading();
-                this.hideLaunchScreen(function () {
+                this.hideLaunchScreen(() => {
                     if (typeof res.data == 'string' && res.data.indexOf('饼干管理') > 0) {
                         if (memberMode == 0) {
                             wx.redirectTo({ url: '../userMember/userMember' });
                         }
                         else if (memberMode == 1) {
-                            wx.navigateTo({ url: '../app-cookie/app-cookie' });
+                            wx.navigateTo({ url: '../appCookie/appCookie' });
                             memberMode = 0;//清空状态
                         }
                     }
@@ -88,7 +88,7 @@ Page({
                     else {
                         app.showError('检查登录错误');
                     }
-                }.bind(this));
+                });
             }).catch(error => {
                 this.hideLaunchScreen();
                 app.log(`check session error:${error}`);
@@ -140,45 +140,44 @@ Page({
             return;
         }
         this.setData({ BLoading: true });
-        http.request(app.globalData.ApiUrls.LoginURL,
-            {
-                email: u_email,
-                password: u_pass,
-                verify: u_vcode
-            }).then(res => {
-                if (typeof res.data == 'object') {
-                    res = res.data;
-                    if (res.hasOwnProperty('status') && res.status == 1) {
-                        if (rememberPW) {
-                            wx.setStorageSync('UserName', u_email);
-                            wx.setStorageSync('PassWord', u_pass)
-                        }
-                        if (memberMode == 0) {
-                            wx.redirectTo({
-                                url: '../userMember/userMember',
-                            });
-                        }
-                        else if (memberMode == 1) {
-                            wx.navigateTo({
-                                url: '../app-cookie/app-cookie',
-                            });
-                            memberMode = 0; //清空状态
-                        }
+        http.request(app.globalData.ApiUrls.LoginURL, {
+            email: u_email,
+            password: u_pass,
+            verify: u_vcode
+        }).then(res => {
+            if (typeof res.data == 'object') {
+                res = res.data;
+                if (res.hasOwnProperty('status') && res.status == 1) {
+                    if (rememberPW) {
+                        wx.setStorageSync('UserName', u_email);
+                        wx.setStorageSync('PassWord', u_pass)
                     }
-                    else {
-                        app.showError(res.info);
-                        this.getNewVcode();
+                    if (memberMode == 0) {
+                        wx.redirectTo({
+                            url: '../userMember/userMember',
+                        });
+                    }
+                    else if (memberMode == 1) {
+                        wx.navigateTo({
+                            url: '../appCookie/appCookie',
+                        });
+                        memberMode = 0; //清空状态
                     }
                 }
                 else {
-                    app.showError('登录页面错误');
-                    app.log(res);
+                    app.showError(res.info);
+                    this.getNewVcode();
                 }
-                this.setData({ BLoading: false });
-            }).catch(error => {
-                app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
-                this.setData({ BLoading: false });
-            });
+            }
+            else {
+                app.showError('登录页面错误');
+                app.log(res);
+            }
+            this.setData({ BLoading: false });
+        }).catch(error => {
+            app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+            this.setData({ BLoading: false });
+        });
     },
     /**
      * 注册
@@ -204,31 +203,30 @@ Page({
             return;
         }
         this.setData({ BLoading: true });
-        http.request(app.globalData.ApiUrls.SignupURL,
-            {
-                email: u_email,
-                verify: u_vcode,
-                agree: ['']
-            }).then(res => {
-                if (typeof res.data == 'object') {
-                    if (res.data.status == 1) {
-                        app.showSuccess(res.data.info);
-                        this.switchPage(0);
-                    }
-                    else {
-                        app.showError(res.data.info);
-                        this.getNewVcode();
-                    }
+        http.request(app.globalData.ApiUrls.SignupURL, {
+            email: u_email,
+            verify: u_vcode,
+            agree: ['']
+        }).then(res => {
+            if (typeof res.data == 'object') {
+                if (res.data.status == 1) {
+                    app.showSuccess(res.data.info);
+                    this.switchPage(0);
                 }
                 else {
-                    app.showError('发生错误');
-                    app.log(res.data);
+                    app.showError(res.data.info);
+                    this.getNewVcode();
                 }
-                this.setData({ BLoading: false });
-            }).catch(error => {
-                app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
-                this.setData({ BLoading: false });
-            });
+            }
+            else {
+                app.showError('发生错误');
+                app.log(res.data);
+            }
+            this.setData({ BLoading: false });
+        }).catch(error => {
+            app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+            this.setData({ BLoading: false });
+        });
     },
     /**
      * 忘记密码
@@ -250,29 +248,28 @@ Page({
             return;
         }
         this.setData({ BLoading: true });
-        http.request(app.globalData.ApiUrls.ForgotURL,
-            {
-                email: u_email,
-                verify: u_vcode
-            }).then(res => {
-                if (typeof res.data == 'object') {
-                    if (res.data.status == 1) {
-                        app.showSuccess(res.data.info);
-                    }
-                    else {
-                        app.showError(res.data.info);
-                        this.getNewVcode();
-                    }
+        http.request(app.globalData.ApiUrls.ForgotURL, {
+            email: u_email,
+            verify: u_vcode
+        }).then(res => {
+            if (typeof res.data == 'object') {
+                if (res.data.status == 1) {
+                    app.showSuccess(res.data.info);
                 }
                 else {
-                    app.showError('发生错误');
-                    app.log(res.data);
+                    app.showError(res.data.info);
+                    this.getNewVcode();
                 }
-                this.setData({ BLoading: false });
-            }).catch(error => {
-                app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
-                this.setData({ BLoading: false });
-            });
+            }
+            else {
+                app.showError('发生错误');
+                app.log(res.data);
+            }
+            this.setData({ BLoading: false });
+        }).catch(error => {
+            app.showError(error == false ? '连接服务器失败' : ('http' + error.statusCode));
+            this.setData({ BLoading: false });
+        });
     },
     onEat: function (e) {
         app.playEat();
@@ -354,7 +351,7 @@ Page({
         now_anime[now_page] = animeOut.export();
         this.setData({ animations: now_anime });
 
-        setTimeout((function callback() {
+        setTimeout(() => {
             this.setData({ Mode: new_page });
             var now_anime = this.data.animations;
             var animeIn = wx.createAnimation({
@@ -371,7 +368,7 @@ Page({
                     showCancel: false
                 });
             }
-        }).bind(this), 200);
+        }, 200);
     },
     /**
      * 获取并显示公告

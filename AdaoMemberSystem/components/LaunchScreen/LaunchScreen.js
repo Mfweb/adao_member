@@ -22,9 +22,7 @@ Component({
         let tempUrl = wx.getStorageSync('launchImage');
         wx.getSavedFileInfo({
             filePath: tempUrl,
-            success: function (res) {
-                this.setData({ launchPicture: tempUrl });
-            }.bind(this)
+            success: () => this.setData({ launchPicture: tempUrl })
         });
     },
     /**
@@ -42,14 +40,12 @@ Component({
                 animation: animeOut.export()
             });
             getApp().downloadLaunchScreen();
-            setTimeout((function () {
-                this.setData({
-                    show: false
-                });
+            setTimeout(() => {
+                this.setData({ show: false });
                 if (callback != null) {
                     callback();
                 }
-            }).bind(this), 310);
+            }, 310);
         }
     }
 })

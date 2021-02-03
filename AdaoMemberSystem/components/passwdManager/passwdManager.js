@@ -42,26 +42,25 @@ Component({
             }
             if (this.data.CPLoading == true) return;
             this.setData({ 'CPLoading': true });
-            http.request(app.globalData.ApiUrls.ChangePasswordURL,
-                {
-                    oldpwd: old_passwd,
-                    pwd: new_passwd,
-                    repwd: new_passwd2
-                }).then(res => {
-                    if (typeof res.data == 'object') {
-                        if (res.data.status == 1)
-                            app.logOut();
-                        else
-                            app.showError(res.data.info);
-                    }
-                    else {
-                        app.showError("错误[PWD]");
-                    }
-                    this.setData({ 'CPLoading': false });
-                }).catch(error => {
-                    app.showError(error == false ? '错误[PWD]' : ('http:' + error.statusCode));
-                    this.setData({ 'CPLoading': false });
-                });
+            http.request(app.globalData.ApiUrls.ChangePasswordURL, {
+                oldpwd: old_passwd,
+                pwd: new_passwd,
+                repwd: new_passwd2
+            }).then(res => {
+                if (typeof res.data == 'object') {
+                    if (res.data.status == 1)
+                        app.logOut();
+                    else
+                        app.showError(res.data.info);
+                }
+                else {
+                    app.showError("错误[PWD]");
+                }
+                this.setData({ 'CPLoading': false });
+            }).catch(error => {
+                app.showError(error == false ? '错误[PWD]' : ('http:' + error.statusCode));
+                this.setData({ 'CPLoading': false });
+            });
         }
     }
 })

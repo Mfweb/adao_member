@@ -70,7 +70,7 @@ Component({
             wx.showActionSheet({
                 itemList: ['获取二维码', '复制内容'],
                 itemColor: '#334054',
-                success: function (e) {
+                success: (e) => {
                     if (e.cancel != true) {
                         if (e.tapIndex == 0) {
                             this.getCookieQR(selId);
@@ -79,9 +79,10 @@ Component({
                             this.getCookieToClipboard(selId);
                         }
                     }
-                }.bind(this)
+                }
             })
         },
+
         /**
          * 获取新Cookie
          */
@@ -92,6 +93,7 @@ Component({
             });
             this.getNewVcode();
         },
+
         /**
          * 刷新验证码
          */
@@ -122,7 +124,6 @@ Component({
                 if (this.data.CookieList[u_index].delLoading == true) return;
                 var selectData = 'CookieList[' + u_index + '].delLoading';
                 this.setData({ [selectData]: true });//对应的删除按钮显示loading
-
                 cookie.deleteCookie(this.data.CookieList[u_index].id, u_vcode).then(res => {
                     this.triggerEvent('endload', { from: 'cookie', needRefresh: true });
                     this.setData({
@@ -197,22 +198,17 @@ Component({
                     notAuth: false
                 });
                 this.triggerEvent('endload', { from: 'cookie', needRefresh: false, userInfo: res.info });
-            })
-                .catch(error => {
-                    if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
-                        app.showError('请点击左上角菜单完成实名认证后再使用。');
-                        this.setData({
-                            notAuth: true
-                        });
-                    }
-                    else {
-                        this.setData({
-                            notAuth: false
-                        });
-                        app.showError(error.message);
-                    }
-                    this.triggerEvent('endload', { from: 'cookie', needRefresh: false });
-                });
+            }).catch(error => {
+                if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
+                    app.showError('请点击左上角菜单完成实名认证后再使用。');
+                    this.setData({ notAuth: true });
+                }
+                else {
+                    this.setData({ notAuth: false });
+                    app.showError(error.message);
+                }
+                this.triggerEvent('endload', { from: 'cookie', needRefresh: false });
+            });
         },
         /**
           * 获取Cookie详细并显示二维码
@@ -221,37 +217,28 @@ Component({
             if (this.data.CookieList[index].getLoading == true) return;
             var selectData = 'CookieList[' + index + '].getLoading';
             this.setData({ [selectData]: true });
-
             cookie.getCookieDetail(this.data.CookieList[index].id).then(res => {
-                return wxApis.drawQrcodeX('myQrcode', JSON.stringify({ cookie: res }), this);
-            })
-                .then(() => {
-                    return wxApis.setTimeoutX(300);
-                })
-                .then(() => {
-                    return wxApis.canvasGetImageData('myQrcode', this);
-                })
-                .then(res => {
-                    const ctx = wx.createCanvasContext('myQrcode', this);
-                    ctx.setFillStyle('white');
-                    ctx.fillRect(0, 0, 220, 220);
-                    ctx.draw();
-                    return wxApis.canvasPutImageData('myQrcode', res.data, this);
-                })
-                .then(() => {
-                    return wxApis.canvasToTempFilePath('myQrcode', this);
-                })
-                .then(res => {
-                    wx.previewImage({
-                        urls: [res.tempFilePath],
-                    });
-                    this.setData({ [selectData]: false });
-                })
-                .catch(err => {
-                    app.log(err);
-                    app.showError(error);
-                    this.setData({ [selectData]: false });
-                });
+                return wxApis.drawQrcodeX('cookie-canvas', JSON.stringify({ cookie: res }), this);
+            }).then(() => {
+                return wxApis.setTimeoutX(300);
+            }).then(() => {
+                return wxApis.canvasGetImageData('cookie-canvas', this);
+            }).then(res => {
+                const ctx = wx.createCanvasContext('cookie-canvas', this);
+                ctx.setFillStyle('white');
+                ctx.fillRect(0, 0, 220, 220);
+                ctx.draw();
+                return wxApis.canvasPutImageData('cookie-canvas', res.data, this);
+            }).then(() => {
+                return wxApis.canvasToTempFilePath('cookie-canvas', this);
+            }).then(res => {
+                wx.previewImage({ urls: [res.tempFilePath] });
+                this.setData({ [selectData]: false });
+            }).catch(err => {
+                app.log(err);
+                app.showError(error);
+                this.setData({ [selectData]: false });
+            });
         },
         /**
           * 获取Cookie详细并复制到剪切板

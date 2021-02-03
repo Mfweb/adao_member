@@ -236,12 +236,8 @@ App({
                             if (!e.cancel) {
                                 wx.setClipboardData({
                                     data: this.globalData.AppList[selectPlatform][e.tapIndex].url,
-                                    success: function () {
-                                        this.showSuccess('链接已复制');
-                                    }.bind(this),
-                                    fail: function () {
-                                        this.showError('复制失败');
-                                    }.bind(this)
+                                    success: () => this.showSuccess('链接已复制'),
+                                    fail: () => this.showError('复制失败')
                                 });
                             }
                         }

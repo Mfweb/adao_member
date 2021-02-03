@@ -87,9 +87,9 @@ Component({
             if (n >= imgList.length) {
                 return;
             }
-            this.createSelectorQuery().select('#list-left').boundingClientRect(function (res) {
+            this.createSelectorQuery().select('#list-left').boundingClientRect(res => {
                 let leftInfo = res;
-                this.createSelectorQuery().select('#list-right').boundingClientRect(function (res2) {
+                this.createSelectorQuery().select('#list-right').boundingClientRect(res2 => {
                     let rightInfo = res2;
                     let imgHeight = leftInfo.width / imgList[n].width * imgList[n].height;
                     if (leftInfo.height < rightInfo.height) {
@@ -102,8 +102,8 @@ Component({
                     }
                     this._addImage(imgList, ++n);
 
-                }.bind(this)).exec();
-            }.bind(this)).exec();
+                }).exec();
+            }).exec();
         },
         onTapLeft: function (e) {
             wx.previewImage({

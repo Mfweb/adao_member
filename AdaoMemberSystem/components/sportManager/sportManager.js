@@ -66,9 +66,7 @@ Component({
                 title: '提示',
                 content: '步数只保留24小时，每隔24小时可以上传一次。',
                 showCancel: false,
-                success: function () {
-                    this.WeLogin();
-                }.bind(this)
+                success: () => this.WeLogin()
             });
             /*
             wx.checkSession({
@@ -186,22 +184,21 @@ Component({
                     app.log(res);
                     this.setData({ getLoading: false });
                 }
-            })
-                .then(res => {
-                    if (res.data.status == "ok") {
-                        wx.setStorageSync('LoginSession', res.data.session);
-                        //获取授权
-                        this.GetAuth();
-                    }
-                    else {
-                        app.showError("登录失败4");
-                        this.setData({ getLoading: false });
-                    }
-                }).catch(error => {
-                    app.showError("登录失败3");
-                    app.log(`wechat login error:${error}`);
+            }).then(res => {
+                if (res.data.status == "ok") {
+                    wx.setStorageSync('LoginSession', res.data.session);
+                    //获取授权
+                    this.GetAuth();
+                }
+                else {
+                    app.showError("登录失败4");
                     this.setData({ getLoading: false });
-                });
+                }
+            }).catch(error => {
+                app.showError("登录失败3");
+                app.log(`wechat login error:${error}`);
+                this.setData({ getLoading: false });
+            });
         },
         /**
          * 获取授权
@@ -209,7 +206,7 @@ Component({
         GetAuth: function () {
             wxApis.authorize().then(res => {
                 //获取授权成功，获取并上传步数数据
-                this.getCookies(function (sta) {
+                this.getCookies(sta => {
                     if (sta) {
                         SelectCookieID = 0;
                         this.setData({
@@ -220,7 +217,7 @@ Component({
                     else {
                         this.setData({ getLoading: false });
                     }
-                }.bind(this));
+                });
             }).catch(() => {
                 app.showError("获取权限失败");
                 this.setData({
@@ -244,16 +241,15 @@ Component({
                     });
                     callback(true);
                 }
-            })
-                .catch(error => {
-                    if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
-                        app.showError('请点击左上角菜单完成实名认证后再使用。');
-                    }
-                    else {
-                        app.showError(error.message);
-                    }
-                    callback(false);
-                });
+            }).catch(error => {
+                if (error.message == '本页面需要实名后才可访问_(:з」∠)_') {
+                    app.showError('请点击左上角菜单完成实名认证后再使用。');
+                }
+                else {
+                    app.showError(error.message);
+                }
+                callback(false);
+            });
         }
     }
 })

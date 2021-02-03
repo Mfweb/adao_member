@@ -25,7 +25,6 @@ Component({
                         clearInterval(timer);
                         timer = null;
                     }
-
                     this.setData({
                         CertFormShow: false,
                         ShowCertMsg: false,
@@ -89,7 +88,6 @@ Component({
             }
             if (this.data.EnterButLoading == true) return;
             this.setData({ EnterButLoading: true });
-
             var u_country = parseInt(this.data.Cindex) + 1;
             var u_phone = e.detail.value.phonenumber;
             if (!(/^\d{5,}$/.test(u_phone))) {
@@ -97,51 +95,49 @@ Component({
                 return;
             }
             this.triggerEvent('startload', { from: 'auth', needRefresh: false });
-            http.request(
-                app.globalData.ApiUrls.MobileCertURL,
-                {
-                    verify: u_vcode,//验证码
-                    mobile_country_id: u_country,//国家序号
-                    mobile: u_phone//手机号
-                }).then(res => {
-                    try {
-                        if (res.status == 0) {
-                            app.showError(res.info);
-                            this.getNewVcode();
+            http.request(app.globalData.ApiUrls.MobileCertURL, {
+                verify: u_vcode,//验证码
+                mobile_country_id: u_country,//国家序号
+                mobile: u_phone//手机号
+            }).then(res => {
+                try {
+                    if (res.status == 0) {
+                        app.showError(res.info);
+                        this.getNewVcode();
+                    }
+                    else {
+                        res = res.data || '';
+                        authData = res;
+                        res = res.replace(/\r/g, "");
+                        res = res.replace(/\n/g, "");
+
+                        let body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
+                        if (body_match != null) {
+                            body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
+                            this.setData({
+                                CertMsg: WxParse.wxParse('item', 'html', body_match[0], this, null).nodes,
+                                ShowCertMsg: true,
+                                CertFormShow: false
+                            });
+                            this.waitCert();
                         }
                         else {
-                            res = res.data || '';
-                            authData = res;
-                            res = res.replace(/\r/g, "");
-                            res = res.replace(/\n/g, "");
-
-                            let body_match = res.match(/<form[\s\S]*?>[\s\S]*?<\/form>/ig);
-                            if (body_match != null) {
-                                body_match[0] = body_match[0].replace(/tpl-form-maintext">[\s\D]*<b>/ig, "Sdata\"><b>");
-                                this.setData({
-                                    CertMsg: WxParse.wxParse('item', 'html', body_match[0], this, null).nodes,
-                                    ShowCertMsg: true,
-                                    CertFormShow: false
-                                });
-                                this.waitCert();
-                            }
-                            else {
-                                app.showError('验证页面错误');
-                            }
+                            app.showError('验证页面错误');
                         }
                     }
-                    catch (err) {
-                        app.log(err.message);
-                    }
-                    finally {
-                        this.setData({ EnterButLoading: false });
-                        this.triggerEvent('endload', { from: 'auth', needRefresh: false })
-                    }
-                }).catch(error => {
-                    app.showError(error == false ? '错误[Auth]' : ('Auth:' + error.statusCode));
+                }
+                catch (err) {
+                    app.log(err.message);
+                }
+                finally {
                     this.setData({ EnterButLoading: false });
                     this.triggerEvent('endload', { from: 'auth', needRefresh: false })
-                });
+                }
+            }).catch(error => {
+                app.showError(error == false ? '错误[Auth]' : ('Auth:' + error.statusCode));
+                this.setData({ EnterButLoading: false });
+                this.triggerEvent('endload', { from: 'auth', needRefresh: false })
+            });
         },
         /**
          * 点击了开始实名认证
@@ -220,7 +216,6 @@ Component({
                             phoneNumber: '错误',
                             statusBool: false
                         };
-
                         let cert_status = content.split('实名状态')[1].match(/<b>[\s\S]*?<\/b>/i);
                         if (cert_status != null) {
                             certStatus.statusString = cert_status[0].replace(/(<b>)|(<\/b>)/ig, '');
@@ -228,7 +223,6 @@ Component({
                         else {
                             certStatus.statusString = '状态错误';
                         }
-
                         if (content.indexOf('已绑定手机') > 0) {//手机认证已经成功的
                             let phoneContent = content.split('已绑定手机')[1].replace(/(><)/g, "").match(/>[\s\S]*?</i);
                             if (phoneContent != null) {
@@ -243,7 +237,6 @@ Component({
                             certStatus.phoneNumber = '未认证';
                             certStatus.statusBool = false;
                         }
-
                         this.setData({
                             CertStatus: certStatus.statusString,
                             PhoneStatus: certStatus.phoneNumber,
@@ -295,7 +288,6 @@ Component({
                             });
                             showATMCounter = 0;
                         }, 400));
-
                     }
                     else {
                         showATMCounter = 0;

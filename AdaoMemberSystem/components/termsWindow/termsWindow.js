@@ -26,7 +26,7 @@ Component({
      */
     methods: {
         showWindow: function () {
-            app.getTerms(function (res) {
+            app.getTerms((res) => {
                 if (res === false) {
                     app.showError('网络错误');
                 }
@@ -39,7 +39,7 @@ Component({
                         showTermsWindow: true
                     });
                 }
-            }.bind(this));
+            });
         },
         close: function () {
             this.setData({ showTermsWindow: false });

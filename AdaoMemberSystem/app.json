@@ -1,28 +1,28 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/userMember/userMember",
-    "pages/list/list",
-    "pages/thread/thread",
-    "pages/about/about",
-    "pages/app-cookie/app-cookie"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#334054",
-    "navigationBarTitleText": "A岛注册实名系统",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#334054",
-    "navigationStyle": "custom"
-  },
-  "networkTimeout": {
-    "request": 20000,
-    "connectSocket": 50000,
-    "uploadFile": 20000,
-    "downloadFile": 20000
-  },
-  "requiredBackgroundModes": [
-    "audio"
-  ],
-  "sitemapLocation": "sitemap.json"
+    "pages": [
+        "pages/index/index",
+        "pages/userMember/userMember",
+        "pages/list/list",
+        "pages/thread/thread",
+        "pages/about/about",
+        "pages/appCookie/appCookie"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#334054",
+        "navigationBarTitleText": "A岛注册实名系统",
+        "navigationBarTextStyle": "white",
+        "backgroundColor": "#334054",
+        "navigationStyle": "custom"
+    },
+    "networkTimeout": {
+        "request": 20000,
+        "connectSocket": 50000,
+        "uploadFile": 20000,
+        "downloadFile": 20000
+    },
+    "requiredBackgroundModes": [
+        "audio"
+    ],
+    "sitemapLocation": "sitemap.json"
 }

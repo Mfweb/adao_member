@@ -164,7 +164,6 @@ function get_verifycode() {
             }
         });
     });
-
 }
 
 module.exports = {
