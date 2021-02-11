@@ -1,0 +1,83 @@
+@import "wxParse/wxParse.wxss";
+
+/**app.wxss**/
+.container {
+  overflow-x: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #334054;
+  color: #fff;
+  font-family: Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", FontAwesome, sans-serif;
+}
+
+page {
+  background-color: #334054;
+}
+
+.verifyCode {
+  width: 100%;
+  max-height: 50px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.verifyCodeHid {
+  height: 0px;
+  width: 0px;
+}
+
+.loginForm {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 80%;
+  border-radius: 8px;
+  border: 1px #000;
+  overflow: hidden;
+  color: #000;
+  font-size: 15px;
+  background-color: #fff;
+}
+
+.emailInput {
+  height: 30px;
+  width: 95%;
+  margin-top: 2px;
+  border-bottom: 1px solid #334054;
+  margin: 0 auto;
+}
+
+.pswInput {
+  height: 30px;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 2px;
+  border-bottom: 1px solid #334054;
+}
+
+.codeInput {
+  height: 30px;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 2px;
+}
+
+.xuankuhongming {
+  /*炫酷红名*/
+  color: #f00;
+}
+
+.lTitle {
+  text-align: center;
+  font-size: 20px;
+  margin: 0 auto;
+  color: rgb(50, 197, 210);
+}
+
+ad {
+  margin: 0.5rem;
+}

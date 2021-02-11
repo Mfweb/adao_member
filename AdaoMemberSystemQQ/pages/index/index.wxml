@@ -1,0 +1,72 @@
+<!--index.wxml-->
+<import src="../../wxParse/wxParse.wxml" />
+<LaunchScreen id='LaunchScreen' top='{{statusBarHeight}}' />
+<view class="container" style='padding-top: {{statusBarHeight}}px;'>
+  <!--<view class="mainTitle">A岛注册实名系统</view>-->
+  <view class='title'>
+    <image mode='aspectFit' bindtap='onEat' class='TitleIcons' src='../../imgs/mf1.png' />
+    <view class="loginTitle2">{{TitleText}}</view>
+  </view>
+  <view class='navigate'>
+    <view class="minMenu {{Mode==0?'menuSelected':''}}" bindtap='onTapIlogin'>登录Login</view>
+    <view class="minMenu {{Mode==1?'menuSelected':''}}" bindtap='onTapIsignup'>注册Signup</view>
+    <view class="minMenu {{Mode==2?'menuSelected':''}}" bindtap='onTapIforgot'>忘记密码</view>
+  </view>
+  <!--登陆-->
+  <form wx:if='{{Mode==0}}' animation='{{animations[0]}}' class='lf' bindsubmit='onLoginSubmit'>
+    <view class='loginForm'>
+      <input class='emailInput' name='email' value='{{UserName}}' type='text' placeholder='输入邮箱地址'
+        confirm-type='next'></input>
+      <input class='pswInput' name='passwd' value='{{PassWord}}' type='text' placeholder='输入密码' password='true'
+        confirm-type='next'></input>
+      <input class='codeInput' name='verifycode' type='text' maxlength='5' cursor-spacing='80' placeholder='输入验证码'
+        confirm-type='go'></input>
+    </view>
+    <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif'
+      bindtap='onTapVerifyCode' />
+    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}'
+      bindtap='onTapVerifyCode' />
+    <view class='RememberPW'>记住密码<switch bindchange='onRPW' checked='{{RememberPW}}' class='RememberSW'
+        value='rememberPW'></switch>
+    </view>
+    <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='login'>登录</button>
+    <view class='AppDownload' bindtap='onAppDw'>App下载</view>
+  </form>
+  <!--注册-->
+  <form wx:if='{{Mode==1}}' animation='{{animations[1]}}' class='lf' bindsubmit='onSignupSubmit'>
+    <view class='loginForm'>
+      <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
+      <input class='codeInput' name='verifycode' type='text' maxlength='5' cursor-spacing='80' placeholder='输入验证码'
+        confirm-type='go'></input>
+    </view>
+    <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif'
+      bindtap='onTapVerifyCode' />
+    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}'
+      bindtap='onTapVerifyCode' />
+    <view class='user-agreement'>
+      <checkbox-group name="agree">
+        <label>
+          <checkbox name='agree' /></label>
+      </checkbox-group>
+      <view>
+        我已阅读并同意<label class='hight-light' bindtap='onReadTerms'>服务条款</label>和<label class='hight-light'
+          bindtap='onReadPrivacy'>隐私政策</label>
+      </view>
+    </view>
+    <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='reg'>发送注册邮件</button>
+  </form>
+  <!--忘记密码-->
+  <form wx:if='{{Mode==2}}' animation='{{animations[2]}}' class='lf' bindsubmit='onForgotPassSubmit'>
+    <view class='loginForm'>
+      <input class='emailInput' name='email' type='text' placeholder='输入邮箱地址' confirm-type='next'></input>
+      <input class='codeInput' name='verifycode' type='text' maxlength='5' cursor-spacing='80' placeholder='输入验证码'
+        confirm-type='go'></input>
+    </view>
+    <image wx:if='{{vCodeLoading}}' class='verifyCode' mode='aspectFit' src='../../imgs/loading.gif'
+      bindtap='onTapVerifyCode' />
+    <image class='verifyCode {{vCodeLoading?"verifyCodeHid":""}}' mode='aspectFit' src='{{verifyCodeURL}}'
+      bindtap='onTapVerifyCode' />
+    <button loading='{{BLoading}}' class='LoginBut' type='primary' form-type='submit' submit='forget'>发送邮件</button>
+  </form>
+</view>
+<termsWindow id='termsWindow' />

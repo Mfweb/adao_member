@@ -1,0 +1,58 @@
+.pdcontainer{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10rpx 0;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
+  position: absolute;
+  z-index:0;
+  
+  margin: 0px;
+  left: 0;
+  top: 32px;
+  padding-bottom: 70px;
+}
+.list-body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: auto;
+}
+.list-left {
+  width: 50%;
+  top: 0;
+  left: 0;
+  height: auto;
+}
+.list-right {
+  width: 50%;
+  top: 0;
+  right: 0;
+  height: auto;
+}
+.list-item {
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  height: auto;
+}
+.list-image {
+  width: 100%;
+  left: 0;
+  top: 0;
+  min-height: 20px;
+}
+.bottom-message{
+  width: 100%;
+  text-align: center;
+  size: 10px;
+  color: #fff;
+}

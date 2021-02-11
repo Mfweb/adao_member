@@ -1,0 +1,24 @@
+/* components/termsWindow.wxss */
+.modal {
+  width: 90%;
+  height: 90%;
+  position: fixed;
+  margin: 0 auto;
+  background-color: #ffe;
+  border-radius: 5px;
+  left: 5%;
+  top: 5%;
+  box-shadow: 2px 2px 20px #FFF;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  z-index: 999;
+}
+
+.small-image {
+  height: 1rem;
+  width: 1rem;
+}
+
+.modal-close {
+  width: 100%;
+}

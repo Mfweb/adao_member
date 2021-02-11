@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "关于",
+  "usingComponents": {
+    "goBackButton": "/components/goBackButton/goBackButton"
+  }
+}

@@ -1,0 +1,23 @@
+.page-title{
+  background-color: #334054;
+  font-size: 20px;
+  height: 32px;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  position: fixed;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  z-index: 800;
+}
+.page-title-icon{
+  height: 23px;
+  width: 23px;
+}
+.page-title-icon-right{
+  transform: scaleX(-1);
+}

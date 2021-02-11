@@ -2,11 +2,12 @@
   <view>
     <view class="h1">A岛用户系统</view>
     <view class="l1" bindtap='tap1'>By Mfweb</view>
-    <view class="h3">版本：1.7.8</view>
-    <view class="h3">更新时间：2021.01.31</view>
+    <view class="h3">版本：1.7.10</view>
+    <view class="h3">更新时间：2021.02.11</view>
     <view class="h2" bindtap='tap2'>GitHub</view>
     <view class="h2" bindtap='tap3'>A岛微信小程序</view>
     <button class="feedbackbut" type="primary" open-type="feedback" bindtap='feedbacktap'>意见反馈</button>
+    <view class="h3">此反馈渠道仅支持小程序错误反馈及建议，A岛相关反馈（包括要求注销账户、被封禁、无法实名等）请联系help@adnmb.com</view>
     <view class="h3">紫岛图标为Hippo Seven所有，所有权利保留</view>
     <view class="h3">iOS橙岛图标为贼贼贼所有，所有权利保留</view>
     <view class="h3">"芦苇娘"相关形象著作权人为ddzx1323，授权问题详见http://adnmb.com/t/12511297</view>
