@@ -1,0 +1,44 @@
+<import src="../../wxParse/wxParse.wxml"/>
+
+<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{wifeLoading || cookieLoading || authLoading || sportLoading}}'></title>
+<div id='top'></div>
+<cookieManager
+  hide='{{pageIndex==0}}'
+  loadCookie="{{startLoadCookies}}"
+  top="{{statusBarHeight}}"
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">>
+</cookieManager>
+
+<authManager
+  hide='{{pageIndex==1}}'
+  loadAuth="{{startLoadAuth}}"
+  top="{{statusBarHeight}}"
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">>
+</authManager>
+
+<passwdManager hide='{{pageIndex==2}}' top="{{statusBarHeight}}"></passwdManager>
+
+<sportManager
+  hide='{{pageIndex==3}}'
+  loadSport="{{startLoadSport}}"
+  top="{{statusBarHeight}}"
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">
+</sportManager>
+
+<wifeList
+  wx:if='{{pageIndex==4}}'
+  top="{{statusBarHeight}}"
+  loadWife="{{startLoadWife}}"
+  reloadWife="{{startReloadWife}}"
+  bindstartload="onLoadStart"
+  bindendload="onLoadEnd">
+</wifeList>
+<lwMeme
+  wx:if='{{pageIndex==5}}'
+  top="{{statusBarHeight}}">
+</lwMeme>
+<leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
+

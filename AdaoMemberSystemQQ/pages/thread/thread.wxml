@@ -1,0 +1,66 @@
+<!--index.wxml-->
+<import src="../../wxParse/wxParse.wxml"/>
+<title text='{{title}}' top='{{statusBarHeight}}' loading='{{listLoading}}'></title>
+<!--列表-->
+<view class="thread-container" id="main_list" style='margin-top: {{statusBarHeight+32}}px;'>
+  <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='tlist' bindtap="onTapQuoteDetail">
+    <view class="text">
+      <view class="thread-b1">
+        <view class="cid">No.{{item.id}}</view>
+        <template is="wxParse" data="{{wxParseData:item.userid}}"/>
+        <view class="stime">{{item.now}}</view>
+      </view>
+      <view class="thread-b2">
+        <view class="thread-title" wx:if="{{item.title!='无标题'}}" >{{item.title}}</view>
+        <view class="uname" wx:if="{{item.name!='无名氏'}}" >{{item.name}}</view>
+      </view>
+      <template is="wxParse" data="{{wxParseData:item.content}}"/>
+    </view>
+
+    <view style="width:100%;" wx:if="{{item.img!=''}}"><!--不加这一层可能导致点击图片周围空白区域无法触发tap-->
+      <image wx:if="{{!item.img_load_success}}" class="loading_gif" src="../../imgs/loading.gif"></image>
+      <image style="height:{{item.img_height}}px;width:{{item.img_width}}px;" id="{{index}}" class="thread-img" src="{{item.thumburl}}{{item.img}}" mode="aspectFit" catchtap="onTapPicture" bindload="onPictureLoad"></image>
+    </view>
+    <view class="thread-b1" wx:if="{{index==0}}">
+      <view class="thread-readcount">回应：{{item.replyCount}}</view>
+      <view class="sage" hidden="{{item.sage==0?true:false}}">SAGE</view>
+    </view>
+    <view class='{{index==0?"v_hr_po":"v_hr"}}'></view>
+  </view>
+  <view class="list_bot">
+    {{bottomMessage}}
+  </view>
+</view>
+
+<!--遮罩-->
+<view wx:if="{{showQuoteWindow}}" class="box" bindtap="onTapMask"></view>
+<!--显示引用串-->
+<view wx:if="{{showQuoteWindow}}" class="q_window">
+  <view class="q_list">
+      <view wx:for="{{quoteList}}" id="{{item.sid}}" class="q_list_c" wx:key='qute_list' catchtap="onTapQuoteID">
+        <view class="text">
+          <view class="thread-b1">
+            <view class="cid">{{item.id}}</view>
+            <template is="wxParse" data="{{wxParseData:item.userid}}"/>
+            <view class="stime">{{item.now}}</view>
+          </view>
+
+          <view class="thread-b2" wx:if="{{item.id!='ID不存在'}}">
+            <view class="title" wx:if="{{item.title!='无标题'}}" >{{item.title}}</view>
+            <view class="uname" wx:if="{{item.name!='无名氏'}}" >{{item.name}}</view>
+          </view>
+          <template is="wxParse" wx:if="{{item.id!='ID不存在'}}" data="{{wxParseData:item.content}}"/>
+        </view>
+        <image wx:if="{{!item.now && item.id!='ID不存在'}}" class="loading_gif" src="../../imgs/loading.gif"></image>
+        <view wx:if="{{item.id!='ID不存在' && item.img!='' && item.now}}" style="overflow:hidden;width:80%;"><!--不加这一层可能导致点击图片周围空白区域无法触发tap-->
+          <image id="{{index}}" class="thread-img" src="{{item.thumburl}}{{item.img}}" mode="aspectFit" catchtap="onTapPicture">loading</image>
+        </view>
+        <view class="thread-b1" wx:if="{{item.replyCount>=0}}">
+          <view class="thread-readcount">回应：{{item.replyCount}}</view>
+          <view class="sage" hidden="{{item.sage==0?true:false}}">SAGE</view>
+        </view>
+        <view class="v_hr"></view>
+      </view>
+  </view>
+</view>
+<goBackButton top="{{statusBarHeight}}"></goBackButton>

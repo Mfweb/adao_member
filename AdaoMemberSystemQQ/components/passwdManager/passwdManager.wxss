@@ -1,0 +1,62 @@
+.pdcontainer{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 0;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
+  position: absolute;
+  z-index:0;
+  
+  margin: 0px;
+  left: 0;
+  top: 32px;
+  padding-bottom: 70px;
+}
+.passwd-enter-button{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.nPasswd{
+  width: 80%;
+}
+.loginForm{
+  display: block;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 80%;
+  border-radius:8px;
+  border: 1px #000;
+  overflow: hidden;
+  color: #000;
+  font-size: 15px;
+  background-color: #fff;
+}
+
+.emailInput{
+  height: 30px;
+  width: 95%;
+  margin-top: 2px;
+  border-bottom: 1px solid #334054;
+  margin: 0 auto;
+}
+.pswInput{
+  height: 30px;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 2px;
+  border-bottom: 1px solid #334054;
+}
+.codeInput{
+  height: 30px;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 2px;
+}

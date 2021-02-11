@@ -8,7 +8,7 @@ Component({
         },
         userIco: {
             type: String,
-            value: 'http://adnmb2.com/Public/member/users/assets/img/user_nohead.png'
+            value: 'http://adnmb.com/Public/member/users/assets/img/user_nohead.png'
         }
     },
 

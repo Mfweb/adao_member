@@ -1,0 +1,34 @@
+<view hover-class="menu-open-button-hover" class="menu-open-button" hover-stay-time='100' bindtap='onTapMenuButton'
+    bindlongpress='onEat' style='top: {{data.statusBarHeight}}px;'>
+    <image class='icon' mode='aspectFit' src='../../imgs/menu.png'></image>
+</view>
+
+<view class="popup-menu {{data.show==true?'open':''}}"
+    style='top: {{data.statusBarHeight}}px; height: calc(100% - {{data.statusBarHeight}}px);'>
+    <view class='topbar' bindtap='onViewImage'>
+        <image class='acimg' src="../../imgs/wlp.jpg" mode='aspectFill'></image>
+        <view class='userinfo'>
+            <!--<image class='usericon' src="{{data.userIco}}" mode='aspectFill'></image>-->
+            <view class='username'>{{data.userName}}</view>
+        </view>
+    </view>
+
+    <scroll-view class='list' scroll-y='true' catchscroll="onPopupMenuCatchScroll">
+        <view wx:for='{{data.menuList}}' class='item' hover-stay-time='100'
+            hover-class='hover' wx:key='flist' id='{{index}}' bindtap='onTapMenuItem'>
+            <image class='icon' src='../../imgs/{{item.icon}}{{data.selectedIndex==index?"-s":""}}.png'
+                mode='aspectFill'></image>
+            <view class='text{{data.selectedIndex==index?" selected":""}}'>{{item.name}}
+            </view>
+        </view>
+        <view class='tag'>APP下载:</view>
+        <view class='line' />
+        <view wx:for='{{data.appList}}' class='item' hover-stay-time='100'
+            hover-class='hover' wx:key='alist' id='{{index}}' bindtap='onTapDownloadApp'>
+            <image class='app-icon' src='../../imgs/{{item.icon}}' mode='aspectFill'></image>
+            <view class='app-text'>{{item.name}}</view>
+        </view>
+    </scroll-view>
+</view>
+
+<view class="popup-overlay {{data.show==true?'show':''}}" bindtap='onTapOverlay'></view>

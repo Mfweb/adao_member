@@ -1,93 +1,93 @@
 {
-  "description": "项目配置文件。",
-  "setting": {
-    "urlCheck": true,
-    "es6": true,
-    "postcss": true,
-    "preloadBackgroundData": false,
-    "minified": true,
-    "newFeature": true,
-    "coverView": true,
-    "autoAudits": false,
-    "showShadowRootInWxmlPanel": true,
-    "scopeDataCheck": false,
-    "uglifyFileName": false,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "bundle": false,
-    "useApiHostProcess": false
-  },
-  "compileType": "miniprogram",
-  "libVersion": "2.9.2",
-  "appid": "wx0066e3ac88fdccb2",
-  "projectname": "A%E5%B2%9B%E7%94%A8%E6%88%B7%E7%B3%BB%E7%BB%9F",
-  "isGameTourist": false,
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
-  "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "currentL": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "list": [
-        {
-          "id": -1,
-          "name": "自动测试",
-          "pathName": "pages/index/index",
-          "query": "",
-          "scene": "1030"
+    "description": "项目配置文件。",
+    "setting": {
+        "urlCheck": true,
+        "es6": true,
+        "postcss": true,
+        "preloadBackgroundData": false,
+        "minified": true,
+        "newFeature": true,
+        "coverView": true,
+        "autoAudits": false,
+        "showShadowRootInWxmlPanel": true,
+        "scopeDataCheck": false,
+        "uglifyFileName": false,
+        "checkInvalidKey": true,
+        "checkSiteMap": true,
+        "uploadWithSourceMap": true,
+        "babelSetting": {
+            "ignore": [],
+            "disablePlugins": [],
+            "outputPath": ""
         },
-        {
-          "id": 1,
-          "name": "APP调用获取饼干",
-          "pathName": "pages/index/index",
-          "query": "mode=cookie",
-          "scene": "1078"
+        "useIsolateContext": true,
+        "useCompilerModule": true,
+        "userConfirmedUseCompilerModuleSwitch": false,
+        "packNpmManually": false,
+        "packNpmRelationList": [],
+        "useMultiFrameRuntime": true,
+        "useApiHook": true,
+        "bundle": false,
+        "useApiHostProcess": false
+    },
+    "compileType": "miniprogram",
+    "libVersion": "2.15.0",
+    "appid": "wx0066e3ac88fdccb2",
+    "projectname": "A%E5%B2%9B%E7%94%A8%E6%88%B7%E7%B3%BB%E7%BB%9F",
+    "isGameTourist": false,
+    "simulatorType": "wechat",
+    "simulatorPluginLibVersion": {},
+    "condition": {
+        "search": {
+            "list": []
         },
-        {
-          "id": -1,
-          "name": "APP调用注册",
-          "pathName": "pages/index/index",
-          "query": "mode=reg"
+        "conversation": {
+            "list": []
         },
-        {
-          "id": 3,
-          "name": "微信公众号文章",
-          "pathName": "pages/index/index",
-          "query": "tid=15388307702Svt8",
-          "scene": "1054"
+        "plugin": {
+            "list": []
         },
-        {
-          "id": 4,
-          "name": "自动测试-登录、Cookie页面",
-          "pathName": "pages/index/index",
-          "query": "autoMode=1",
-          "scene": "1030"
+        "game": {
+            "currentL": -1,
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "id": -1,
+                    "name": "自动测试",
+                    "pathName": "pages/index/index",
+                    "query": "",
+                    "scene": "1030"
+                },
+                {
+                    "id": 1,
+                    "name": "APP调用获取饼干",
+                    "pathName": "pages/index/index",
+                    "query": "mode=cookie",
+                    "scene": "1078"
+                },
+                {
+                    "id": -1,
+                    "name": "APP调用注册",
+                    "pathName": "pages/index/index",
+                    "query": "mode=reg"
+                },
+                {
+                    "id": 3,
+                    "name": "微信公众号文章",
+                    "pathName": "pages/index/index",
+                    "query": "tid=15388307702Svt8",
+                    "scene": "1054"
+                },
+                {
+                    "id": 4,
+                    "name": "自动测试-登录、Cookie页面",
+                    "pathName": "pages/index/index",
+                    "query": "autoMode=1",
+                    "scene": "1030"
+                }
+            ]
         }
-      ]
     }
-  }
 }
