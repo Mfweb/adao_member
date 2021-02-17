@@ -1,1 +1,50 @@
 /* components/articleHistory/articleHistory.wxss */
+.article-list {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10rpx 0;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
+    position: absolute;
+    z-index: 0;
+
+    margin: 0px;
+    left: 0;
+    top: 32px;
+    padding-bottom: 70px;
+    box-sizing: border-box;
+}
+
+.article-list .list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: auto;
+}
+
+.article-list .list .item {
+    width: 85%;
+    top: 0px;
+    left: 0px;
+    height: auto;
+    margin: 12px 0px 0px 0px;
+    background: #F5F5F5;
+    border-radius: 6px;
+    padding: 6px;
+    text-align: center;
+}
+
+.article-list .bottom-message {
+    width: 100%;
+    text-align: center;
+    size: 10px;
+    color: #fff;
+}

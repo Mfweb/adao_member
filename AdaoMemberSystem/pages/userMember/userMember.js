@@ -9,12 +9,15 @@ Page({
         startLoadAuth: false,
         startLoadSport: false,
         startLoadWife: false,
+        startLoadArticle: false,
         startReloadWife: false,
+        startReloadArticle: false,
 
         cookieLoading: true,
         authLoading: true,
         sportLoading: true,
         wifeLoading: false,
+        articleLoading: false,
 
         popupMenuOpenData: {
             statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
@@ -33,12 +36,15 @@ Page({
             startLoadAuth: false,
             startLoadSport: false,
             startLoadWife: false,
+            startLoadArticle: false,
             startReloadWife: false,
+            startReloadArticle: false,
 
             cookieLoading: true,
-            authLoading: false,
-            sportLoading: false,
+            authLoading: true,
+            sportLoading: true,
             wifeLoading: false,
+            articleLoading: false,
 
 
             popupMenuOpenData: {
@@ -65,6 +71,14 @@ Page({
                         events: {
                             onPullDownRefresh: () => this.setData({ startLoadAuth: true }),
                             onReachBottom: null
+                        }
+                    }, article: {
+                        name: '推送历史',
+                        icon: 'article',
+                        canSwitch: true,
+                        events: {
+                            onPullDownRefresh: () => this.setData({ startReloadArticle: true }),
+                            onReachBottom: () => this.setData({ startLoadArticle: true })
                         }
                     }, sport: {
                         name: '肥宅排行',
@@ -172,6 +186,7 @@ Page({
             case 'certified':
             case 'sport':
             case 'wifes':
+            case 'article':
             case 'lwmeme':
             case 'password':
                 this.setData({ pageIndex: event.detail });
@@ -210,6 +225,9 @@ Page({
             case 'wife':
                 this.setData({ wifeLoading: true });
                 break;
+            case 'article':
+                this.setData({ articleLoading: true });
+                break;
         }
     },
     /**
@@ -232,6 +250,9 @@ Page({
                 break;
             case 'wife':
                 this.setData({ wifeLoading: false });
+                break;
+            case 'article':
+                this.setData({ articleLoading: false });
                 break;
         }
 
