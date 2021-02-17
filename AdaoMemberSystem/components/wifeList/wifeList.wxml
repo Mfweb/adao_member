@@ -1,14 +1,16 @@
-<view class='pdcontainer' style='padding-top: {{top}}px;'>
-  <view class='list-body'>
-    <view class='list-left' id='list-left'>
-      <view wx:for='{{leftList}}' wx:key='wllist' class='list-item' id='{{index}}' bindtap='onTapLeft'>
-        <image class='list-image' mode='widthFix' src='{{item.url}}' style='height:{{item.height}}px;'></image>
+<view class='wife-list' style='padding-top: {{top}}px;'>
+  <view class='list'>
+    <view class='left' id='list-left'>
+      <view wx:for='{{leftList}}' wx:key='wllist' class='item' id='{{index}}' bindtap='onTapLeft'>
+        <image class='image' mode='widthFix' src='{{item.url}}' style='height:{{item.height}}px;' lazy-load='true'>
+        </image>
       </view>
     </view>
 
-    <view class='list-right' id='list-right'>
-      <view wx:for='{{rightList}}' wx:key='wrlist' class='list-item' id='{{index}}' bindtap='onTapRight'>
-        <image class='list-image' mode='widthFix' src='{{item.url}}' style='height:{{item.height}}px;'></image>
+    <view class='right' id='list-right'>
+      <view wx:for='{{rightList}}' wx:key='wrlist' class='item' id='{{index}}' bindtap='onTapRight'>
+        <image class='image' mode='widthFix' src='{{item.url}}' style='height:{{item.height}}px;' lazy-load='true'>
+        </image>
       </view>
     </view>
   </view>
