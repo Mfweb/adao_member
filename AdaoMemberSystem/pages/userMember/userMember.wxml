@@ -3,7 +3,7 @@
 <title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{wifeLoading || cookieLoading || authLoading || sportLoading}}'></title>
 <div id='top'></div>
 <cookieManager
-  hide='{{pageIndex==0}}'
+  hide='{{pageIndex=="cookie"}}'
   loadCookie="{{startLoadCookies}}"
   top="{{statusBarHeight}}"
   bindstartload="onLoadStart"
@@ -11,17 +11,17 @@
 </cookieManager>
 
 <authManager
-  hide='{{pageIndex==1}}'
+  hide='{{pageIndex=="certified"}}'
   loadAuth="{{startLoadAuth}}"
   top="{{statusBarHeight}}"
   bindstartload="onLoadStart"
   bindendload="onLoadEnd">>
 </authManager>
 
-<passwdManager hide='{{pageIndex==2}}' top="{{statusBarHeight}}"></passwdManager>
+<passwdManager hide='{{pageIndex=="password"}}' top="{{statusBarHeight}}"></passwdManager>
 
 <sportManager
-  hide='{{pageIndex==3}}'
+  hide='{{pageIndex=="sport"}}'
   loadSport="{{startLoadSport}}"
   top="{{statusBarHeight}}"
   bindstartload="onLoadStart"
@@ -29,7 +29,7 @@
 </sportManager>
 
 <wifeList
-  wx:if='{{pageIndex==4}}'
+  wx:if='{{pageIndex=="wifes"}}'
   top="{{statusBarHeight}}"
   loadWife="{{startLoadWife}}"
   reloadWife="{{startReloadWife}}"
@@ -37,7 +37,7 @@
   bindendload="onLoadEnd">
 </wifeList>
 <lwMeme
-  wx:if='{{pageIndex==5}}'
+  wx:if='{{pageIndex=="lwmeme"}}'
   top="{{statusBarHeight}}">
 </lwMeme>
 <leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
