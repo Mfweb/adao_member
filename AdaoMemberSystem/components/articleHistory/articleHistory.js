@@ -81,7 +81,9 @@ Component({
             });
         },
         onTapItem: function (e) {
-            console.log(e);
+            wx.navigateTo({
+                url: '../../pages/list/list?tid=' + e.currentTarget.id,
+            });
         }
     }
 })

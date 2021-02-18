@@ -42,6 +42,11 @@
     text-align: center;
 }
 
+.article-list .list .item .time {
+    font-size: 1.2rem;
+    border-bottom: 1px solid #334054;
+}
+
 .article-list .bottom-message {
     width: 100%;
     text-align: center;
