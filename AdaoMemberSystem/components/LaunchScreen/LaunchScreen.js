@@ -1,4 +1,4 @@
-// components/LaunchScreen/LaunchScreen.js
+// components/launchScreen/launchScreen.js
 Component({
     /**
      * 组件的属性列表

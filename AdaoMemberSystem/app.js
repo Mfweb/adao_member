@@ -41,6 +41,7 @@ App({
             Tnnaii_H_IslandURL: `${hostURL}/static/voice/tnnaii-h-island-c.mp3`,//奈奈-食我大雕
             //获取分享串
             GetSharesURL: `${hostURL}/WeChat/Member/Share`,
+            GetSharesListURL: `${hostURL}/WeChat/Member/ShareList`,
             //获取服务条款
             GetTermsURL: `${hostURL}/WeChat/Member/Terms`,
             GetCDNURL: "https://nmb.fastmirror.org/Api/getCdnPath?appid=wechatapp",//获取CDN地址

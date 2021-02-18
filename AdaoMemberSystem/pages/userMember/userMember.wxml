@@ -1,44 +1,32 @@
-<import src="../../wxParse/wxParse.wxml"/>
+<import src="../../wxParse/wxParse.wxml" />
 
-<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' loading='{{wifeLoading || cookieLoading || authLoading || sportLoading}}'></title>
+<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}'
+  loading='{{wifeLoading || cookieLoading || authLoading || sportLoading || articleLoading}}'></title>
+
 <div id='top'></div>
-<cookieManager
-  hide='{{pageIndex==0}}'
-  loadCookie="{{startLoadCookies}}"
-  top="{{statusBarHeight}}"
-  bindstartload="onLoadStart"
-  bindendload="onLoadEnd">>
+<cookieManager hide='{{pageIndex=="cookie"}}' loadCookie="{{startLoadCookies}}" top="{{statusBarHeight}}"
+  bindstartload="onLoadStart" bindendload="onLoadEnd">>
 </cookieManager>
 
-<authManager
-  hide='{{pageIndex==1}}'
-  loadAuth="{{startLoadAuth}}"
-  top="{{statusBarHeight}}"
-  bindstartload="onLoadStart"
-  bindendload="onLoadEnd">>
+<authManager hide='{{pageIndex=="certified"}}' loadAuth="{{startLoadAuth}}" top="{{statusBarHeight}}"
+  bindstartload="onLoadStart" bindendload="onLoadEnd">>
 </authManager>
 
-<passwdManager hide='{{pageIndex==2}}' top="{{statusBarHeight}}"></passwdManager>
+<passwdManager hide='{{pageIndex=="password"}}' top="{{statusBarHeight}}"></passwdManager>
 
-<sportManager
-  hide='{{pageIndex==3}}'
-  loadSport="{{startLoadSport}}"
-  top="{{statusBarHeight}}"
-  bindstartload="onLoadStart"
-  bindendload="onLoadEnd">
+<sportManager hide='{{pageIndex=="sport"}}' loadSport="{{startLoadSport}}" top="{{statusBarHeight}}"
+  bindstartload="onLoadStart" bindendload="onLoadEnd">
 </sportManager>
 
-<wifeList
-  wx:if='{{pageIndex==4}}'
-  top="{{statusBarHeight}}"
-  loadWife="{{startLoadWife}}"
-  reloadWife="{{startReloadWife}}"
-  bindstartload="onLoadStart"
-  bindendload="onLoadEnd">
+<wifeList wx:if='{{pageIndex=="wifes"}}' top="{{statusBarHeight}}" loadWife="{{startLoadWife}}"
+  reloadWife="{{startReloadWife}}" bindstartload="onLoadStart" bindendload="onLoadEnd">
 </wifeList>
-<lwMeme
-  wx:if='{{pageIndex==5}}'
-  top="{{statusBarHeight}}">
-</lwMeme>
-<leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
 
+<articleHistory wx:if='{{pageIndex=="article"}}' top="{{statusBarHeight}}" loadArticle="{{startLoadArticle}}"
+  reloadArticle="{{startReloadArticle}}" bindstartload="onLoadStart" bindendload="onLoadEnd">
+</articleHistory>
+
+<lwMeme wx:if='{{pageIndex=="lwmeme"}}' top="{{statusBarHeight}}">
+</lwMeme>
+
+<leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>

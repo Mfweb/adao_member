@@ -1,0 +1,16 @@
+<!--components/articleHistory/articleHistory.wxml-->
+<view class='article-list' style='padding-top: {{top}}px;'>
+    <view class='list'>
+        <view wx:for='{{list}}' wx:key='artlist' class='item' id='{{item.val}}' hover-class="item-hover" bindtap='onTapItem'>
+            <view class="time">
+                {{item.addtime}}
+            </view>
+            <view class="title">
+                {{item.title}}
+            </view>
+        </view>
+    </view>
+    <view class='bottom-message'>
+        {{bottomMessage}}
+    </view>
+</view>

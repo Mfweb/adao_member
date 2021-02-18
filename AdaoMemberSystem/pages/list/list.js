@@ -62,9 +62,11 @@ Page({
         this.getPostList();
     },
     onUnload: function (e) {
-        wx.reLaunch({
-            url: '../index/index',
-        });
+        if (launchOpt.relaunch !== 'false') {
+            wx.reLaunch({
+                url: '../index/index',
+            });
+        }
     },
     bind_pic_load: function (e) {
         if (app.globalData.SystemInfo.Windows.height == 0 || app.globalData.SystemInfo.Windows.width == 0) {
