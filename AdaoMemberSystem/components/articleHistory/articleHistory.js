@@ -82,7 +82,7 @@ Component({
         },
         onTapItem: function (e) {
             wx.navigateTo({
-                url: '../../pages/list/list?tid=' + e.currentTarget.id,
+                url: '../../pages/list/list?relaunch=false&tid=' + e.currentTarget.id,
             });
         }
     }
