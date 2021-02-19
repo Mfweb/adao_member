@@ -29,6 +29,8 @@ Component({
      * 组件的方法列表
      */
     methods: {
-
+        onTapTitle: function () {
+            this.triggerEvent('taptitle');
+        }
     }
 })

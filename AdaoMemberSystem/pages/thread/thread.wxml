@@ -1,10 +1,10 @@
 <!--index.wxml-->
 <import src="../../wxParse/wxParse.wxml" />
-<title text='{{title}}' top='{{statusBarHeight}}' loading='{{listLoading}}'></title>
+<title text='{{title}}' top='{{statusBarHeight}}' loading='{{listLoading}}' bindtaptitle='ontaptitle'></title>
 <!--列表-->
 <view class="thread-container" id="main_list"
     style='top: calc(36px + {{statusBarHeight}}px); height:calc(100vh - 36px - 24px - {{statusBarHeight}}px);'>
-    <scroll-list refresh-loading="{{refreshLoading}}" bindrefresh="onPullDownRefresh" bindloadmore="onReachBottom"
+    <scroll-list class="list" refresh-loading="{{refreshLoading}}" bindrefresh="onPullDownRefresh" bindloadmore="onReachBottom"
         height="calc(100vh - 36px - 24px - {{statusBarHeight}}px);">
         <view class="list-scroll">
             <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='tlist' bindtap="onTapQuoteDetail">

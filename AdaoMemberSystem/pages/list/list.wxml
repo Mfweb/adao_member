@@ -1,5 +1,5 @@
 <import src="../../wxParse/wxParse.wxml" />
-<title text='推送串列表' top='{{statusBarHeight}}' loading='{{listLoading}}'></title>
+<title text='推送串列表' top='{{statusBarHeight}}' loading='{{listLoading}}' bindtaptitle='ontaptitle'></title>
 
 <view class='thread-list'
     style='top: calc(36px + {{statusBarHeight}}px); height:calc(100vh - 36px - 24px - {{statusBarHeight}}px);'>

@@ -403,6 +403,9 @@ Page({
             this.getQuoteDetail(i);//拉取内容
         }
     },
+    ontaptitle: function () {
+        this.selectComponent('.list').scrollToTop();
+    },
     onShareAppMessage: function (res) {
         let desc = '';
         try {

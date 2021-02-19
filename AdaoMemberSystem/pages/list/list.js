@@ -228,6 +228,9 @@ Page({
             this.getPostDetail(++id);
         });
     },
+    ontaptitle: function () {
+        this.selectComponent('.list-scroll').scrollToTop();
+    },
     onShareAppMessage: function (res) {
         app.log(`share:${launchOpt.tid}`);
         return {

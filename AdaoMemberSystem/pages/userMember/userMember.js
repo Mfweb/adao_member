@@ -175,7 +175,12 @@ Page({
         if (this.data.popupMenuOpenData.menuList[this.data.pageIndex].events.onReachBottom !== null)
             this.data.popupMenuOpenData.menuList[this.data.pageIndex].events.onReachBottom();
     },
-
+    /**
+     * 点了标题
+     */
+    ontaptitle: function () {
+        this.selectComponent('.list').scrollToTop();
+    },
     /**
      * 页面改变
      * @param {Object} event

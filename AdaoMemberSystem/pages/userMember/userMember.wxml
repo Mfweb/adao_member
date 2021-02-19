@@ -1,5 +1,5 @@
 <import src="../../wxParse/wxParse.wxml" />
-<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}'
+<title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}' bindtaptitle="ontaptitle"
     loading='{{wifeLoading || cookieLoading || authLoading || sportLoading || articleLoading || cookieReloading || authReloading || sportReloading || wifeReloading || articleReloading}}'>
 </title>
 <leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
