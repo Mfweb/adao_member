@@ -192,10 +192,10 @@ Page({
                 this.setData({ startLoadSport: true, sportLoading: true, pageIndex: event.detail });
                 break;
             case 'wifes':
-                this.setData({ startLoadWife: true, wifeLoading: true, pageIndex: event.detail });
+                this.setData({ startReloadWife: true, wifeLoading: true, pageIndex: event.detail });
                 break;
             case 'article':
-                this.setData({ startLoadArticle: true, articleLoading: true, pageIndex: event.detail });
+                this.setData({ startReloadArticle: true, articleLoading: true, pageIndex: event.detail });
                 break;
             case 'lwmeme':
             case 'password':

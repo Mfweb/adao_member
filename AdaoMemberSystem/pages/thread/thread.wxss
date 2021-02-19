@@ -45,9 +45,10 @@
 .thread-b1 {
     /*第一行信息栏 ID UID 时间*/
     display: flex;
-    color: #00CCFF;
+    color: #334054;
     font-size: 12px;
     justify-content: space-between;
+    align-items: center;
 }
 
 
@@ -66,7 +67,7 @@
 
 .thread-readcount {
     /*回应数*/
-    color: #00CCFF;
+    color: #334054;
     font-size: 12px;
     margin-left: 10px;
     margin-top: 2px;
@@ -114,7 +115,7 @@
     font-size: 15px;
     margin: 0 auto;
     text-align: center;
-    color: #00ccff;
+    color: #334054;
     margin-top: 5px;
     border-radius: 6px;
 }

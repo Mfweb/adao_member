@@ -28,9 +28,10 @@
 .list-b1 {
     /*第一行信息栏 ID UID 时间*/
     display: flex;
-    color: #00CCFF;
+    color: #334054;
     font-size: 12px;
     justify-content: space-between;
+    align-items: center;
 }
 
 .list-b2 {
@@ -59,7 +60,7 @@
 
 .list-readcount {
     /*回应数*/
-    color: #00CCFF;
+    color: #334054;
     font-size: 12px;
     margin-left: 10px;
     margin-top: 2px;

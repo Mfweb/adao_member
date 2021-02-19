@@ -8,14 +8,11 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        top: {
-            type: Number
-        },
         loadWife: {
             type: Boolean,
             value: false,
             observer: function (newVal, oldVal, changedPath) {
-                if (newVal == true) {
+                if (newVal && !oldVal) {
                     this.setData({
                         loadWife: false,
                         bottomMessage: '正在加载...'
@@ -28,7 +25,7 @@ Component({
             type: Boolean,
             value: false,
             observer: function (newVal, oldVal, changedPath) {
-                if (newVal == true) {
+                if (newVal && !oldVal) {
                     nowPage = 0;
                     this.setData({
                         reloadWife: false,
@@ -41,7 +38,11 @@ Component({
             }
         }
     },
-
+    lifetimes: {
+        detached: function () {
+            nowPage = 0;
+        }
+    },
     /**
      * 组件的初始数据
      */

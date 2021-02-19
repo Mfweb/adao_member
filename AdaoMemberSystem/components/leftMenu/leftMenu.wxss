@@ -109,8 +109,9 @@
 }
 
 .popup-menu .list .item .text {
-    font-size: 20px;
+    font-size: 18px;
     color: #DCDCDC;
+    font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
 }
 
 .popup-menu .list .item .text.selected {

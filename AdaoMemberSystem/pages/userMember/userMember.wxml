@@ -9,6 +9,7 @@
         refresh-loading="{{cookieReloading || authReloading || sportReloading || wifeReloading || articleReloading}}"
         bindrefresh="onPullDownRefresh" bindloadmore="onReachBottom">
         <view id='top'></view>
+
         <cookieManager wx:if='{{pageIndex=="cookie"}}' loadCookie="{{startLoadCookies}}" bindstartload="onLoadStart"
             bindendload="onLoadEnd">>
         </cookieManager>
@@ -17,7 +18,9 @@
             bindendload="onLoadEnd">>
         </authManager>
 
-        <passwdManager wx:if='{{pageIndex=="password"}}'></passwdManager>
+        <articleHistory wx:if='{{pageIndex=="article"}}' loadArticle="{{startLoadArticle}}"
+            reloadArticle="{{startReloadArticle}}" bindstartload="onLoadStart" bindendload="onLoadEnd">
+        </articleHistory>
 
         <sportManager wx:if='{{pageIndex=="sport"}}' loadSport="{{startLoadSport}}" bindstartload="onLoadStart"
             bindendload="onLoadEnd">
@@ -27,11 +30,9 @@
             bindstartload="onLoadStart" bindendload="onLoadEnd">
         </wifeList>
 
-        <articleHistory wx:if='{{pageIndex=="article"}}' loadArticle="{{startLoadArticle}}"
-            reloadArticle="{{startReloadArticle}}" bindstartload="onLoadStart" bindendload="onLoadEnd">
-        </articleHistory>
-
         <lwMeme wx:if='{{pageIndex=="lwmeme"}}'>
         </lwMeme>
+
+        <passwdManager wx:if='{{pageIndex=="password"}}'></passwdManager>
     </scroll-list>
 </view>

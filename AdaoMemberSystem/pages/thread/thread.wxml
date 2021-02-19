@@ -7,7 +7,7 @@
     <scroll-list refresh-loading="{{listLoading}}" bindrefresh="onPullDownRefresh" bindloadmore="onReachBottom"
         height="calc(100vh - 36px - 24px - {{statusBarHeight}}px);">
         <view class="list-scroll">
-            <scroll-item class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='tlist' bindtap="onTapQuoteDetail">
+            <view class="thread-item" wx:for="{{list}}" id="{{index}}" wx:key='tlist' bindtap="onTapQuoteDetail">
                 <view class="text">
                     <view class="thread-b1">
                         <view class="cid">No.{{item.id}}</view>
@@ -34,7 +34,7 @@
                     <view class="sage" hidden="{{item.sage==0?true:false}}">SAGE</view>
                 </view>
                 <view class='{{index==0?"v_hr_po":"v_hr"}}'></view>
-            </scroll-item>
+            </view>
         </view>
 
         <view class="list_bot">
