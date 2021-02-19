@@ -9,17 +9,11 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        top: {
-            type: Number
-        },
-        hide: {
-            type: Boolean
-        },
         loadSport: {
             type: Boolean,
             value: false,
             observer: function (newVal, oldVal, changedPath) {
-                if (newVal == true) {
+                if (newVal && !oldVal) {
                     SelectCookieID = 0;
                     this.setData({
                         loadSport: false,

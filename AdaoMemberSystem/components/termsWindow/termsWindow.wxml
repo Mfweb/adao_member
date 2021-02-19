@@ -1,6 +1,11 @@
 <!--components/termsWindow/termsWindow.wxml-->
 <import src="../../wxParse/wxParse.wxml" />
-<view wx:if="{{showTermsWindow}}" class='modal' hover-stop-propagation='true' catchscroll="f_touch">
-  <template wx:if="{{showTermsWindow}}" is="wxParse" data="{{wxParseData:termsNodes}}" />
-  <button bindtap='close' type="primary" class='modal-close'>{{closeText}}</button>
+
+<view class="terms-mask" wx:if="{{showTermsWindow}}">
+    <scroll-view class='modal' scroll-y catchtouchmove='catchtouchstart'>
+        <view class="content">
+            <template wx:if="{{showTermsWindow}}" is="wxParse" data="{{wxParseData:termsNodes}}" />
+            <button bindtap='close' type="primary" class='modal-close'>{{closeText}}</button>
+        </view>
+    </scroll-view>
 </view>

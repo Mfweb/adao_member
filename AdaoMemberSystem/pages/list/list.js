@@ -23,7 +23,7 @@ Page({
             });
             return;
         }
-        var messageMark_this = 2;
+        var messageMark_this = 3;
 
         var messagemark_save = wx.getStorageSync('MessageMark');
         if (messagemark_save == undefined || messagemark_save == null || messagemark_save == '') {
@@ -33,7 +33,7 @@ Page({
         if (messagemark_save < messageMark_this) {
             wx.showModal({
                 title: '提示',
-                content: '长按可复制链接；右上角[...]支持分享。',
+                content: '长按可复制链接，右上角[...]支持分享，小程序内菜单可查看历史推送串。',
                 confirmText: '不再显示',
                 success: function (e) {
                     if (e.confirm == true) {
@@ -43,13 +43,8 @@ Page({
             });
         }
         if (launchOpt.tid != undefined) {
-            if (wx.startPullDownRefresh) {
-                wx.startPullDownRefresh({});
-            }
-            else {
-                this.setData({ tlist: [] });
-                this.getPostList();
-            }
+            this.setData({ tlist: [] });
+            this.getPostList();
         }
         else {
             wx.reLaunch({
@@ -60,6 +55,9 @@ Page({
     onPullDownRefresh: function () {
         this.setData({ tlist: [] });
         this.getPostList();
+    },
+    onReachBottom: function () {
+        this.selectComponent('.list-scroll').stopLoading();
     },
     onUnload: function (e) {
         if (launchOpt.relaunch !== 'false') {
@@ -144,7 +142,6 @@ Page({
             if (res.data.status != 'ok') {
                 app.showError(res.data.status);
                 this.setData({ listLoading: false });
-                wx.stopPullDownRefresh();
                 wx.reLaunch({
                     url: '../index/index',
                 });
@@ -156,7 +153,6 @@ Page({
         }).catch(error => {
             app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
             this.setData({ listLoading: false });
-            wx.stopPullDownRefresh();
         });
     },
     /**
@@ -164,7 +160,6 @@ Page({
      */
     getPostDetail: function (id) {
         if (id >= idList.length) {
-            wx.stopPullDownRefresh();
             this.setData({ listLoading: false });
             return;
         }
@@ -232,6 +227,9 @@ Page({
             this.setData({ tlist: tempData });
             this.getPostDetail(++id);
         });
+    },
+    ontaptitle: function () {
+        this.selectComponent('.list-scroll').scrollToTop();
     },
     onShareAppMessage: function (res) {
         app.log(`share:${launchOpt.tid}`);

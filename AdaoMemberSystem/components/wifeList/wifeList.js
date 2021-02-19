@@ -1,5 +1,6 @@
 // components/wifeList/wifeList.js
 var nowPage = 0;
+var isLoading = false;
 const app = getApp();
 const http = require('../../utils/http.js');
 Component({
@@ -7,19 +8,16 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        top: {
-            type: Number
-        },
         loadWife: {
             type: Boolean,
             value: false,
             observer: function (newVal, oldVal, changedPath) {
-                if (newVal == true) {
+                if (newVal && !oldVal) {
                     this.setData({
                         loadWife: false,
                         bottomMessage: '正在加载...'
-                    });
-                    this.getData();
+                    }, this.getData());
+                    console.log('load start');
                 }
             }
         },
@@ -27,45 +25,47 @@ Component({
             type: Boolean,
             value: false,
             observer: function (newVal, oldVal, changedPath) {
-                if (newVal == true) {
+                if (newVal && !oldVal) {
                     nowPage = 0;
                     this.setData({
                         reloadWife: false,
                         leftList: [],
                         rightList: [],
                         bottomMessage: '正在加载...'
-                    });
-                    this.getData();
+                    }, this.getData());
+                    console.log('reload start');
                 }
             }
         }
     },
-
+    lifetimes: {
+        detached: function () {
+            nowPage = 0;
+        }
+    },
     /**
      * 组件的初始数据
      */
     data: {
-        isLoading: false,
         leftList: [],
         rightList: [],
         bottomMessage: '上拉继续加载'
     },
     attached: function () {
+        isLoading = false;
+        nowPage = 0;
         this.setData({
             leftList: [],
-            rightList: [],
-            isLoading: false
+            rightList: []
         });
-        nowPage = 0;
-        this.getData();
     },
     /**
      * 组件的方法列表
      */
     methods: {
         getData: function () {
-            if (this.data.isLoading) return;
-            this.setData({ isLoading: true });
+            if (isLoading) return;
+            isLoading = true;
             this.triggerEvent('startload', { from: 'wife', needRefresh: false });
             http.requestGet(app.globalData.ApiUrls.GetRandomPicURL, { page: nowPage }).then(res => {
                 if (res.data.items.length == 0) {
@@ -79,7 +79,7 @@ Component({
             }).catch(error => {
                 app.showError(error == false ? '错误[Wife]' : ('Wife:' + error.statusCode));
             }).finally(() => {
-                this.setData({ isLoading: false });
+                isLoading = false;
                 this.triggerEvent('endload', { from: 'wife', needRefresh: false });
             });
         },

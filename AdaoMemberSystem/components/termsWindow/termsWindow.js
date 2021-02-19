@@ -43,6 +43,9 @@ Component({
         },
         close: function () {
             this.setData({ showTermsWindow: false });
+        },
+        catchtouchstart: function () {
+
         }
     }
 })

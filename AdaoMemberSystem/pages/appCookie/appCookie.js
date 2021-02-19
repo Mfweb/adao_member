@@ -14,13 +14,8 @@ Page({
     },
     onReady: function () {
         selectedList = [];
-        if (wx.startPullDownRefresh) {
-            wx.startPullDownRefresh({});
-        }
-        else {
-            wx.showNavigationBarLoading();
-            this.getCookies();
-        }
+        wx.showNavigationBarLoading();
+        this.getCookies();
     },
     onPullDownRefresh: function () {
         wx.showNavigationBarLoading();

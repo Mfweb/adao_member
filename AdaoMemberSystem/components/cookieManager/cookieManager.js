@@ -9,17 +9,11 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        top: {
-            type: Number
-        },
-        hide: {
-            type: Boolean
-        },
         loadCookie: {
             type: Boolean,
             value: false,
             observer: function (newVal, oldVal, changedPath) {
-                if (newVal == true) {
+                if (newVal && !oldVal) {
                     this.setData({
                         loadCookie: false,
                         vCodeShow: false
@@ -43,6 +37,7 @@ Component({
         FormID: "",//表单提交ID
         EnterButLoading: false,//确认按钮loading
         newCookieStatus: true,
+        slotFull: false,// 饼干槽已满
         CookieNum: '[0/0]',
         CookieWarning: null,
         notAuth: false
@@ -192,11 +187,17 @@ Component({
                 if (res.cookies.length == 0) {
                     app.showError('没有饼干');
                 }
+                let full = false;
+                const cookie_num_sp = res.info.capacity.split('/');
+                if (cookie_num_sp && cookie_num_sp.length === 2) {
+                    full = cookie_num_sp[0].replace('[', '') === cookie_num_sp[1].replace(']', '');
+                }
                 this.setData({
                     CookieNum: res.info.capacity,
                     CookieWarning: res.info.warning,
                     CookieList: res.cookies,
                     newCookieStatus: res.info.cookieStatus,
+                    slotFull: full,
                     notAuth: false
                 });
                 this.triggerEvent('endload', { from: 'cookie', needRefresh: false, userInfo: res.info });

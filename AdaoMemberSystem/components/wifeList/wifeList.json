@@ -1,4 +1,6 @@
 {
-  "component": true,
-  "usingComponents": {}
+    "component": true,
+    "usingComponents": {
+        "scroll-item": "../scroll-list/item/scroll-item"
+    }
 }

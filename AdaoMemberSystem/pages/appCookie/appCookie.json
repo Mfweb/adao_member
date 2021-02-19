@@ -1,8 +1,8 @@
 {
-  "enablePullDownRefresh": true,
-  "navigationBarTitleText": "导入饼干",
-  "usingComponents": {
-    "goBackButton": "/components/goBackButton/goBackButton",
-    "title": "/components/title/title"
-  }
+    "enablePullDownRefresh": true,
+    "navigationBarTitleText": "导入饼干",
+    "usingComponents": {
+        "goBackButton": "/components/goBackButton/goBackButton",
+        "title": "/components/title/title"
+    }
 }

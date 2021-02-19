@@ -1,4 +1,4 @@
-<view wx:if='{{hide}}' class='cookie-manager' style='padding-top: {{top}}px;'>
+<view class='cookie-manager'>
     <view class='list'>
         <view class='tr'>
             <view class='td1 title'>ID</view>
@@ -18,6 +18,7 @@
         <image wx:if='{{notAuth}}' class='user-note' src='../../imgs/note.jpg' mode='aspectFit'></image>
         <view class='slot'>饼干槽:{{CookieNum}}</view>
         <view wx:if='{{!newCookieStatus}}' class="cookie-status">饼干领取已关闭</view>
+        <view wx:if='{{slotFull}}' class="cookie-status">饼干槽已满</view>
         <view wx:if='{{CookieWarning!=null}}' class='cookie-warn'>{{CookieWarning}}</view>
         <form wx:if='{{vCodeShow}}' class='tools' id='{{FormID}}' bindsubmit='onEnterCookie'>
             <input name='needDeleteID' value='{{needDeleteID}}' style='display:none;'></input>
@@ -30,7 +31,7 @@
             <button class='button' form-type='submit' loading='{{EnterButLoading}}' type='primary'>确认操作</button>
             <button class='button' type='warn' bindtap='onUClose'>取消操作</button>
         </form>
-        <button wx:if='{{!vCodeShow && newCookieStatus}}' bindtap='onGetNewCookie' class='get-cookie-button'
+        <button wx:if='{{!vCodeShow && newCookieStatus && !slotFull}}' bindtap='onGetNewCookie' class='get-cookie-button'
             type='primary'>获取新饼干</button>
     </view>
 </view>

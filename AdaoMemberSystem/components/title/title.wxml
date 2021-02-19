@@ -1,5 +1,5 @@
-<view class='page-title' style='padding-top: {{top}}px;'>
-  <image wx:if='{{loading}}' class='page-title-icon' src="../../imgs/loading.gif" />
-  {{text}}
-  <image wx:if='{{loading}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
+<view class='page-title' style='padding-top: {{top}}px;' bindtap="onTapTitle">
+    <image wx:if='{{loading}}' class='page-title-icon' src="../../imgs/loading.gif" />
+    {{text}}
+    <image wx:if='{{loading}}' class='page-title-icon page-title-icon-right' src="../../imgs/loading.gif" />
 </view>

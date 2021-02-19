@@ -1,20 +1,12 @@
 .cookie-manager {
-    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 10rpx 0;
     box-sizing: border-box;
     width: 100%;
     font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
-    position: absolute;
-    z-index: 0;
-
     margin: 0px;
-    left: 0;
-    top: 32px;
-    padding-bottom: 70px;
 }
 
 .cookie-manager .cookie-status {

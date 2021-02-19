@@ -1,0 +1,18 @@
+<!--components/scroll-list/list/scroll-list.wxml-->
+<scroll-view class="list-class" scroll-y="{{true}}" data-nowscrolltop="{{nowScrollTop}}" scroll-top="{{scrollTop}}"
+    lower-threshold="{{lowerThreshold}}" bindtouchstart="{{scroll.touchStart}}" bindtouchmove="{{scroll.touchMove}}"
+    scroll-with-animation enable-back-to-top bindtouchend="{{scroll.touchEnd}}" bindscrolltolower="loadmore" bindscroll="onscroll">
+    <view class="list-container" change:prop="{{scroll.loadingTypeChange}}" prop="{{showRefresh}}"
+        style="height:{{height}};">
+        <view class="refresh-container" change:prop="{{scroll.triggerRefresh}}" prop="{{forceRefresh}}">
+            <view class="refresh-dot"></view>
+            <view class="refresh-dot"></view>
+            <view class="refresh-dot"></view>
+        </view>
+        <slot></slot>
+        <view class="gap-text" wx:if="{{loading}}">
+            <view class="word">加载中...</view>
+        </view>
+    </view>
+</scroll-view>
+<wxs src="./scroll-list.wxs" module="scroll"></wxs>

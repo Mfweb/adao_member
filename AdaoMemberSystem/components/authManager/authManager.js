@@ -10,17 +10,11 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        top: {
-            type: Number
-        },
-        hide: {
-            type: Boolean
-        },
         loadAuth: {
             type: Boolean,
             value: false,
             observer: function (newVal, oldVal, changedPath) {
-                if (newVal == true) {
+                if (newVal && !oldVal) {
                     if (timer != null) {
                         clearInterval(timer);
                         timer = null;

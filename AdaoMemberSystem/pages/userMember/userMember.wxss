@@ -1,0 +1,11 @@
+.member-body {
+    width: 100vw;
+    box-sizing: border-box;
+    position: fixed;
+    overflow: hidden;
+}
+
+.member-body .list {
+    height: 100%;
+    width: 100%;
+}
