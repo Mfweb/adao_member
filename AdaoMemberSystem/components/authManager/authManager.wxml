@@ -1,5 +1,5 @@
 <import src="../../wxParse/wxParse.wxml" />
-<view wx:if='{{hide}}' class='pdcontainer' bindtap='onShowATM' style='padding-top: {{top}}px;'>
+<view class='pdcontainer' bindtap='onShowATM'>
     <view class='certTable'>
         <view>实名认证状态：</view>
         <view class='certSta'>{{CertStatus}}</view>

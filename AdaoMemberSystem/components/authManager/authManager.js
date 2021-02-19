@@ -13,9 +13,6 @@ Component({
         top: {
             type: Number
         },
-        hide: {
-            type: Boolean
-        },
         loadAuth: {
             type: Boolean,
             value: false,

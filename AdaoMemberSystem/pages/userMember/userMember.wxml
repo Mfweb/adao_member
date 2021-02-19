@@ -1,32 +1,37 @@
 <import src="../../wxParse/wxParse.wxml" />
-
 <title text='{{popupMenuOpenData.menuList[pageIndex].name}}' top='{{statusBarHeight}}'
-  loading='{{wifeLoading || cookieLoading || authLoading || sportLoading || articleLoading}}'></title>
-
-<div id='top'></div>
-<cookieManager hide='{{pageIndex=="cookie"}}' loadCookie="{{startLoadCookies}}" top="{{statusBarHeight}}"
-  bindstartload="onLoadStart" bindendload="onLoadEnd">>
-</cookieManager>
-
-<authManager hide='{{pageIndex=="certified"}}' loadAuth="{{startLoadAuth}}" top="{{statusBarHeight}}"
-  bindstartload="onLoadStart" bindendload="onLoadEnd">>
-</authManager>
-
-<passwdManager hide='{{pageIndex=="password"}}' top="{{statusBarHeight}}"></passwdManager>
-
-<sportManager hide='{{pageIndex=="sport"}}' loadSport="{{startLoadSport}}" top="{{statusBarHeight}}"
-  bindstartload="onLoadStart" bindendload="onLoadEnd">
-</sportManager>
-
-<wifeList wx:if='{{pageIndex=="wifes"}}' top="{{statusBarHeight}}" loadWife="{{startLoadWife}}"
-  reloadWife="{{startReloadWife}}" bindstartload="onLoadStart" bindendload="onLoadEnd">
-</wifeList>
-
-<articleHistory wx:if='{{pageIndex=="article"}}' top="{{statusBarHeight}}" loadArticle="{{startLoadArticle}}"
-  reloadArticle="{{startReloadArticle}}" bindstartload="onLoadStart" bindendload="onLoadEnd">
-</articleHistory>
-
-<lwMeme wx:if='{{pageIndex=="lwmeme"}}' top="{{statusBarHeight}}">
-</lwMeme>
-
+    loading='{{wifeLoading || cookieLoading || authLoading || sportLoading || articleLoading || cookieReloading || authReloading || sportReloading || wifeReloading || articleReloading}}'>
+</title>
 <leftMenu data="{{popupMenuOpenData}}" bindpagechanged="onChangePage"></leftMenu>
+<view class="member-body"
+    style="top: calc(36px + {{statusBarHeight}}px); height:calc(100vh - 36px - 24px - {{statusBarHeight}}px);">
+    <scroll-list class="list" height="calc(100vh - 36px - 24px - {{statusBarHeight}}px);"
+        refresh-loading="{{cookieReloading || authReloading || sportReloading || wifeReloading || articleReloading}}"
+        bindrefresh="onPullDownRefresh" bindloadmore="onReachBottom">
+        <view id='top'></view>
+        <cookieManager wx:if='{{pageIndex=="cookie"}}' loadCookie="{{startLoadCookies}}" bindstartload="onLoadStart"
+            bindendload="onLoadEnd">>
+        </cookieManager>
+
+        <authManager wx:if='{{pageIndex=="certified"}}' loadAuth="{{startLoadAuth}}" bindstartload="onLoadStart"
+            bindendload="onLoadEnd">>
+        </authManager>
+
+        <passwdManager wx:if='{{pageIndex=="password"}}'></passwdManager>
+
+        <sportManager wx:if='{{pageIndex=="sport"}}' loadSport="{{startLoadSport}}" bindstartload="onLoadStart"
+            bindendload="onLoadEnd">
+        </sportManager>
+
+        <wifeList wx:if='{{pageIndex=="wifes"}}' loadWife="{{startLoadWife}}" reloadWife="{{startReloadWife}}"
+            bindstartload="onLoadStart" bindendload="onLoadEnd">
+        </wifeList>
+
+        <articleHistory wx:if='{{pageIndex=="article"}}' loadArticle="{{startLoadArticle}}"
+            reloadArticle="{{startReloadArticle}}" bindstartload="onLoadStart" bindendload="onLoadEnd">
+        </articleHistory>
+
+        <lwMeme wx:if='{{pageIndex=="lwmeme"}}'>
+        </lwMeme>
+    </scroll-list>
+</view>

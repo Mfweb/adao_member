@@ -1,0 +1,6 @@
+<!--components/scroll-list/item/scroll-item.wxml-->
+<view class="list-item" id="list-item-{{itemId}}" style="min-height: {{height}}px;">
+    <block wx:if="{{showSlot}}">
+        <slot></slot>
+    </block>
+</view>

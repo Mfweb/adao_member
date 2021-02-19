@@ -8,10 +8,7 @@ Component({
     properties: {
         top: {
             type: Number
-        },
-        hide: {
-            type: Boolean
-        },
+        }
     },
 
     /**

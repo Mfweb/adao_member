@@ -1,4 +1,4 @@
-<view wx:if='{{hide}}' class='cookie-manager' style='padding-top: {{top}}px;'>
+<view class='cookie-manager'>
     <view class='list'>
         <view class='tr'>
             <view class='td1 title'>ID</view>

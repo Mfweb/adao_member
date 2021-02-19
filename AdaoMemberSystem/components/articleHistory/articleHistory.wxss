@@ -1,20 +1,13 @@
 /* components/articleHistory/articleHistory.wxss */
 .article-list {
-    height: auto;
     display: flex;
     flex-direction: column;
-    padding: 10rpx 0;
+    align-items: center;
+    justify-content: space-between;
     box-sizing: border-box;
     width: 100%;
     font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Droid Sans Fallback', 'Microsoft Yahei', sans-serif;
-    position: absolute;
-    z-index: 0;
-
     margin: 0px;
-    left: 0;
-    top: 32px;
-    padding-bottom: 70px;
-    box-sizing: border-box;
 }
 
 .article-list .list {
@@ -30,7 +23,7 @@
     height: auto;
 }
 
-.article-list .list .item {
+.article-list .item {
     width: 85%;
     top: 0px;
     left: 0px;
@@ -42,11 +35,11 @@
     text-align: center;
 }
 
-.article-list .list .item-hover {
+.article-list .item-hover {
     opacity: 0.5;
 }
 
-.article-list .list .item .time {
+.article-list .item .time {
     font-size: 1.2rem;
     border-bottom: 1px solid #334054;
 }

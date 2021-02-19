@@ -1,5 +1,5 @@
 {
-  "enablePullDownRefresh": true,
+  "enablePullDownRefresh": false,
   "navigationBarTitleText": "饼干管理",
   "usingComponents": {
     "leftMenu": "/components/leftMenu/leftMenu",
@@ -10,6 +10,7 @@
     "title": "/components/title/title",
     "wifeList": "/components/wifeList/wifeList",
     "lwMeme": "/components/lwMeme/lwMeme",
-    "articleHistory": "/components/articleHistory/articleHistory"
+    "articleHistory": "/components/articleHistory/articleHistory",
+    "scroll-list": "/components/scroll-list/list/scroll-list"
   }
 }

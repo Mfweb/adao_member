@@ -12,9 +12,6 @@ Component({
         top: {
             type: Number
         },
-        hide: {
-            type: Boolean
-        },
         loadCookie: {
             type: Boolean,
             value: false,

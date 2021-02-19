@@ -1,19 +1,19 @@
-<view class='wife-list' style='padding-top: {{top}}px;'>
+<view class='wife-list'>
     <view class='list'>
         <view class='left' id='list-left'>
-            <view wx:for='{{leftList}}' wx:key='wllist' class='item' id='{{index}}' bindtap='onTapLeft'>
+            <scroll-item wx:for='{{leftList}}' wx:key='wllist' class='item' id='{{index}}' bindtap='onTapLeft'>
                 <image class='image' mode='widthFix' src='{{item.url}}' style='height:{{item.height}}px;'
                     lazy-load='true'>
                 </image>
-            </view>
+            </scroll-item>
         </view>
 
         <view class='right' id='list-right'>
-            <view wx:for='{{rightList}}' wx:key='wrlist' class='item' id='{{index}}' bindtap='onTapRight'>
+            <scroll-item wx:for='{{rightList}}' wx:key='wrlist' class='item' id='{{index}}' bindtap='onTapRight'>
                 <image class='image' mode='widthFix' src='{{item.url}}' style='height:{{item.height}}px;'
                     lazy-load='true'>
                 </image>
-            </view>
+            </scroll-item>
         </view>
     </view>
     <view class='bottom-message'>
