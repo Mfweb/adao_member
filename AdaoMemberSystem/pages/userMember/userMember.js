@@ -212,6 +212,7 @@ Page({
             default:
                 app.showError('哈？');
         }
+        this.selectComponent('.list').scrollToTop();
     },
     clearLoading: function () {
         this.selectComponent('.list').stopLoading();

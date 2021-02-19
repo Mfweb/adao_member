@@ -40,6 +40,7 @@ Component({
         forceRefresh: false,
         //当前滚动高度
         nowScrollTop: 0,
+        scrollTop: 0
     },
 
     /**
@@ -101,6 +102,9 @@ Component({
                     forceRefresh: false
                 })
             })
+        },
+        scrollToTop() {
+            this.setData({ scrollTop: 0 });
         },
         /**
          * 加载更多
