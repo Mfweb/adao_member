@@ -9,7 +9,7 @@ var isRefreshing = false;
 var isGettingReply = false;
 var imageList = [];//图片列表
 var poUserID = "";
-var mainListQuery = null;
+//var mainListQuery = null;
 var isBtIsland = false;
 
 Page({
@@ -23,6 +23,7 @@ Page({
         quoteList: [],
         title: '无标题',
         listLoading: false,
+        refreshLoading: false,
         statusBarHeight: app.globalData.SystemInfo.Windows.statusBarHeight
     },
 
@@ -35,12 +36,12 @@ Page({
         isGettingReply = false;
         imageList = [];
         poUserID = "";
-        mainListQuery = null;
+        //mainListQuery = null;
         isBtIsland = (e.is_bt == 'true' || e.is_bt == true) ? true : false;
     },
     onShow: function () {
-        mainListQuery = wx.createSelectorQuery();
-        mainListQuery.select('#main_list').boundingClientRect();
+        //mainListQuery = wx.createSelectorQuery();
+        //mainListQuery.select('#main_list').boundingClientRect();
     },
     onReady: function () {
         isRefreshing = true;
@@ -71,6 +72,9 @@ Page({
         if (e['currentTarget'].id == "") return;
         wx.navigateTo({ url: '../thread/thread?id=' + e['currentTarget'].id });
     },
+    /**
+     * 下拉刷新
+     */
     onPullDownRefresh: function () {
         if (isRefreshing == true) return;
         isRefreshing = true;
@@ -79,7 +83,8 @@ Page({
         this.setData(
             {
                 list: [],
-                scrollTop: 0
+                scrollTop: 0,
+                refreshLoading: true
             });
         this.getReplys();
     },
@@ -134,7 +139,7 @@ Page({
     /**
      * 页面滚动
      */
-    onPageScroll: function (e) {
+    /*onPageScroll: function (e) {
         mainListQuery.exec(res => {
             if (!res || res.length == 0 || !res[0].height) return;
             var { height } = res[0];
@@ -144,7 +149,7 @@ Page({
                 this.getReplys();
             }
         });
-    },
+    },*/
     /**
      * 点击了遮罩
      */
@@ -170,7 +175,7 @@ Page({
             page: page
         }).then(res => {
             if (res.data == "该主题不存在") {
-                this.setData({ bottomMessage: "该主题不存在", listLoading: false });
+                this.setData({ bottomMessage: "该主题不存在", listLoading: false, refreshLoading: false });
                 return;
             }
             let list = this.data.list;
@@ -276,13 +281,13 @@ Page({
                     this.setData({ list: list });
                 }
             }
-            this.setData({ bottomMessage: (list.length - 1) + "/" + list[0].replyCount, listLoading: false });
+            this.setData({ bottomMessage: (list.length - 1) + "/" + list[0].replyCount, listLoading: false, refreshLoading: false });
             isRefreshing = false;
             isGettingReply = false;
             //wx.stopPullDownRefresh();
         }).catch(error => {
             app.showError(error == false ? '加载失败' : ('http' + error.statusCode));
-            this.setData({ bottomMessage: "加载失败", listLoading: true });
+            this.setData({ bottomMessage: "加载失败", listLoading: false, refreshLoading: false });
             isRefreshing = false;
             isGettingReply = false;
             //wx.stopPullDownRefresh();
