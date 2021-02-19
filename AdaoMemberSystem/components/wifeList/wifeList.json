@@ -1,6 +1,6 @@
 {
-  "component": true,
-  "usingComponents": {
-    "scroll-item": "../scroll-list/item/scroll-item"
-  }
+    "component": true,
+    "usingComponents": {
+        "scroll-item": "../scroll-list/item/scroll-item"
+    }
 }

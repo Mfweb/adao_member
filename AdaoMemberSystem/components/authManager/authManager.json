@@ -1,6 +1,6 @@
 {
-  "component": true,
-  "usingComponents": {
-    "termsWindow": "/components/termsWindow/termsWindow"
-  }
+    "component": true,
+    "usingComponents": {
+        "termsWindow": "/components/termsWindow/termsWindow"
+    }
 }

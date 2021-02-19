@@ -272,7 +272,7 @@ Page({
         }
 
         if (event.detail.needRefresh) {
-            wx.startPullDownRefresh({});
+            this.onPullDownRefresh();
         }
         else {
             wx.stopPullDownRefresh();

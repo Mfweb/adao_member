@@ -1,16 +1,16 @@
 {
-  "enablePullDownRefresh": false,
-  "navigationBarTitleText": "饼干管理",
-  "usingComponents": {
-    "leftMenu": "/components/leftMenu/leftMenu",
-    "cookieManager": "/components/cookieManager/cookieManager",
-    "authManager": "/components/authManager/authManager",
-    "passwdManager": "/components/passwdManager/passwdManager",
-    "sportManager": "/components/sportManager/sportManager",
-    "title": "/components/title/title",
-    "wifeList": "/components/wifeList/wifeList",
-    "lwMeme": "/components/lwMeme/lwMeme",
-    "articleHistory": "/components/articleHistory/articleHistory",
-    "scroll-list": "/components/scroll-list/list/scroll-list"
-  }
+    "enablePullDownRefresh": false,
+    "navigationBarTitleText": "饼干管理",
+    "usingComponents": {
+        "leftMenu": "/components/leftMenu/leftMenu",
+        "cookieManager": "/components/cookieManager/cookieManager",
+        "authManager": "/components/authManager/authManager",
+        "passwdManager": "/components/passwdManager/passwdManager",
+        "sportManager": "/components/sportManager/sportManager",
+        "title": "/components/title/title",
+        "wifeList": "/components/wifeList/wifeList",
+        "lwMeme": "/components/lwMeme/lwMeme",
+        "articleHistory": "/components/articleHistory/articleHistory",
+        "scroll-list": "/components/scroll-list/list/scroll-list"
+    }
 }
