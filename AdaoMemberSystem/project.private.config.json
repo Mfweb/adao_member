@@ -1,57 +1,56 @@
 {
-  "setting": {},
-  "condition": {
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
-    "miniprogram": {
-      "list": [
-        {
-          "id": -1,
-          "name": "自动测试",
-          "pathName": "pages/index/index",
-          "query": "",
-          "scene": "1030"
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
         },
-        {
-          "name": "APP调用获取饼干",
-          "pathName": "pages/index/index",
-          "query": "mode=cookie",
-          "scene": 1069,
-          "referrerInfo": {
-            "appId": "test"
-          }
+        "game": {
+            "list": []
         },
-        {
-          "name": "APP调用注册",
-          "pathName": "pages/index/index",
-          "query": "mode=reg",
-          "scene": 1069,
-          "referrerInfo": {
-            "appId": "test"
-          }
+        "gamePlugin": {
+            "list": []
         },
-        {
-          "id": 3,
-          "name": "微信公众号文章",
-          "pathName": "pages/index/index",
-          "query": "tid=15388307702Svt8",
-          "scene": "1054"
-        },
-        {
-          "id": 4,
-          "name": "自动测试-登录、Cookie页面",
-          "pathName": "pages/index/index",
-          "query": "autoMode=1",
-          "scene": "1030"
+        "miniprogram": {
+            "list": [
+                {
+                    "id": -1,
+                    "name": "自动测试",
+                    "pathName": "pages/index/index",
+                    "query": "",
+                    "scene": "1030"
+                },
+                {
+                    "name": "APP调用获取饼干",
+                    "pathName": "pages/index/index",
+                    "query": "mode=cookie",
+                    "scene": 1069,
+                    "referrerInfo": {
+                        "appId": "test"
+                    }
+                },
+                {
+                    "name": "APP调用注册",
+                    "pathName": "pages/index/index",
+                    "query": "mode=reg",
+                    "scene": 1069,
+                    "referrerInfo": {
+                        "appId": "test"
+                    }
+                },
+                {
+                    "name": "微信公众号文章",
+                    "pathName": "pages/index/index",
+                    "query": "tid=1613540287whFUA",
+                    "scene": 1054
+                },
+                {
+                    "id": 4,
+                    "name": "自动测试-登录、Cookie页面",
+                    "pathName": "pages/index/index",
+                    "query": "autoMode=1",
+                    "scene": "1030"
+                }
+            ]
         }
-      ]
     }
-  }
 }

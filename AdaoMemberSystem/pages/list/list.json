@@ -1,9 +1,11 @@
 {
-  "enablePullDownRefresh": true,
+  "enablePullDownRefresh": false,
   "navigationBarTitleText": "推送串列表",
   "backgroundColor": "#334054",
   "usingComponents": {
     "goBackButton": "/components/goBackButton/goBackButton",
-    "title": "/components/title/title"
+    "title": "/components/title/title",
+    "scroll-list": "/components/scroll-list/list/scroll-list",
+    "scroll-item": "/components/scroll-list/item/scroll-item"
   }
 }

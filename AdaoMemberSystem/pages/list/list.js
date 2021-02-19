@@ -43,13 +43,8 @@ Page({
             });
         }
         if (launchOpt.tid != undefined) {
-            if (wx.startPullDownRefresh) {
-                wx.startPullDownRefresh({});
-            }
-            else {
-                this.setData({ tlist: [] });
-                this.getPostList();
-            }
+            this.setData({ tlist: [] });
+            this.getPostList();
         }
         else {
             wx.reLaunch({
@@ -60,6 +55,9 @@ Page({
     onPullDownRefresh: function () {
         this.setData({ tlist: [] });
         this.getPostList();
+    },
+    onReachBottom: function () {
+        this.selectComponent('.list-scroll').stopLoading();
     },
     onUnload: function (e) {
         if (launchOpt.relaunch !== 'false') {
@@ -144,7 +142,6 @@ Page({
             if (res.data.status != 'ok') {
                 app.showError(res.data.status);
                 this.setData({ listLoading: false });
-                wx.stopPullDownRefresh();
                 wx.reLaunch({
                     url: '../index/index',
                 });
@@ -156,7 +153,6 @@ Page({
         }).catch(error => {
             app.showError(error == false ? '发生了错误' : ('http' + error.statusCode));
             this.setData({ listLoading: false });
-            wx.stopPullDownRefresh();
         });
     },
     /**
@@ -164,7 +160,6 @@ Page({
      */
     getPostDetail: function (id) {
         if (id >= idList.length) {
-            wx.stopPullDownRefresh();
             this.setData({ listLoading: false });
             return;
         }

@@ -43,21 +43,15 @@ Page({
         mainListQuery.select('#main_list').boundingClientRect();
     },
     onReady: function () {
-        if (wx.startPullDownRefresh) {
-            wx.startPullDownRefresh({});
-        }
-        else {
-            isRefreshing = true;
-            page = 1;
-            localReplyLength = 0;
-            this.setData(
-                {
-                    list: [],
-                    scrollTop: 0
-                });
-            this.getReplys();
-        }
-        wx.startPullDownRefresh({});
+        isRefreshing = true;
+        page = 1;
+        localReplyLength = 0;
+        this.setData(
+            {
+                list: [],
+                scrollTop: 0
+            });
+        this.getReplys();
     },
     /**
      * 查看引用串内容
@@ -155,6 +149,9 @@ Page({
      * 点击了遮罩
      */
     onTapMask: function () {
+        this.setData({ showQuoteWindow: false });
+    },
+    onCloseQuoteWindow: function () {
         this.setData({ showQuoteWindow: false });
     },
     /**
@@ -282,13 +279,13 @@ Page({
             this.setData({ bottomMessage: (list.length - 1) + "/" + list[0].replyCount, listLoading: false });
             isRefreshing = false;
             isGettingReply = false;
-            wx.stopPullDownRefresh();
+            //wx.stopPullDownRefresh();
         }).catch(error => {
             app.showError(error == false ? '加载失败' : ('http' + error.statusCode));
             this.setData({ bottomMessage: "加载失败", listLoading: true });
             isRefreshing = false;
             isGettingReply = false;
-            wx.stopPullDownRefresh();
+            //wx.stopPullDownRefresh();
         });
     },
     /**

@@ -1,7 +1,9 @@
 {
-  "enablePullDownRefresh": true,
+  "enablePullDownRefresh": false,
   "usingComponents": {
     "goBackButton": "/components/goBackButton/goBackButton",
-    "title": "/components/title/title"
+    "title": "/components/title/title",
+    "scroll-list": "/components/scroll-list/list/scroll-list",
+    "scroll-item": "/components/scroll-list/item/scroll-item"
   }
 }

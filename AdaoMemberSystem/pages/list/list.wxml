@@ -1,30 +1,43 @@
-<import src="../../wxParse/wxParse.wxml"/>
+<import src="../../wxParse/wxParse.wxml" />
 <title text='推送串列表' top='{{statusBarHeight}}' loading='{{listLoading}}'></title>
 
-<view class='list-container' style='padding-top: {{statusBarHeight+32}}px;'>
-  <view wx:for="{{tlist}}" class="list-item" hover-class="list-item-hover" wx:key="mlist">
-    <view class="text" id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
-      <view class="list-b1">
-        <view class="cid">No.{{item.id}}</view>
-        <view> {{item.userid}}</view>
-        <view class="stime">{{item.now}}</view>
-      </view>
-      <view class="list-b2">
-        <view class="list-title" wx:if="{{item.title!='无标题'}}" >{{item.title}}</view>
-        <view class="uname" wx:if="{{item.name!='无名氏'}}" >{{item.name}}</view>
-      </view>
-      <template is="wxParse" data="{{wxParseData:item.content}}"/>
-    </view>
-    <view class='list-img-ct' style="width:100%;" wx:if="{{item.img!=''}}">
-      <image wx:if="{{!item.img_load_success}}" class="list-img-loading" src="../../imgs/loading.gif"></image>
-      <image style="height:{{item.img_height}}px;width:{{item.img_width}}px;" id="{{index}}" class="list-img" src="{{item.thumburl}}{{item.img}}" mode="aspectFit" bindtap="bind_pic_tap" bindload="bind_pic_load">loading</image>
-      <view class='list-tap' id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'></view>
-    </view>
-    <view class="list-b1">
-        <view class="list-readcount">回应：{{item.replyCount}}</view>
-        <view class="list-sage" hidden="{{item.sage==0?true:false}}">SAGE</view>
-    </view>
-  </view>
-  <ad unit-id="adunit-e9432ea9ec0a8e5f"></ad>
+<view class='thread-list'
+    style='top: calc(36px + {{statusBarHeight}}px); height:calc(100vh - 36px - 24px - {{statusBarHeight}}px);'>
+
+    <scroll-list class="list-scroll" refresh-loading="{{listLoading}}" bindrefresh="onPullDownRefresh" bindloadmore="onReachBottom"
+        height="calc(100vh - 36px - 24px - {{statusBarHeight}}px);">
+        <scroll-item class="item" wx:for="{{tlist}}" hover-class="list-item-hover" wx:key="mlist">
+            <view class="user-item">
+                <view class="text" id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
+                    <view class="list-b1">
+                        <view class="cid">No.{{item.id}}</view>
+                        <view> {{item.userid}}</view>
+                        <view class="stime">{{item.now}}</view>
+                    </view>
+                    <view class="list-b2">
+                        <view class="list-title" wx:if="{{item.title!='无标题'}}">{{item.title}}</view>
+                        <view class="uname" wx:if="{{item.name!='无名氏'}}">{{item.name}}</view>
+                    </view>
+                    <template is="wxParse" data="{{wxParseData:item.content}}" />
+                </view>
+                <view class='list-img-ct' style="width:100%;" wx:if="{{item.img!=''}}">
+                    <image wx:if="{{!item.img_load_success}}" class="list-img-loading" src="../../imgs/loading.gif">
+                    </image>
+                    <image style="height:{{item.img_height}}px;width:{{item.img_width}}px;" id="{{index}}"
+                        class="list-img" src="{{item.thumburl}}{{item.img}}" mode="aspectFit" bindtap="bind_pic_tap"
+                        bindload="bind_pic_load">
+                        loading</image>
+                    <view class='list-tap' id="{{index}}" bindtap="bind_view_tap" bindlongpress='onLongtapItem'>
+                    </view>
+                </view>
+                <view class="list-b1">
+                    <view class="list-readcount">回应：{{item.replyCount}}</view>
+                    <view class="list-sage" hidden="{{item.sage==0?true:false}}">SAGE</view>
+                </view>
+            </view>
+        </scroll-item>
+        <ad unit-id="adunit-e9432ea9ec0a8e5f"></ad>
+    </scroll-list>
+
 </view>
 <goBackButton top="{{statusBarHeight}}"></goBackButton>
